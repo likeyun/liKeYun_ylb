@@ -1,0 +1,443 @@
+/*全局css*/
+*{
+  padding: 0;
+  margin:0;
+}
+#topbar{
+  width: 100%;
+  height: 50px;
+  background: #333;
+}
+
+#topbar a{
+  text-decoration: none;
+    color: #fff;
+    display: block;
+}
+
+#topbar .admin-title{
+  display: block;
+  height: 50px;
+  float: left;
+  line-height: 50px;
+  text-indent: 15px;
+  font-size: 18px;
+  color: #fff;
+}
+
+#topbar .admin-login-link{
+  display: block;
+  height: 50px;
+  float: right;
+  line-height: 50px;
+  margin-right: 20px;
+  font-size: 16px;
+  color: #fff;
+}
+
+/*PC样式*/
+@media screen and (min-width: 1000px) {
+  /*全局信息提示框*/
+  #Result{
+    width: 300px;
+    height: 60px;
+    position: fixed;
+    top: 80px;
+    right: 40px;
+    z-index: 99999999;
+  }
+
+  /*左侧*/
+  .container .left-nav{
+    width: 150px;
+    height: 500px;
+    float: left;
+  }
+
+  .container .left-nav .btn{
+    width: 100%;
+    margin-bottom:5px;
+    height: 45px;
+  }
+
+  .container .left-nav .btn a{
+    text-decoration: none;
+    color: #000;
+    display: block;
+    padding: 5px 10px;
+  }
+  
+  /*右侧*/
+  .container .right-nav{
+    width: calc(100% - 200px);
+    float: right;
+    position: relative;
+  }
+
+  /*左侧导航*/
+  .container .btn-group-vertical .btn{
+    width: 180px;
+    height: 45px;
+  }
+
+  /*右侧表格*/
+  .container .right-nav .table tr .td-title{
+  	width: 290px;
+  	max-width:120px;
+  	white-space:nowrap;
+  	text-overflow:ellipsis;
+  	overflow:hidden;
+  }
+
+  .container .right-nav .table tr a{
+  	text-decoration: none;
+  	color: #333;
+  	outline: none;
+  }
+
+  .container .right-nav .fenye{
+  	width: 100%;
+  	height: 40px;
+    position: absolute;
+    bottom: -50px;
+  }
+
+  .container .right-nav .fenye a{
+  	color: #333;
+  }
+  
+  /*点击下拉菜单选项的背景暗色*/
+  .container .right-nav .table tr .dropleft .dropdown-item:active{
+    background: #6c757d;
+    color: #fff;
+  }
+
+  /*分享群活码*/
+  #share_qun .modal-body .link{
+    width: 100%;
+    word-wrap:break-word;
+  }
+
+  #share_qun .modal-body .qrcode{
+    width:200px;
+    height:200px;
+    margin:0 auto;
+    word-wrap:break-word;
+    background: #eee;
+  }
+  
+  /*分享微信活码*/
+  #share_wx .modal-body .link{
+    width: 100%;
+    word-wrap:break-word;
+  }
+
+  #share_wx .modal-body .qrcode{
+    width:200px;
+    height:200px;
+    margin:0 auto;
+    word-wrap:break-word;
+    background: #eee;
+  }
+
+  #share_active .modal-body .link{
+    width: 100%;
+    word-wrap:break-word;
+  }
+
+  #share_active .modal-body .qrcode{
+    width:200px;
+    height:200px;
+    margin:0 auto;
+    word-wrap:break-word;
+    background: #eee;
+  }
+  
+  /*创建群活码，上传个人微信按钮样式*/
+  #grwx_upload .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*编辑群子码图片上传按钮样式*/
+  #ediqunzima .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*创建个人微信二维码，长传图片按钮样式*/
+  #addwx_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*创建活动，长传图片按钮样式*/
+  #addactive_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*给上传按钮添加一个小手的图标*/
+  input[type=file]::-webkit-file-upload-button{
+    cursor:pointer;
+  }
+  /*续费支付二维码*/
+  #xufei_modal .pay_qrcode{
+    width: 210px;
+    height:210px;
+    margin:20px auto;
+  }
+  #xufei_modal .pay_qrcode img{
+    width: 210px;
+    height:210px;
+  }
+  #xufei_modal .paytips{
+    text-align: center;
+  }
+  #xufei_modal .paybtn{
+    width:180px;
+    margin:10px auto;
+  }
+
+  /*后台控制台*/
+  .container .right-nav .data-board{
+    display:flex;
+  }
+  .container .right-nav .data-board .alert{
+    flex:1;
+    margin-right:10px;
+    padding:0 0;
+    height: 100px;
+    border:none;
+  }
+  .container .right-nav .data-board .alert .title{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .container .right-nav .data-board .alert .num{
+    text-align: center;
+    margin-top: -5px;
+  }
+  #creat_yqm .modal-body p{
+    margin-bottom:0;
+    font-size: 14px;
+    color: #999;
+  }
+  #creat_yqm .modal-body .upload_txt{
+    width: 110px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    margin:0 auto 20px;
+    border-radius: 3px;
+    background: #333;
+    font-size: 15px;
+    position: relative;
+  }
+  #creat_yqm .modal-body .upload_txt .upload_txt_file{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  .container .right-nav .jumbotron{
+    padding: 20px 20px;
+  }
+  .container .right-nav .jumbotron p{
+    width: 100%;
+  }
+  .container .right-nav .jumbotron img{
+    max-width: 90%;
+    border-radius: 1px solid #333;
+  }
+}
+
+/*手机样式*/
+@media screen and (max-width: 639px) {
+  /*全局信息提示框*/
+  #Result{
+    width: 300px;
+    height: 60px;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    margin:0 auto;
+    z-index: 99999999;
+  }
+
+	/*左侧*/
+	.container .left-nav .btn{
+    	margin-bottom:5px;
+    	margin-right: 5px;
+      padding:8px 10px;
+  }
+
+  .container .left-nav .btn a{
+    text-decoration: none;
+    color: #000;
+    display: block;
+  }
+
+  /*点击下拉菜单选项的背景暗色*/
+  .container .right-nav .table tr .dropleft .dropdown-item:active{
+    background: #6c757d;
+    color: #fff;
+  }
+
+  /*分享群活码*/
+  #share_qun .modal-body .link{
+    width: 100%;
+    word-wrap:break-word;
+  }
+
+  #share_qun .modal-body .qrcode{
+    width:200px;
+    height:200px;
+    margin:0 auto;
+    word-wrap:break-word;
+    background: #eee;
+  }
+
+  /*创建群活码，上传个人微信按钮样式*/
+  #grwx_upload .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*创建个人微信二维码，长传图片按钮样式*/
+  #addwx_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*创建活动，长传图片按钮样式*/
+  #addactive_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*编辑群子码图片上传按钮样式*/
+  #ediqunzima .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*创建个人微信二维码，长传图片按钮样式*/
+  #addwx_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*创建活动，长传图片按钮样式*/
+  #addactive_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*分享微信活码*/
+  #share_wx .modal-body .link{
+    width: 100%;
+    word-wrap:break-word;
+  }
+
+  #share_wx .modal-body .qrcode{
+    width:200px;
+    height:200px;
+    margin:0 auto;
+    word-wrap:break-word;
+    background: #eee;
+  }
+
+  #share_active .modal-body .link{
+    width: 100%;
+    word-wrap:break-word;
+  }
+
+  #share_active .modal-body .qrcode{
+    width:200px;
+    height:200px;
+    margin:0 auto;
+    word-wrap:break-word;
+    background: #eee;
+  }
+
+  /*个人中心*/
+  .container .right-nav .td-caozuo .update_user_btn{
+    color: #333;
+  }
+  /*续费支付二维码*/
+  #xufei_modal .pay_qrcode{
+    width: 210px;
+    height:210px;
+    margin:20px auto;
+  }
+  #xufei_modal .pay_qrcode img{
+    width: 210px;
+    height:210px;
+  }
+  #xufei_modal .paytips{
+    text-align: center;
+  }
+  #xufei_modal .paybtn{
+    width:180px;
+    margin:10px auto;
+  }
+  /*管理端后台*/
+  .container .right-nav .data-board .alert{
+    width: 100%;
+    border:none;
+    padding: 5px 0px;
+  }
+  .container .right-nav .data-board .alert .title{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .container .right-nav .data-board .alert .num{
+    text-align: center;
+    margin-top: -5px;
+  }
+}

@@ -1,0 +1,343 @@
+body{
+  background: #eee;
+}
+/*去掉输入框黄色背景*/
+input:-webkit-autofill, 
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset; 
+}
+/*PC版登录界面*/
+@media screen and (min-width: 1000px) {
+  h2{
+    text-align: center;
+    margin-top: 100px;
+  }
+  .pannel{
+    width: 600px;
+    height: 300px;
+    margin:50px auto 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 5px 10px #eee;
+    overflow: hidden;
+  }
+  .pannel .left{
+    width: 200px;
+    height: 300px;
+    background: #333;
+    float: left;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;
+  }
+  .pannel .left img{
+    width: 105px;
+    height: 110px;
+    display: block;
+    margin:95px auto;
+  }
+  .pannel .right{
+    width: 400px;
+    height: 300px;
+    float: right;
+  }
+  .pannel .right .form-con{
+    width: 320px;
+    height: 250px;
+    margin:30px auto;
+  }
+  .pannel .click{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pannel .click a{
+    text-decoration: none;
+    color: #333;
+  }
+  .Result{
+    width: 600px;
+    margin:20px auto;
+  }
+}
+
+/*ipad版登录界面*/
+@media screen and (min-width: 640px) and (max-width: 1000px) {
+  h2{
+    text-align: center;
+    margin-top: 100px;
+  }
+  .pannel{
+    width: 600px;
+    height: 300px;
+    margin:50px auto 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 5px 10px #eee;
+    overflow: hidden;
+  }
+  .pannel .left{
+    width: 200px;
+    height: 300px;
+    background: #333;
+    float: left;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;
+  }
+  .pannel .left img{
+    width: 105px;
+    height: 110px;
+    display: block;
+    margin:95px auto;
+  }
+  .pannel .right{
+    width: 400px;
+    height: 300px;
+    float: right;
+  }
+  .pannel .right .form-con{
+    width: 320px;
+    height: 250px;
+    margin:30px auto;
+  }
+  .pannel .click{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pannel .click a{
+    text-decoration: none;
+    color: #333;
+  }
+  .Result{
+    width: 600px;
+    margin:20px auto;
+  }
+}
+
+/*手机版登录界面*/
+@media screen and (max-width: 639px){
+  h2{
+    text-align: center;
+    margin-top: 30px;
+    font-size: 25px;
+  }
+  .pannel{
+    width: 88%;
+    height: 350px;
+    margin:30px auto 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 5px 10px #eee;
+    overflow: hidden;
+  }
+  .pannel .left{
+    width: 100%;
+    height: 100px;
+    background: #333;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .pannel .left img{
+    width: 60px;
+    height: 70px;
+    display: block;
+    margin:15px auto;
+  }
+  .pannel .right{
+    width: 100%;
+    height: 280px;
+  }
+  .pannel .right .form-con{
+    width: 280px;
+    height: 250px;
+    margin:5px auto;
+  }
+  .pannel .click{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pannel .click a{
+    text-decoration: none;
+    color: #333;
+  }
+  .Result{
+    width: 88%;
+    margin:20px auto;
+  }
+}
+
+/*注册页面*/
+/*注册页面*/
+/*注册页面*/
+/*注册页面*/
+/*注册页面*/
+/*PC版登录界面*/
+@media screen and (min-width: 1000px) {
+  h2{
+    text-align: center;
+    margin-top: 100px;
+  }
+  .pannel-reg{
+    width: 600px;
+    height: 400px;
+    margin:50px auto 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 5px 10px #eee;
+    overflow: hidden;
+  }
+  .pannel-reg .left{
+    width: 200px;
+    height: 400px;
+    background: #333;
+    float: left;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;
+  }
+  .pannel-reg .left img{
+    width: 105px;
+    height: 110px;
+    display: block;
+    margin:145px auto;
+  }
+  .pannel-reg .right{
+    width: 400px;
+    height: 300px;
+    float: right;
+  }
+  .pannel-reg .right .form-con{
+    width: 320px;
+    height: 250px;
+    margin:30px auto;
+  }
+  .pannel-reg .click{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pannel-reg .click a{
+    text-decoration: none;
+    color: #333;
+  }
+  .Result{
+    width: 600px;
+    margin:20px auto;
+  }
+}
+
+
+/*ipad版登录界面*/
+@media screen and (min-width: 640px) and (max-width: 1000px) {
+  h2{
+    text-align: center;
+    margin-top: 100px;
+  }
+  .pannel-reg{
+    width: 600px;
+    height: 400px;
+    margin:50px auto 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 5px 10px #eee;
+    overflow: hidden;
+  }
+  .pannel-reg .left{
+    width: 200px;
+    height: 400px;
+    background: #333;
+    float: left;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;
+  }
+  .pannel-reg .left img{
+    width: 105px;
+    height: 110px;
+    display: block;
+    margin:145px auto;
+  }
+  .pannel-reg .right{
+    width: 400px;
+    height: 300px;
+    float: right;
+  }
+  .pannel-reg .right .form-con{
+    width: 320px;
+    height: 250px;
+    margin:30px auto;
+  }
+  .pannel-reg .click{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pannel-reg .click a{
+    text-decoration: none;
+    color: #333;
+  }
+  .Result{
+    width: 600px;
+    margin:20px auto;
+  }
+}
+
+
+/*手机版登录界面*/
+@media screen and (max-width: 639px){
+  h2{
+    text-align: center;
+    margin-top: 30px;
+    font-size: 25px;
+  }
+  .pannel-reg{
+    width: 88%;
+    height: 450px;
+    margin:30px auto 0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 5px 10px #eee;
+    overflow: hidden;
+  }
+  .pannel-reg .left{
+    width: 100%;
+    height: 100px;
+    background: #333;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .pannel-reg .left img{
+    width: 60px;
+    height: 70px;
+    display: block;
+    margin:15px auto;
+  }
+  .pannel-reg .right{
+    width: 100%;
+  }
+  .pannel-reg .right .form-con{
+    width: 280px;
+    margin:5px auto;
+  }
+  .pannel-reg .click{
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pannel-reg .click a{
+    text-decoration: none;
+    color: #333;
+  }
+  .Result{
+    width: 88%;
+    margin:20px auto;
+  }
+
+}
