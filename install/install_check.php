@@ -102,11 +102,11 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     // 系统设置表
     $huoma_set = "CREATE TABLE huoma_set (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    title TEXT(300) ,
+    title TEXT(300) DEFAULT '里客云活码管理系统6.0新版上线',
     keywords TEXT(300),
     description TEXT(300),
     favicon TEXT(300),
-    email_smtpserver VARCHAR(64),
+    email_smtpserver VARCHAR(64) DEFAULT '请根据下方教程配置',
     email_smtpserverport VARCHAR(64),
     email_smtpusermail VARCHAR(64),
     email_smtpuser VARCHAR(64),
