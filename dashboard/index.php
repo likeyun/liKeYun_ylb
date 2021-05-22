@@ -113,7 +113,7 @@ if(isset($_SESSION["huoma.dashboard"])){
     </div>
     <p style="color:#999;font-size:13px;line-height:5px;margin-top:20px;"><a href="http://www.likeyuns.com" style="text-decoration:none;color:#999;" target="blank">作者资源网站： www.likeyuns.com</a></p>
     <p style="color:#999;font-size:13px;line-height:5px;"><a href="https://segmentfault.com/u/tanking" style="text-decoration:none;color:#999;" target="blank">作者技术博客：https://segmentfault.com/u/tanking</a></p>
-    <p style="color:#999;font-size:13px;line-height:5px;"><a href="https://gitee.com/likeyun/li-ke-yun_-huoma" style="text-decoration:none;color:#999;" target="blank">Gitee开源地址：https://gitee.com/likeyun/li-ke-yun_-huoma</a></p>
+    <p style="color:#999;font-size:13px;line-height:5px;"><a href="https://github.com/likeyun/liKeYun_Huoma" style="text-decoration:none;color:#999;" target="blank">Github开源地址：https://github.com/likeyun/liKeYun_Huoma</a></p>
     <p style="color:#999;font-size:13px;line-height:5px;"><a href="http://imgupload.likeyuns.com/" style="text-decoration:none;color:#999;" target="blank">作者在线图床：http://imgupload.likeyuns.com</a></p>
     <p style="color:#999;font-size:13px;line-height:5px;"><a href="../install/qun_qrcode.png" style="text-decoration:none;color:#999;" target="blank">加入开发者交流群：点击这里，微信扫码进群</a></p>
   </div>';
