@@ -102,15 +102,15 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     // 系统设置表
     $huoma_set = "CREATE TABLE huoma_set (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    title VARCHAR(200) DEFAULT '里客云活码管理系统6.0新版上线',
+    title TEXT(300) ,
     keywords TEXT(300),
     description TEXT(300),
     favicon TEXT(300),
-    email_smtpserver VARCHAR(100) DEFAULT '请根据下方教程配置',
-    email_smtpserverport VARCHAR(100),
-    email_smtpusermail VARCHAR(100),
-    email_smtpuser VARCHAR(100),
-    email_smtppass VARCHAR(100))";
+    email_smtpserver VARCHAR(64),
+    email_smtpserverport VARCHAR(64),
+    email_smtpusermail VARCHAR(64),
+    email_smtpuser VARCHAR(64),
+    email_smtppass VARCHAR(64))";
 
     // 群子码表
     $huoma_qunzima = "CREATE TABLE huoma_qunzima (
@@ -190,7 +190,7 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
 
       // 创建管理员账号
       $user_id = rand(10000,99999);
-      $sql_creat_admin_user = "INSERT INTO huoma_user (user, pwd, user_id, email, expire_time, user_limit) VALUES ('$user', '$pwd', '$user_id', '$email', '3000-12-31', '2')";
+      $sql_creat_admin_user = "INSERT INTO huoma_user (user, pwd, user_id, email, expire_time, user_limit) VALUES ('$user', '$pwd', '$user_id', '$email', '2030-12-31', '2')";
       if (mysqli_query($conn, $sql_creat_admin_user)) {
 
         // 创建数据库配置文件

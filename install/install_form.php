@@ -9,6 +9,16 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <style>
+    input:-webkit-autofill, 
+    textarea:-webkit-autofill, 
+    select:-webkit-autofill { 
+      -webkit-box-shadow: 0 0 0 1000px white inset; 
+    }
+    input[type=text]:focus, input[type=password]:focus, textarea:focus {
+      -webkit-box-shadow: 0 0 0 1000px white inset; 
+    }
+  </style>
 </head>
 <body>
 <!-- 顶部 -->
@@ -112,6 +122,11 @@
 
 <!-- JS -->
 <script type="text/javascript">
+// 延迟关闭信息提示框
+function closesctips(){
+  $("#alert").css('display','none');
+}
+
 // 安装
 function install(){
   $.ajax({
@@ -121,9 +136,7 @@ function install(){
       success: function (data) {
         // 安装成功
         if (data.code==100) {
-          $(".container .jumbotron").html("<h3>liKeYun活码系统安装成功！</h3><p><a href='../console/' target='blank'>用户后台>&nbsp;&nbsp;&nbsp;</a> <a href='../dashboard/' target='blank'>管理后台> </a></p><div style='width:200px;height:200px;margin:30px auto;'><img src='./qun_qrcode.png' width='200'/></div><p style='text-align:center;margin-top:10px;'>请微信扫码加入用户交流群</p>");
-          // $("#alert").css("display","block");
-          // $("#alert").html("<div class=\"alert alert-success\"><strong>"+data.msg+"</strong></div>");
+          $(".container .jumbotron").html("<h3>liKeYun活码系统安装成功！</h3><p><a href='../console/' target='blank'>用户后台>&nbsp;&nbsp;&nbsp;</a> <a href='../dashboard/' target='blank'>管理后台> </a></p>");
 
         }else{
           $("#alert").css("display","block");
@@ -136,6 +149,7 @@ function install(){
         $("#alert").html("<div class=\"alert alert-danger\"><strong>服务器发生错误</strong></div>");
       }
   });
+  setTimeout('closesctips()', 2000);
 }
 </script>
 </body>
