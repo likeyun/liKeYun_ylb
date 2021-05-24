@@ -104,7 +104,7 @@ if(isset($_SESSION["huoma.admin"])){
     $addons_path = '../addons';
     Get_Addons_Dir($addons_path);
     echo '<a href="./account.php?t=home/account&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">个人中心</button></a>
-  </div>';
+    <a href="../account/exit?t=home/exit&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">退出登陆</button></a></div>';
 
       //计算总活码数量
       $sql_huoma = "SELECT * FROM huoma_qun WHERE qun_user='$lguser'";
