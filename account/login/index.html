@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../../../css/chunk-vendors.loginreg.css">
+  <link rel="stylesheet" type="text/css" href="../../css/chunk-vendors.loginreg.css">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
 </head>
 <body>
@@ -17,7 +17,7 @@
   <!-- 登录面板 -->
   <div class="pannel">
     <div class="left">
-      <img src="../../../images/loginlogo.png" />
+      <img src="../../images/loginlogo.png" />
     </div>
     <div class="right">
       <div class="form-con">
@@ -40,7 +40,7 @@
         <!-- 登陆按钮 -->
         <button type="submit" class="btn btn-dark" style="width: 100%;" onclick="logincheck();">登陆</button>
         <!-- 找回密码、注册账号 -->
-        <p class="click"><a href="../../../account/fpwd/">找回密码</a></p>
+        <p class="click"><a href="../fpwd">找回密码</a>&nbsp;&nbsp;<a href="../reg/">注册账号</a></p>
         </form>
       </div>
     </div>
@@ -61,7 +61,7 @@ function logincheck(){
           if (data.code == 100) {
             $(".container .Result").css("display","block");
             $(".container .Result").html('<div class="alert alert-success"><strong>'+data.msg+'</strong></div>');
-            location.href="../../";
+            location.href="../../console/";
           }else{
             // 登陆失败
             $(".container .Result").css("display","block");
