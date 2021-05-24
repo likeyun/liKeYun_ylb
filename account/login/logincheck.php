@@ -21,7 +21,7 @@ if (empty($user)) {
 	);
 }else{
 	// 连接数据库
-	include '../../db_config/db_config.php';
+	include '../../../db_config/db_config.php';
 
 	// 创建连接
 	$conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
@@ -36,6 +36,7 @@ if (empty($user)) {
 	    while($row_userinfo = $result_user->fetch_assoc()) {
 			$user_status = $row_userinfo["user_status"];
 			$expire_time = $row_userinfo["expire_time"]; // 到期日期
+			$user_limit = $row_userinfo["user_limit"]; // 用户权限
 		}
 
 		// 计算是否已经到期
@@ -46,13 +47,21 @@ if (empty($user)) {
 		if ($user_status == 1) {
 			// 判断账号是否已到期
 			if(strtotime($thisdate)<strtotime($expire_time)){
-				// 账号正常、未到期，允许登录
-				$result = array(
-					'code' => '100',
-					'msg' => '登录成功'
-				);
-				session_start();
-				$_SESSION['huoma.admin'] = $user;
+				// 账号正常、未到期
+				// 判断用户是否有权限登陆
+				if ($user_limit == '1') {
+					$result = array(
+						'code' => '107',
+						'msg' => '你的账号没有管理权限'
+					);
+				}else{
+					$result = array(
+						'code' => '100',
+						'msg' => '登录成功'
+					);
+					session_start();
+					$_SESSION['huoma.dashboard'] = $user;
+				}
 			}else{
 				$result = array(
 					'code' => '103',
