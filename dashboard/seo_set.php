@@ -104,6 +104,39 @@ if(isset($_SESSION["huoma.dashboard"])){
   </form>';
   }else{
     // 如果没有参数
+    echo '<form onsubmit="return false" id="setval">
+    <div class="right-nav">
+      
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">浏览器标题</span>
+        </div>
+        <input type="text" class="form-control" placeholder="请设置网站标题（title）" name="title">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SEO关键词</span>
+        </div>
+        <input type="text" class="form-control" placeholder="请设置SEO所需的关键词，用逗号隔开（keywords）" name="keywords">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">系统描述</span>
+        </div>
+        <input type="text" class="form-control" placeholder="简单描述本套系统（description）" name="description">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">浏览器icon</span>
+        </div>
+        <input type="text" class="form-control" placeholder="即浏览器标题显示的logo，请粘贴图片URL（image/x-icon）" name="favicon">
+      </div>
+      <button type="submit" class="btn btn-dark" onclick="setval();">提交设置</button>
+    </div>
+    </form>';
   }
 
 }else{

@@ -70,50 +70,92 @@ if(isset($_SESSION["huoma.dashboard"])){
     }
 
     echo '<!-- 右侧布局 -->
-  <form onsubmit="return false" id="setval">
-  <div class="right-nav">
+    <form onsubmit="return false" id="setval">
+    <div class="right-nav">
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">SMTP服务器</span>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器，在邮箱管理后台获取" value="'.$email_smtpserver.'" name="email_smtpserver">
       </div>
-      <input type="text" class="form-control" placeholder="SMTP服务器，在邮箱管理后台获取" value="'.$email_smtpserver.'" name="email_smtpserver">
-    </div>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">SMTP服务器端口</span>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器端口</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器端口，在邮箱管理后台获取" value="'.$email_smtpserverport.'" name="email_smtpserverport">
       </div>
-      <input type="text" class="form-control" placeholder="SMTP服务器端口，在邮箱管理后台获取" value="'.$email_smtpserverport.'" name="email_smtpserverport">
-    </div>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">SMTP服务器的用户邮箱</span>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器的用户邮箱</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器的用户邮箱，你要发送邮件的邮箱" value="'.$email_smtpusermail.'" name="email_smtpusermail">
       </div>
-      <input type="text" class="form-control" placeholder="SMTP服务器的用户邮箱，你要发送邮件的邮箱" value="'.$email_smtpusermail.'" name="email_smtpusermail">
-    </div>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">SMTP服务器的用户帐号</span>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器的用户帐号</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器的用户帐号" value="'.$email_smtpuser.'" name="email_smtpuser">
       </div>
-      <input type="text" class="form-control" placeholder="SMTP服务器的用户帐号" value="'.$email_smtpuser.'" name="email_smtpuser">
-    </div>
 
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text">SMTP服务器的授权密码</span>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器的授权密码</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器的授权密码，在邮箱后台获取" value="'.$email_smtppass.'" name="email_smtppass">
       </div>
-      <input type="text" class="form-control" placeholder="SMTP服务器的授权密码，在邮箱后台获取" value="'.$email_smtppass.'" name="email_smtppass">
+      
+      <button type="submit" class="btn btn-dark" onclick="setval();">提交设置</button><br/><br/>
+      <a href="https://mp.weixin.qq.com/s?__biz=MzU2NzIyMzA1Mw==&mid=100000290&idx=1&sn=b209f616d2cb1228e4820c37b2d2136d&chksm=7ca134404bd6bd56d2ea2e2fe17db450964d7e941f953d8cb42e251b52c9a3c9fa77761b3a5d#rd" target="blank">如何设置？以上参数如何获得？</a>
     </div>
-    
-    <button type="submit" class="btn btn-dark" onclick="setval();">提交设置</button><br/><br/>
-    <a href="https://mp.weixin.qq.com/s?__biz=MzU2NzIyMzA1Mw==&mid=100000290&idx=1&sn=b209f616d2cb1228e4820c37b2d2136d&chksm=7ca134404bd6bd56d2ea2e2fe17db450964d7e941f953d8cb42e251b52c9a3c9fa77761b3a5d#rd" target="blank">如何设置？以上参数如何获得？</a>
-  </div>
-  </form>';
+    </form>';
   }else{
     // 如果没有参数
+    echo '<form onsubmit="return false" id="setval">
+    <div class="right-nav">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器，在邮箱管理后台获取" value="'.$email_smtpserver.'" name="email_smtpserver">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器端口</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器端口，在邮箱管理后台获取" value="'.$email_smtpserverport.'" name="email_smtpserverport">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器的用户邮箱</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器的用户邮箱，你要发送邮件的邮箱" value="'.$email_smtpusermail.'" name="email_smtpusermail">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器的用户帐号</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器的用户帐号" value="'.$email_smtpuser.'" name="email_smtpuser">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">SMTP服务器的授权密码</span>
+        </div>
+        <input type="text" class="form-control" placeholder="SMTP服务器的授权密码，在邮箱后台获取" value="'.$email_smtppass.'" name="email_smtppass">
+      </div>
+      
+      <button type="submit" class="btn btn-dark" onclick="setval();">提交设置</button><br/><br/>
+      <a href="https://mp.weixin.qq.com/s?__biz=MzU2NzIyMzA1Mw==&mid=100000290&idx=1&sn=b209f616d2cb1228e4820c37b2d2136d&chksm=7ca134404bd6bd56d2ea2e2fe17db450964d7e941f953d8cb42e251b52c9a3c9fa77761b3a5d#rd" target="blank">如何设置？以上参数如何获得？</a>
+    </div>
+    </form>';
   }
 
 }else{
