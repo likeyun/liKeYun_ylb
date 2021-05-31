@@ -87,7 +87,7 @@ if (trim(empty($qun_hmid))) {
 	       			echo '<div id="scan_wx_tips">如无法扫码进群，可联系群主邀请</div>';
 	       			echo '<div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>';
 	       		}
-				break;
+				exit;
 			}
 
 
