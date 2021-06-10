@@ -13,36 +13,37 @@ if(isset($_SESSION["huoma.admin"])){
 	$conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
 
 	// 获得表单POST过来的数据
-	$wx_title = trim($_POST["wx_title"]);
-	$wx_ldym = trim($_POST["wx_ldym"]);
-	$wx_status = trim($_POST["wx_status"]);
-	$wx_id = trim($_POST["wx_id"]);
-	$wx_moshi = trim($_POST["wx_moshi"]);
+	$zmid = $_POST["zmid"];
+	$qrcode = $_POST["qrcode"];
+	$zima_status = $_POST["zima_status"];
+	$wx_num = $_POST["wx_num"];
+	$wx_beizhu = $_POST["wx_beizhu"];
+	$wx_yuzhi = $_POST["wx_yuzhi"];
 
-	if(empty($wx_title)){
+	if(empty($zmid)){
 		$result = array(
 			"code" => "101",
-			"msg" => "标题不得为空"
+			"msg" => "非法请求"
 		);
-	}else if(empty($wx_ldym)){
+	}else if(empty($qrcode)){
 		$result = array(
 			"code" => "102",
-			"msg" => "请选择落地域名"
+			"msg" => "群二维码还没上传"
 		);
-	}else if(empty($wx_id)){
+	}else if(empty($zima_status)){
 		$result = array(
 			"code" => "103",
-			"msg" => "非法提交"
+			"msg" => "请设置状态"
 		);
-	}else if(empty($wx_status)){
+	}else if(empty($wx_num)){
 		$result = array(
 			"code" => "104",
-			"msg" => "状态未选择"
+			"msg" => "请填写微信号"
 		);
-	}else if(empty($wx_moshi)){
+	}else if(empty($wx_yuzhi) && $wx_yuzhi !== '0'){
 		$result = array(
-			"code" => "105",
-			"msg" => "展示模式未选择"
+			"code" => "106",
+			"msg" => "请设置阈值"
 		);
 	}else{
 		// 当前时间
@@ -50,10 +51,10 @@ if(isset($_SESSION["huoma.admin"])){
 		// 设置字符编码为utf-8
 		mysqli_query($conn, "SET NAMES UTF-8");
 		// 更新数据库
-		mysqli_query($conn,"UPDATE huoma_wx SET wx_title='$wx_title',wx_ldym='$wx_ldym',wx_status='$wx_status',wx_update_time='$date',wx_moshi='$wx_moshi' WHERE wx_id=".$wx_id);
+		mysqli_query($conn,"UPDATE huoma_wxzima SET qrcode='$qrcode',update_time='$date',zima_status='$zima_status',wx_num='$wx_num',wx_beizhu='$wx_beizhu',wx_yuzhi='$wx_yuzhi' WHERE zmid=".$zmid);
 		$result = array(
 			"code" => "100",
-			"msg" => "更新成功"
+			"msg" => "已更新"
 		);
 	}
 }else{

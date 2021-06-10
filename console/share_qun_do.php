@@ -23,14 +23,17 @@ if(isset($_SESSION["huoma.admin"])){
 		$result_yuming = $conn->query($sql_yuming);
 		if ($result_yuming->num_rows > 0) {
 			while($row_yuming = $result_yuming->fetch_assoc()) {
-				$qun_yuming = $row_yuming["qun_yuming"];
-				// 生成网址
-				$SERVER = $qun_yuming.$_SERVER["REQUEST_URI"];
-				$url = dirname(dirname($SERVER))."/common/qun/?hmid=".$qun_hmid;
+				$qun_rkym = $row_yuming["qun_rkym"]; // 入口域名
+
+				// 生成入口链接
+				$SERVER = $qun_rkym.$_SERVER["REQUEST_URI"];
+				$rkurl = dirname(dirname($SERVER))."/common/qun/redirect/?hmid=".$qun_hmid;
+
+				// 反馈结果
 				$result = array(
 					"result" => "100",
 					"msg" => "分享成功",
-					"url" => $url
+					"rkurl" => $rkurl
 				);
 			}
 		}else{

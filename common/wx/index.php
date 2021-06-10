@@ -45,13 +45,47 @@ if (trim(empty($wx_id))) {
 	while($row_hminfo = $result_hminfo->fetch_assoc()) {
 		$wx_status = $row_hminfo["wx_status"]; // 微信活码启用状态
 		$wx_title = $row_hminfo["wx_title"]; // 微信活码标题
-		$wx_qrcode = $row_hminfo["wx_qrcode"]; // 个人微信二维码
-		$wx_num = $row_hminfo["wx_num"]; // 微信号
-		$wx_shuoming = $row_hminfo["wx_shuoming"]; // 加微信说明
+		$wx_user = $row_hminfo["wx_user"]; // 发布者
+		$wx_moshi = $row_hminfo["wx_moshi"]; // 展示模式
 	}
+	
+	// 获取客服子码信息
+	$sql_zminfo = "SELECT * FROM huoma_wxzima WHERE wx_id = '$wx_id' AND zima_status = '1'";
+	$result_zminfo = $conn->query($sql_zminfo);
 
 	// 更新活码访问量
 	mysqli_query($conn,"UPDATE huoma_wx SET wx_fwl=wx_fwl+1 WHERE wx_id =".$wx_id);
+
+	// 获取用户账号信息
+	// 判断用户账号到期
+	$sql_userinfo = "SELECT * FROM huoma_user WHERE user = '$wx_user'";
+	$result_userinfo = $conn->query($sql_userinfo);
+	if ($result_userinfo->num_rows > 0) {
+		while($row_userinfo = $result_userinfo->fetch_assoc()) {
+			$user_status = $row_userinfo["user_status"]; // 账号状态
+			$expire_time = $row_userinfo["expire_time"]; // 到期日期
+		}
+		if ($user_status !== '1') {
+			echo '<title>提醒</title>
+	    		  <br/><br/><br/>
+	       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+	              <div id="tips_text">管理员账号异常</div>';
+			exit;
+		}
+		if(strtotime(date("Y-m-d"))>=strtotime($expire_time)){
+			echo '<title>提醒</title>
+	    		  <br/><br/><br/>
+	       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+	              <div id="tips_text">管理员账号已到期</div>';
+			exit;
+		}
+	}else{
+		echo '<title>提醒</title>
+    		  <br/><br/><br/>
+       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+              <div id="tips_text">管理员账号不存在</div>';
+		exit;
+	}
 	
 	// 验证该活码是否存在
 	if ($result_hminfo->num_rows > 0) {
@@ -63,32 +97,125 @@ if (trim(empty($wx_id))) {
 		 */
 	    if ($wx_status == '1') {
 
-			// 设置活码标题
-			echo '<title>'.$wx_title.'</title>';
+	    	// 定义一个数组，用来储存所有子码
+	    	$kfzmlist = array();
 
-			echo '
-			<!-- 顶部提示 -->
-			<div id="safety-tips">
-			<div class="safety-icon">
-			<img src="../../images/safety-icon.png" />
-			</div>
-			<div class="safety-title">此二维码已通过安全认证，可以放心扫码</div>
-			</div>
-			';
+	    	// 获取子码
+	    	while($row_zminfo = $result_zminfo->fetch_assoc()) {
+	    		
+	    		// 将所有子码添加到数组
+	    		$kfzmlist[] = $row_zminfo;
 
-			// 扫码提示
-			echo '<br/><div id="scan_tips">请再次识别下方二维码加微信</div><br/>';
+	    	}
 
-			// 展示二维码
-			echo '<div id="hm_wxewm"><img src="'.$wx_qrcode.'" /></div>';
+	    	// 定义一个数组，用来储存经过条件筛选后的子码
+		    $kfzm = [];
 
-			// 微信号
-			echo '<div id="wx_num">微信号：'.$wx_num.'</div>';
+	    	// 展示模式
+	    	if ($wx_moshi == '1') {
 
-			// 加微信说明
-			if (!empty($wx_shuoming)) {
-				echo '<div id="shuoming">'.$wx_shuoming.'</div>';
-			}
+	    		// 阈值模式
+		    	// 遍历所有符合以下条件的子码
+		    	foreach ($kfzmlist as $k=>$v){
+		    		if($kfzmlist[$k]['fwl'] < $kfzmlist[$k]['wx_yuzhi']){
+
+		    			// 返回符合条件的数组
+			       		$kfzm = $kfzmlist[$k];
+			       		$zmid = $kfzmlist[$k]['zmid'];
+			       		$qrcodeUrl = $kfzmlist[$k]['qrcode'];
+			       		$wx_num = $kfzmlist[$k]['wx_num'];
+			       		$wx_beizhu = trim($kfzmlist[$k]['wx_beizhu']);
+
+			       		// 设置群活码标题
+						echo '<title>'.$wx_title.'</title>';
+
+						echo '<div id="safety-tips">
+						<div class="safety-icon">
+						<img src="../../images/safety-icon.png" />
+						</div>
+						<div class="safety-title">此二维码已通过安全认证，可以放心扫码</div>
+						</div>';
+
+			       		// 扫码提示
+			       		echo '<div id="scan_tips" style="color:#999;">请再次识别下方二维码加微信</div>';
+
+			       		// 展示二维码
+			       		echo '<div id="ewm" style="width:280px;"><img src="'.$qrcodeUrl.'" width="280"/></div>';
+
+			       		// 加微信
+			       		echo '<div id="wxnum">微信号：'.$wx_num.'<div>';
+
+			       		// 加微信备注
+			       		if ($wx_beizhu !== '') {
+			       			echo '<div id="wxbeizhu">'.$wx_beizhu.'<div>';
+			       		}
+
+			       		$exist = false;
+			       		// 更新当前子码的访问量
+			       		mysqli_query($conn,"UPDATE huoma_wxzima SET fwl=fwl+1 WHERE zmid='$zmid'");
+			       		exit;
+
+		    		}else{
+						$exist = false;
+			    	}
+		    	}
+		    	if(!$exist && count($kfzm) <= 0) {
+
+					// 设置活码标题
+					echo '<title>提醒</title>';
+		       		echo '<br/><br/><br/>
+		       			  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+		       			  <div id="tips_text">暂无微信可以添加</div>';
+				}
+	    	}else if($wx_moshi == '2'){
+	    		// 将数组打乱
+	    		shuffle($kfzmlist);
+	    		// 遍历数组，取第一个对象
+	    		foreach ($kfzmlist as $k=>$v){
+	    			$kfzm = $kfzmlist[$k];
+		       		$zmid = $kfzmlist[$k]['zmid'];
+		       		$qrcodeUrl = $kfzmlist[$k]['qrcode'];
+		       		$wx_num = $kfzmlist[$k]['wx_num'];
+		       		$wx_beizhu = trim($kfzmlist[$k]['wx_beizhu']);
+		       		
+		       		// 设置群活码标题
+					echo '<title>'.$wx_title.'</title>';
+
+					echo '<div id="safety-tips">
+					<div class="safety-icon">
+					<img src="../../images/safety-icon.png" />
+					</div>
+					<div class="safety-title">此二维码已通过安全认证，可以放心扫码</div>
+					</div>';
+
+		       		// 扫码提示
+		       		echo '<div id="scan_tips" style="color:#999;">请再次识别下方二维码加微信</div>';
+
+		       		// 展示二维码
+		       		echo '<div id="ewm" style="width:280px;"><img src="'.$qrcodeUrl.'" width="280"/></div>';
+
+		       		// 加微信
+		       		echo '<div id="wxnum">微信号：'.$wx_num.'<div>';
+
+		       		// 加微信备注
+		       		if ($wx_beizhu !== '') {
+		       			echo '<div id="wxbeizhu">'.$wx_beizhu.'<div>';
+		       		}
+
+		       		$exist = false;
+		       		// 更新当前子码的访问量
+		       		mysqli_query($conn,"UPDATE huoma_wxzima SET fwl=fwl+1 WHERE zmid='$zmid'");
+		       		exit;
+	    		}
+	    		if(!$exist && count($kfzm) <= 0) {
+
+					// 设置活码标题
+					echo '<title>提醒</title>';
+		       		echo '<br/><br/><br/>
+		       			  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+		       			  <div id="tips_text">暂无微信可以添加</div>';
+				}
+	    	}
 
 	    }else if ($wx_status == '2') {
 

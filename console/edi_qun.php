@@ -38,7 +38,7 @@
 <head>
   <title>编辑群活码 - <?php echo $title; ?></title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
@@ -73,7 +73,8 @@ if(isset($_SESSION["huoma.admin"])){
       $qun_pv = $row["qun_pv"];
       $wx_status = $row["qun_wx_status"];
       $wx_qrcode = $row["qun_wx_qrcode"];
-      $qun_yuming = $row["qun_yuming"];
+      $qun_ldym = $row["qun_ldym"];
+      $qun_rkym = $row["qun_rkym"];
       $qun_chongfu = $row["qun_chongfu"];
     }
   }
@@ -109,9 +110,28 @@ if(isset($_SESSION["huoma.admin"])){
       <input type="text" class="form-control" value="'.$qun_title.'" placeholder="请输入标题" name="qun_title">
     </div>';
 
-    // 落地页域名
-    echo '<select class="form-control" name="qun_yuming" style="-webkit-appearance:none;"><option value="'.$qun_yuming.'">落地页域名：'.$qun_yuming.'</option>';
-      // 获取落地页域名
+    // 入口域名
+    echo '<select class="form-control" name="qun_rkym" style="-webkit-appearance:none;"><option value="'.$qun_rkym.'">入口域名：'.$qun_rkym.'</option>';
+      // 获取域名
+      $sql_ym = "SELECT * FROM huoma_yuming";
+      $result_ym = $conn->query($sql_ym);
+      // 遍历列表
+      if ($result_ym->num_rows > 0) {
+        while($row_ym = $result_ym->fetch_assoc()) {
+          $ym = $row_ym["yuming"];
+          echo '<option value="'.$ym.'">'.$ym.'</option>';
+        }
+        // 同时也可以选择当前系统使用的域名
+        echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+      }else{
+        // 没有绑定落地页，使用当前系统使用的域名
+        echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+      }
+    echo '</select>';
+
+    // 落地域名
+    echo '<select class="form-control" name="qun_ldym" style="-webkit-appearance:none;margin:15px 0;"><option value="'.$qun_ldym.'">落地域名：'.$qun_ldym.'</option>';
+      // 获取域名
       $sql_ym = "SELECT * FROM huoma_yuming";
       $result_ym = $conn->query($sql_ym);
       // 遍历列表
@@ -140,47 +160,72 @@ if(isset($_SESSION["huoma.admin"])){
     echo '</select>';
 
     // 个人微信二维码
-    echo '<div id="grwx_upload" style="display:none;"> 
-      <div class="upload_byqun input-group mb-3">
-        <input type="text" class="form-control" name="wx_qrcode" value="'.$wx_qrcode.'" placeholder="请上传个人微信二维码或粘贴图片地址">
-        <div class="input-group-append" style="cursor:pointer;">
-          <span class="input-group-text" style="cursor:pointer;position: relative;">
-            <input type="file" id="select_wxqrcode" class="file_btn" name="file"/><span class="text">上传图片</span>
-          </span>
-        </div>
-      </div>
-    </div>';
+    if ($wx_status == '1') {
+    	echo '<div id="grwx_upload"> 
+	      <div class="upload_byqun input-group mb-3">
+	        <input type="text" class="form-control" name="qun_wx_qrcode" value="'.$wx_qrcode.'" placeholder="请上传个人微信二维码或粘贴图片地址">
+	        <div class="input-group-append" style="cursor:pointer;">
+	          <span class="input-group-text" style="cursor:pointer;position: relative;">
+	            <input type="file" id="select_wxqrcode" class="file_btn" name="file"/><span class="text">上传图片</span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>';
+    }else{
+    	echo '<div id="grwx_upload" style="display:none;">
+	      <div class="upload_byqun input-group mb-3">
+	        <input type="text" class="form-control" name="qun_wx_qrcode" value="'.$wx_qrcode.'" placeholder="请上传个人微信二维码或粘贴图片地址">
+	        <div class="input-group-append" style="cursor:pointer;">
+	          <span class="input-group-text" style="cursor:pointer;position: relative;">
+	            <input type="file" id="select_wxqrcode" class="file_btn" name="file"/><span class="text">上传图片</span>
+	          </span>
+	        </div>
+	      </div>
+	    </div>';
+    }
 
     // 重复进群设置
-    echo '<select class="form-control" style="margin:15px 0;-webkit-appearance:none;" name="qun_chongfu">';
-    if ($qun_chongfu == 1) {
-      echo '<option value="1">禁止重复进群</option>
-      <option value="2">允许重复进群</option>';
+    if ($qun_chongfu == '1') {
+		echo '<div class="radio">
+		<input id="radio-1" name="qun_chongfu" type="radio" value="2">
+		<label for="radio-1" class="radio-label">允许重复进群</label>
+		<input id="radio-2" name="qun_chongfu" type="radio" value="1" checked>
+		<label for="radio-2" class="radio-label">禁止重复进群</label>
+		</div>';
     }else{
-      echo '<option value="2">允许重复进群</option>
-      <option value="1">禁止重复进群</option>';
-    }  
-    echo '</select>';
+    	echo '<div class="radio">
+		<input id="radio-1" name="qun_chongfu" type="radio" value="2" checked>
+		<label for="radio-1" class="radio-label">允许重复进群</label>
+		<input id="radio-2" name="qun_chongfu" type="radio" value="1">
+		<label for="radio-2" class="radio-label">禁止重复进群</label>
+		</div>';
+    }
 
     // 隐藏域
     echo '<input type="hidden" name="qun_hmid" value="'.$qun_hmid.'" />';
 
     // 活码开启状态
-    echo '<select class="form-control" id="grwx_status" style="margin:15px 0;-webkit-appearance:none;" name="qun_status">';
-    if ($qun_status == 3) {
-      echo '<option>该活码因违规已被停止使用</option>';
-    }else if ($qun_status == 1) {
-      echo '<option value="1">正常使用</option>
-      <option value="2">暂停使用</option>';
-    }else if ($qun_status == 2) {
-      echo '<option value="2">暂停使用</option>
-      <option value="1">正常使用</option>';
+    if ($qun_status == '3') {
+		echo '<br/><p style="color:#f00;">该活码因违规已被停止使用</p>';
+    }else if ($qun_status == '1') {
+    	echo '<div class="radio">
+		<input id="radio-4" name="qun_status" type="radio" value="1" checked>
+		<label for="radio-4" class="radio-label">正常使用</label>
+		<input id="radio-5" name="qun_status" type="radio" value="2">
+		<label for="radio-5" class="radio-label">暂停使用</label>
+		</div>';
+    }else if ($qun_status == '2') {
+    	echo '<div class="radio">
+		<input id="radio-4" name="qun_status" type="radio" value="1">
+		<label for="radio-4" class="radio-label">正常使用</label>
+		<input id="radio-5" name="qun_status" type="radio" value="2" checked>
+		<label for="radio-5" class="radio-label">暂停使用</label>
+		</div>';
     }
-    echo '</select>';
 
     if ($qun_status !== '3') {
       // 更新按钮
-      echo '<button type="button" class="btn btn-secondary" onclick="ediqun();">更新活码</button><br/><br/>';
+      echo '<br/><button type="button" class="btn btn-secondary" onclick="ediqun();">更新活码</button><br/><br/>';
     }
     
     echo '</form>';
@@ -246,9 +291,10 @@ if(isset($_SESSION["huoma.admin"])){
     </table>';
     
     // 说明
-    echo '<p>阈值：当该二维码被访问的次数达到你设定的阈值，就会自动切换下一个二维码。</p>
-    <p>落地页域名：用户访问你的活码页面使用的域名。</p>
-    <p>其他说明：本套系统仅支持创建7个子二维码，按顺序检索阈值和状态进行展示。</p>
+    echo '<p style="color:#999;font-size:14px;">阈值：当该二维码被访问的次数达到你设定的阈值，就会自动切换下一个二维码。</p>
+    <p style="color:#999;font-size:14px;">入口域名：用户扫描你生成的活码，先进入的就是入口域名页面，会迅速跳转到落地域名，入口域名作为防封域名。</p>
+    <p style="color:#999;font-size:14px;">落地域名：通过入口域名跳转后使用的域名就是落地域名，群二维码信息将会展示在落地域名，如果受到恶意投诉，只会影响落地域名，入口域名不受影响。因为落地域名被投诉，入口域名没有被投诉，则其他用户还可以正常扫码访问活码页面，只要你尽快切换落地域名即可。</p>
+    <p style="color:#999;font-size:14px;">其他说明：本套系统仅支持创建7个子二维码，按顺序检索阈值和状态进行展示。</p>
   </div>
 
 </div>';
@@ -288,17 +334,8 @@ if(isset($_SESSION["huoma.admin"])){
           <input type="text" class="form-control yuzhi" placeholder="达到这个访问量自动切换" name="yuzhi">
         </div>
 
-        <select class="form-control" style="margin:15px 0;-webkit-appearance:none;" name="zima_status">
-          <?php
-            if ($zima_status == 2) {
-              echo '<option value="1">开启</option>';
-              echo '<option value="2">关闭</option>';
-            }else{
-              echo '<option value="2">关闭</option>';
-              echo '<option value="1">开启</option>';
-            }
-          ?>
-        </select>
+        <!-- 子码状态 -->
+        <div class="radio"></div>
 
          <!-- 到期天数 -->
          <select class="form-control" style="margin:15px 0;-webkit-appearance:none;" name="dqdate">
@@ -337,16 +374,6 @@ function closesctips(){
   $("#Result").css('display','none');
   $("#edizima .upload_status").css("display","none");
 }
-
-// 加载后监听个人微信二维码的显示状态
-$(document).ready(function(){
-  var grwx_status = '<?php echo $wx_status; ?>';
-  if (grwx_status == 1) {
-    $("#grwx_upload").css("display","block");
-  }else{
-    $("#grwx_upload").css("display","none");
-  }
-}) 
 
 // 手动切换监听个人微信二维码的显示状态
 $("#grwx_status").bind('input propertychange',function(e){
@@ -405,6 +432,11 @@ function getzmid(event){
         if (data.code==100) {
           $("#edizima .modal-body .qrcode").val(data.qrcode);
           $("#edizima .modal-body .yuzhi").val(data.yuzhi);
+          if (data.zima_status == '1') {
+            $("#edizima .radio").html('<input id="radio-6" name="zima_status" type="radio" value="1" checked><label for="radio-6" class="radio-label">正常使用</label><input id="radio-7" name="zima_status" type="radio" value="2"><label for="radio-7" class="radio-label">暂停使用</label>');
+          }else{
+            $("#edizima .radio").html('<input id="radio-6" name="zima_status" type="radio" value="1"><label for="radio-6" class="radio-label">正常使用</label><input id="radio-7" name="zima_status" type="radio" value="2" checked><label for="radio-7" class="radio-label">暂停使用</label>');
+          }
           if (data.dqdate == null) {
             $("#dq_dqdate").val('<?php echo date("Y-m-d",strtotime("+7 day")); ?>');
             $("#dq_dqdate").text('<?php echo date("Y-m-d",strtotime("+7 day")); ?> 到期');

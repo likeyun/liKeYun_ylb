@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../../css/chunk-vendors.loginreg.css">
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
 </head>
 <body>
@@ -49,6 +51,47 @@
   <div class="Result" style="display: none;"></div>
 </div>
 
+<!-- 续费模态框 -->
+<div class="modal fade" id="xufei_modal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+ 
+      <!-- 模态框头部 -->
+      <div class="modal-header">
+        <h4 class="modal-title">续费</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+ 
+      <!-- 模态框主体 -->
+      <div class="modal-body">
+        <form onsubmit="return false" id="xufei">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">账号</span>
+            </div>
+            <input type="email" class="form-control" placeholder="请输入账号" name="user">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">邀请码</span>
+            </div>
+            <input type="email" class="form-control" placeholder="请输入邀请码" name="yqm">
+          </div>
+          <button type="button" class="btn btn-dark" onclick="xufei();">续费</button>
+        </form>
+      </div>
+
+      <div class="alert"></div>
+ 
+      <!-- 模态框底部 -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+      </div>
+ 
+    </div>
+  </div>
+</div>
+
 <!-- ajax登录验证 -->
 <script>
 function logincheck(){
@@ -62,6 +105,9 @@ function logincheck(){
             $(".container .Result").css("display","block");
             $(".container .Result").html('<div class="alert alert-success"><strong>'+data.msg+'</strong></div>');
             location.href="../../console/";
+          }else if(data.code == 103){
+            $(".container .Result").css("display","block");
+            $(".container .Result").html('<div class="alert alert-danger"><strong>该账号已到期，<a href="javascript:;" data-toggle="modal" data-target="#xufei_modal">点击这里续费</a></strong><a href="javascript:alert(\'请自行到本页面代码处配置购买链接\')" style="float:right;">购买邀请码</a></div>');
           }else{
             // 登陆失败
             $(".container .Result").css("display","block");
@@ -75,6 +121,32 @@ function logincheck(){
         }
     });
 }
+
+function xufei(){
+    $.ajax({
+        type: "POST",
+        url: "./xufei_do.php",
+        data: $('#xufei').serialize(),
+        success:function(data){
+          // 成功
+          if (data.code == 100) {
+            $("#xufei_modal .alert").css("display","block");
+            $("#xufei_modal .alert").html('<div class="alert alert-success"><strong>'+data.msg+'</strong></div>');
+            location.reload();
+          }else{
+            // 失败
+            $("#xufei_modal .alert").css("display","block");
+            $("#xufei_modal .alert").html('<div class="alert alert-danger"><strong>'+data.msg+'</strong></div>');
+          }
+        },
+        error:function(data) {
+          // 服务器发生错误
+          $("#xufei_modal .alert").css("display","block");
+          $("#xufei_modal .alert").html("<div class=\"alert alert-danger\"><strong>服务器发生错误</strong></div>");
+        }
+    });
+}
 </script>
+
 </body>
 </html>

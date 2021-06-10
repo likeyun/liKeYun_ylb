@@ -99,8 +99,9 @@ if(isset($_SESSION["huoma.admin"])){
           <thead>
             <tr>
               <th style="width:150px;">账号</th>
-              <th>注册</th>
-              <th>到期</th>
+              <th style="width:150px;">用户ID</th>
+              <th>注册时间</th>
+              <th>到期日期</th>
               <th style="text-align: center;">操作</th>
             </tr>
           </thead>
@@ -119,6 +120,7 @@ if(isset($_SESSION["huoma.admin"])){
             // 渲染到UI
             echo '<tr>';
               echo '<td class="td-title" style="width:150px;">'.$user.'</td>
+              <td class="td-status">'.$user_id.'</td>
               <td class="td-status">'.$reg_time.'</td>
               <td class="td-fwl">'.$expire_time.'</td>';
               echo '<td class="td-caozuo" style="text-align: center;">

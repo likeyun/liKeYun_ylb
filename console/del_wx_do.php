@@ -23,6 +23,8 @@ if(isset($_SESSION["huoma.admin"])){
 	}else{
 		// 删除活码数据
 		mysqli_query($conn,"DELETE FROM huoma_wx WHERE wx_id=".$wx_id);
+		// 删除子码数据
+		mysqli_query($conn,"DELETE FROM huoma_wxzima WHERE wx_id=".$wx_id);
 		// 返回结果
 		$result = array(
 			"code" => "100",

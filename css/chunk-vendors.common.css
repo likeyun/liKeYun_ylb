@@ -260,7 +260,7 @@ body{
   }
 
   /*微信号*/
-  #wx_num{
+  #wxnum{
     text-align: center;
     color: #999;
     font-size: 16px;
@@ -268,7 +268,7 @@ body{
   }
 
   /*加微信说明*/
-  #shuoming{
+  #wxbeizhu{
     width: 70%;
     margin: 30px auto;
     background: #fff;

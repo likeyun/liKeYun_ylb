@@ -124,6 +124,7 @@ if(isset($_SESSION["huoma.admin"])){
             <tr>
               <th>标题</th>
               <th>状态</th>
+              <th>模式</th>
               <th>时间</th>
               <th>访问</th>
               <th style="text-align: center;">操作</th>
@@ -141,6 +142,7 @@ if(isset($_SESSION["huoma.admin"])){
             $wx_update_time = $row["wx_update_time"];
             $wx_fwl = $row["wx_fwl"];
             $wx_status = $row["wx_status"];
+            $wx_moshi = $row["wx_moshi"];
 
             // 渲染到UI
             echo '<tr>';
@@ -148,9 +150,14 @@ if(isset($_SESSION["huoma.admin"])){
               if ($wx_status == 1) {
                 echo '<td class="td-status"><span class="badge badge-success">正常</span></td>';
               }else if ($wx_status == 2) {
-                echo '<td class="td-status"><span class="badge badge-danger">关闭</span></td>';
+                echo '<td class="td-status"><span class="badge badge-danger">暂停</span></td>';
               }else if ($wx_status == 3) {
                 echo '<td class="td-status"><span class="badge badge-danger">封禁</span></td>';
+              }
+              if ($wx_moshi == 1) {
+                echo '<td class="td-status">阈值</td>';
+              }else if ($wx_moshi == 2) {
+                echo '<td class="td-status">随机</td>';
               }
               echo '<td class="td-status">'.$wx_update_time.'</td>
               <td class="td-fwl">'.$wx_fwl.'</td>
@@ -243,7 +250,7 @@ if(isset($_SESSION["huoma.admin"])){
           </div>';
 
           // 落地页域名
-          echo '<select class="form-control" name="wx_yuming" style="-webkit-appearance:none;">
+          echo '<select class="form-control" name="wx_ldym" style="-webkit-appearance:none;">
           <option value="">请选择落地页域名</option>';
 
           if ($result_ym->num_rows > 0) {
@@ -259,32 +266,18 @@ if(isset($_SESSION["huoma.admin"])){
           }
           echo '</select>';
 
-          echo '<!-- 上传微信群二维码 -->
-          <div class="input-group mb-3" style="margin-top: 15px;">
-            <input type="text" class="form-control wxqrcode" placeholder="上传微信二维码或粘贴图片地址" name="wx_qrcode">
-            <div class="input-group-append" style="cursor:pointer;position: relative;">
-              <span class="input-group-text">
-                <input type="file" id="select_wxqrcode" class="file_btn" name="file"/><span class="text">上传图片</span>
-              </span>
-            </div>
-          </div>
-          <!-- 微信号 -->
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">微信号</span>
-            </div>
-            <input type="text" class="form-control" placeholder="请输入微信号" name="wx_num">
+          // 选择模式
+          echo '<div class="radio">
+            <input id="radio-1" name="wx_moshi" type="radio" value="1" checked>
+            <label for="radio-1" class="radio-label">阈值模式</label>
+            <input id="radio-2" name="wx_moshi" type="radio" value="2">
+            <label for="radio-2" class="radio-label">随机模式</label>
           </div>
 
-          <!-- 说明文字 -->
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">说明文字</span>
-            </div>
-            <input type="text" class="form-control" placeholder="备注、加微信要求等，不填则不显示" name="wx_shuoming">
-          </div>
+          <!-- 说明 -->
+          <br/>
+          <p>创建完成后，点击 <span class="badge badge-secondary">•••</span> 编辑，上传客服二维码。</p>
 
-          <!-- 说明文字 -->
           <div class="upload_status"></div>
 
           <!-- 提交 -->

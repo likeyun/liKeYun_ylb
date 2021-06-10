@@ -23,7 +23,7 @@ if(isset($_SESSION["huoma.admin"])){
 		$result_yuming = $conn->query($sql_yuming);
 		if ($result_yuming->num_rows > 0) {
 			while($row_yuming = $result_yuming->fetch_assoc()) {
-				$wx_yuming = $row_yuming["yuming"];
+				$wx_yuming = $row_yuming["wx_ldym"];
 				// 生成网址
 				$SERVER = $wx_yuming.$_SERVER["REQUEST_URI"];
 				$url = dirname(dirname($SERVER))."/common/wx/?wxid=".$wx_id;

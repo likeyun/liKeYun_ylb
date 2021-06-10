@@ -47,7 +47,8 @@ if (trim(empty($qun_hmid))) {
 		$qun_title = $row_hminfo["qun_title"]; // 群活码标题
 		$qun_wx_status = $row_hminfo["qun_wx_status"]; // 个人微信二维码展示状态
 		$qun_wx_qrcode = $row_hminfo["qun_wx_qrcode"]; // 个人微信二维码
-		$qun_chongfu = $row_hminfo["qun_chongfu"]; // 个人微信二维码
+		$qun_chongfu = $row_hminfo["qun_chongfu"]; // 防止重复进群
+		$qun_user = $row_hminfo["qun_user"]; // 发布者
 	}
 
 	// 获取子码信息
@@ -56,6 +57,37 @@ if (trim(empty($qun_hmid))) {
 
 	// 更新活码访问量
 	mysqli_query($conn,"UPDATE huoma_qun SET qun_pv=qun_pv+1 WHERE qun_hmid =".$qun_hmid);
+
+	// 获取用户账号信息
+	// 判断用户账号到期
+	$sql_userinfo = "SELECT * FROM huoma_user WHERE user = '$qun_user'";
+	$result_userinfo = $conn->query($sql_userinfo);
+	if ($result_userinfo->num_rows > 0) {
+		while($row_userinfo = $result_userinfo->fetch_assoc()) {
+			$user_status = $row_userinfo["user_status"]; // 账号状态
+			$expire_time = $row_userinfo["expire_time"]; // 到期日期
+		}
+		if ($user_status !== '1') {
+			echo '<title>提醒</title>
+	    		  <br/><br/><br/>
+	       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+	              <div id="tips_text">管理员账号异常</div>';
+			exit;
+		}
+		if(strtotime(date("Y-m-d"))>=strtotime($expire_time)){
+			echo '<title>提醒</title>
+	    		  <br/><br/><br/>
+	       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+	              <div id="tips_text">管理员账号已到期</div>';
+			exit;
+		}
+	}else{
+		echo '<title>提醒</title>
+    		  <br/><br/><br/>
+       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+              <div id="tips_text">管理员账号不存在</div>';
+		exit;
+	}
 	
 	// 验证该活码是否存在
 	if ($result_hminfo->num_rows > 0) {
@@ -79,13 +111,13 @@ if (trim(empty($qun_hmid))) {
 							<img src="../../images/safety-icon.png" />
 						</div>
 						<div class="safety-title">此二维码已通过安全认证，可以放心扫码</div>
-					 </div>';
-			    echo '<div id="scan_tips">请再次识别下方二维码进群</div>';
-				echo '<div id="ewm"><img src="'.$_COOKIE[$qun_hmid].'" /></div>';
+					 </div>
+			         <div id="scan_tips">请再次识别下方二维码进群</div>
+				     <div id="ewm"><img src="'.$_COOKIE[$qun_hmid].'" /></div>';
 				// 展示个人微信
 	       		if ($qun_wx_status == '1') {
-	       			echo '<div id="scan_wx_tips">如无法扫码进群，可联系群主邀请</div>';
-	       			echo '<div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>';
+	       			echo '<div id="scan_wx_tips">如无法扫码进群，可联系群主邀请</div>
+	       			      <div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>';
 	       		}
 				exit;
 			}
@@ -131,8 +163,8 @@ if (trim(empty($qun_hmid))) {
 
 		       		// 展示个人微信
 		       		if ($qun_wx_status == '1') {
-		       			echo '<div id="scan_wx_tips">如无法扫码进群，可联系群主邀请</div>';
-		       			echo '<div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>';
+		       			echo '<div id="scan_wx_tips">如无法扫码进群，可联系群主邀请</div>
+		       			      <div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>';
 		       		}
 		       		$exist = false;
 		       		// 更新当前子码的访问量
@@ -143,7 +175,7 @@ if (trim(empty($qun_hmid))) {
 		       			$expire_zima=time()+60*60*24*30;
 						setcookie($qun_hmid, $qrcodeUrl, $expire_zima);
 		       		}
-		       		break;
+		       		exit;
 		    	}else{
 					$exist = false;
 		    	}
@@ -155,35 +187,35 @@ if (trim(empty($qun_hmid))) {
 
 			    // 没有符合条件的群二维码
 	       		if ($qun_wx_status == '1') {
-	       			echo '<br/><br/><br/>';
-	       			echo '<div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>';
-	       			echo '<div id="tips_text">暂无群可以加入，如需进群可联系群主</div>';
+	       			echo '<br/><br/><br/>
+	       			      <div id="wxewm"><img src="'.$qun_wx_qrcode.'" /></div>
+	       			      <div id="tips_text">暂无群可以加入，如需进群可联系群主</div>';
 	       		}else{
-	       			echo '<br/><br/><br/>';
-	       			echo '<div id="tips_icon"><img src="../../images/warning.png" /></div>';
-	       			echo '<div id="tips_text">暂无群可以加入</div>';
+	       			echo '<br/><br/><br/>
+	       			      <div id="tips_icon"><img src="../../images/warning.png" /></div>
+	       			      <div id="tips_text">暂无群可以加入</div>';
 	       		}
 			}
 	    }else if ($qun_status == '2') {
 
 	    	// 设置群活码标题
-			echo '<title>提醒</title>';
-	    	echo '<br/><br/><br/>';
-	       	echo '<div id="tips_icon"><img src="../../images/warning.png" /></div>';
-	       	echo '<div id="tips_text">该二维码已被管理员暂停使用</div>';
+			echo '<title>提醒</title>
+	    		  <br/><br/><br/>
+	       		  <div id="tips_icon"><img src="../../images/warning.png" /></div>
+	              <div id="tips_text">该二维码已被管理员暂停使用</div>';
 	    }else if ($qun_status == '3') {
 	    	// 设置群活码标题
-			echo '<title>提醒</title>';
-	    	echo '<br/><br/><br/>';
-	       	echo '<div id="tips_icon"><img src="../../images/error.png" /></div>';
-	       	echo '<div id="tips_text">该二维码因违规已被管理员停止使用</div>';
+			echo '<title>提醒</title>
+		    	  <br/><br/><br/>
+		       	  <div id="tips_icon"><img src="../../images/error.png" /></div>
+		       	  <div id="tips_text">该二维码因违规已被管理员停止使用</div>';
 	    }
 	} else {
 		// 设置群活码标题
-		echo '<title>提醒</title>';
-    	echo '<br/><br/><br/>';
-       	echo '<div id="tips_icon"><img src="../../images/error.png" /></div>';
-       	echo '<div id="tips_text">该二维码不存在或已被管理员删除</div>';
+		echo '<title>提醒</title>
+    	      <br/><br/><br/>
+       	      <div id="tips_icon"><img src="../../images/error.png" /></div>
+       	      <div id="tips_text">该二维码不存在或已被管理员删除</div>';
 	}// 验证该页面是否存在结束
 	$conn->close();
 }// 验证是否有参数结束

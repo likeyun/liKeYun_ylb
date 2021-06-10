@@ -258,9 +258,27 @@ if(isset($_SESSION["huoma.admin"])){
             <input type="text" class="form-control" placeholder="请输入标题" name="qun_title">
           </div>
 
-          <!-- 落地页域名 -->
-          <select class="form-control" name="qun_yuming" style="-webkit-appearance:none;">
-            <option value="">请选择落地页域名</option>
+          <!-- 入口域名 -->
+          <select class="form-control" name="qun_rkym" style="-webkit-appearance:none;">
+            <option value="">请选择入口域名</option>
+            <?php
+              if ($result_ym->num_rows > 0) {
+                while($row_ym = $result_ym->fetch_assoc()) {
+                  $ym = $row_ym["yuming"];
+                  echo '<option value="'.$ym.'">'.$ym.'</option>';
+                }
+                // 同时也可以选择当前系统使用的域名
+                echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+              }else{
+                // 没有绑定落地页，使用当前系统使用的域名
+                echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+              }
+            ?>
+          </select>
+
+          <!-- 落地域名 -->
+          <select class="form-control" name="qun_ldym" style="-webkit-appearance:none;margin-top: 15px;">
+            <option value="">请选择落地域名</option>
             <?php
               if ($result_ym->num_rows > 0) {
                 while($row_ym = $result_ym->fetch_assoc()) {
@@ -437,8 +455,8 @@ function sharequn(event){
       url: "./share_qun_do.php?hmid="+share_qun_hmid,
       success: function (data) {
         // 分享成功
-        $("#share_qun .modal-body .link").text("链接："+data.url+"");
-        $("#share_qun .modal-body .qrcode").html("<img src='./qrcode.php?content="+data.url+"' width='200'/>");
+        $("#share_qun .modal-body .link").text("链接："+data.rkurl+"");
+        $("#share_qun .modal-body .qrcode").html("<img src='./qrcode.php?content="+data.rkurl+"' width='200'/>");
       },
       error : function() {
         // 分享失败

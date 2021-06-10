@@ -19,22 +19,24 @@ if(isset($_SESSION["huoma.admin"])){
 		);
 	}else{
 		// 获取当前zmid的详细内容
-		$sql_zminfo = "SELECT * FROM huoma_qunzima WHERE zmid = '$zmid'";
+		$sql_zminfo = "SELECT * FROM huoma_wxzima WHERE zmid = '$zmid'";
 		$result_zminfo = $conn->query($sql_zminfo);
 		if ($result_zminfo->num_rows > 0) {
 			while($row_zminfo = $result_zminfo->fetch_assoc()) {
-				$yuzhi = $row_zminfo["yuzhi"];
 				$qrcode = $row_zminfo["qrcode"];
-				$dqdate = $row_zminfo["dqdate"];
 				$zima_status = $row_zminfo["zima_status"];
+				$wx_num = $row_zminfo["wx_num"];
+				$wx_beizhu = $row_zminfo["wx_beizhu"];
+				$wx_yuzhi = $row_zminfo["wx_yuzhi"];
 			}
 			$result = array(
 				"code" => "100",
 				"msg" => "获取成功",
-				"yuzhi" => $yuzhi,
 				"qrcode" => $qrcode,
-				"zima_status" => $zima_status
-
+				"zima_status" => $zima_status,
+				"wx_num" => $wx_num,
+				"wx_beizhu" => $wx_beizhu,
+				"wx_yuzhi" => $wx_yuzhi
 			);
 		}else{
 			$result = array(

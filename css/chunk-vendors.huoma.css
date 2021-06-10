@@ -35,6 +35,58 @@
   color: #fff;
 }
 
+.radio{
+  width: 100%;
+  height: 20px;
+  /*background: #f00;*/
+  margin-top: 15px;
+}
+
+.radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.radio .radio-label{
+  font-size: 15px;
+  margin-right: 10px;
+}
+
+.radio input[type="radio"] + .radio-label:before {
+  content: '';
+  background: #f4f4f4;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  position: relative;
+  top: -0.2em;
+  margin-right: 8px;
+  margin-top: 4px;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+}
+.radio input[type="radio"]:checked + .radio-label:before {
+  background-color: #333;
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+}
+.radio input[type="radio"]:focus + .radio-label:before {
+  outline: none;
+  border-color: #333;
+}
+.radio input[type="radio"]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.radio input[type="radio"] + .radio-label:empty:before {
+  margin-right: 0;
+}
+
 /*PC样式*/
 @media screen and (min-width: 1000px) {
   /*全局信息提示框*/
@@ -173,8 +225,18 @@
     top: 0;
     left: 0;
   }
-  /*创建个人微信二维码，长传图片按钮样式*/
+  /*创建个人微信二维码，上传图片按钮样式*/
   #addwx_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*编辑客服码*/
+  #ediwxzima .file_btn{
     width: 100%;
     height: 38px;
     opacity: 0;

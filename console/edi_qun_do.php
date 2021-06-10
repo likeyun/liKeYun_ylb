@@ -14,9 +14,10 @@ if(isset($_SESSION["huoma.admin"])){
 
 	// 获得表单POST过来的数据
 	$qun_title = trim($_POST["qun_title"]);
-	$qun_yuming = trim($_POST["qun_yuming"]);
+	$qun_rkym = trim($_POST["qun_rkym"]);
+	$qun_ldym = trim($_POST["qun_ldym"]);
 	$wx_status = trim($_POST["wx_status"]);
-	$wx_qrcode = trim($_POST["wx_qrcode"]);
+	$qun_wx_qrcode = trim($_POST["qun_wx_qrcode"]);
 	$qun_hmid = trim($_POST["qun_hmid"]);
 	$qun_status = trim($_POST["qun_status"]);
 	$qun_chongfu = trim($_POST["qun_chongfu"]);
@@ -26,19 +27,24 @@ if(isset($_SESSION["huoma.admin"])){
 			"code" => "101",
 			"msg" => "标题不得为空"
 		);
-	}else if(empty($qun_yuming)){
+	}else if(empty($qun_rkym)){
 		$result = array(
 			"code" => "102",
-			"msg" => "落地页域名不得为空"
+			"msg" => "入口域名不得为空"
+		);
+	}else if(empty($qun_ldym)){
+		$result = array(
+			"code" => "103",
+			"msg" => "落地域名不得为空"
 		);
 	}else if(empty($wx_status)){
 		$result = array(
-			"code" => "103",
+			"code" => "104",
 			"msg" => "请设置个人微信开启状态"
 		);
 	}else if(empty($qun_status)){
 		$result = array(
-			"code" => "104",
+			"code" => "105",
 			"msg" => "请设置群活码开启状态"
 		);
 	}else{
@@ -47,7 +53,7 @@ if(isset($_SESSION["huoma.admin"])){
 		// 设置字符编码为utf-8
 		mysqli_query($conn, "SET NAMES UTF-8");
 		// 更新数据库
-		mysqli_query($conn,"UPDATE huoma_qun SET qun_title='$qun_title',qun_yuming='$qun_yuming',qun_wx_qrcode='$wx_qrcode',qun_wx_status='$wx_status',qun_status='$qun_status',qun_creat_time='$date',qun_chongfu='$qun_chongfu' WHERE qun_hmid=".$qun_hmid);
+		mysqli_query($conn,"UPDATE huoma_qun SET qun_title='$qun_title',qun_rkym='$qun_rkym',qun_ldym='$qun_ldym',qun_wx_qrcode='$qun_wx_qrcode',qun_wx_status='$wx_status',qun_status='$qun_status',qun_creat_time='$date',qun_chongfu='$qun_chongfu' WHERE qun_hmid=".$qun_hmid);
 		$result = array(
 			"code" => "100",
 			"msg" => "更新成功"
@@ -55,7 +61,7 @@ if(isset($_SESSION["huoma.admin"])){
 	}
 }else{
 	$result = array(
-		"code" => "105",
+		"code" => "106",
 		"msg" => "未登录"
 	);
 }
