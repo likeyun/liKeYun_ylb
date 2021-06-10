@@ -418,6 +418,171 @@ function dmf_alipay(){
   }, 2000);
 }
 
+// 易支付微信支付
+function easy_wxpay(){
+  // 获取套餐数据
+  var taocan_data = $("#select_taocan").find("option:selected").val();
+  // 获取user_id
+  var user_id_data = $("#user_id").val();
+  if (taocan_data == '') {
+    $("#Result").css("display","block");
+    $("#Result").html("<div class=\"alert alert-danger\"><strong>请选择续费的套餐</strong></div>");
+  }else{
+    // 发起支付请求
+    $.ajax({
+      type: "GET",
+      url: "../pay/easypay/wxpay.php?taocan="+taocan_data+"&userid="+user_id_data,
+      success: function (data) {
+        // 请求成功
+        if (data.code=='200') {
+
+          window.open(
+           data.url,
+           "_blank",
+           "top=300,left=300,width=500,height=500,menubar=no,toolbar=no,status=no,scrollbars=yes"
+          );
+
+          // 把二维码展示区域显示出来
+          // $("#xufei_modal .pay_content").css("display","block");
+          // $("#xufei_modal .paytips").text("请点击支付按钮跳转后支付");
+          // $("#xufei_modal .pay_content .pay_qrcode").html('<button class="btn btn-dark" style="margin:100px auto;display:block;background:#07c160;border:none;">点击支付</button>');
+          $("#order_no").text(data.order_no); // 把订单号展示在页面上
+        }else{
+          $("#Result").css("display","block");
+          $("#Result").html("<div class=\"alert alert-danger\"><strong>支付服务异常</strong></div>");
+        }
+      },
+      error : function(data) {
+        // 请求失败
+        $("#Result").css("display","block");
+        $("#Result").html("<div class=\"alert alert-danger\"><strong>支付服务发生错误</strong></div>");
+      },
+      beforeSend : function(data){
+        // 把二维码展示区域显示出来
+        $("#xufei_modal .pay_content").css("display","block");
+        $("#xufei_modal .pay_content .pay_qrcode").html("<img src='../images/loading.gif' style='width:50px;height:50px;margin:80px auto;display:block;'/>");
+      }
+    });
+  }
+  // 关闭信息提示框
+  setTimeout('closesctips()', 2000);
+
+  // 轮询订单支付状态
+  var check_pay_num = 0;
+  var check_pay_status = setInterval(function(){
+    check_pay_num += 1;
+    if (check_pay_num == 60) {
+      // 请求60次后超时
+      console.log("超时");
+      // 停止轮询
+      clearInterval(check_pay_status);
+    }else{
+      // 获取订单号
+      var order_no = $("#order_no").text();
+      $.ajax({
+          type: "GET",
+          url: "../pay/easypay/checkpay.php?order_no="+order_no,
+          async: true,
+          dataType:"json",
+          success: function(data){
+            if (data.code == 200) {
+              $("#xufei_modal .pay_content .pay_qrcode").html("<img src=\"../images/wxpay_success.png\" />");
+              $("#xufei_modal .paytips").text("支付成功");
+              console.log("支付完成");
+              // 停止轮询
+              clearInterval(check_pay_status);
+            }else{
+              console.log("等待支付...");
+            }
+          }
+      });
+    }
+  }, 2000);
+}
+
+
+// 易支付支付宝
+function easy_alipay(){
+  // 获取套餐数据
+  var taocan_data = $("#select_taocan").find("option:selected").val();
+  // 获取user_id
+  var user_id_data = $("#user_id").val();
+  if (taocan_data == '') {
+    $("#Result").css("display","block");
+    $("#Result").html("<div class=\"alert alert-danger\"><strong>请选择续费的套餐</strong></div>");
+  }else{
+    // 发起支付请求
+    $.ajax({
+      type: "GET",
+      url: "../pay/easypay/alipay.php?taocan="+taocan_data+"&userid="+user_id_data,
+      success: function (data) {
+        // 请求成功
+        if (data.code=='200') {
+
+          window.open(
+           data.url,
+           "_blank",
+           "top=300,left=300,width=500,height=500,menubar=no,toolbar=no,status=no,scrollbars=yes"
+          );
+
+          // 把二维码展示区域显示出来
+          // $("#xufei_modal .pay_content").css("display","block");
+          // $("#xufei_modal .paytips").text("请点击支付按钮跳转后支付");
+          // $("#xufei_modal .pay_content .pay_qrcode").html('<button class="btn btn-dark" style="margin:100px auto;display:block;background:#07c160;border:none;">点击支付</button>');
+          $("#order_no").text(data.order_no); // 把订单号展示在页面上
+        }else{
+          $("#Result").css("display","block");
+          $("#Result").html("<div class=\"alert alert-danger\"><strong>支付服务异常</strong></div>");
+        }
+      },
+      error : function(data) {
+        // 请求失败
+        $("#Result").css("display","block");
+        $("#Result").html("<div class=\"alert alert-danger\"><strong>支付服务发生错误</strong></div>");
+      },
+      beforeSend : function(data){
+        // 把二维码展示区域显示出来
+        $("#xufei_modal .pay_content").css("display","block");
+        $("#xufei_modal .pay_content .pay_qrcode").html("<img src='../images/loading.gif' style='width:50px;height:50px;margin:80px auto;display:block;'/>");
+      }
+    });
+  }
+  // 关闭信息提示框
+  setTimeout('closesctips()', 2000);
+
+  // 轮询订单支付状态
+  var check_pay_num = 0;
+  var check_pay_status = setInterval(function(){
+    check_pay_num += 1;
+    if (check_pay_num == 60) {
+      // 请求60次后超时
+      console.log("超时");
+      // 停止轮询
+      clearInterval(check_pay_status);
+    }else{
+      // 获取订单号
+      var order_no = $("#order_no").text();
+      $.ajax({
+          type: "GET",
+          url: "../pay/easypay/checkpay.php?order_no="+order_no,
+          async: true,
+          dataType:"json",
+          success: function(data){
+            if (data.code == 200) {
+              $("#xufei_modal .pay_content .pay_qrcode").html("<img src=\"../images/alipay_success.png\" />");
+              $("#xufei_modal .paytips").text("支付成功");
+              console.log("支付完成");
+              // 停止轮询
+              clearInterval(check_pay_status);
+            }else{
+              console.log("等待支付...");
+            }
+          }
+      });
+    }
+  }, 2000);
+}
+
 
 // 邀请码续费
 function yqm_xufei(){
