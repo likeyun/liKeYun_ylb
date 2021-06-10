@@ -121,7 +121,7 @@ if(isset($_SESSION["huoma.dashboard"])){
 
   }else{
     echo '<button type="button" class="btn btn-dark" onclick="cshpay();">首次使用，请点击这里初始化支付配置</button>';
-    break;
+    exit;
   }
   if ($result_alipay->num_rows > 0) {
 
