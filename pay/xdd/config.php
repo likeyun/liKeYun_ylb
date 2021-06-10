@@ -1,4 +1,4 @@
 <?php
-	$app_key = "xxxx";
-	$app_id = "xxxxxxx";
+	$app_key = "xxx";
+	$app_id = "xxx";
 ?>
