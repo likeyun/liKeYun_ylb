@@ -44,49 +44,33 @@ if(isset($_SESSION["huoma.dashboard"])){
     </div>';
   }
   echo '<br/>
-  <h3>活码管理后台 / 系统设置 / 支付接口 / 支付宝当面付</h3> 
+  <h3>活码管理后台 / 系统设置 / 支付接口 / 易支付</h3> 
   <p>配置支付接口，设置支付API</p>
   
   <!-- 左右布局 -->
   <!-- 电脑端横排列表 -->
   <div class="left-nav">
     <button type="button" class="btn btn-light"><a href="./payset.php">支付选项</a></button>
-    <button type="button" class="btn btn-dark">支付宝当面付</button>
+    <button type="button" class="btn btn-light"><a href="./alipay_set.php">支付宝当面付</a></button>
     <button type="button" class="btn btn-light"><a href="./xdd_set.php">小叮当支付</a></button>
     <button type="button" class="btn btn-light"><a href="./payjs_set.php">PayJs</a></button>
-    <button type="button" class="btn btn-light"><a href="./easypay_set.php">易支付</a></button>
+    <button type="button" class="btn btn-dark">易支付</button>
     <button type="button" class="btn btn-light"><a href="./set.php">返回上一页</a></button>
     <button type="button" class="btn btn-light"><a href="./index.php">返回首页</a></button>
   </div>';
 
 
   echo '<!-- 右侧布局 -->
-  <div class="right-nav">
-    
-    <div class="jumbotron">
-      <h4>支付宝当面付配置教程（文档更新时间：2021-04-30）</h4>
-      <br/>
-      <p>1、请打开本程序根目录下的 pay/alipay/config.php</p>
-      <p>2、把你自己的当面付appid、notifyUrl、rsaPrivateKey、alipayPublicKey都填写进去即可</p>
-      <h5><span class="badge badge-primary">appid获取方法</span></h5>
-      <p>(1)、访问链接 https://open.alipay.com/platform/home.htm 登陆支付宝开放平台</p>
-      <p><img src="../pay/alipay/step/1.png"/></p>
-      <p><img src="../pay/alipay/step/2.png"/></p>
-      <h5><span class="badge badge-primary">notifyUrl设置</span></h5>
-      <p>notifyUrl是 pay/alipay/notify.php在线上服务器对应的URL，例如你的域名是http://www.baidu.com，你的活码系统部署在根目录下的huoma目录，那么notifyUrl应该填写的链接是：http://www.baidu.com/huoma/pay/alipay/notify.php</p>
-      <p>除了要在pay/alipay/config.php配置notifyUrl，还要在上面截图的授权回调地址设置notifyUrl</p>
-      <h5><span class="badge badge-primary">rsaPrivateKey和alipayPublicKey获取与配置</span></h5>
-      <p>(1)、使用支付宝官方提供的生成工具，生成私钥，在线工具地址：https://miniu.alipay.com/keytool/create</p>
-      <p><img src="../pay/alipay/step/3.png"/></p>
-      <p>(2)、生成后，复制应用私钥到config.php的rsaPrivateKey参数进行配置</p>
-      <p>(3)、打开开放平台密钥->接口加签方式->设置，链接：https://open.alipay.com/dev/workspace/key-manage</p>
-      <p><img src="../pay/alipay/step/4.png"/></p>
-      <p>(4)、把应用公钥配置进去</p>
-      <p>(5)、复制应用公钥到config.php的alipayPublicKey参数进行配置</p>
-      <p><b>您已完成支付宝当面付的配置！</b></p>
-    </div>
-
+  <div class="right-nav">';
+  echo '<div class="jumbotron">
+    <h4>易支付配置教程（文档更新时间：2021-06-10）</h4>
+    <br/>
+    <p>本接口仅适用彩虹易支付系统搭建的易支付平台。</p>
+    <p>1、请打开本程序根目录下的 pay/easypay/config.php</p>
+    <p>2、把你自己的易支付的pid（商户号）、key（通信密钥）、notify_url、return_url、api都填写进去即可</p>
+    <p>其中notify_url、return_url均为pay/easypay/目录下对应的notify.php、return.php文件的线上Url，api为易支付开发文档中的发起支付的API地址。即sumbmit.php的线上Url</p>
   </div>';
+  echo '</div>';
 }else{
   // 跳转到登陆界面
   header("Location:../LoginReg/Login.html");

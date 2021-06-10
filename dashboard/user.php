@@ -148,7 +148,7 @@ if(isset($_SESSION["huoma.dashboard"])){
                 echo '<a class="dropdown-item" href="javascript:;" id="'.$user_id.'" onclick="tyuser(this);">停用</a>';
               }
               echo '<a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#xufei" id="'.$user_id.'" onclick="getxufei_userid(this);">续期</a>
-              <a class="dropdown-item" href="javascript:;" id="'.$user_id.'" onclick="delactive(this);" title="点击后马上就删除的哦！">删除</a>
+              <a class="dropdown-item" href="javascript:;" id="'.$user_id.'" onclick="deluser(this);" title="点击后马上就删除的哦！">删除</a>
               </div>
               </div>
               </td>';
@@ -359,13 +359,13 @@ function ediuser(){
 
 
 // 删除用户
-function delactive(event){
+function deluser(event){
   // 获得当前点击的活码id
-  var del_activeid = event.id;
+  var del_userid = event.id;
   // 执行删除动作
   $.ajax({
       type: "GET",
-      url: "./del_active_do.php?activeid="+del_activeid,
+      url: "./del_user_do.php?userid="+del_userid,
       success: function (data) {
         if (data.code == "100") {
           $("#Result").css("display","block");

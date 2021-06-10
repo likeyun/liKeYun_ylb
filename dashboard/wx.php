@@ -37,7 +37,7 @@ if(isset($_SESSION["huoma.dashboard"])){
 <!-- 操作区 -->
 <div class="container">
   <br/>
-  <h3>活码管理后台 / 微信号活码</h3>
+  <h3>活码管理后台 / 客服活码</h3>
   <p>管理用户创建的活码数据（查看、停用、删除）</p>
   
   <!-- 左右布局 -->

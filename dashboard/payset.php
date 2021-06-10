@@ -77,6 +77,7 @@ if(isset($_SESSION["huoma.dashboard"])){
     <button type="button" class="btn btn-light"><a href="./alipay_set.php">支付宝当面付</a></button>
     <button type="button" class="btn btn-light"><a href="./xdd_set.php">小叮当支付</a></button>
     <button type="button" class="btn btn-light"><a href="./payjs_set.php">PayJs</a></button>
+    <button type="button" class="btn btn-light"><a href="./easypay_set.php">易支付</a></button>
     <button type="button" class="btn btn-light"><a href="./set.php">返回上一页</a></button>
     <button type="button" class="btn btn-light"><a href="./index.php">返回首页</a></button>
   </div>';
@@ -120,7 +121,7 @@ if(isset($_SESSION["huoma.dashboard"])){
 
   }else{
     echo '<button type="button" class="btn btn-dark" onclick="cshpay();">首次使用，请点击这里初始化支付配置</button>';
-    exit;
+    break;
   }
   if ($result_alipay->num_rows > 0) {
 

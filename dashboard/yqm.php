@@ -45,7 +45,9 @@ if(isset($_SESSION["huoma.dashboard"])){
   <!-- 左侧布局 -->
   <div class="left-nav">
     <button type="button" class="btn btn-dark">邀请码列表</button>
-    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#creat_yqm">导入邀请码</button>
+    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#shengcheng_yqm" onclick="creatstr();">生成邀请码</button>
+    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#creat_yqm">批量导入</button>
+    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#clean_yqm">清空邀请码</button>
     <button type="button" class="btn btn-light"><a href="./">返回首页</a></button>
   </div>';
 
@@ -164,7 +166,7 @@ echo '</div>';
 }
 ?>
 
-<!-- 创建邀请码 -->
+<!-- 导入邀请码 -->
 <div class="modal fade" id="creat_yqm">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -184,11 +186,67 @@ echo '</div>';
         </div>
         <!-- 上传格式提示 -->
         <p>* 每行格式：邀请码|可用天数</p>
-        <p>* 例如：rthskjyu|3</p>
+        <p>* 例如：likeyun|3</p>
         <p>* 一行一个，建议每次最多上传100行，太多上传容易出错。</p>
+        <p>* 最后一个邀请码不能有换行（回车），否则会被识别为空值导入。</p>
         <p>* 示例文件：<a href="./yqm.txt" download="yqm">点击下载</a></p>
       </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- 清空邀请码 -->
+<div class="modal fade" id="clean_yqm">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+ 
+      <!-- 模态框头部 -->
+      <div class="modal-header">
+        <h4 class="modal-title">确定要清空吗？</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- 模态框主体 -->
+      <div class="modal-body"><button class="btn btn-dark" style="margin:10px auto;display: block;" onclick="clean_yqm();">立即清空</button></div>
+    </div>
+    
+    <!-- 处理反馈 -->
+    <div class="alert"></div>
+  </div>
+</div>
+
+<!-- 生成邀请码 -->
+<div class="modal fade" id="shengcheng_yqm">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+ 
+      <!-- 模态框头部 -->
+      <div class="modal-header">
+        <h4 class="modal-title">生成邀请码</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- 模态框主体 -->
+      <div class="modal-body">
+        <form onsubmit="return false" id="addyqm">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">邀请码</span>
+          </div>
+          <input type="text" class="form-control" placeholder="请生成邀请码" id="yqm" name="yqm">
+        </div>
+
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">可用天数</span>
+          </div>
+          <input type="text" class="form-control" placeholder="注册后可以使用的天数" id="tianshu" name="tianshu">
+        </div>
+        <button class="btn btn-dark" style="margin:10px auto;display: block;" onclick="addyqm();">立即生成</button>
+        </form>
+      </div>
+
+      <!-- 处理反馈 -->
+      <div class="alert"></div>
     </div>
   </div>
 </div>
@@ -200,8 +258,66 @@ function closesctips(){
   $("#Result").css('display','none');
 }
 
+function closesctips_yqm(){
+  $("#shengcheng_yqm .alert").css('display','none');
+}
+
 function reload_yqmpage(){
   location.reload();
+}
+
+// 生成邀请码
+function creatstr(){
+  var yqmstr = Math.random().toString(36).slice(-10);
+  $("#yqm").val(yqmstr);
+}
+
+// 将邀请码提交到数据库
+function addyqm(){
+  $.ajax({
+      type: "POST",
+      url: "./creat_yqm_do.php",
+      data: $('#addyqm').serialize(),
+      success: function (data) {
+        if (data.code == 200) {
+          $("#shengcheng_yqm .alert").css("display","block");
+          $("#shengcheng_yqm .alert").html("<div class=\"alert alert-success\"><strong>"+data.msg+"</strong></div>");
+          location.reload();
+        }else{
+          $("#shengcheng_yqm .alert").css("display","block");
+          $("#shengcheng_yqm .alert").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
+        }
+      },
+      error : function() {
+        // 失败
+        $("#shengcheng_yqm .alert").css("display","block");
+        $("#shengcheng_yqm .alert").html("<div class=\"alert alert-danger\"><strong>服务器发生错误</strong></div>");
+      }
+  });
+  // 关闭信息提示框
+  setTimeout('closesctips_yqm()', 2000);
+}
+
+// 清空邀请码
+function clean_yqm(){
+  $.ajax({
+      type: "POST",
+      url: "./clean_yqm_do.php",
+      success:function(data){
+        if (data.code == 200) {
+          $("#clean_yqm .modal-body").html("<h2 style='text-align:center;'>"+data.msg+"</h2>");
+          setTimeout('reload_yqmpage()', 1000);
+        }else{
+          $("#clean_yqm .modal-body").html("<h2 style='text-align:center;'>"+data.msg+"</h2>");
+        }
+      },
+      error:function(){
+        $("#clean_yqm .modal-body").html("<h2>服务器发生错误</h2>");
+      },
+      beforeSend:function(){
+        $("#clean_yqm .modal-body").html("<h3 style='text-align:center;'>正在导入...</h3>");
+      }
+  });
 }
 
 // 更新邀请码状态
@@ -272,7 +388,7 @@ var txt_lunxun = setInterval("upload_txt()",2000);
       success:function(data){
         if (data.code == 200) {
           $("#creat_yqm .modal-body").html("<h2 style='text-align:center;'>"+data.msg+"</h2>");
-          setTimeout('reload_yqmpage()', 2000);
+          setTimeout('reload_yqmpage()', 1000);
         }else{
           $("#creat_yqm .modal-body").html("<h2 style='text-align:center;'>"+data.msg+"</h2>");
         }

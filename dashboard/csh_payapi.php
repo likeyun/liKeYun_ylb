@@ -15,7 +15,7 @@ if(isset($_SESSION["huoma.dashboard"])){
 	// 创建支付接口
 	// 字符编码设为utf8
 	mysqli_query($conn, "SET NAMES UTF-8");
-	$sql_creat_payapi = "INSERT INTO huoma_payselect (payapi, payselect, paytype, paytitle) VALUES ('no_wxpay','2','wx','未开通'),('no_alipay','2','ali','未开通'),('payjs_wxpay','1','wx','PayJs微信支付'),('payjs_alipay','1','ali','PayJs支付宝'),('xdd_wxpay','1','wx','小叮当微信支付'),('xdd_alipay','1','ali','小叮当支付宝'),('dmf_alipay','1','ali','支付宝当面付')";
+	$sql_creat_payapi = "INSERT INTO huoma_payselect (payapi, payselect, paytype, paytitle) VALUES ('no_wxpay','2','wx','未开通'),('no_alipay','2','ali','未开通'),('payjs_wxpay','1','wx','PayJs微信支付'),('payjs_alipay','1','ali','PayJs支付宝'),('xdd_wxpay','1','wx','小叮当微信支付'),('xdd_alipay','1','ali','小叮当支付宝'),('dmf_alipay','1','ali','支付宝当面付'),('easy_wxpay','1','wx','易支付微信支付'),('easy_alipay','1','ali','易支付支付宝')";
 	
 	if ($conn->query($sql_creat_payapi) === TRUE) {
 		$result = array(

@@ -23,9 +23,9 @@ if(isset($_SESSION["huoma.dashboard"])){
 		$result_yuming = $conn->query($sql_yuming);
 		if ($result_yuming->num_rows > 0) {
 			while($row_yuming = $result_yuming->fetch_assoc()) {
-				$qun_yuming = $row_yuming["qun_yuming"];
+				$qun_ldym = $row_yuming["qun_ldym"];
 				// 生成网址
-				$SERVER = $qun_yuming.$_SERVER["REQUEST_URI"];
+				$SERVER = $qun_ldym.$_SERVER["REQUEST_URI"];
 				$url = dirname(dirname($SERVER))."/common/qun/?hmid=".$qun_hmid;
 				$result = array(
 					"result" => "100",
