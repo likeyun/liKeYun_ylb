@@ -19,7 +19,7 @@ $userid = $_GET["userid"];
 // 订单参数
 $out_trade_no = date('Ymd').time().rand(10,99);
 $name = 'huoma-'.$tc_days.'_'.$tc_price.'|'.$userid;
-$money = 0.5;
+$money = $tc_price;
 $type = 'wxpay';
 $sitename = 'likeyun';
 
