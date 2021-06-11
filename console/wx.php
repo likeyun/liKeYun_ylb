@@ -109,8 +109,8 @@ if(isset($_SESSION["huoma.admin"])){
   }
 
   // 获取落地页域名
-  $sql_ym = "SELECT * FROM huoma_yuming";
-  $result_ym = $conn->query($sql_ym);
+  $sql_ldym = "SELECT * FROM huoma_yuming WHERE ym_type='2'";
+  $result_ldym = $conn->query($sql_ldym);
 
   // 获取群活码列表
   $sql = "SELECT * FROM huoma_wx WHERE wx_user='$lguser' ORDER BY ID DESC limit {$offset},{$lenght}";
@@ -253,10 +253,10 @@ if(isset($_SESSION["huoma.admin"])){
           echo '<select class="form-control" name="wx_ldym" style="-webkit-appearance:none;">
           <option value="">请选择落地页域名</option>';
 
-          if ($result_ym->num_rows > 0) {
-            while($row_ym = $result_ym->fetch_assoc()) {
-              $ym = $row_ym["yuming"];
-              echo '<option value="'.$ym.'">'.$ym.'</option>';
+          if ($result_ldym->num_rows > 0) {
+            while($row_ldym = $result_ldym->fetch_assoc()) {
+              $ldym = $row_ldym["yuming"];
+              echo '<option value="'.$ldym.'">'.$ldym.'</option>';
             }
             // 同时也可以选择当前系统使用的域名
             echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';

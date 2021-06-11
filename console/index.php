@@ -135,9 +135,13 @@ if(isset($_SESSION["huoma.admin"])){
         $nextpage=$allpage;
       }
 
-      // 获取落地页域名
-      $sql_ym = "SELECT * FROM huoma_yuming";
-      $result_ym = $conn->query($sql_ym);
+      // 获取入口域名
+      $sql_rkym = "SELECT * FROM huoma_yuming WHERE ym_type='1'";
+      $result_rkym = $conn->query($sql_rkym);
+
+      // 获取落地域名
+      $sql_ldym = "SELECT * FROM huoma_yuming WHERE ym_type='2'";
+      $result_ldym = $conn->query($sql_ldym);
 
       // 获取群活码列表
       $sql = "SELECT * FROM huoma_qun WHERE qun_user='$lguser' ORDER BY ID DESC limit {$offset},{$lenght}";
@@ -262,10 +266,10 @@ if(isset($_SESSION["huoma.admin"])){
           <select class="form-control" name="qun_rkym" style="-webkit-appearance:none;">
             <option value="">请选择入口域名</option>
             <?php
-              if ($result_ym->num_rows > 0) {
-                while($row_ym = $result_ym->fetch_assoc()) {
-                  $ym = $row_ym["yuming"];
-                  echo '<option value="'.$ym.'">'.$ym.'</option>';
+              if ($result_rkym->num_rows > 0) {
+                while($row_rkym = $result_rkym->fetch_assoc()) {
+                  $rkym = $row_rkym["yuming"];
+                  echo '<option value="'.$rkym.'">'.$rkym.'</option>';
                 }
                 // 同时也可以选择当前系统使用的域名
                 echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
@@ -280,10 +284,10 @@ if(isset($_SESSION["huoma.admin"])){
           <select class="form-control" name="qun_ldym" style="-webkit-appearance:none;margin-top: 15px;">
             <option value="">请选择落地域名</option>
             <?php
-              if ($result_ym->num_rows > 0) {
-                while($row_ym = $result_ym->fetch_assoc()) {
-                  $ym = $row_ym["yuming"];
-                  echo '<option value="'.$ym.'">'.$ym.'</option>';
+              if ($result_ldym->num_rows > 0) {
+                while($row_ldym = $result_ldym->fetch_assoc()) {
+                  $ldym = $row_ldym["yuming"];
+                  echo '<option value="'.$ldym.'">'.$ldym.'</option>';
                 }
                 // 同时也可以选择当前系统使用的域名
                 echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
