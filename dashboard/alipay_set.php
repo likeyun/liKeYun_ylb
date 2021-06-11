@@ -67,7 +67,7 @@ if(isset($_SESSION["huoma.dashboard"])){
       <h4>支付宝当面付配置教程（文档更新时间：2021-04-30）</h4>
       <br/>
       <p>1、请打开本程序根目录下的 pay/alipay/config.php</p>
-      <p>2、把你自己的当面付appid、notifyUrl、rsaPrivateKey、alipayPublicKey都填写进去即可</p>
+      <p>2、把你自己的当面付appid、notifyUrl、rsaPrivateKey都填写进去即可</p>
       <h5><span class="badge badge-primary">appid获取方法</span></h5>
       <p>(1)、访问链接 https://open.alipay.com/platform/home.htm 登陆支付宝开放平台</p>
       <p><img src="../pay/alipay/step/1.png"/></p>
@@ -75,14 +75,12 @@ if(isset($_SESSION["huoma.dashboard"])){
       <h5><span class="badge badge-primary">notifyUrl设置</span></h5>
       <p>notifyUrl是 pay/alipay/notify.php在线上服务器对应的URL，例如你的域名是http://www.baidu.com，你的活码系统部署在根目录下的huoma目录，那么notifyUrl应该填写的链接是：http://www.baidu.com/huoma/pay/alipay/notify.php</p>
       <p>除了要在pay/alipay/config.php配置notifyUrl，还要在上面截图的授权回调地址设置notifyUrl</p>
-      <h5><span class="badge badge-primary">rsaPrivateKey和alipayPublicKey获取与配置</span></h5>
+      <h5><span class="badge badge-primary">rsaPrivateKey获取与配置</span></h5>
       <p>(1)、使用支付宝官方提供的生成工具，生成私钥，在线工具地址：https://miniu.alipay.com/keytool/create</p>
       <p><img src="../pay/alipay/step/3.png"/></p>
-      <p>(2)、生成后，复制应用私钥到config.php的rsaPrivateKey参数进行配置</p>
-      <p>(3)、打开开放平台密钥->接口加签方式->设置，链接：https://open.alipay.com/dev/workspace/key-manage</p>
+      <p>(2)、生成后复制应用私钥到config.php的rsaPrivateKey参数进行配置</p>
+      <p>(3)、打开开放平台密钥->接口加签方式->设置，链接：https://open.alipay.com/dev/workspace/key-manage 把同时生成的公钥设置进去，公钥要对应当前的私钥。</p>
       <p><img src="../pay/alipay/step/4.png"/></p>
-      <p>(4)、把应用公钥配置进去</p>
-      <p>(5)、复制应用公钥到config.php的alipayPublicKey参数进行配置</p>
       <p><b>您已完成支付宝当面付的配置！</b></p>
     </div>
 
