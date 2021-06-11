@@ -436,16 +436,9 @@ function easy_wxpay(){
         // 请求成功
         if (data.code=='200') {
 
-          window.open(
-           data.url,
-           "_blank",
-           "top=300,left=300,width=500,height=500,menubar=no,toolbar=no,status=no,scrollbars=yes"
-          );
+          // 易支付，打开新页面扫码支付
+          window.open(data.url);
 
-          // 把二维码展示区域显示出来
-          // $("#xufei_modal .pay_content").css("display","block");
-          // $("#xufei_modal .paytips").text("请点击支付按钮跳转后支付");
-          // $("#xufei_modal .pay_content .pay_qrcode").html('<button class="btn btn-dark" style="margin:100px auto;display:block;background:#07c160;border:none;">点击支付</button>');
           $("#order_no").text(data.order_no); // 把订单号展示在页面上
         }else{
           $("#Result").css("display","block");
@@ -519,16 +512,9 @@ function easy_alipay(){
         // 请求成功
         if (data.code=='200') {
 
-          window.open(
-           data.url,
-           "_blank",
-           "top=300,left=300,width=500,height=500,menubar=no,toolbar=no,status=no,scrollbars=yes"
-          );
+          // 易支付，打开新页面扫码支付
+          window.open(data.url);
 
-          // 把二维码展示区域显示出来
-          // $("#xufei_modal .pay_content").css("display","block");
-          // $("#xufei_modal .paytips").text("请点击支付按钮跳转后支付");
-          // $("#xufei_modal .pay_content .pay_qrcode").html('<button class="btn btn-dark" style="margin:100px auto;display:block;background:#07c160;border:none;">点击支付</button>');
           $("#order_no").text(data.order_no); // 把订单号展示在页面上
         }else{
           $("#Result").css("display","block");
