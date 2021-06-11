@@ -69,6 +69,8 @@ if(isset($_SESSION["huoma.dashboard"])){
     <p>1、请打开本程序根目录下的 pay/easypay/config.php</p>
     <p>2、把你自己的易支付的pid（商户号）、key（通信密钥）、notify_url、return_url、api都填写进去即可</p>
     <p>其中notify_url、return_url均为pay/easypay/目录下对应的notify.php、return.php文件的线上Url，api为易支付开发文档中的发起支付的API地址。即sumbmit.php的线上Url</p>
+    <p><img src="../pay/easypay/step/1.png"/></p>
+    <p>例如上图我选择的部分，就是你要填写的API的Url，以上Url仅为示例，请复制你的易支付开发文档中对应的API</p>
   </div>';
   echo '</div>';
 }else{
