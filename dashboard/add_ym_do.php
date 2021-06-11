@@ -15,6 +15,7 @@ if(isset($_SESSION["huoma.dashboard"])){
 
 	// 获得表单POST过来的数据
 	$yuming = trim($_POST["yuming"]);
+	$ym_type = trim($_POST["ym_type"]);
 
 	// 判断传过来的是不是域名
 	$yuming_str="#(http|https)://(.*\.)?.*\..*#i";
@@ -35,11 +36,16 @@ if(isset($_SESSION["huoma.dashboard"])){
 			"code" => "103",
 			"msg" => "不得以 / 结尾"
 		);
+	}else if (empty($ym_type)){
+		$result = array(
+			"code" => "107",
+			"msg" => "请选择域名类型"
+		);
 	}else{
 		// 字符编码设为utf8
 		mysqli_query($conn, "SET NAMES UTF-8"); 
 		// 插入数据库
-		$sql_creat_wx = "INSERT INTO huoma_yuming (yuming) VALUES ('$yuming')";
+		$sql_creat_wx = "INSERT INTO huoma_yuming (yuming,ym_type) VALUES ('$yuming','$ym_type')";
 		
 		if ($conn->query($sql_creat_wx) === TRUE) {
 		    $result = array(

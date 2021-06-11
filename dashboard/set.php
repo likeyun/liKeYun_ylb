@@ -68,7 +68,8 @@ if(isset($_SESSION["huoma.dashboard"])){
         <table class="table">
           <thead>
             <tr>
-              <th style="width:90%;">域名</th>
+              <th style="width:80%;">域名</th>
+              <th>类型</th>
               <th>操作</th>
             </tr>
           </thead>
@@ -78,11 +79,17 @@ if(isset($_SESSION["huoma.dashboard"])){
           while($row_yuming = $result_yuming->fetch_assoc()) {
             $id = $row_yuming["id"];
             $yuming = $row_yuming["yuming"];
+            $ym_type = $row_yuming["ym_type"];
 
             // 渲染到UI
             echo '<tr>';
-              echo '<td class="td-title">'.$yuming.'</td>
-              <td class="td-caozuo">
+              echo '<td class="td-title">'.$yuming.'</td>';
+              if ($ym_type == '1') {
+                echo '<td class="td-caozuo">入口域名</td>';
+              }else{
+                echo '<td class="td-caozuo">落地域名</td>';
+              }
+              echo '<td class="td-caozuo">
               <div class="btn-group dropleft">
                 <span class="badge badge-secondary" style="cursor:pointer;" id="'.$id.'" onclick="delym(this);">删除</span>
               </div>
@@ -98,7 +105,7 @@ if(isset($_SESSION["huoma.dashboard"])){
 
   echo '<!-- 添加域名 -->
   <div class="modal fade" id="addym_modal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
    
         <!-- 模态框头部 -->
@@ -117,6 +124,13 @@ if(isset($_SESSION["huoma.dashboard"])){
             </div>
             <input type="text" class="form-control" placeholder="请输入域名" name="yuming">
           </div>
+
+    		  <div class="radio">
+    			  <input id="radio-1" name="ym_type" type="radio" value="1">
+    			  <label for="radio-1" class="radio-label">入口域名</label>
+    			  <input id="radio-2" name="ym_type" type="radio" value="2">
+    			  <label for="radio-2" class="radio-label">落地域名</label>
+    		  </div><br/>
 
           <p style="font-size:14px;">域名格式：http(s)://www.xxx.com 注意：结尾不得带 <span class="badge badge-secondary" style="cursor:pointer;"> / </span></p>
           <p style="font-size:14px;">添加完成后，还需将域名解析到你的服务器。</p>
