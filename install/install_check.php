@@ -98,10 +98,11 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     yqm_usetime VARCHAR(32),
     yqm_daynum INT(11))";
 
-    // 落地页域名表
+    // 域名表（入口域名和落地域名）
     $huoma_yuming = "CREATE TABLE huoma_yuming (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    yuming TEXT(300))";
+    yuming TEXT(300),
+    ym_type VARCHAR(200))";
 
     // 续费套餐表
     $huoma_taocan = "CREATE TABLE huoma_taocan (
