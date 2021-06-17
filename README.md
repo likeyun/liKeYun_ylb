@@ -13,10 +13,10 @@ www.likeyunba.com/hm
 后端框架：原生php+mySQL
 
 # 使用
-安装后会有用户端和管理端入口
+安装后会有用户端和管理端入口<br/>
 
-用户端管理后台路径：/console
-管理端管理后台路径：/dashboard
+用户端管理后台路径：/console<br/>
+管理端管理后台路径：/dashboard<br/>
 
 # 版本和功能
 版本：6.0.1<br/>
