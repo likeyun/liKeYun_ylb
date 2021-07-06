@@ -7,7 +7,7 @@
         @CreatDate:2021-06-10
     */
 	$version = "6.0.1"; // 当前版本
-	$v_file = file_get_contents("http://www.likeyuns.com/api/huoma_new_version.json",true); // 获取最新版本信息
+	$v_file = file_get_contents("http://www.likeyun.cloud/api/huoma_new_version.json",true); // 获取最新版本信息
 	$result_arr = json_decode($v_file);
 	$v_str_v = $result_arr->v; // 版本号
 	$v_str_m = $result_arr->m; // 版本提示
