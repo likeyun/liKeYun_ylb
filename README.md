@@ -43,7 +43,7 @@ www.likeyunba.com/hm
 遇到问题可以加入开发者交流群：http://pic.iask.cn/fimg/805445297649.jpg
 
 # 界面截图
-<img src="https://p.pstatp.com/origin/pgc-image/38b155c83627494282a16296c3961a98" /><br/>
+<img src="https://p.pstatp.com/origin/pgc-image/8e35fd001c4f4eeb9583c16f4c49a7d5" /><br/>
 <img src="https://p.pstatp.com/origin/pgc-image/551239b6214442218d92caa42e3a3b44" /><br/>
 <img src="https://p.pstatp.com/origin/pgc-image/267231a8f8ca4d11a2bebd0e831d3620" /><br/>
 <img src="https://p.pstatp.com/origin/pgc-image/7cfb0f097f6f4026b248af08cdc3d692" /><br/>
