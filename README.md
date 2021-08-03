@@ -42,6 +42,13 @@ www.likeyunba.com/hm
 # 安装支持与交流
 遇到问题可以加入开发者交流群：http://pic.iask.cn/fimg/805445297649.jpg
 
+# 界面截图
+<img src="https://p.pstatp.com/origin/pgc-image/38b155c83627494282a16296c3961a98" /><br/>
+<img src="https://p.pstatp.com/origin/pgc-image/551239b6214442218d92caa42e3a3b44" /><br/>
+<img src="https://p.pstatp.com/origin/pgc-image/267231a8f8ca4d11a2bebd0e831d3620" /><br/>
+<img src="https://p.pstatp.com/origin/pgc-image/7cfb0f097f6f4026b248af08cdc3d692" /><br/>
+<img src="https://p.pstatp.com/origin/pgc-image/803cc0e2247e4e078ab7f0e70faa1793" /><br/>
+
 # 支持与赞赏
 如果您喜欢我的作品，想要支持我，请微信扫码<br/><br/>
 <img src="https://p.pstatp.com/origin/pgc-image/c4f1d6b7532445debd0bedc88bb71d1f" width="300"/>
