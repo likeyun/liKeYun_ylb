@@ -44,10 +44,9 @@ www.likeyunba.com/hm
 
 # 支持与赞赏
 如果您喜欢我的作品，想要支持我，请微信扫码<br/><br/>
-<img src="https://camo.githubusercontent.com/846db46ca98c839bb30e6f9fb031d61436abe8777775bc33b7a6d985e3d2d7e6/68747470733a2f2f7261772e736576656e63646e2e636f6d2f6c696b6579756e2f54414e4b494e472f626c6f622f6d61737465722f77787a68616e7368616e672e6a70673f7261773d74727565" width="300"/>
+<img src="https://p.pstatp.com/origin/pgc-image/c4f1d6b7532445debd0bedc88bb71d1f" width="300"/>
 
 # 作者
 Name:TANKING<br/>
-Web:http://www.likeyuns.com/<br/>
 WeChat:sansure2016<br/>
 Blog:https://segmentfault.com/u/tanking<br/>
