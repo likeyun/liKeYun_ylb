@@ -1,0 +1,136 @@
+/*顶部导航*/
+#topbar{
+	/*background: rgba(0,102,255,0.08);*/
+	background: #3b5ee1;
+}
+
+/*左侧导航*/
+.container .btn-zdy{
+	background: rgba(59,94,225,0.1);
+	border: none;
+	color: #3b5ee1;
+}
+
+/*左侧导航*/
+.container .btn-zdylight{
+	border: none;
+	background: #f8f9fa;
+}
+
+/*左侧导航*/
+.container .btn-zdylight:hover{
+	background: rgba(0,102,255,0.08);
+	border: none;
+	color: #3b5ee1;
+}
+
+/*左侧导航*/
+.container .btn-zdy:focus{
+	box-shadow:none!important;
+}
+
+/*左侧导航*/
+.container .btn-zdylight:focus{
+	box-shadow:none!important;
+}
+
+/*操作*/
+.container .badge-secondary{
+	background: rgba(0,102,255,0.08);
+	color: #3b5ee1;
+}
+
+.container .dropdown-item:focus{
+	background: rgba(0,102,255,0.08)!important;
+	color: #3b5ee1!important;
+}
+
+.container .badge-success{
+	background: rgba(0,102,255,0.08)!important;
+	color: #3b5ee1!important;
+	font-weight: normal;
+}
+
+.container .badge-danger{
+	background: rgba(204,0,51,0.1)!important;
+	color: #CC0033;
+	font-weight: normal;
+}
+
+.container .badge-noset{
+	background: rgba(242,242,242,0.8)!important;
+	color: #333;
+	font-weight: normal;
+}
+
+/*提交按钮*/
+.container .btn-tjzdy{
+	background: #3b5ee1;
+	color: #fff;
+	border: none;
+}
+
+.container .btn-tjzdy:focus{
+	background: #224ce7!important;
+	box-shadow:none!important;
+}
+
+#edizima .btn-tjzdy{
+	background: #3b5ee1;
+	color: #fff;
+	border: none;
+}
+
+#edizima .btn-tjzdy:focus{
+	background: #224ce7!important;
+	box-shadow:none!important;
+}
+
+/*信息提示框*/
+.container .alert-danger{
+	background: rgba(204,0,51,0.1)!important;
+	border: none;
+	color: #CC0033;
+}
+
+.container .alert-success{
+	background: rgba(59,94,225,0.1)!important;
+	border: none;
+	color: #3b5ee1;
+}
+
+#Result .alert-danger{
+	background: rgba(204,0,51,0.1)!important;
+	border: none;
+	color: #CC0033;
+}
+
+#Result .alert-success{
+	background: rgba(59,94,225,0.1)!important;
+	border: none;
+	color: #3b5ee1;
+}
+
+.upload_status .alert-danger{
+	background: rgba(204,0,51,0.1)!important;
+	border: none;
+	color: #CC0033;
+}
+
+.upload_status .alert-success{
+	background: rgba(59,94,225,0.1)!important;
+	border: none;
+	color: #3b5ee1;
+}
+
+/*登录*/
+.container .left{
+	background: #3b5ee1!important;
+}
+
+/*安装*/
+#alert .alert-danger{
+	background: rgba(204,0,51,0.1)!important;
+	border: none;
+	color: #CC0033;
+}

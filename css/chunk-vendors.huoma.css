@@ -71,12 +71,12 @@
   transition: all 250ms ease;
 }
 .radio input[type="radio"]:checked + .radio-label:before {
-  background-color: #333;
+  background-color: #3b5ee1;
   box-shadow: inset 0 0 0 4px #f4f4f4;
 }
 .radio input[type="radio"]:focus + .radio-label:before {
   outline: none;
-  border-color: #333;
+  border-color: #3b5ee1;
 }
 .radio input[type="radio"]:disabled + .radio-label:before {
   box-shadow: inset 0 0 0 4px #f4f4f4;
@@ -215,6 +215,15 @@
     top: 0;
     left: 0;
   }
+  #qun_upload .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   /*编辑群子码图片上传按钮样式*/
   #ediqunzima .file_btn{
     width: 100%;
@@ -247,6 +256,16 @@
   }
   /*创建活动，长传图片按钮样式*/
   #addactive_modal .file_btn{
+    width: 100%;
+    height: 38px;
+    opacity: 0;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /*付费进群，长传图片按钮样式*/
+  #edi_ffjq .file_btn{
     width: 100%;
     height: 38px;
     opacity: 0;
