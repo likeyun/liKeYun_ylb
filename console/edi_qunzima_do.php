@@ -37,10 +37,11 @@ if(isset($_SESSION["huoma.admin"])){
 	}else{
 		// 当前时间
 		$date = date('Y-m-d');
+		$sjc = time();
 		// 设置字符编码为utf-8
 		mysqli_query($conn, "SET NAMES UTF-8");
 		// 更新数据库
-		mysqli_query($conn,"UPDATE huoma_qunzima SET yuzhi='$yuzhi',qrcode='$qrcode',update_time='$date',zima_status='$zima_status',dqdate='$dqdate' WHERE zmid=".$zmid);
+		mysqli_query($conn,"UPDATE huoma_qunzima SET yuzhi='$yuzhi',qrcode='$qrcode',update_time='$date',zima_status='$zima_status',dqdate='$dqdate',update_sjc='$sjc' WHERE zmid=".$zmid);
 		$result = array(
 			"code" => "100",
 			"msg" => "已更新"

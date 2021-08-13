@@ -19,13 +19,13 @@
       $favicon = $row_set['favicon'];
     }
     if ($title == null || empty($title) || $title == '') {
-        $title = "里客云活码系统 - www.likeyuns.com";
+        $title = "引流宝 - 里客云开源活码系统";
         $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
         $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
         $favicon = "../images/favicon.png";
     }
   }else{
-    $title = "里客云活码系统 - www.likeyuns.com";
+    $title = "引流宝 - 里客云开源活码系统";
     $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
     $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
     $favicon = "../images/favicon.png";
@@ -42,6 +42,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <meta name="keywords" content="<?php echo $keywords; ?>">
   <meta name="description" content="<?php echo $description; ?>">
   <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
@@ -68,6 +69,7 @@ if(isset($_SESSION["huoma.admin"])){
       $wx_status = $row_wx["wx_status"];
       $wx_ldym = $row_wx["wx_ldym"];
       $wx_moshi = $row_wx["wx_moshi"];
+      $wx_online = $row_wx["wx_online"];
 
       // 渲染数据到UI
       echo '<!-- 顶部导航栏 -->
@@ -85,9 +87,9 @@ if(isset($_SESSION["huoma.admin"])){
         <!-- 左右布局 -->
         <!-- 电脑端横排列表 -->
         <div class="left-nav">
-          <button type="button" class="btn btn-dark">编辑客服活码</button>
-          <a href="./wx.php?t=home/ediwx&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">返回上一页</button></a>
-          <a href="./"><button type="button" class="btn btn-light">返回首页</button></a>
+          <button type="button" class="btn btn-zdy">编辑客服活码</button>
+          <a href="./wx.php?t=home/ediwx&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-zdylight">返回上一页</button></a>
+          <a href="./"><button type="button" class="btn btn-zdylight">返回首页</button></a>
         </div>
 
         <!-- 右侧布局 -->
@@ -137,6 +139,23 @@ if(isset($_SESSION["huoma.admin"])){
             </div>';
           }
 
+          // 在线提醒
+          if ($wx_online == '1') {
+            echo '<div class="radio">
+              <input id="radio-7" name="wx_online" type="radio" value="1" checked>
+              <label for="radio-7" class="radio-label">开启在线提醒</label>
+              <input id="radio-8" name="wx_online" type="radio" value="2">
+              <label for="radio-8" class="radio-label">关闭在线提醒</label>
+            </div>';
+          }else{
+            echo '<div class="radio">
+              <input id="radio-7" name="wx_online" type="radio" value="1">
+              <label for="radio-7" class="radio-label">开启在线提醒</label>
+              <input id="radio-8" name="wx_online" type="radio" value="2" checked>
+              <label for="radio-8" class="radio-label">关闭在线提醒</label>
+            </div>';
+          }
+
           // 活码状态切换
           if($wx_status == '3') {
             echo '<br/><p style="color:#f00;">该活码因违规已被停止使用</p>';
@@ -155,7 +174,7 @@ if(isset($_SESSION["huoma.admin"])){
               <label for="radio-6" class="radio-label">暂停使用</label>
             </div><br/>';
           }
-          
+
           echo '<!-- 隐藏域 -->
           <div>
             <input type="hidden" name="wx_id" value="'.$wx_id.'" />
@@ -163,7 +182,7 @@ if(isset($_SESSION["huoma.admin"])){
 
           if ($wx_status !== '3') {
             echo '<!-- 提交按钮 -->
-            <button type="button" class="btn btn-dark" onclick="ediwx();">更新活码</button><br/><br/>';
+            <button type="button" class="btn btn-tjzdy" onclick="ediwx();">更新活码</button><br/><br/>';
           }
           
           echo '</form>';
@@ -212,7 +231,7 @@ if(isset($_SESSION["huoma.admin"])){
                 <td class="td-fwl">'.$fwl.'</td>
                 <td class="td-fwl">'.$wx_yuzhi.'</td>
                 <td class="td-caozuo" style="text-align: center;">
-                  <div data-toggle="modal" data-target="#edizima" id="'.$zmid.'" onclick="getzmid(this);"><span class="badge badge-secondary" style="cursor:pointer;">编辑</span></div>
+                  <div data-toggle="modal" data-target="#edizima" id="'.$zmid.'" onclick="getzmid(this);"><span class="badge badge-success" style="cursor:pointer;">编辑</span></div>
                 </td>
               </tr>';
               }
@@ -223,6 +242,7 @@ if(isset($_SESSION["huoma.admin"])){
           <p style="color:#999;font-size:14px;">落地域名：用户扫码访问你的活码界面使用的域名。</p>
           <p style="color:#999;font-size:14px;">阈值模式：按照12345序号，每次扫码，达到阈值将自动切换为下一个客服二维码。</p>
           <p style="color:#999;font-size:14px;">随机模式：按照12345序号，每次扫码，展示随机序号的客服二维码。</p>
+          <p style="color:#999;font-size:14px;">在线提醒：在工作日和上班时间提醒客服在线，在周日以及下班时间提醒不在线，默认周一至周六为工作日，早上9点上班下午6点下班。如需修改请在common/wx/index.php找到相关代码进行修改。</p>
           <p style="color:#999;font-size:14px;">其他说明：本套系统仅支持创建5个客服二维码，按你设置的展示方式和状态进行展示。</p>
         </div>
 
@@ -292,8 +312,7 @@ if(isset($_SESSION["huoma.admin"])){
  
       <!-- 模态框底部 -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="ediwxzima();">更新</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-tjzdy" onclick="ediwxzima();">更新</button>
       </div>
       </form>
  

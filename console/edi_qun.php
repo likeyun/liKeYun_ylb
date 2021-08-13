@@ -19,13 +19,13 @@
       $favicon = $row_set['favicon'];
     }
     if ($title == null || empty($title) || $title == '') {
-        $title = "里客云活码系统 - www.likeyuns.com";
+        $title = "引流宝 - 里客云开源活码系统";
         $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
         $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
         $favicon = "../images/favicon.png";
     }
   }else{
-    $title = "里客云活码系统 - www.likeyuns.com";
+    $title = "引流宝 - 里客云开源活码系统";
     $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
     $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
     $favicon = "../images/favicon.png";
@@ -44,6 +44,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <meta name="keywords" content="<?php echo $keywords; ?>">
   <meta name="description" content="<?php echo $description; ?>">
   <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
@@ -54,6 +55,29 @@
 <div id="Result" style="display: none;"></div>
 
 <?php
+
+// 获取更新了多久
+function Rztime($ftime) {
+  $time = floor ((time() - $ftime) / 3600);
+    $res = '';
+    switch ($time) {
+        case 0 :
+            $res = '刚刚';
+            break;
+        case $time > 0 && $time < 24 :
+            $res = $time . '小时前';
+            break;
+        case floor ( $time / 24 ) > 0 && floor ( $time / 24 ) < 30 :
+            $res = floor ( $time / 24 ) . '天前';
+            break;
+        case floor ( $time / 24 ) > 30 && floor ( $time / 720 ) < 12 :
+            $res = floor ( $time / 720 ) . '月前';
+            break;
+        default :
+            $res = date ( 'Y-m-d', $ftime );
+    }
+    return $res;
+}
 
 // 判断登录状态
 session_start();
@@ -94,8 +118,8 @@ if(isset($_SESSION["huoma.admin"])){
   <!-- 左右布局 -->
   <!-- 电脑端横排列表 -->
   <div class="left-nav">
-    <button type="button" class="btn btn-dark">编辑群活码</button>
-    <button type="button" class="btn btn-light"><a href="./">返回首页</a></button>
+    <button type="button" class="btn btn-zdy">编辑群活码</button>
+    <a href="./"><button type="button" class="btn btn-zdylight">返回首页</button></a>
   </div>';
   
   // 右侧布局
@@ -122,10 +146,11 @@ if(isset($_SESSION["huoma.admin"])){
           echo '<option value="'.$rkym.'">'.$rkym.'</option>';
         }
         // 同时也可以选择当前系统使用的域名
-        echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+        // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
       }else{
         // 没有绑定落地页，使用当前系统使用的域名
-        echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+        // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+        echo '<option value="">暂无绑定域名</option>';
       }
     echo '</select>';
 
@@ -141,10 +166,11 @@ if(isset($_SESSION["huoma.admin"])){
           echo '<option value="'.$ldym.'">'.$ldym.'</option>';
         }
         // 同时也可以选择当前系统使用的域名
-        echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+        // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
       }else{
         // 没有绑定落地页，使用当前系统使用的域名
-        echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+        // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+        echo '<option value="">暂无绑定域名</option>';
       }
     echo '</select>';
 
@@ -225,7 +251,7 @@ if(isset($_SESSION["huoma.admin"])){
 
     if ($qun_status !== '3') {
       // 更新按钮
-      echo '<br/><button type="button" class="btn btn-secondary" onclick="ediqun();">更新活码</button><br/><br/>';
+      echo '<br/><button type="button" class="btn btn-tjzdy" onclick="ediqun();">更新活码</button><br/><br/>';
     }
     
     echo '</form>';
@@ -238,6 +264,7 @@ if(isset($_SESSION["huoma.admin"])){
           <th>二维码</th>
           <th>状态</th>
           <th>时间</th>
+          <th>更新</th>
           <th>到期</th>
           <th>阈值</th>
           <th>访问</th>
@@ -259,12 +286,14 @@ if(isset($_SESSION["huoma.admin"])){
           $xuhao = $row_zima["xuhao"];
           $zima_status = $row_zima["zima_status"];
           $dqdate = $row_zima["dqdate"];
+          $update_sjc = $row_zima["update_sjc"];
+          $update_text = Rztime($update_sjc);
 
           // 遍历列表
           echo '<tr>
           <td class="td-title" style="width: 100px;">'.$xuhao.'</td>';
           if ($qrcode == '') {
-            echo '<td class="td-status"><span class="badge badge-secondary">未上传</span></td>';
+            echo '<td class="td-status"><span class="badge badge-noset">未上传</span></td>';
           }else{
             echo '<td class="td-status"><span class="badge badge-success">已上传</span></td>';
           }
@@ -274,15 +303,20 @@ if(isset($_SESSION["huoma.admin"])){
             echo '<td class="td-status"><span class="badge badge-danger">关闭</span></td>';
           }
           echo '<td class="td-status">'.$update_time.'</td>';
+          if ($update_sjc !== null) {
+            echo '<td class="td-fwl">'.$update_text.'</td>';
+          }else{
+            echo '<td class="td-status"><span class="badge badge-success">未更新</span></td>';
+          }
           if ($dqdate !== null) {
             echo '<td class="td-fwl">'.$dqdate.'</td>';
           }else{
-            echo '<td class="td-status"><span class="badge badge-secondary">未设置</span></td>';
+            echo '<td class="td-status"><span class="badge badge-success">未设置</span></td>';
           }
           echo '<td class="td-fwl">'.$yuzhi.'</td>
           <td class="td-fwl">'.$fwl.'</td>
           <td class="td-caozuo" style="text-align: center;">
-            <div data-toggle="modal" data-target="#edizima" id="'.$zmid.'" onclick="getzmid(this);"><span class="badge badge-secondary" style="cursor:pointer;">编辑</span></div>
+            <div data-toggle="modal" data-target="#edizima" id="'.$zmid.'" onclick="getzmid(this);"><span class="badge badge-success" style="cursor:pointer;">编辑</span></div>
           </td>
         </tr>';
         }
@@ -358,8 +392,7 @@ if(isset($_SESSION["huoma.admin"])){
  
       <!-- 模态框底部 -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onclick="ediqunzima();">更新</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-tjzdy" onclick="ediqunzima();">更新</button>
       </div>
       </form>
  

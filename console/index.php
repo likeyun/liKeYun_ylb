@@ -19,13 +19,13 @@
       $favicon = $row_set['favicon'];
     }
     if ($title == null || empty($title) || $title == '') {
-        $title = "里客云活码系统 - www.likeyuns.com";
+        $title = "引流宝 - 里客云开源活码系统";
         $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
         $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
         $favicon = "../images/favicon.png";
     }
   }else{
-    $title = "里客云活码系统 - www.likeyuns.com";
+    $title = "引流宝 - 里客云开源活码系统";
     $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
     $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
     $favicon = "../images/favicon.png";
@@ -35,7 +35,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><?php echo $title; ?></title>
+  <title><?php echo $title; ?> - 引流宝 - 活码引流系统</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -43,6 +43,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <meta name="keywords" content="<?php echo $keywords; ?>">
   <meta name="description" content="<?php echo $description; ?>">
   <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
@@ -60,8 +61,6 @@ if(isset($_SESSION["huoma.admin"])){
   // 当前登录的用户
   $lguser= $_SESSION["huoma.admin"];
 
-  include '../db_config/VersionCheck.php';
-
   echo '<!-- 顶部导航栏 -->
 <div id="topbar">
   <span class="admin-title"><a href="./">'.$title.'</a></span>
@@ -72,16 +71,16 @@ if(isset($_SESSION["huoma.admin"])){
 <div class="container">';
 
   echo '<br/>
-  <h3>微信群活码管理 V'.$version.'</h3> 
+  <h3>微信群活码管理</h3> 
   <p>创建、编辑、删除、分享微信群活码</p>
   
   <!-- 左右布局 -->
   <!-- 电脑端横排列表 -->
   <div class="left-nav">
-    <button type="button" class="btn btn-dark">微信群活码</button>
-    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#add_qun_hm">创建群活码</button>
-    <a href="wx.php?t=home/wx&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">客服活码</button></a>
-    <a href="./active.php?t=home/active&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">活动码</button></a>';
+    <button type="button" class="btn btn-zdy">微信群活码</button>
+    <button type="button" class="btn btn-zdylight" data-toggle="modal" data-target="#add_qun_hm">创建群活码</button>
+    <a href="wx.php?t=home/wx&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-zdylight">客服活码</button></a>
+    <a href="./active.php?t=home/active&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-zdylight">活动码</button></a>';
     function Get_Addons_Dir($addons_path){
       if(is_dir($addons_path)){
         $addons_dir = scandir($addons_path);
@@ -95,16 +94,20 @@ if(isset($_SESSION["huoma.admin"])){
             $addons_config_post = file_get_contents($addons_config,true);
             $addons_title_arr = json_decode($addons_config_post,true);
             $addons_title = $addons_title_arr["title"];
+            $private_state = $addons_title_arr["private"];
             $addons_home = $addons_path.'/'.$value.'/home/';
-            echo '<a href="'.$addons_home.'"><button type="button" class="btn btn-light">'.$addons_title.'</button></a>';
+            if ($private_state == '2') {
+              // 1私有，2公共
+              echo '<a href="'.$addons_home.'"><button type="button" class="btn btn-zdylight">'.$addons_title.'</button></a>';
+            }
           }
         }
       }
     }
     $addons_path = '../addons';
     Get_Addons_Dir($addons_path);
-    echo '<a href="./account.php?t=home/account&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">个人中心</button></a>
-    <a href="../account/exit?t=home/exit&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-light">退出登陆</button></a></div>';
+    echo '<a href="./account.php?t=home/account&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-zdylight">个人中心</button></a>
+    <a href="../account/exit?t=home/exit&lang=zh_CN&token='.md5(uniqid()).'"><button type="button" class="btn btn-zdylight">退出登陆</button></a></div>';
 
       //计算总活码数量
       $sql_huoma = "SELECT * FROM huoma_qun WHERE qun_user='$lguser'";
@@ -272,10 +275,11 @@ if(isset($_SESSION["huoma.admin"])){
                   echo '<option value="'.$rkym.'">'.$rkym.'</option>';
                 }
                 // 同时也可以选择当前系统使用的域名
-                echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
               }else{
                 // 没有绑定落地页，使用当前系统使用的域名
-                echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                echo '<option value="">暂无绑定域名</option>';
               }
             ?>
           </select>
@@ -290,10 +294,11 @@ if(isset($_SESSION["huoma.admin"])){
                   echo '<option value="'.$ldym.'">'.$ldym.'</option>';
                 }
                 // 同时也可以选择当前系统使用的域名
-                echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
               }else{
                 // 没有绑定落地页，使用当前系统使用的域名
-                echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                // echo '<option value="http://'.$_SERVER['HTTP_HOST'].'">http://'.$_SERVER['HTTP_HOST'].'</option>';
+                echo '<option value="">暂无绑定域名</option>';
               }
             ?>
           </select>
@@ -328,8 +333,8 @@ if(isset($_SESSION["huoma.admin"])){
    
         <!-- 模态框底部 -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="addqun();">创建群活码</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-secondary btn-tjzdy" onclick="addqun();">创建群活码</button>
+          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button> -->
         </div>
    
       </div>
@@ -356,7 +361,7 @@ if(isset($_SESSION["huoma.admin"])){
    
         <!-- 模态框底部 -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-tjzdy" data-dismiss="modal">关闭</button>
         </div>
    
       </div>

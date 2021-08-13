@@ -19,13 +19,13 @@
       $favicon = $row_set['favicon'];
     }
     if ($title == null || empty($title) || $title == '') {
-        $title = "里客云活码系统 - www.likeyuns.com";
+        $title = "引流宝 - 里客云开源活码系统";
         $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
         $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
         $favicon = "../images/favicon.png";
     }
   }else{
-    $title = "里客云活码系统 - www.likeyuns.com";
+    $title = "引流宝 - 里客云开源活码系统";
     $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
     $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
     $favicon = "../images/favicon.png";
@@ -42,6 +42,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <meta name="keywords" content="<?php echo $keywords; ?>">
   <meta name="description" content="<?php echo $description; ?>">
   <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
@@ -74,9 +75,9 @@ if(isset($_SESSION["huoma.admin"])){
   <!-- 左右布局 -->
   <!-- 左侧布局 -->
   <div class="left-nav">
-    <button type="button" class="btn btn-dark">活码管理</button>
-    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addwx_modal">创建活码</button>
-    <a href="./"><button type="button" class="btn btn-light">返回首页</button></a>
+    <button type="button" class="btn btn-zdy">活码管理</button>
+    <button type="button" class="btn btn-zdylight" data-toggle="modal" data-target="#addwx_modal">创建活码</button>
+    <a href="./"><button type="button" class="btn btn-zdylight">返回首页</button></a>
   </div>';
 
   //计算总活码数量
@@ -220,7 +221,7 @@ if(isset($_SESSION["huoma.admin"])){
    
         <!-- 模态框底部 -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-tjzdy" data-dismiss="modal">关闭</button>
         </div>
    
       </div>
@@ -280,16 +281,13 @@ if(isset($_SESSION["huoma.admin"])){
 
           <div class="upload_status"></div>
 
-          <!-- 提交 -->
-          <button type="button" class="btn btn-dark" onclick="addwx();">立即创建</button>
-          </form>
-
         </div>
    
         <!-- 模态框底部 -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-tjzdy" onclick="addwx();">立即创建</button>
         </div>
+        </form>
    
       </div>
     </div>

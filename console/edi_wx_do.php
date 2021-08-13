@@ -18,6 +18,7 @@ if(isset($_SESSION["huoma.admin"])){
 	$wx_status = trim($_POST["wx_status"]);
 	$wx_id = trim($_POST["wx_id"]);
 	$wx_moshi = trim($_POST["wx_moshi"]);
+	$wx_online = trim($_POST["wx_online"]);
 
 	if(empty($wx_title)){
 		$result = array(
@@ -50,7 +51,7 @@ if(isset($_SESSION["huoma.admin"])){
 		// 设置字符编码为utf-8
 		mysqli_query($conn, "SET NAMES UTF-8");
 		// 更新数据库
-		mysqli_query($conn,"UPDATE huoma_wx SET wx_title='$wx_title',wx_ldym='$wx_ldym',wx_status='$wx_status',wx_update_time='$date',wx_moshi='$wx_moshi' WHERE wx_id=".$wx_id);
+		mysqli_query($conn,"UPDATE huoma_wx SET wx_title='$wx_title',wx_ldym='$wx_ldym',wx_status='$wx_status',wx_update_time='$date',wx_moshi='$wx_moshi',wx_online='$wx_online' WHERE wx_id=".$wx_id);
 		$result = array(
 			"code" => "100",
 			"msg" => "更新成功"

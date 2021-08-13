@@ -19,13 +19,13 @@
       $favicon = $row_set['favicon'];
     }
     if ($title == null || empty($title) || $title == '') {
-        $title = "里客云活码系统 - www.likeyuns.com";
+        $title = "引流宝 - 里客云开源活码系统";
         $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
         $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
         $favicon = "../images/favicon.png";
     }
   }else{
-    $title = "里客云活码系统 - www.likeyuns.com";
+    $title = "引流宝 - 里客云开源活码系统";
     $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
     $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
     $favicon = "../images/favicon.png";
@@ -43,6 +43,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <meta name="keywords" content="<?php echo $keywords; ?>">
   <meta name="description" content="<?php echo $description; ?>">
   <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
@@ -72,8 +73,8 @@ if(isset($_SESSION["huoma.admin"])){
   <!-- 左右布局 -->
   <!-- 左侧布局 -->
   <div class="left-nav">
-    <button type="button" class="btn btn-dark">账号管理</button>
-    <a href="./"><button type="button" class="btn btn-light">返回首页</button></a>
+    <button type="button" class="btn btn-zdy">账号管理</button>
+    <a href="./"><button type="button" class="btn btn-zdylight">返回首页</button></a>
   </div>';
 
   // 获取账号信息
@@ -167,16 +168,13 @@ if(isset($_SESSION["huoma.admin"])){
           <input type="hidden" value="'.$user_id.'" name="user_id"/>
           <input type="hidden" value="'.$pwd.'" name="old_pwd"/>
 
-          <!-- 提交 -->
-          <button type="button" class="btn btn-dark" onclick="ediuser();">更新信息</button>
-          </form>
-
         </div>
    
         <!-- 模态框底部 -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-tjzdy" onclick="ediuser();">更新信息</button>
         </div>
+        </form>
    
       </div>
     </div>
@@ -234,7 +232,7 @@ if(isset($_SESSION["huoma.admin"])){
           <div class="paybtn">';
           while($row_wxpay = $result_wxpay->fetch_assoc()) {
             $payapi = $row_wxpay["payapi"];
-            echo '<button type="button" class="btn btn-dark" style="background:#07c160;border:1px solid #07c160;" onclick="'.$payapi.'();">微信支付</button> ';
+            echo '<button type="button" class="btn btn-tjzdy" style="background:#07c160;border:1px solid #07c160;" onclick="'.$payapi.'();">微信支付</button> ';
           }
           while($row_alipay = $result_alipay->fetch_assoc()) {
             $payapi = $row_alipay["payapi"];
@@ -256,7 +254,7 @@ if(isset($_SESSION["huoma.admin"])){
         <div class="modal-footer">
           <!-- 订单号 -->
           <div id="order_no" style="display:none;"></div>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-tjzdy" data-dismiss="modal">关闭</button>
         </div>
    
       </div>

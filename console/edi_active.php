@@ -19,13 +19,13 @@
       $favicon = $row_set['favicon'];
     }
     if ($title == null || empty($title) || $title == '') {
-        $title = "里客云活码系统 - www.likeyuns.com";
+        $title = "引流宝 - 里客云开源活码系统";
         $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
         $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
         $favicon = "../images/favicon.png";
     }
   }else{
-    $title = "里客云活码系统 - www.likeyuns.com";
+    $title = "引流宝 - 里客云开源活码系统";
     $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
     $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
     $favicon = "../images/favicon.png";
@@ -42,6 +42,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <script src="../js/wangEditor.min.js"></script>
   <meta name="keywords" content="<?php echo $keywords; ?>">
   <meta name="description" content="<?php echo $description; ?>">
@@ -91,9 +92,9 @@ if(isset($_SESSION["huoma.admin"])){
         <!-- 左右布局 -->
         <!-- 电脑端横排列表 -->
         <div class="left-nav">
-          <button type="button" class="btn btn-dark">编辑活动</button>
-          <button type="button" class="btn btn-light"><a href="./active.php?home/ediactive&lang=zh_CN&token='.md5(uniqid()).'">返回上一页</a></button>
-          <button type="button" class="btn btn-light"><a href="./">返回首页</a></button>
+          <button type="button" class="btn btn-zdy">编辑活动</button>
+          <button type="button" class="btn btn-zdylight"><a href="./active.php?home/ediactive&lang=zh_CN&token='.md5(uniqid()).'">返回上一页</a></button>
+          <button type="button" class="btn btn-zdylight"><a href="./">返回首页</a></button>
         </div>
 
         <!-- 右侧布局 -->
@@ -199,7 +200,7 @@ if(isset($_SESSION["huoma.admin"])){
 
           if ($active_status !== '3') {
             echo '<!-- 提交按钮 -->
-            <button type="button" class="btn btn-secondary" onclick="gethtmlcontent();ediactive();">更新活动</button>';
+            <button type="button" class="btn btn-tjzdy" onclick="gethtmlcontent();ediactive();">更新活动</button>';
           }
           
           echo '</form>
