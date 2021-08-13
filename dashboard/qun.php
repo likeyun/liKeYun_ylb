@@ -24,7 +24,6 @@ if(isset($_SESSION["huoma.dashboard"])){
 
   // 数据库配置
   include '../db_config/db_config.php';
-  include '../db_config/VersionCheck.php';
 
   // 创建连接
   $conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
@@ -37,12 +36,6 @@ if(isset($_SESSION["huoma.dashboard"])){
 
 <!-- 操作区 -->
 <div class="container">';
-  if ($version !== $v_str_v) {
-    echo '<br/>
-    <div class="alert alert-warning">
-      <strong>'.$v_str_m.'<a href="'.$v_str_u.'">点击更新</a></strong>
-    </div>';
-  }
   echo '<br/>
   <h3>活码管理后台 / 微信群活码</h3> 
   <p>管理用户创建的活码数据（查看、停用、删除）</p>

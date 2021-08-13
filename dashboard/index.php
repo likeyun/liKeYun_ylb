@@ -1,7 +1,41 @@
+<?php
+  // 页面字符编码
+  header("Content-type:text/html;charset=utf-8");
+
+  // 数据库配置
+  include '../db_config/db_config.php';
+
+  // 创建连接
+  $conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
+
+  // 获取设置项
+  $sql_set = "SELECT * FROM huoma_set";
+  $result_set = $conn->query($sql_set);
+  if ($result_set->num_rows > 0) {
+    while($row_set = $result_set->fetch_assoc()) {
+      $title = $row_set['title'];
+      $keywords = $row_set['keywords'];
+      $description = $row_set['description'];
+      $favicon = $row_set['favicon'];
+    }
+    if ($title == null || empty($title) || $title == '') {
+        $title = "引流宝 - 里客云开源活码系统";
+        $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
+        $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
+        $favicon = "../images/favicon.png";
+    }
+  }else{
+    $title = "引流宝 - 里客云开源活码系统";
+    $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
+    $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
+    $favicon = "../images/favicon.png";
+  }
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>里客云开源活码系统用户管理后台</title>
+  <title>引流宝 - 里客云开源活码系统</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
@@ -9,11 +43,9 @@
   <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
   <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
-  <style>
-  #instantclick-bar{
-    display: none;
-  }
-  </style>
+  <meta name="keywords" content="<?php echo $keywords; ?>">
+  <meta name="description" content="<?php echo $description; ?>">
+  <link rel="icon" href="<?php echo $favicon; ?>" type="image/x-icon" />
 </head>
 <body>
 
@@ -29,7 +61,6 @@ if(isset($_SESSION["huoma.dashboard"])){
 
   // 数据库配置
   include '../db_config/db_config.php';
-  include '../db_config/VersionCheck.php';
 
   // 创建连接
   $conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
@@ -59,20 +90,14 @@ if(isset($_SESSION["huoma.dashboard"])){
 
   echo '<!-- 顶部导航栏 -->
 <div id="topbar">
-  <span class="admin-title"><a href="./">活码系统管理后台</a></span>
+  <span class="admin-title"><a href="./">引流宝 - 里客云开源活码系统</a></span>
   <span class="admin-login-link"><a href="./account/exit">'.$_SESSION["huoma.dashboard"].' 退出</a></span>
 </div>
 
 <!-- 操作区 -->
 <div class="container">';
-  if ($version !== $v_str_v) {
-    echo '<br/>
-    <div class="alert alert-warning">
-      <strong>'.$v_str_m.'<a href="'.$v_str_u.'">点击更新</a></strong>
-    </div>';
-  }
   echo '<br/>
-  <h3>活码管理后台</h3> 
+  <h3>引流宝 - 里客云开源活码系统</h3> 
   <p>便捷管理用户创建的活码数据、用户账号、查看数据</p>
   
   <!-- 左右布局 -->
@@ -144,37 +169,6 @@ $("#grwx_status").bind('input propertychange',function(e){
   }
 })
 
-// 创建群活码
-function addqun(){
-  $.ajax({
-      type: "POST",
-      url: "./add_qun_do.php",
-      data: $('#addqun').serialize(),
-      success: function (data) {
-        // 创建成功
-        if (data.code==100) {
-          $("#Result").css("display","block");
-          $("#Result").html("<div class=\"alert alert-success\"><strong>"+data.msg+"</strong></div>");
-          // 关闭模态框
-          $('#add_qun_hm').modal('hide');
-          // 刷新列表
-          location.reload();
-        }else{
-          $("#Result").css("display","block");
-          $("#Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-        }
-      },
-      error : function() {
-        // 创建失败
-        $("#Result").css("display","block");
-        $("#Result").html("<div class=\"alert alert-danger\"><strong>服务器发生错误</strong></div>");
-      }
-  });
-  // 关闭信息提示框
-  setTimeout('closesctips()', 2000);
-}
-
-
 // 删除群活码
 function delqun(event){
   // 获得当前点击的群活码id
@@ -203,7 +197,6 @@ function delqun(event){
   setTimeout('closesctips()', 2000);
 }
 
-
 // 分享群活码
 function sharequn(event){
   // 获得当前点击的群活码id
@@ -224,48 +217,6 @@ function sharequn(event){
   });
   // 关闭信息提示框
   setTimeout('closesctips()', 2000);
-}
-
-
-// 上传微信群二维码
-var wxqrcode_lunxun = setInterval("upload_wxqrcode()",2000);
-  function upload_wxqrcode() {
-  var wxqrcode_filename = $("#select_wxqrcode").val();
-  if (wxqrcode_filename) {
-    clearInterval(wxqrcode_lunxun);
-    var addqun_form = new FormData(document.getElementById("addqun"));
-    $.ajax({
-      url:"upload.php",
-      type:"post",
-      data:addqun_form,
-      cache: false,
-      processData: false,
-      contentType: false,
-      success:function(data){
-        if (data.res == 400) {
-          $("#Result").css("display","block");
-          $("#Result").html("<div class=\"alert alert-success\"><strong>"+data.msg+"</strong></div>");
-          $("#grwx_upload .form-control").val(data.path);
-          $("#grwx_upload .text").text("已上传");
-        }else{
-          $("#Result").css("display","block");
-          $("#Result").html("<div class=\"alert alert-danger\"><strong>"+data+"</strong></div>");
-        }
-      },
-      error:function(data){
-        $("#Result").css("display","block");
-        $("#Result").html("<div class=\"alert alert-danger\"><strong>"+data.msg+"</strong></div>");
-      },
-      beforeSend:function(data){
-        $("#Result").css("display","block");
-        $("#Result").html("<div class=\"alert alert-warning\"><strong>正在上传...</strong></div>");
-      }
-    })
-    // 关闭信息提示框
-    setTimeout('closesctips()', 2000);
-  }else{
-    // console.log("等待上传");
-  }
 }
 </script>
 </body>

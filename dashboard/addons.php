@@ -1,7 +1,41 @@
+<?php
+  // 页面字符编码
+  header("Content-type:text/html;charset=utf-8");
+
+  // 数据库配置
+  include '../db_config/db_config.php';
+
+  // 创建连接
+  $conn = new mysqli($db_url, $db_user, $db_pwd, $db_name);
+
+  // 获取设置项
+  $sql_set = "SELECT * FROM huoma_set";
+  $result_set = $conn->query($sql_set);
+  if ($result_set->num_rows > 0) {
+    while($row_set = $result_set->fetch_assoc()) {
+      $title = $row_set['title'];
+      $keywords = $row_set['keywords'];
+      $description = $row_set['description'];
+      $favicon = $row_set['favicon'];
+    }
+    if ($title == null || empty($title) || $title == '') {
+        $title = "引流宝 - 里客云开源活码系统";
+        $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
+        $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
+        $favicon = "../images/favicon.png";
+    }
+  }else{
+    $title = "引流宝 - 里客云开源活码系统";
+    $keywords = "活码,群活码,微信群活码系统,活码系统,群活码,不过期的微信群二维码,永久群二维码";
+    $description = "这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。";
+    $favicon = "../images/favicon.png";
+  }
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>里客云开源活码系统用户管理后台</title>
+  <title>引流宝 - 里客云开源活码系统</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
@@ -35,8 +69,6 @@ if(isset($_SESSION["huoma.dashboard"])){
   // 当前登录的用户
   $lguser= $_SESSION["huoma.dashboard"];
 
-  include '../db_config/VersionCheck.php';
-
   echo '<!-- 顶部导航栏 -->
 <div id="topbar">
   <span class="admin-title"><a href="./">里客云开源活码系统</a></span>
@@ -67,7 +99,7 @@ if(isset($_SESSION["huoma.dashboard"])){
             $addons_config_post = file_get_contents($addons_config,true);
             $addons_title_arr = json_decode($addons_config_post,true);
             $addons_title = $addons_title_arr["title"];
-            $addons_admin = $addons_path.'/'.$value.'/admin/';
+            $addons_admin = $addons_path.'/'.$value.'/home/';
             echo '<a href="'.$addons_admin.'"><button type="button" class="btn btn-light">'.$addons_title.'</button></a>';
           }
         }
