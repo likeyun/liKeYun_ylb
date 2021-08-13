@@ -12,7 +12,7 @@
   // 微信支付商户平台->帐户设置->安全设置->API安全->API密钥->设置API密钥
   $apiKey = 'xxx';
 
-  // 异步订单通知url，填写的事addons/ffjq/home/ffq_notify.php这个文件的线上url
+  // 异步订单通知url，填写的是 addons/ffjq/home/ffq_notify.php 这个文件的线上url
   // 例如你的域名是www.qq.com，活码安装目录在根目录下的huoma目录
   // 那么填写 http://www.qq.com/huoma/addons/ffjq/home/ffq_notify.php 就行了
   $ffjq_notify_url = "http://www.qq.com/huoma/addons/ffjq/home/ffq_notify.php";
