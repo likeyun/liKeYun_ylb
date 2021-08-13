@@ -73,6 +73,7 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     wx_status VARCHAR(32) DEFAULT '1',
     wx_update_time VARCHAR(32),
     wx_moshi VARCHAR(32),
+    wx_online VARCHAR(32) DEFAULT '1',
     wx_fwl VARCHAR(32) DEFAULT '0',
     wx_user VARCHAR(32))";
 
@@ -82,13 +83,13 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     wx_id VARCHAR(32),
     zmid VARCHAR(32),
     xuhao INT(11),
-	fwl VARCHAR(32) DEFAULT '0',
-	qrcode TEXT(300),
-	update_time VARCHAR(32),
-	zima_status VARCHAR(32) DEFAULT '2',
-	wx_num VARCHAR(32),
-	wx_beizhu TEXT(300),
-	wx_yuzhi VARCHAR(32) DEFAULT '0')";
+  	fwl VARCHAR(32) DEFAULT '0',
+  	qrcode TEXT(300),
+  	update_time VARCHAR(32),
+  	zima_status VARCHAR(32) DEFAULT '2',
+  	wx_num VARCHAR(32),
+  	wx_beizhu TEXT(300),
+  	wx_yuzhi VARCHAR(32) DEFAULT '0')";
 
     // 邀请码表
     $huoma_yqm = "CREATE TABLE huoma_yqm (
@@ -98,11 +99,11 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     yqm_usetime VARCHAR(32),
     yqm_daynum INT(11))";
 
-    // 域名表（入口域名和落地域名）
+    // 落地页域名表
     $huoma_yuming = "CREATE TABLE huoma_yuming (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    yuming TEXT(300),
-    ym_type VARCHAR(200))";
+    ym_type VARCHAR(10),
+    yuming TEXT(300))";
 
     // 续费套餐表
     $huoma_taocan = "CREATE TABLE huoma_taocan (
@@ -136,6 +137,7 @@ if (empty($dburl) || empty($dbuser) || empty($dbpwd) || empty($dbname) || empty(
     dqdate VARCHAR(32),
     qrcode TEXT(300),
     update_time VARCHAR(32),
+    update_sjc VARCHAR(32),
     zima_status VARCHAR(32) DEFAULT '2',
     code VARCHAR(32) DEFAULT '200')";
 

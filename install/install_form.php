@@ -9,6 +9,7 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.huoma.css">
+  <link rel="stylesheet" type="text/css" href="../css/chunk-vendors.theme.css">
   <style>
     input:-webkit-autofill, 
     textarea:-webkit-autofill, 
@@ -86,7 +87,7 @@
     </div>
     
     <!-- 安装按钮 -->
-    <button type="submit" class="btn btn-dark" style="margin:20px auto 0;display: block;" onclick="install();">开始安装</button>
+    <button type="submit" class="btn btn-tjzdy" style="margin:20px auto 0;display: block;" onclick="install();">开始安装</button>
   </form>
   </div>
 </div>
