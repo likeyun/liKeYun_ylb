@@ -47,9 +47,9 @@ file_put_contents("../console/upload/test.txt","test console 777");
         <tbody>
           <tr>
             <td>PHP版本</td>
-            <td>php5.5 - 7.4版本</td>
+            <td>php5.5 - 7.2版本</td>
             <?php
-              if ($phpv >= '5.5' && $phpv <= '7.4') {
+              if ($phpv >= '5.5' && $phpv <= '7.2') {
                 echo '<td><span class="badge badge-success">符合</span></td>';
               }else{
                 echo '<td><span class="badge badge-danger">不符合</span></td>';
