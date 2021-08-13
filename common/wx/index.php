@@ -47,6 +47,7 @@ if (trim(empty($wx_id))) {
 		$wx_title = $row_hminfo["wx_title"]; // 微信活码标题
 		$wx_user = $row_hminfo["wx_user"]; // 发布者
 		$wx_moshi = $row_hminfo["wx_moshi"]; // 展示模式
+		$wx_online = $row_hminfo["wx_online"]; // 展示模式
 	}
 	
 	// 获取客服子码信息
@@ -137,22 +138,41 @@ if (trim(empty($wx_id))) {
 						</div>';
 
 			       		// 扫码提示
-			       		echo '<div id="scan_tips" style="color:#999;">请再次识别下方二维码加微信</div>';
+			       		echo '<div id="scan_tips" style="color:#999;">请再次长按下方二维码加微信</div>';
 
 			       		// 展示二维码
-			       		echo '<div id="ewm" style="width:280px;"><img src="'.$qrcodeUrl.'" width="280"/></div>';
+			       		echo '<div id="ewm" style="width:230px;"><img src="'.$qrcodeUrl.'" width="230"/></div>';
 
 			       		// 加微信
 			       		echo '<div id="wxnum">微信号：'.$wx_num.'<div>';
 
 			       		// 加微信备注
 			       		if ($wx_beizhu !== '') {
-			       			echo '<div id="wxbeizhu">'.$wx_beizhu.'<div>';
+			       			echo '<div id="wxbeizhu">'.$wx_beizhu.'</div>';
 			       		}
 
 			       		$exist = false;
 			       		// 更新当前子码的访问量
 			       		mysqli_query($conn,"UPDATE huoma_wxzima SET fwl=fwl+1 WHERE zmid='$zmid'");
+
+			    		// 在线提示
+			       		date_default_timezone_set('asia/shanghai');
+						$week = date('w');
+						$day = date('md');
+						$time = date('G');
+
+						// 判断是否在线
+						if ($wx_online == '1') {
+							if($week == 0) {
+							echo '<div id="online_tips">提醒：今天周末休息，可能回复较慢！</div>';
+							} else if ($time >=9 && $time < 18) {
+								echo '<div id="online_tips_sb">提醒：当前是上班时间，正常接待中！</div>';
+							} else {
+								echo '<div id="online_tips">提醒：当前是下班时间，可能回复较慢！</div>';
+							}
+						}
+
+						// 跳出循环
 			       		exit;
 
 		    		}else{
@@ -205,6 +225,17 @@ if (trim(empty($wx_id))) {
 		       		$exist = false;
 		       		// 更新当前子码的访问量
 		       		mysqli_query($conn,"UPDATE huoma_wxzima SET fwl=fwl+1 WHERE zmid='$zmid'");
+
+		       		// 判断是否在线
+					if ($wx_online == '1') {
+						if($week == 0) {
+						echo '<div id="online_tips">提醒：今天周末休息，可能回复较慢！</div>';
+						} else if ($time >=9 && $time < 18) {
+							echo '<div id="online_tips_sb">提醒：当前是上班时间，正常接待中！</div>';
+						} else {
+							echo '<div id="online_tips">提醒：当前是下班时间，可能回复较慢！</div>';
+						}
+					}
 		       		exit;
 	    		}
 	    		if(!$exist && count($kfzm) <= 0) {
