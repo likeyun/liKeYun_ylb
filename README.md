@@ -44,6 +44,7 @@ www.likeyunba.com/hm
 5、优化插件中心、发布付费进群官方插件<br/>
 5、优化用户端UI主题色，发布蓝色主题界面<br/><br/>
 <img src="https://p1-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/b1d95cbc2d1d4640bf83a2efb60041bb~tplv-mlhdmxsy5m-q75:0:0.image" /><br/>
+<img src="http://inews.gtimg.com/newsapp_bt/0/13880849020/641" /><br/>
 
 # 安装支持与交流
 遇到问题可以加入开发者交流群：http://pic.iask.cn/fimg/805445297649.jpg
