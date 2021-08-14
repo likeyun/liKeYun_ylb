@@ -5,6 +5,9 @@
 # 官网
 www.likeyunba.com/hm
 
+# 用户反馈
+https://support.qq.com/products/345003
+
 # 安装
 只需要访问install目录即可进入安装流程，简单输入数据库信息、管理员信息即可快速安装。请在php5.6 - 7.2版本内安装。
 
