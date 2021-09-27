@@ -51,6 +51,11 @@ https://support.qq.com/products/345003
 
 # 安装支持与交流
 遇到问题可以加入开发者交流群：http://pic.iask.cn/fimg/805445297649.jpg
+<br/>
+如需加入作者的交流群，请加微信：sansure2016 备注进群。<br/>
+里客云开源工具交流1群（已满500人）<br/>
+里客云开源工具交流2群（已满500人）<br/>
+里客云开源工具交流3群（已有300多人）
 
 # 界面截图
 <img src="https://p.pstatp.com/origin/pgc-image/8e35fd001c4f4eeb9583c16f4c49a7d5" /><br/>
