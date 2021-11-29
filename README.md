@@ -49,6 +49,9 @@ https://support.qq.com/products/345003
 <img src="https://p1-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/b1d95cbc2d1d4640bf83a2efb60041bb~tplv-mlhdmxsy5m-q75:0:0.image" /><br/>
 <img src="http://inews.gtimg.com/newsapp_bt/0/13880849020/641" /><br/>
 
+**付费进群插件配置：**<br/>
+进入addons/ffjq/home/ffjq_config.php里面完成基本的支付配置即可
+
 # 安装支持与交流
 遇到问题可以加入开发者交流群：http://pic.iask.cn/fimg/805445297649.jpg
 <br/>
