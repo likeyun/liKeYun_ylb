@@ -53,7 +53,7 @@ https://support.qq.com/products/345003
 进入addons/ffjq/home/ffjq_config.php里面完成基本的支付配置即可
 
 # 安装支持与交流
-遇到问题可以加入开发者交流群：http://pic.iask.cn/fimg/805445297649.jpg
+遇到问题可以加入开发者交流群：http://inews.gtimg.com/newsapp_bt/0/14446103724/641
 <br/>
 如需加入作者的交流群，请加微信：sansure2016 备注进群。<br/>
 里客云开源工具交流1群（已满500人）<br/>
