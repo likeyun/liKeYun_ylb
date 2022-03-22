@@ -17,7 +17,7 @@
 <body>
 <!-- 顶部 -->
 <div id="topbar">
-  <span class="admin-title">引流宝 - 里客云开源活码系统v6.0.2安装程序</span>
+  <span class="admin-title">引流宝 - 里客云开源活码系统v6.0.2安装程序（免费）</span>
 </div>
 
 <?php
@@ -47,9 +47,9 @@ file_put_contents("../console/upload/test.txt","test console 777");
         <tbody>
           <tr>
             <td>PHP版本</td>
-            <td>php5.5 - 7.2版本</td>
+            <td>php5.5 - 7.4版本</td>
             <?php
-              if ($phpv >= '5.5' && $phpv <= '7.2') {
+              if ($phpv >= '5.5' && $phpv <= '7.4') {
                 echo '<td><span class="badge badge-success">符合</span></td>';
               }else{
                 echo '<td><span class="badge badge-danger">不符合</span></td>';
@@ -93,7 +93,7 @@ file_put_contents("../console/upload/test.txt","test console 777");
     </table>
     <!-- 安装按钮 -->
     <?php
-      if ($phpv >= '5.5' && $phpv <= '7.1' && file_exists("../console/upload/test.txt") && file_exists("../db_config/test.txt") && file_exists("../addons/test.txt")) {
+      if ($phpv >= '5.5' && $phpv <= '7.4' && file_exists("../console/upload/test.txt") && file_exists("../db_config/test.txt") && file_exists("../addons/test.txt")) {
         echo '<a href="./install_form.php"><button type="button" class="btn btn-tjzdy" style="margin:20px auto 0;display: block;">开始安装</button></a>';
         unlink('../console/upload/test.txt');
         unlink('../addons/test.txt');
