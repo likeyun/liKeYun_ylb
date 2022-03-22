@@ -4,6 +4,8 @@
 
 # 官网
 www.likeyunba.com/hm
+无法再GitHub下载的可以访问国内的网盘下载：<br/>
+https://likeyun.lanzout.com/io1bH01uim1i
 
 # 用户反馈
 https://support.qq.com/products/345003
