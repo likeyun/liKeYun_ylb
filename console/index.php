@@ -88,7 +88,7 @@ if(isset($_SESSION["huoma.admin"])){
           // 获得该目录下的文件
           if($value == '.' || $value == '..'){
             continue;
-          }else if(is_dir($addons_path)){
+          }else if(is_dir($value)){
             // 获得该目录下的addons_config配置文件的addons_title
             $addons_config = $addons_path.'/'.$value.'/addons_config.json';
             $addons_config_post = file_get_contents($addons_config,true);
