@@ -2,14 +2,14 @@
 这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。<br/><br/>
 微信群二维码活码工具，生成微信群活码，随时可以切换二维码！微信官方群二维码有效期是7天，过期后无法扫码进群，或者是群人数满200人就无法扫码进群，如果我们在推广的时候，群满人或者过期了，别人还想进群，我们将会失去很多推广效果，所以有了群活码，可以在不更换链接和二维码的前提下，切换扫码后显示的内容，灵活变换！
 
-# 官网
-http://www.likeyunba.com/hm/<br/>
-无法再GitHub下载的可以访问国内的网盘下载：
+无法在GitHub下载的可以访问国内的网盘下载：
 https://likeyun.lanzout.com/io1bH01uim1i
 
 # 用户反馈
 https://support.qq.com/products/345003
-交流群：http://inews.gtimg.com/newsapp_bt/0/14446103724/641
+
+**交流、解决问题、定制、学习等可以加入我们的开发者交流群**
+https://sc01.alicdn.com/kf/H574da7b723cd4c088b082ab93ab6eb8dV.png
 
 # 安装
 只需要访问install目录即可进入安装流程，简单输入数据库信息、管理员信息即可快速安装。请在php5.6 - 7.2版本内安装。
@@ -56,7 +56,8 @@ https://support.qq.com/products/345003
 进入addons/ffjq/home/ffjq_config.php里面完成基本的支付配置即可
 
 # 安装支持与交流
-遇到问题可以加入开发者交流群：http://inews.gtimg.com/newsapp_bt/0/14446103724/641
+交流、解决问题、定制、学习等可以加入我们的开发者交流群
+https://sc01.alicdn.com/kf/H574da7b723cd4c088b082ab93ab6eb8dV.png
 <br/>
 如需加入作者的交流群，请加微信：sansure2016 备注进群。<br/>
 里客云开源工具交流1群（已满500人）<br/>
