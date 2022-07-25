@@ -9,7 +9,10 @@ https://likeyun.lanzout.com/io1bH01uim1i
 https://support.qq.com/products/345003
 
 **交流、解决问题、定制、学习等可以加入我们的开发者交流群**
-https://sc01.alicdn.com/kf/H574da7b723cd4c088b082ab93ab6eb8dV.png
+https://sc01.alicdn.com/kf/H574da7b723cd4c088b082ab93ab6eb8dV.png <br/>
+
+<img src="https://sc01.alicdn.com/kf/H574da7b723cd4c088b082ab93ab6eb8dV.png" /><br/>
+微信扫码进群
 
 # 安装
 只需要访问install目录即可进入安装流程，简单输入数据库信息、管理员信息即可快速安装。请在php5.6 - 7.2版本内安装。
