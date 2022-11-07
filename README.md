@@ -1,82 +1,57 @@
 # liKeYun_Huoma
-这是一套开源、免费、可上线运营的活码系统，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。<br/><br/>
-微信群二维码活码工具，生成微信群活码，随时可以切换二维码！微信官方群二维码有效期是7天，过期后无法扫码进群，或者是群人数满200人就无法扫码进群，如果我们在推广的时候，群满人或者过期了，别人还想进群，我们将会失去很多推广效果，所以有了群活码，可以在不更换链接和二维码的前提下，切换扫码后显示的内容，灵活变换！
+正式更名产品名称为引流宝！引流宝的主要用途就是辅助基于微信私域流量的获取工作，可以减轻人力，有效降低资源损失、流量流失的几率。这是一个开源、免费、活码管理平台，便于协助自己、他人进行微信私域流量资源获取，更大化地进行营销推广活动！降低运营成本，提高工作效率，获取更多资源。
+<br/><br/>
+微信官方群二维码有效期是7天，7天后二维码过期无法扫码进群，或者是群人数满200人就无法扫码进群。
+如果我们在推广的时候，群满人或者过期了，别人还想进群，我们将会失去很多推广效果，所以有了群活码，可以在不更换链接和二维码的前提下，切换扫码后显示的内容，灵活变换！
 
-无法在GitHub下载的可以访问国内的网盘下载：
-https://likeyun.lanzout.com/io1bH01uim1i
+# 快速安装
+访问install目录即可进入安装流程。<br/>
 
-# 用户反馈
-https://support.qq.com/products/345003
+安装示例：
+```
+http://域名/install/
+```
 
-**交流、解决问题、定制、学习等可以加入我们的开发者交流群**
-https://t.focus-img.cn/sh740wsh/bbs/p2/5d81cbd190009054cd755445e3d4d7fe.png <br/>
-
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/5d81cbd190009054cd755445e3d4d7fe.png" /><br/>
-微信扫码进群
-
-# 安装
-只需要访问install目录即可进入安装流程，简单输入数据库信息、管理员信息即可快速安装。请在php5.6 - 7.2版本内安装。
+# 使用指南
+https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/>
 
 # 框架/语言
-前端框架：Bootstrap+jQuery<br/>
-后端框架：原生php+mySQL
+前端框架：自写UI+少量Bootstrap+jQuery<br/>
+后端框架：原生php+mySql
 
 # 使用
-安装后会有用户端和管理端入口<br/>
+管理后台路径：/console/index/<br/>
 
-用户端管理后台路径：/console<br/>
-管理端管理后台路径：/dashboard<br/>
+后台示例：
+```
+http://域名/console/index/
+```
 
 # 版本和功能
-版本：6.0.2<br/>
-用户端功能：创建微信群活码、创建客服微信活码、创建活动码、使用插件（例如付费进群插件）、邀请码续费或在线支付续费。<br/>
-管理端功能：管理微信活码、客服码、活动码，查看订单、上传邀请码、管理用户、系统设置、配置落地页域名、配置邮件服务、配置用户端seo信息等。<br/><br/>
-**创建群活码v6.0.2新特性：**<br/>
-1、支持设置阈值，达到阈值自动切换下一个群<br/>
-2、支持设置入口域名和落地域名，加强防封措施<br/>
-3、用户账号被封、或者到期，用户所创建的群活码均失效<br/>
-4、可开启防止重复进群，有效防止资源重复的问题<br/>
-4、显示子码距离上一次更新过去多少时间<br/><br/>
+版本：1.0.0<br/>
 
-**创建客服活码v6.0.2新特性：**<br/>
-1、支持设置阈值，达到阈值自动切换下一个客服<br/>
-2、支持设置随机，随机展示客服二维码<br/>
-3、用户账号被封、或者到期，用户所创建的客服活码均失效<br/>
-4、新增在线提醒，提醒客户你目前是在线还是离线<br/><br/>
-<img src="http://inews.gtimg.com/newsapp_bt/0/13880882627/641" /><br/>
+| 模块 | 功能 |
+| ----- | ----- |
+| 首页 |群活码、客服码、渠道码当天总访问量统计、各时段访问量统计，成员账号统计。 |
+| 群活码 |创建、编辑、删除、分享群活码，不限制个数上传微信群二维码，设置阈值自动切换下一个群、开启去重功能、分享可创建短链接。可设置停用。|
+| 客服码 |创建、编辑、删除、分享客服码，不限制个数上传客服二维码，设置阈值自动切换下一个客服、可设置循环模式为随机展示客服、客服可设置备注文字、可在代码修改客服在线时间段、可设置显示在线状态、分享可创建短链接。可设置停用。|
+| 渠道码 |创建、编辑、删除、分享渠道码，分享可创建短链接。可记录渠道来源APP、来源IP地址、来源操作系统、来源时间，有效统计投放的渠道效果！可将IP地址加入黑名单，禁止恶意访问！可设置停用。|
+| 配置中心 | 添加域名与删除域名。 |
+| 账号管理 | 创建账号、删除成员账号、修改账号信息等操作。 |
 
-**其他v6.0.2新特性：**<br/>
-1、接入易支付API<br/>
-2、优化支付宝当面付API<br/>
-3、可选择生成单个邀请码，批量导入邀请码<br/>
-4、用户账号过期后，无法登陆，可在登陆页面购买邀请码续费<br/>
-5、优化插件中心、发布付费进群官方插件<br/>
-5、优化用户端UI主题色，发布蓝色主题界面<br/><br/>
-<img src="https://p1-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/b1d95cbc2d1d4640bf83a2efb60041bb~tplv-mlhdmxsy5m-q75:0:0.image" /><br/>
-<img src="http://inews.gtimg.com/newsapp_bt/0/13880849020/641" /><br/>
+# 截图
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/b706e5f415b0daf1c39c027e6b10d6f3.png" /><br/>
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/adc9966d3fd5b7879fd5736bea97eebc.png" /><br/>
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/af986c7cd498ef9595b9e5d02ee034d8.png" /><br/>
 
-**付费进群插件配置：**<br/>
-进入addons/ffjq/home/ffjq_config.php里面完成基本的支付配置即可
+# 赞赏
+开源以来，只收到过5笔赞赏，这项目真的用爱发电。<br/>
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/225f43ac4f79be0ea23309b470472f43.jpg" width="400" />
 
-# 安装支持与交流
-交流、解决问题、定制、学习等可以加入我们的开发者交流群
-https://sc01.alicdn.com/kf/H574da7b723cd4c088b082ab93ab6eb8dV.png
-<br/>
-如需加入作者的交流群，请加微信：sansure2016 备注进群。<br/>
-里客云开源工具交流1群（已满500人）<br/>
-里客云开源工具交流2群（已满500人）<br/>
-里客云开源工具交流3群（已有300多人）
-
-# 界面截图
-<img src="https://p.pstatp.com/origin/pgc-image/8e35fd001c4f4eeb9583c16f4c49a7d5" /><br/>
-<img src="https://p.pstatp.com/origin/pgc-image/551239b6214442218d92caa42e3a3b44" /><br/>
-<img src="https://p.pstatp.com/origin/pgc-image/8f744f7074de49539e68e8326ad80979" /><br/>
-<img src="https://p.pstatp.com/origin/pgc-image/7cfb0f097f6f4026b248af08cdc3d692" /><br/>
-<img src="https://p.pstatp.com/origin/pgc-image/6aa55bf4b80b4223ad1e95c7252ad306" /><br/>
-
-# 支持与赞赏
-如果您喜欢我的作品，想要支持我，请微信扫码<br/><br/>
-<img src="https://p.pstatp.com/origin/pgc-image/c4f1d6b7532445debd0bedc88bb71d1f" width="300"/>
+# 交流群
+目前有5个交流群，以邀请方式加入，如需进群请扫码添加群主微信进群，微信号：sansure2016 <br/><br/>
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/64614a266dfdcb2b161dad4adacc7819.png" width="200" /><br/>
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/ab854aade88f5a0aaba1a366b9799d60.png" width="200" />
 
 # 作者
 Name:TANKING<br/>
