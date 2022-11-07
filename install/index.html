@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>快速安装 - 引流宝</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+	<!--公共样式-->
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+	<!--整个项目的样式-->
+	<link rel="stylesheet" href="../static/css/hm.css">
+	<!--网页标题图标-->
+	<link rel="shortcut icon" href="../static/img/logo.png">
+	<!--公共JS-->
+	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!--formBox_install-->
+	<div class="formBox_install">
+	    
+	    <!--安装环境检测-->
+	    <div id="check_Install">
+	        <!--header-->
+    	    <div class="header-box">
+    	        <img src="../static/img/20221025100444.png" />
+    	    </div>
+    	    <table class="table">
+                <thead>
+                  <tr>
+                    <th>安装环境</th>
+                    <th>环境要求</th>
+                    <th>当前情况</th>
+                    <th>检测结果</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>PHP版本</td>
+                    <td>PHP7.0以上</td>
+                    <td id="php_version"></td>
+                    <td id="php_version_result"></td>
+                  </tr>
+                  <tr>
+                    <td>上传权限</td>
+                    <td>允许上传文件</td>
+                    <td id="php_upload_info"><span></span></td>
+                    <td id="php_upload_result"><span></span></td>
+                  </tr>
+                </tbody>
+            </table>
+            <span id="installBtn"></span>
+	    </div>
+	    
+	    <!--开始安装-->
+	    <div id="start_Install">
+    	    <!--header-->
+    	    <div class="header-box">
+    	        <img src="../static/img/20221025100444.png" />
+    	    </div>
+    	    <div class="line"></div>
+    	    <!--form-->
+    	    <div class="form-box">
+    	        <form onsubmit="return false" id="checkInstallParams">
+        	        <label>数据库地址</label>
+        	        <input type="text" class="form-control" autocomplete="off" title="如果是宝塔就输入localhost" placeholder="输入数据库地址" name="db_host" />
+        	        
+        	        <div class="doubleView">
+        	            <div class="left_input">
+        	                <label>数据库账号</label>
+        	                <input type="text" class="form-control" autocomplete="off" placeholder="输入数据库账号" name="db_user" />
+        	            </div>
+        	            <div class="right_input">
+        	                <label>数据库密码</label>
+        	                <input type="password" class="form-control" placeholder="输入数据库密码" name="db_pass" />
+        	            </div>
+        	        </div>
+        	        
+        	        <div class="doubleView">
+        	            <div class="left_input">
+        	                <label>数据库名称</label>
+        	                <input type="text" class="form-control" autocomplete="off" placeholder="输入数据库名称" name="db_name" />
+        	            </div>
+        	            <div class="right_input">
+        	                <label>管理员邮箱</label>
+        	                <input type="text" class="form-control" autocomplete="off" title="邮箱是找回密码的重要资料" placeholder="输入管理员邮箱" name="user_email" />
+        	            </div>
+        	        </div>
+    
+        	        <div class="doubleView">
+        	            <div class="left_input">
+        	                <label>管理员账号</label>
+        	                <input type="text" class="form-control" autocomplete="off" title="登录引流宝后台的账号" placeholder="设置管理员账号" name="user_name" />
+        	            </div>
+        	            <div class="right_input">
+        	                <label>管理员密码</label>
+        	                <input type="password" class="form-control" placeholder="设置管理员密码" name="user_pass" />
+        	            </div>
+        	        </div>
+     
+        	        <label>程序目录级别</label>
+                    <select name="install_folder" class="form-control" title="如实选择，这将影响后续程序的正常运行！">
+                        <option value="">你的代码已上传到哪一个级别的目录？</option>
+                        <option value="1">根目录</option>
+                        <option value="2">二级目录</option>
+                        <option value="3">三级目录</option>
+                        <option value="4">四级目录</option>
+                    </select>
+        	        <button class="form-control-login" onclick="checkInstallParams();">开始安装</button>
+        	        <a href="./" class="findPass">安装教程及相关说明</a>
+    	        </form>
+    	    </div>
+    	    
+    	    <!--result-->
+    	    <p id="installResult"></p>
+    	</div>
+    	
+    	<!--安装成功-->
+    	<div id="success_Install">
+    	    <!--header-->
+    	    <div class="header-box">
+    	        <img src="../static/img/20221025100444.png" />
+    	    </div>
+    	    <div class="line"></div>
+    	    <!--安装成功图标-->
+    	    <div class="successIcon">
+    	        <img src="../static/img/successInstall.png" />
+    	    </div>
+    	    <h3>安装成功</h3>
+    	    <!--登录管理后台-->
+    	    <div class="link-card">
+    	        <a href="../console/index/" target="block">
+    	        <div class="title">登录管理后台</div>
+    	        <div class="desc">登录管理后台进行体验和使用</div>
+    	        <div class="go"><img src="../static/img/go.png" /></div>
+    	        </a>
+    	    </div>
+    	    
+    	    <!--使用指南-->
+    	    <div class="link-card">
+    	        <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="block" title="如链接失效请前往开发者github了解：github.com/likeyun">
+    	        <div class="title">阅读使用指南</div>
+    	        <div class="desc">阅读使用指南以了解正确的使用姿势</div>
+    	        <div class="go"><img src="../static/img/go.png" /></div>
+    	        </a>
+    	    </div>
+    	</div>
+	</div>
+
+</div><!-- app -->
+
+
+<script type="text/javascript">
+
+checkInstall();
+
+// 安装环境检测
+function checkInstall(){
+    
+    $.ajax({
+        type: "POST",
+        url: "./checkInstall.php",
+        success: function(res){
+            
+            // 成功
+            // 判断PHP版本是否符合
+            if(res.php_version >= '7.0'){
+                
+                // 符合
+                $('#php_version').text(res.php_version);
+                $('#php_version_result').html('<span>符合</span>');
+            }else{
+                
+                // 不符合
+                $('#php_version').html('<span style="color:#f00;">'+res.php_version+'</span>');
+                $('#php_version_result').html('<span style="color:#f00;">不符合</span>');
+            }
+            
+            // 创建权限
+            if(res.upload_result == 1){
+                
+                // 创建成功
+                $('#php_upload_info').text('测试文件创建成功');
+                $('#php_upload_result').html('<span>符合</span>');
+            }else{
+                
+                // 创建失败
+                $('#php_upload_info').html('<span style="color:#f00;">测试文件创建失败</span>');
+                $('#php_upload_result').html('<span style="color:#f00;">不符合</span>');
+            }
+            
+            // 开始安装
+            if(res.php_version >= '7.0' && res.upload_result == 1){
+                
+                // 同时满足
+                // 可以安装
+                $('#installBtn').css('display','block');
+                $('#installBtn').html('<button class="form-control-login" onclick="startInstall();">开始安装</button>');
+            }else{
+                
+                // 不满足
+                $('#installBtn').css('display','none');
+                $('#installBtn').html('');
+            }
+        }
+    });
+}
+
+
+// 开始安装
+function startInstall(){
+    $('#check_Install').css('display','none');
+    $('#start_Install').css('display','block');
+}
+
+// 验证安装参数
+function checkInstallParams(){
+
+    $.ajax({
+        type: "POST",
+        url: "./checkInstallParams.php",
+        data: $('#checkInstallParams').serialize(),
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 安装成功
+                showSuccessResult(res.msg)
+                $('#success_Install').css('display','block');
+                $('#start_Install').css('display','none');
+            }else{
+
+                // 安装失败
+                showErrorResult(res.msg)
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误，可F12查看报错信息!')
+        },
+        beforeSend: function() {
+
+            $('#installResult').html('<span class="success">安装中，请稍等...</span>');
+            $('#installResult .success').css('display','block');
+        }
+    });
+}
+
+// 打开操作反馈（操作成功）
+function showSuccessResult(content){
+    $('#installResult').html('<span class="success">'+content+'</span>');
+    $('#installResult .success').css('display','block');
+    setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
+}
+
+// 打开操作反馈（操作失败）
+function showErrorResult(content){
+    $('#installResult').html('<span class="error">'+content+'</span>');
+    $('#installResult .error').css('display','block');
+    setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
+}
+
+// 关闭操作反馈
+function hideResult(){
+    $('#installResult .success').css('display','none');
+    $('#installResult .error').css('display','none');
+}
+
+// 跳转到指定路径
+function redirectPage(pagePath,timeout){
+    setTimeout('location.href="'+pagePath+'"', timeout);
+}
+
+</script>
+
+
+</body>
+</html>
