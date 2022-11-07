@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>引流宝</title>
+	<meta charset="utf-8">
+	<!--公共样式-->
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<!--整个项目的样式-->
+	<link rel="stylesheet" href="../../static/css/hm.css">
+	<!--网页标题图标-->
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<!--公共JS-->
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<!--群活码JS-->
+	<script type="text/javascript" src="./qun.js"></script> 
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="./" class="index">
+			<div class="logo"></div>
+			</a>
+
+			<!-- LIST -->
+			<ul>
+				<li><a href="../index/">首页</a></li>
+				<li><a href="../qun/" class="left_ul_li_select">群活码</a></li>
+				<li><a href="../kf/">客服码</a></li>
+				<li><a href="../channel/">渠道码</a></li>
+				<li><a href="../config/">配置中心</a></li>
+				<li><a href="../user/">账号管理</a></li>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account" id="accountInfo"></div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+		<h4>群活码</h4>
+		<div class="data-card">
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+				<button class="default-btn" data-toggle="modal" data-target="#CreatQunHm" onclick="getDomainNameList('creat')">创建群活码</button>
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div><!-- data-list -->
+			<p class="loading" style="display: none;"></p>
+			<!-- 分页 -->
+			<div class="fenye"></div>
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+	<!-- 创建群活码 -->
+    <div class="modal fade" id="CreatQunHm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">创建群活码</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="creatQun">
+                        <span class="text">标题</span>
+                        <input type="text" name="qun_title" class="form-control" id="qun_title" autocomplete="off" placeholder="标题或群名称">
+                        
+                        <span class="text">入口域名</span>
+                        <select name="qun_rkym" class="form-control" title="入口域名" id="qun_rkym"></select>
+                        
+                        <span class="text">落地域名</span>
+                        <select name="qun_ldym" class="form-control" title="落地域名" id="qun_ldym"></select>
+                        
+                        <span class="text">短链域名</span>
+                        <select name="qun_dlym" class="form-control" title="短链域名" id="qun_dlym"></select>
+                        </form>
+                    </div><!-- modal-body -->
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav">
+                            <span class="faq"><a href="#">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="creatQun();">立即创建</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- CreatQunHm -->
+  	
+  	<!-- 编辑群活码 -->
+    <div class="modal fade" id="EditQunHm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑群活码</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                <form id="editQun" enctype="multipart/form-data">
+                    <span class="text">标题</span>
+                    <input type="text" name="qun_title" class="form-control" autocomplete="off" id="qun_title_edit" placeholder="标题或群名称">
+                    
+                    <span class="text">群备注</span>
+                    <input type="text" name="qun_beizhu" class="form-control" autocomplete="off" id="qun_beizhu_edit" placeholder="群简介、进群要求等（可空）">
+                    
+                    <span class="text">入口域名</span>
+                    <select name="qun_rkym" class="form-control" title="入口域名" id="qun_rkym_edit"></select>
+                    
+                    <span class="text">落地域名</span>
+                    <select name="qun_ldym" class="form-control" title="落地域名" id="qun_ldym_edit"></select>
+                    
+                    <span class="text">短链域名</span>
+                    <select name="qun_dlym" class="form-control" title="短链域名" id="qun_dlym_edit"></select>
+                    
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                        <div style="width:48%;height:70px;float:left;">
+                            <span class="text">活码状态</span>
+                            <select name="qun_status" class="form-control" title="活码状态" id="qun_status_edit"></select>
+                        </div>
+                        <div style="width:48%;height:70px;float:right;">
+                            <span class="text">安全提示</span>
+                            <select name="qun_safety" class="form-control" title="顶部扫码安全提示" id="qun_safety_edit"></select>
+                        </div>
+                    </div>
+                    
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                        <div style="width:48%;height:70px;float:left;">
+                            <span class="text">客服状态</span>
+                            <select name="qun_kf_status" class="form-control" title="是否显示客服" id="qun_kf_status_edit" onclick="getKfOptionSelectVal();"></select>
+                        </div>
+                        <div style="width:48%;height:70px;float:right;">
+                            <span class="text">去重功能</span>
+                            <select name="qun_qc" class="form-control" title="是否开启去重功能" id="qun_qc_edit"></select>
+                        </div>
+                    </div>
+                    
+                    <!--上传控件-->
+                    <span class="upload_file">
+                    	<div class="upload_qrcode">
+                    	    <input type="file" class="file_input" name="file" accept="image/*" id="selectQunQrcode" />
+                    	    <img src="../../static/img/uploadIcon.png" class="upload_icon" />
+                    	</div>
+                    	<p class="upload_text">上传客服二维码</p>
+                    </span>
+                    <!--二维码图片预览-->
+                    <div class="qrcode_preview"></div>
+                    <input type="hidden" name="qun_id" id="qun_id_edit">
+                    <input type="hidden" name="qun_kf" id="qun_kf_edit">
+                </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav">
+                    	    <span class="faq"><a href="#">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" onclick="editQun();">提交更新</button>
+                    	</div>
+                    </div>
+                </div><!-- modal-footer -->
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- EditQunHm -->
+  	
+  	<!-- 确定删除群 -->
+    <div class="modal fade" id="DelQunHm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除群活码</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该群活码及其所有二维码！
+                </div><!-- modal-body -->
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- DelQunHm -->
+    
+    <!-- 确定删除群子码 -->
+    <div class="modal fade" id="DelQunZm">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除群二维码</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该群二维码且无法恢复！
+                </div><!-- modal-body -->
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- DelQunHm -->
+  	
+  	<!--子码二维码管理-->
+    <div class="modal fade" id="qunZima">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span id="qun_title_uploadQunZima"></span>
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <div class="btn-view">
+                        <button type="button" class="default-btn zima-upload-qrcode">
+                            <span>上传群二维码</span>
+                            <form id="uploadZmQrcodeForm" enctype="multipart/form-data">
+                                <input type="file" name="file" class="upload_zm" accept="image/*" id="uploadZmQrcode" />
+                                <input text="text" name="qun_id" id="uploadZmQrcode_qun_id" style="display:none;" />
+                            </form>
+                        </button>
+                    </div>
+                    <!-- 群子码列表 -->
+                    <div class="qunzima-list">
+                        <table class="table">
+                            <thead></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <!--加载不到列表的时候展示-->
+                    <p class="loading" style="display: none;"></p>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav">
+                    	    <span class="faq"><a href="#">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" data-dismiss="modal">关闭</button>
+                    	</div>
+                    </div>
+                </div>
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div>
+        </div>
+    </div><!-- qunZima -->
+    
+    <!-- 编辑群活码子码 -->
+    <div class="modal fade" id="EditQunZm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑群二维码</h4>
+                    <button type="button" class="close" onclick="hideEditQunZm();">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                <form id="editQunzm" enctype="multipart/form-data" title="温馨提示:点击右上角X可返回二维码列表">
+                    <span class="text">阈值</span>
+                    <input type="text" name="zm_yz" class="form-control" autocomplete="off" id="zm_yz_edit" placeholder="设置阈值">
+                    
+                    <span class="text">群主微信号</span>
+                    <input type="text" name="zm_leader" class="form-control" autocomplete="off" id="zm_leader_edit" placeholder="群主微信号（可空）">
+                    
+                    <span class="text">状态</span>
+                    <select name="zm_status" class="form-control" title="二维码使用状态" id="zm_status_edit"></select>
+                    <!--上传控件-->
+                    <span class="upload_file">
+                    	<div class="upload_qrcode">
+                    	    <input type="file" class="file_input" name="file" accept="image/*" id="selectQunzmQrcode" />
+                    	    <img src="../../static/img/uploadIcon.png" class="upload_icon" />
+                    	</div>
+                    	<p class="upload_text">上传客服二维码</p>
+                    </span>
+                    <!--二维码图片预览-->
+                    <div class="qrcode_preview"></div>
+                    <input type="hidden" name="zm_id" id="zm_id_edit">
+                    <input type="hidden" name="zm_qrcode" id="zm_qrcode_edit">
+                </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav">
+                    	    <span class="faq"><a href="#">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" onclick="editQunzm();">提交更新</button>
+                    	</div>
+                    </div>
+                </div><!-- modal-footer -->
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- EditQunZm -->
+    
+    <!-- 分享群 -->
+    <div class="modal fade" id="shareQunHm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">分享群活码</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="longUrl"><span class="text">长链接：</span><span id="longUrl"></span></div>
+                        <div class="shortUrl"><span class="text">短链接：</span><span id="shortUrl"></span></div>
+                        <div class="Qrcode" id="shareQrcode"></div>
+                    </div>
+                </div><!-- modal-body -->
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- shareQunHm -->
+
+</div><!-- app -->
+
+
+<script type="text/javascript">
+
+// 上传客服二维码
+$("#selectQunQrcode").change(function(e){
+    
+    // 获取选择的文件
+    var fileSelect = e.target.files;
+    if(fileSelect.length>0){
+        
+        // file表单数据
+        var imageData = new FormData(document.getElementById("editQun"));
+        
+        // 异步上传
+        $.ajax({
+            url:"../upload.php",
+            type:"POST",
+            data:imageData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                
+                if(res.code == 200){
+                    
+                    // 上传成功
+                    $('#qun_kf_edit').val(res.url);
+                    $('#EditQunHm .modal-body .upload_file').css('display','none');
+                    $('#EditQunHm .modal-body .qrcode_preview').css('display','block');
+                    $('#EditQunHm .modal-body .qrcode_preview').html('<img src="'+res.url+'" class="qrcode" /><p class="uploadSuccess">上传成功</p>');
+                }else{
+                    
+                    // 上传失败
+                    $('#selectQrcode').val('');
+                    showErrorResult(res.msg)
+                }
+                
+            },
+            error: function() {
+                
+                // 上传失败
+                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            }
+        })
+    }
+})
+
+// 上传群二维码（上传子码）
+$("#uploadZmQrcode").change(function(e){
+    
+    // 获取选择的文件
+    var fileSelect = e.target.files;
+    if(fileSelect.length>0){
+        
+        // file表单数据
+        var imageData = new FormData(document.getElementById("uploadZmQrcodeForm"));
+        // qun_id
+        var qun_id = $("#uploadZmQrcode_qun_id").val();
+        
+        // 异步上传
+        $.ajax({
+            url:"./uploadZmQrcode.php",
+            type:"POST",
+            data:imageData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                
+                if(res.code == 200){
+                    
+                    // 上传成功
+                    // 刷新子码列表
+                    freshenQunZmList(qun_id)
+                }else{
+                    
+                    // 上传失败
+                    showErrorResult(res.msg)
+                }
+                
+            },
+            error: function() {
+                
+                // 上传失败
+                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            }
+        })
+    }
+})
+
+// 上传群二维码（更换子码）
+$("#selectQunzmQrcode").change(function(e){
+    
+    // 获取选择的文件
+    var fileSelect = e.target.files;
+    if(fileSelect.length>0){
+        
+        // file表单数据
+        var imageData = new FormData(document.getElementById("editQunzm"));
+        
+        // 异步上传
+        $.ajax({
+            url:"../upload.php",
+            type:"POST",
+            data:imageData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                
+                if(res.code == 200){
+                    
+                    // 上传成功
+                    $('#zm_qrcode_edit').val(res.url);
+                    $('#EditQunZm .modal-body .upload_file').css('display','none');
+                    $('#EditQunZm .modal-body .qrcode_preview').css('display','block');
+                    $('#EditQunZm .modal-body .qrcode_preview').html('<img src="'+res.url+'" class="qrcode" /><p class="uploadSuccess">上传成功</p>');
+                    
+                }else{
+                    
+                    // 上传失败
+                    showErrorResult(res.msg)
+                    // 清空file选择的文件以重试
+                    $("#updateZmQrcode").val('');
+                }
+                
+            },
+            error: function() {
+                
+                // 上传失败
+                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                // 清空file选择的文件以重试
+                $("#updateZmQrcode").val('');
+            }
+        })
+    }
+})
+
+</script>
+
+
+</body>
+</html>
