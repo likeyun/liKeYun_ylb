@@ -46,13 +46,14 @@
             $getLoginUserAdminResult = $huoma_user->find($getLoginUserAdmin);
             $user_admin = json_decode(json_encode($getLoginUserAdminResult))->user_admin;
             $user_name = json_decode(json_encode($getLoginUserAdminResult))->user_name;
+            $user_id_bythisLoginUser = json_decode(json_encode($getLoginUserAdminResult))->user_id;
             
             // 判断操作结果
             if($user_admin == 1){
                 
                 // 有管理员权限：允许操作
                 // 最后一步：检查删除的账号是否为当前账号
-                if($user_name == $LoginUser){
+                if($user_id == $user_id_bythisLoginUser){
                     
                     // 是
                     // 删除失败
