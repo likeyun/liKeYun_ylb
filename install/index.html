@@ -39,7 +39,7 @@
                 <tbody>
                   <tr>
                     <td>PHP版本</td>
-                    <td>PHP7.0以上</td>
+                    <td>PHP 7.0 - 7.4</td>
                     <td id="php_version"></td>
                     <td id="php_version_result"></td>
                   </tr>
@@ -131,7 +131,7 @@
     	    <h3>安装成功</h3>
     	    <!--登录管理后台-->
     	    <div class="link-card">
-    	        <a href="../console/index/" target="block">
+    	        <a href="../console/index/" target="blank">
     	        <div class="title">登录管理后台</div>
     	        <div class="desc">登录管理后台进行体验和使用</div>
     	        <div class="go"><img src="../static/img/go.png" /></div>
@@ -140,7 +140,7 @@
     	    
     	    <!--使用指南-->
     	    <div class="link-card">
-    	        <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="block" title="如链接失效请前往开发者github了解：github.com/likeyun">
+    	        <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="block" title="如链接失效请前往开发者github了解：github.com/likeyun" target="blank">
     	        <div class="title">阅读使用指南</div>
     	        <div class="desc">阅读使用指南以了解正确的使用姿势</div>
     	        <div class="go"><img src="../static/img/go.png" /></div>
@@ -166,7 +166,7 @@ function checkInstall(){
             
             // 成功
             // 判断PHP版本是否符合
-            if(res.php_version >= '7.0'){
+            if(res.php_version >= '7.0' && res.php_version <= '7.5'){
                 
                 // 符合
                 $('#php_version').text(res.php_version);

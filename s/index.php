@@ -1,13 +1,14 @@
 <?php
 
+// 页面编码
+header("Content-type:text/html;charset=utf-8");
+
 // 获取参数
 $key = trim($_GET['key']);
 
 // 过滤参数
 if($key && $key !== ''){
     
-    echo '<title>加载中...</title>';
-
     // 数据库配置
     include '../console/Db.php';
     
@@ -21,6 +22,8 @@ if($key && $key !== ''){
     $getQunldym = ['qun_key'=>$key];
     $getQunldymResult = $db->set_table('huoma_qun')->find($getQunldym);
     if($getQunldymResult){
+        
+        echo '<title>加载中...</title>';
         
         // 获取成功
         $qun_ldym = json_decode(json_encode($getQunldymResult))->qun_ldym;
@@ -38,6 +41,8 @@ if($key && $key !== ''){
         $getKfldymResult = $db->set_table('huoma_kf')->find($getKfldym);
         if($getKfldymResult){
             
+            echo '<title>加载中...</title>';
+            
             // 获取成功
             $kf_ldym = json_decode(json_encode($getKfldymResult))->kf_ldym;
             $kf_id = json_decode(json_encode($getKfldymResult))->kf_id;
@@ -54,6 +59,8 @@ if($key && $key !== ''){
             $getChannelldymResult = $db->set_table('huoma_channel')->find($getChannelldym);
             if($getChannelldymResult){
                 
+                echo '<title>加载中...</title>';
+                
                 // 获取成功
                 $channel_ldym = json_decode(json_encode($getChannelldymResult))->channel_ldym;
                 $channel_id = json_decode(json_encode($getChannelldymResult))->channel_id;
@@ -64,7 +71,8 @@ if($key && $key !== ''){
             }else{
                 
                 // 获取失败
-                echo '链接已被管理员删除';
+                echo '<title>温馨提示</title>';
+                echo warnningInfo('链接不存在或已被管理员删除');
             }
         }
         
@@ -72,7 +80,8 @@ if($key && $key !== ''){
 }else{
     
     // 参数为空
-    echo '请求参数为空';
+    echo '<title>温馨提示</title>';
+    echo warnningInfo('请求参数为空');
 }
 
 // 跳转到落地页
@@ -125,4 +134,13 @@ function redirectURL($folderNum){
     }
 }
 
+// 提醒文字
+function warnningInfo($warnningText){
+    
+    // 传入$warnningText
+    return '<div id="warnning"><img src="../static/img/warnning.svg" /></div><p id="warnningText">'.$warnningText.'</p>';
+    
+}
+
 ?>
+<link rel="stylesheet" href="../static/css/common.css">

@@ -138,6 +138,20 @@ input[type=file]::-webkit-file-upload-button{
 	height: 80px;
 	margin-bottom: 20px;
 }
+
+
+#right .data-content .initialize_index{
+	text-align: center;
+	margin-top: 50px;
+	font-size: 17px;
+	color: #999;
+}
+#right .data-content .initialize_index img{
+	width: 80px;
+	height: 80px;
+	margin-bottom: 20px;
+}
+
 #app .dropdown .dropdown-btn{
     border:none;
     outline: none;
@@ -175,27 +189,23 @@ input[type=file]::-webkit-file-upload-button{
 	background: #fff;
 	position: fixed;
 	left: 0;
-	overflow: hidden;
-	/*box-shadow: 0 0 10px #eee;*/
+	bottom: 0;
 }
 #app .left .dhview{
 	width: 224px;
 	margin: 30px auto;
-	/*background: #ccc;*/
 }
 #app .left .dhview .logo{
 	width: 224px;
 	height: 55px;
 	margin-bottom: 30px;
 	background-image: url('../img/headerlogo.png');
-	/*background: #ccc;*/
 }
 #app .left .dhview ul li{
 	width: 224px;
 	height: 43px;
 	line-height: 43px;
 	list-style: none;
-	/*background: #eee;*/
 	text-indent: 20px;
 	font-size: 16px;
 	margin-bottom: 5px;
@@ -213,7 +223,7 @@ input[type=file]::-webkit-file-upload-button{
 	color: rgb(59,94,225);
 }
 /*左侧导航已选样式*/
-#app .left .dhview ul li .left_ul_li_select{
+#app .left .dhview ul li .selected{
     font-weight: bold;
     border-radius: 10px;
     color: rgb(59,94,225);
@@ -222,15 +232,15 @@ input[type=file]::-webkit-file-upload-button{
 #app .left .account{
 	width: 224px;
 	height: 45px;
-	margin:20px auto;
+	margin:0 auto;
 	background: #f5f5f5;
 	border-radius: 10px;
-	position: fixed;
 	line-height: 45px;
 	text-align: center;
-	bottom: 30px;
 	font-size: 15px;
 	color: #666;
+	position: absolute;
+	bottom: 40px;
 }
 #app .left .account .user_name{
 	color: #666;
@@ -254,26 +264,22 @@ input[type=file]::-webkit-file-upload-button{
     line-height: 40px;
 }
 
-
+/*右侧布局*/
 #right{
-	width: calc(100% - 420px);
-	height: 100%;
-	/*background: #ccc;*/
-	position: fixed;
-	right: 80px;
-	top: 60px;
+    height: 100%;
+    margin-left: 330px;
+    margin-bottom: 100px;
 }
 #right h4{
-	width: 100%;
-	height: 40px;
 	color: #333;
+	margin-top: 40px;
 }
 #right .data-card{
-	width: 100%;
+	width: calc(100% - 60px);
 	background: #fff;
 	border-radius: 5px;
-	/*overflow: hidden;*/
 	padding:20px 0;
+	margin:15px 0 0 0;
 }
 #right .data-card .button-view{
 	width: 96%;
@@ -438,6 +444,14 @@ input[type=file]::-webkit-file-upload-button{
     margin:0 auto;
 }
 #CleanAllChannelData .modal-footer button{
+    display: block;
+    margin:0 auto;
+}
+#DelDwzModal .modal-footer button{
+    display: block;
+    margin:0 auto;
+}
+#DelApiKeyModal .modal-footer button{
     display: block;
     margin:0 auto;
 }
@@ -1247,4 +1261,38 @@ input[type=file]::-webkit-file-upload-button{
 #app .formBox_install .form-box .doubleView .right_input{
     width: 49%;
     float: right;
+}
+
+/*短网址dwz*/
+#right .data-list .text{
+    width: 100%;
+    height: 25px;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+#right .data-list .reqUrl{
+    padding:10px 15px;
+    display: inline-block;
+    background: #f3f3f3;
+    margin-top: 6px;
+    color: #BC275B;
+    border-radius: 5px;
+}
+#right .data-list .reqParams{
+    width: 60%;
+    margin-top: 6px;
+}
+#right .data-list .content{
+    width: 60%;
+    padding:10px 10px;
+    background: #f3f3f3;
+    margin-top: 6px;
+    color: #BC275B;
+    border-radius: 5px;
+}
+#right .data-list .sign_exampleCode{
+    margin-top: 10px;
+    max-width: 600px;
 }
