@@ -46,9 +46,10 @@ http://域名/console/index/
 | 账号管理 | 创建账号、删除成员账号、修改账号信息等操作。 |
 
 # 截图
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/b706e5f415b0daf1c39c027e6b10d6f3.png" /><br/>
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/adc9966d3fd5b7879fd5736bea97eebc.png" /><br/>
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/af986c7cd498ef9595b9e5d02ee034d8.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/202211162235b202211161210351756.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/202211162c124202211161210569017.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/20221116d1904202211161211139639.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/20221116750d6202211161211223515.png" /><br/>
 
 # 赞赏
 开源以来，只收到过5笔赞赏，这项目真的用爱发电。<br/>
