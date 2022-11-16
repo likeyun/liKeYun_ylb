@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>引流宝</title>
+	<meta charset="utf-8">
+	<!--公共样式-->
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<!--整个项目的样式-->
+	<link rel="stylesheet" href="../../static/css/hm.css">
+	<!--网页标题图标-->
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<!--公共JS-->
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/chart.js"></script>
+	<!--首页JS-->
+	<script type="text/javascript" src="./index.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- LIST -->
+			<ul>
+			    <li><a href="../index/" class="selected">首页</a></li>
+				<li><a href="../qun/">群活码</a></li>
+				<li><a href="../kf/">客服码</a></li>
+				<li><a href="../channel/">渠道码</a></li>
+				<li><a href="../dwz/">短网址</a></li>
+				<li><a href="../config/">配置中心</a></li>
+				<li><a href="../user/">账号管理</a></li>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account" id="accountInfo"></div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h4>首页</h4>
+		<div class="data-card">
+		    
+		    <!--主体-->
+		    <div class="data-content">
+		        
+    			<!--左侧数据面板-->
+    			<div class="data-pannel">
+    			    
+    			    <!--总数据-->
+    			    <div class="data-allNum">
+    			        <!--卡片1-->
+        			    <div class="numcard">
+        			        <div class="text" title="今日群活码访问量">今日群活码</div>
+        			        <div class="num qun_pvTotal"> - </div>
+        			    </div>
+        			    
+        			    <!--卡片2-->
+        			    <div class="numcard">
+        			        <div class="text" title="今日群活码访问量">今日客服码</div>
+        			        <div class="num kf_pvTotal"> - </div>
+        			    </div>
+        			    
+        			    <!--卡片3-->
+        			    <div class="numcard">
+        			        <div class="text" title="今日群活码访问量">今日渠道码</div>
+        			        <div class="num channel_pvTotal"> - </div>
+        			    </div>
+        			    
+        			    <!--卡片4-->
+        			    <div class="numcard" style="border:none;">
+        			        <div class="text" title="今日群活码访问量">今日短网址</div>
+        			        <div class="num userTotalNum"> - </div>
+        			    </div>
+    			    </div>
+    			    
+    			    <!--切换按钮-->
+			        <div class="button-group">
+                        <button class="tint-btn default-btn" style="margin-right:8px;" data-type="qun">群活码</button>
+                        <button class="tint-btn" style="margin-right:8px;" data-type="kf">客服码</button>
+                        <button class="tint-btn" style="margin-right:8px;"data-type="channel">渠道码</button>
+                        <button class="tint-btn" data-type="dwz">短网址</button>
+                        <span class="autofreshen"></span>
+			        </div>
+    			        
+    			    <!--各时段数据-->
+    			    <div class="data-hourNum">
+    			        <canvas id="myChart" width="350" height="130" style="width:100%;height:100px;"></canvas>
+    			    </div>
+    			</div><!-- data-pannel -->
+    			
+    			<!--项目面板-->
+    			<div class="project-pannel">
+    			    
+    			    <!--导航卡片-->
+    			    <a href="https://github.com/likeyun/liKeYun_Huoma" target="_blank">
+    			        <div class="link-card">
+    			        <div class="link-title">开源地址 >> </div>
+    			        <div class="link-desc">前往github获取最新版本源码及更新包。</div>
+    			    </div>
+    			    </a>
+    			    
+    			    <!--导航卡片-->
+    			    <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank">
+    			    <div class="link-card">
+    			        <div class="link-title">使用指南 >> </div>
+    			        <div class="link-desc">前往使用指南了解正确的使用姿势。</div>
+    			    </div>
+    			    </a>
+    			    
+    			    <!--导航卡片-->
+    			    <a href="https://docs.qq.com/doc/DRE9aWlRqZUdFRWl1" target="_blank">
+    			    <div class="link-card">
+    			        <div class="link-title">开发指南 >> </div>
+    			        <div class="link-desc">前往开发指南了解进一步的开发。</div>
+    			    </div>
+    			    </a>
+    			    
+    			    <!--导航卡片-->
+    			    <a href="https://t.focus-img.cn/sh740wsh/bbs/p2/8848739514d5f3836c6fdc11c43938c4.png" target="_blank">
+    			    <div class="link-card">
+    			        <div class="link-title">开发者交流群 >> </div>
+    			        <div class="link-desc">加群讨论部署安装、使用、开发等话题。</div>
+    			    </div>
+    			    </a>
+    			    
+    			    <!--导航卡片-->
+    			    <a href="https://support.qq.com/product/453822" target="_blank">
+    			    <div class="link-card">
+    			        <div class="link-title">反馈建议 >> </div>
+    			        <div class="link-desc">对本开源作品的反馈及开发建议。</div>
+    			    </div>
+    			    </a>
+    			    
+    			    <!--导航卡片-->
+    			    <a href="https://segmentfault.com/u/tanking" target="_blank">
+    			    <div class="link-card">
+    			        <div class="link-title">开发者博客 >> </div>
+    			        <div class="link-desc">关注开发者的博客了解更多动态。</div>
+    			    </div>
+    			    </a>
+    			    
+    			</div>
+			</div>
+			
+			<!--未获取到数据的时候显示这个div-->
+			<div class="loading"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+</div><!-- app -->
+
+<script>
+
+// 获取自动刷新数据状态
+var freshen = queryURLParams(window.location.href).f;
+if(freshen !== 'undefined'){
+    
+    // 开启
+    if(freshen == 1){
+        
+        $('#right .data-card .data-content .data-pannel .button-group .autofreshen').html('<a href="./">关闭自动刷新</a>');
+        // 60秒刷新一次数据
+        setInterval('getPvTotal("群活码","qun")',60000);
+    }else{
+        $('#right .data-card .data-content .data-pannel .button-group .autofreshen').html('<a href="?f=1" title="每分钟刷新一次首页数据">开启自动刷新</a>');
+    }
+    
+}
+
+// 切换按钮样式
+$(document).ready(function(e){
+    $('#right .data-card .data-content .data-pannel .button-group button').click(function(){
+        $(this).siblings().removeClass('default-btn');
+        $(this).addClass('default-btn');
+        var label = $(this)[0].innerText;
+        var type = $(this)[0].dataset.type;
+        
+        // 获取各时段访问量
+        getPvTotal(label,type);
+        
+        // 设置URL
+        window.history.pushState('', '', '#'+type);
+    })
+});
+
+
+// 获取访问量数据
+function getPvTotal(label,type) {
+    
+    // AJAX获取
+    $.ajax({
+        type: "POST",
+        url: "./getPvTotal.php?type="+type,
+        success: function(res){
+
+            // 状态码为200代表有数据
+            if(res.code == 200){
+                
+                // 当日访问量
+                $('#right .data-card .data-content .data-allNum .numcard .qun_pvTotal').text(res.pvTotal.qun_pvTotal);
+                $('#right .data-card .data-content .data-allNum .numcard .kf_pvTotal').text(res.pvTotal.kf_pvTotal);
+                $('#right .data-card .data-content .data-allNum .numcard .channel_pvTotal').text(res.pvTotal.channel_pvTotal);
+                
+                // 用户量
+                $('#right .data-card .data-content .data-allNum .numcard .userTotalNum').text(res.pvTotal.dwz_pvTotal);
+                
+                // 销毁Canvas
+                $('#myChart').remove();
+                $('#right .data-card .data-content .data-pannel .data-hourNum').append('<canvas id="myChart" width="350" height="130" style="width:100%;height:100px;"></canvas>');
+                
+                // 当日各时段访问量
+                var ctx = $('#myChart');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ["1h", "2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h", "11h", "12h", "13h", "14h", "15h", "16h", "17h", "18h", "19h", "20h", "21h", "22h", "23h"],
+                        datasets: [{
+                            label: label,
+                            data: res.hourCount,
+                            backgroundColor: [
+                                'rgba(59,94,225,1)'
+                            ],
+                            borderColor: [
+                                'rgba(59,94,225,0.5)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                
+            }else{
+                
+                // 非200状态码
+                if(res.code == 205){
+                    
+                    // 205状态码代表用户升级版本但未初始化
+                    $('#right .data-content').html('<div class="initialize_index"><img src="../../static/img/warningIcon.png"/><br/><p><p>检测到你正在升级版本</p></p><button onclick="initialize_index();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button><br/><br/></div>');
+
+                }else{
+                    
+                    warningPage(res.msg);
+                }
+                
+                // 如果是未登录
+                // 3秒后自动跳转到登录页面
+                if(res.code == 201){
+                    redirectLoginPage(3000);
+                }
+            }
+            
+      },
+      error: function(){
+        
+        // 发生错误
+        errorPage('服务器发生错误！')
+      },
+    });
+}
+
+// 获取URL参数
+function queryURLParams(url) {
+    var pattern = /(\w+)=(\w+)/ig;
+    var parames = {};
+    url.replace(pattern, ($, $1, $2) => {
+        parames[$1] = $2;
+    });
+    return parames;
+}
+
+// 跳转到登录界面
+function redirectLoginPage(second){
+    
+    // second毫秒后跳转
+    setTimeout('location.href="../login/";', second);
+}
+</script>
+
+</body>
+</html>
