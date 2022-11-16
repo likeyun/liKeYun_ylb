@@ -48,7 +48,7 @@
             if($channel_status == 1){
                 
                 // 当前状态：正常
-                // 更新当前客服活码的访问量
+                // 更新当前渠道码的访问量
                 updateThisChannelHmPv($db,$cid);
                 
                 // 更新数据统计表访问量

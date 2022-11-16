@@ -362,7 +362,7 @@
             // 下午14:00 - 18:00在线
             // 晚上20:00 - 22:00在线
 	        $time >= strtotime('9:00') && $time <= strtotime('12:00') || 
-	        $time >= strtotime('14:00') && $time <= strtotime('18:00') || 
+	        $time >= strtotime('14:00') && $time <= strtotime('18:30') || 
 	        $time >= strtotime('20:00') && $time <= strtotime('22:00')){
 	            
 	            // 符合以上三个时间段的都显示在线
