@@ -39,7 +39,7 @@ http://域名/console/index/
 <img src="https://t.focus-img.cn/sh740wsh/bbs/p2/d9b26f158e879054a77473fdde52b473.png" />
 
 # 截图
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/45f0f564f9d6032250d3b1b84626fe60.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/2022111722cc2202211172032142211.png" /><br/>
 <img src="http://kycloud3.koyoo.cn/202211162c124202211161210569017.png" /><br/>
 <img src="http://kycloud3.koyoo.cn/20221116d1904202211161211139639.png" /><br/>
 <img src="http://kycloud3.koyoo.cn/20221116750d6202211161211223515.png" /><br/>
