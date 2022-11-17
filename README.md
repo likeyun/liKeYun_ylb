@@ -34,8 +34,7 @@ https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/>
 http://域名/console/index/
 ```
 
-# 版本和功能
-版本：1.0.0<br/>
+# 功能
 
 <img src="https://t.focus-img.cn/sh740wsh/bbs/p2/d9b26f158e879054a77473fdde52b473.png" />
 
