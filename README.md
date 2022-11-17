@@ -40,9 +40,10 @@ http://域名/console/index/
 
 # 截图
 <img src="http://kycloud3.koyoo.cn/2022111722cc2202211172032142211.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/202211162c124202211161210569017.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/20221116d1904202211161211139639.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/20221116750d6202211161211223515.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/20221117c95fa202211172033449384.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/2022111784b68202211172034483992.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/2022111773e4120221117203514350.png" /><br/>
+<img src="http://kycloud3.koyoo.cn/2022111732881202211172036336895.png" /><br/>
 
 # 赞赏
 开源以来，只收到过5笔赞赏，这项目真的用爱发电。<br/>
