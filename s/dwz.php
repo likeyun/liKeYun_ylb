@@ -33,6 +33,7 @@ if($key && $key !== ''){
         // 参数为空
         echo '<title>温馨提示</title>';
         echo warnningInfo('链接不存在或已被管理员删除');
+        echo '<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">';
     }
 }else{
     
