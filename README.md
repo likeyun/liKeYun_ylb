@@ -20,7 +20,9 @@ http://域名/install/
 ```
 
 # 使用指南
-https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/>
+https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
+
+就算你是个小白0基础，没有服务器、没有域名，不会搭建服务器，不会搭建网站，使用指南中有个针对0基础的教程，看完就会了。
 
 # 框架/语言
 前端框架：自写UI+少量Bootstrap+jQuery<br/>
