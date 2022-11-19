@@ -18,6 +18,7 @@
 ```
 http://域名/install/
 ```
+安装成功后请删除 /install/ 目录。
 
 # 使用指南
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
