@@ -71,8 +71,27 @@ if($key && $key !== ''){
             }else{
                 
                 // 获取失败
-                echo '<title>温馨提示</title>';
-                echo warnningInfo('链接不存在或已被管理员删除');
+                // 尝试获取中间页
+                // 根据key获取落地域名和zjy_id
+                $getZjyldym = ['zjy_key'=>$key];
+                $getZjyldymResult = $db->set_table('huoma_tbk')->find($getZjyldym);
+                if($getZjyldymResult){
+                    
+                    echo '<title>加载中...</title>';
+                    
+                    // 获取成功
+                    $zjy_ldym = json_decode(json_encode($getZjyldymResult))->zjy_ldym;
+                    $zjy_id = json_decode(json_encode($getZjyldymResult))->zjy_id;
+                    
+                    // 301跳转
+                    redirectHmPage($folderNum,$zjy_ldym,'zjy','zid',$zjy_id);
+                    
+                }else{
+                    
+                    // 获取失败
+                    echo '<title>温馨提示</title>';
+                    echo warnningInfo('链接不存在或已被管理员删除');
+                }
             }
         }
         

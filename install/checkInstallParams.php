@@ -266,39 +266,15 @@
             (100002, 3, '".$HTTP_TYPE.$_SERVER['HTTP_HOST']."')";
             
             $huoma_count = "CREATE TABLE `huoma_count` (
-              `id` int(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID（月份）',
-              `count_date` date DEFAULT NULL COMMENT '日期',
+              `id` int(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
+              `count_date` date DEFAULT NULL DEFAULT '".date('Y-m-d')."' COMMENT '日期',
               `count_hour` int(2) DEFAULT NULL COMMENT '小时',
               `count_qun_pv` int(10) NOT NULL DEFAULT '0' COMMENT '群活码',
               `count_kf_pv` int(10) NOT NULL DEFAULT '0' COMMENT '客服码',
               `count_channel_pv` int(10) NOT NULL DEFAULT '0' COMMENT '渠道码',
-              `count_dwz_pv` int(10) NOT NULL DEFAULT '0' COMMENT '短网址'
+              `count_dwz_pv` int(10) NOT NULL DEFAULT '0' COMMENT '短网址',
+              `count_zjy_pv` int(10) NOT NULL DEFAULT '0' COMMENT '淘宝客'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-            
-            $huoma_count_Data = "INSERT INTO `huoma_count` (`id`, `count_date`, `count_hour`, `count_qun_pv`, `count_kf_pv`, `count_channel_pv`, `count_dwz_pv`) VALUES
-            (1, '".date('Y-m-d')."', 1, 0, 0, 0, 0),
-            (2, '".date('Y-m-d')."', 2, 0, 0, 0, 0),
-            (3, '".date('Y-m-d')."', 3, 0, 0, 0, 0),
-            (4, '".date('Y-m-d')."', 4, 0, 0, 0, 0),
-            (5, '".date('Y-m-d')."', 5, 0, 0, 0, 0),
-            (6, '".date('Y-m-d')."', 6, 0, 0, 0, 0),
-            (7, '".date('Y-m-d')."', 7, 0, 0, 0, 0),
-            (8, '".date('Y-m-d')."', 8, 0, 0, 0, 0),
-            (9, '".date('Y-m-d')."', 9, 0, 0, 0, 0),
-            (10, '".date('Y-m-d')."', 10, 0, 0, 0, 0),
-            (11, '".date('Y-m-d')."', 11, 0, 0, 0, 0),
-            (12, '".date('Y-m-d')."', 12, 0, 0, 0, 0),
-            (13, '".date('Y-m-d')."', 13, 0, 0, 0, 0),
-            (14, '".date('Y-m-d')."', 14, 0, 0, 0, 0),
-            (15, '".date('Y-m-d')."', 15, 0, 0, 0, 0),
-            (16, '".date('Y-m-d')."', 16, 0, 0, 0, 0),
-            (17, '".date('Y-m-d')."', 17, 0, 0, 0, 0),
-            (18, '".date('Y-m-d')."', 18, 0, 0, 0, 0),
-            (19, '".date('Y-m-d')."', 19, 0, 0, 0, 0),
-            (20, '".date('Y-m-d')."', 20, 0, 0, 0, 0),
-            (21, '".date('Y-m-d')."', 21, 0, 0, 0, 0),
-            (22, '".date('Y-m-d')."', 22, 0, 0, 0, 0),
-            (23, '".date('Y-m-d')."', 23, 0, 0, 0, 0)";
             
             $huoma_channel = "CREATE TABLE `huoma_channel` (
               `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
@@ -341,7 +317,7 @@
               `dwz_creat_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
               `dwz_pv` int(10) NOT NULL DEFAULT '0' COMMENT '访问量',
               `dwz_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态（1正常 2停用）',
-              `dwz_url` text COMMENT '目标链接',
+              `dwz_url` text DEFAULT NULL COMMENT '目标链接',
               `dwz_type` int(2) DEFAULT NULL COMMENT '访问限制',
               `dwz_rkym` text COMMENT '入口域名',
               `dwz_zzym` text COMMENT '中转域名',
@@ -362,6 +338,35 @@
               `apikey_quota` int(20) DEFAULT '100000' COMMENT '请求配额（最大次数）',
               `apikey_num` int(20) NOT NULL DEFAULT '0' COMMENT '请求次数',
               `apikey_creat_user` varchar(32) DEFAULT NULL COMMENT '创建者'
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            
+            $huoma_tbk = "CREATE TABLE `huoma_tbk` (
+              `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
+              `zjy_id` varchar(10) DEFAULT NULL COMMENT '中间页ID',
+              `zjy_short_title` varchar(32) DEFAULT NULL COMMENT '短标题',
+              `zjy_long_title` text COMMENT '长标题',
+              `zjy_tkl` varchar(64) DEFAULT NULL COMMENT '淘口令',
+              `zjy_rkym` text COMMENT '入口域名',
+              `zjy_ldym` text COMMENT '落地域名',
+              `zjy_dlym` text COMMENT '短链域名',
+              `zjy_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+              `zjy_pv` varchar(10) NOT NULL DEFAULT '0' COMMENT '访问量',
+              `zjy_copyNum` int(10) DEFAULT '0' COMMENT '复制次数',
+              `zjy_original_cost` varchar(10) DEFAULT NULL COMMENT '原价',
+              `zjy_discounted_price` varchar(10) DEFAULT NULL COMMENT '券后价',
+              `zjy_goods_img` text COMMENT '商品主图',
+              `zjy_goods_link` text COMMENT '商品链接',
+              `zjy_key` varchar(10) DEFAULT NULL COMMENT '短链接',
+              `zjy_create_user` varchar(32) DEFAULT NULL COMMENT '创建者'
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            
+            $huoma_tbk_config = "CREATE TABLE `huoma_tbk_config` (
+              `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
+              `zjy_config_appkey` varchar(64) DEFAULT NULL COMMENT '折淘客appkey',
+              `zjy_config_sid` varchar(32) DEFAULT NULL COMMENT '折淘客sid',
+              `zjy_config_pid` varchar(64) DEFAULT NULL COMMENT '你的pid',
+              `zjy_config_tbname` varchar(32) DEFAULT NULL COMMENT '淘宝账号',
+              `zjy_config_user` varchar(32) DEFAULT NULL COMMENT '你的引流宝账号'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
             
             // 连接成功
@@ -389,15 +394,30 @@
                     $conn->query($huoma_domain) === TRUE && 
                     $conn->query($huoma_domain_Data) === TRUE && 
                     $conn->query($huoma_count) === TRUE && 
-                    $conn->query($huoma_count_Data) === TRUE && 
                     $conn->query($huoma_channel) === TRUE && 
                     $conn->query($huoma_channel_data) === TRUE && 
                     $conn->query($huoma_channel_accessdenied) === TRUE && 
                     $conn->query($huoma_dwz) === TRUE && 
-                    $conn->query($huoma_dwz_apikey) === TRUE){
-
-                    // 创建数据库配置文件
+                    $conn->query($huoma_dwz_apikey) === TRUE && 
+                    $conn->query($huoma_tbk) === TRUE && 
+                    $conn->query($huoma_tbk_config) === TRUE){
+                    
+                    // 向huoma_count插入一些默认数据
+                    for ($i = 1; $i <= 23; $i++) {
+                        
+                        // 插入数据
+                        $huoma_count_Data = "INSERT INTO `huoma_count` (`count_hour`) VALUES ($i)";
+                        $conn->query($huoma_count_Data);
+                    }
+                    
+                    // 淘宝客接口配置默认数据
+                    $huoma_tbk_config_Data = "INSERT INTO `huoma_tbk_config` (`zjy_config_appkey`, `zjy_config_sid`, `zjy_config_pid`, `zjy_config_tbname`, `zjy_config_user`) VALUES ('未设置', '未设置', '未设置', '未设置', '$user_name')";
+                    $conn->query($huoma_tbk_config_Data);
+                    
+                    // 数据库配置文件结构
                     $Db_Config_File = '<?php'.PHP_EOL.PHP_EOL.'// 数据库操作类'.PHP_EOL.'include \'DbClass.php\';'.PHP_EOL.PHP_EOL.'// 数据库配置'.PHP_EOL.'$config = ['.PHP_EOL.'    \'db_host\' => \''.$db_host.'\','.PHP_EOL.'    \'db_port\' => 3306,'.PHP_EOL.'    \'db_name\' => \''.$db_name.'\','.PHP_EOL.'    \'db_user\' => \''.$db_user.'\','.PHP_EOL.'    \'db_pass\' => \''.$db_pass.'\','.PHP_EOL.'    \'folderNum\' => \''.$install_folder.'\','.PHP_EOL.'    \'db_prefix\' => \'\''.PHP_EOL.'];'.PHP_EOL.'?>';
+                    
+                    // 创建数据库配置文件
                     file_put_contents('../console/Db.php',$Db_Config_File);
                     
                     // 安装成功

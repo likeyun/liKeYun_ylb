@@ -329,6 +329,46 @@ input[type=file]::-webkit-file-upload-button{
     color: #555;
     font-size: 15px;
 }
+#right .data-card .data-list .switch-on{
+    width: 35px;
+    height: 20px;
+    background: rgb(59,94,225);
+    display: block;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#right .data-card .data-list .switch-on .press{
+    width: 16px;
+    height: 16px;
+    margin:2px 0 0 2px;
+    background: #fff;
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    right: 2px;
+}
+#right .data-card .data-list .switch-off{
+    width: 35px;
+    height: 20px;
+    background: #ddd;
+    display: block;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#right .data-card .data-list .switch-off .press{
+    width: 16px;
+    height: 16px;
+    margin:2px 0 0 2px;
+    background: #fff;
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    left: 1px;
+}
 #right .data-card .data-list .status_close{
     color: rgb(244,97,92);
 }
@@ -455,6 +495,10 @@ input[type=file]::-webkit-file-upload-button{
     display: block;
     margin:0 auto;
 }
+#DelZjyModal .modal-footer button{
+    display: block;
+    margin:0 auto;
+}
 
 /*群活码、子码*/
 #qunZima .modal-body .btn-view{
@@ -498,6 +542,46 @@ input[type=file]::-webkit-file-upload-button{
 }
 #qunZima .loading p{
     font-size: 16px;
+}
+#qunZima .modal-body .qunzima-list .switch-on{
+    width: 35px;
+    height: 20px;
+    background: rgb(59,94,225);
+    display: block;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#qunZima .modal-body .qunzima-list .switch-on .press{
+    width: 16px;
+    height: 16px;
+    margin:2px 0 0 2px;
+    background: #fff;
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    right: 2px;
+}
+#qunZima .modal-body .qunzima-list .switch-off{
+    width: 35px;
+    height: 20px;
+    background: #ddd;
+    display: block;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#qunZima .modal-body .qunzima-list .switch-off .press{
+    width: 16px;
+    height: 16px;
+    margin:2px 0 0 2px;
+    background: #fff;
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    left: 1px;
 }
 #qunZima .status_close{
     color: rgb(244,97,92);
@@ -642,6 +726,46 @@ input[type=file]::-webkit-file-upload-button{
 #kfZima .loading p{
     font-size: 16px;
 }
+#kfZima .modal-body .kfzima-list .switch-on{
+    width: 35px;
+    height: 20px;
+    background: rgb(59,94,225);
+    display: block;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#kfZima .modal-body .kfzima-list .switch-on .press{
+    width: 16px;
+    height: 16px;
+    margin:2px 0 0 2px;
+    background: #fff;
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    right: 2px;
+}
+#kfZima .modal-body .kfzima-list .switch-off{
+    width: 35px;
+    height: 20px;
+    background: #ddd;
+    display: block;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+#kfZima .modal-body .kfzima-list .switch-off .press{
+    width: 16px;
+    height: 16px;
+    margin:2px 0 0 2px;
+    background: #fff;
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    left: 1px;
+}
 #kfZima .status_close{
     color: rgb(244,97,92);
 }
@@ -690,6 +814,54 @@ input[type=file]::-webkit-file-upload-button{
     margin:20px auto 10px;
 }
 #shareKfHm .modal-body .box .Qrcode img{
+    width: 200px;
+    height: 200px;
+}
+
+/*ShareZjyModal*/
+#ShareZjyModal .modal-body .box{
+    width: 95%;
+    margin:0 auto;
+}
+#ShareZjyModal .modal-body .box .longUrl{
+    width: 100%;
+    margin:0 auto;
+    padding:15px 15px;
+    font-size: 15px;
+    color: #333;
+    overflow: hidden;
+    word-wrap: break-word;
+    background: #f6f6f6;
+    border-radius: 10px;
+}
+#ShareZjyModal .modal-body .box .longUrl .text{
+    display: block;
+    height:20px;
+    margin:0 0 0 0;
+}
+#ShareZjyModal .modal-body .box .shortUrl{
+    width: 100%;
+    margin:0 auto;
+    padding:15px 15px;
+    font-size: 15px;
+    color: #333;
+    overflow: hidden;
+    word-wrap: break-word;
+    background: #f6f6f6;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+#ShareZjyModal .modal-body .box .shortUrl .text{
+    display: block;
+    height:20px;
+    margin:0 0 0 0;
+}
+#ShareZjyModal .modal-body .box .Qrcode{
+    width: 200px;
+    height: 200px;
+    margin:20px auto 10px;
+}
+#ShareZjyModal .modal-body .box .Qrcode img{
     width: 200px;
     height: 200px;
 }
@@ -1295,4 +1467,32 @@ input[type=file]::-webkit-file-upload-button{
 #right .data-list .sign_exampleCode{
     margin-top: 10px;
     max-width: 600px;
+}
+
+/*淘宝客*/
+#createZjyModal .input-group-append{
+    height: 36.5px;
+    position: relative;
+}
+#createZjyModal .input-group-append .input-group-text-fileselect{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+#EditZjyModal .input-group-append{
+    height: 36.5px;
+    position: relative;
+}
+#EditZjyModal .input-group-append .input-group-text-fileselect{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }
