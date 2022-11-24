@@ -89,12 +89,12 @@ function exitLogin(){
     });
 }
 
-// 用户升级初始化
-function initialize_index(){
+// 升级
+function Upgrade(){
     
     $.ajax({
         type: "POST",
-        url: "./initialize.php",
+        url: "./Upgrade.php",
         success: function(res){
             
             // 成功

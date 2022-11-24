@@ -36,6 +36,7 @@
 				<li><a href="../kf/">客服码</a></li>
 				<li><a href="../channel/">渠道码</a></li>
 				<li><a href="../dwz/">短网址</a></li>
+				<li><a href="../tbk/">淘宝客</a></li>
 				<li><a href="../config/">配置中心</a></li>
 				<li><a href="../user/">账号管理</a></li>
 			</ul>
@@ -68,20 +69,26 @@
         			    
         			    <!--卡片2-->
         			    <div class="numcard">
-        			        <div class="text" title="今日群活码访问量">今日客服码</div>
+        			        <div class="text" title="今日客服码访问量">今日客服码</div>
         			        <div class="num kf_pvTotal"> - </div>
         			    </div>
         			    
         			    <!--卡片3-->
         			    <div class="numcard">
-        			        <div class="text" title="今日群活码访问量">今日渠道码</div>
+        			        <div class="text" title="今日渠道码访问量">今日渠道码</div>
         			        <div class="num channel_pvTotal"> - </div>
         			    </div>
         			    
         			    <!--卡片4-->
+        			    <div class="numcard">
+        			        <div class="text" title="今日短网址访问量">今日短网址</div>
+        			        <div class="num dwz_pvTotal"> - </div>
+        			    </div>
+        			    
+        			    <!--卡片4-->
         			    <div class="numcard" style="border:none;">
-        			        <div class="text" title="今日群活码访问量">今日短网址</div>
-        			        <div class="num userTotalNum"> - </div>
+        			        <div class="text" title="今日淘宝客访问量">今日淘宝客</div>
+        			        <div class="num tbk_pvTotal"> - </div>
         			    </div>
     			    </div>
     			    
@@ -90,7 +97,8 @@
                         <button class="tint-btn default-btn" style="margin-right:8px;" data-type="qun">群活码</button>
                         <button class="tint-btn" style="margin-right:8px;" data-type="kf">客服码</button>
                         <button class="tint-btn" style="margin-right:8px;"data-type="channel">渠道码</button>
-                        <button class="tint-btn" data-type="dwz">短网址</button>
+                        <button class="tint-btn" style="margin-right:8px;"data-type="dwz">短网址</button>
+                        <button class="tint-btn" data-type="zjy">淘宝客</button>
                         <span class="autofreshen"></span>
 			        </div>
     			        
@@ -212,9 +220,8 @@ function getPvTotal(label,type) {
                 $('#right .data-card .data-content .data-allNum .numcard .qun_pvTotal').text(res.pvTotal.qun_pvTotal);
                 $('#right .data-card .data-content .data-allNum .numcard .kf_pvTotal').text(res.pvTotal.kf_pvTotal);
                 $('#right .data-card .data-content .data-allNum .numcard .channel_pvTotal').text(res.pvTotal.channel_pvTotal);
-                
-                // 用户量
-                $('#right .data-card .data-content .data-allNum .numcard .userTotalNum').text(res.pvTotal.dwz_pvTotal);
+                $('#right .data-card .data-content .data-allNum .numcard .dwz_pvTotal').text(res.pvTotal.dwz_pvTotal);
+                $('#right .data-card .data-content .data-allNum .numcard .tbk_pvTotal').text(res.pvTotal.tbk_pvTotal);
                 
                 // 销毁Canvas
                 $('#myChart').remove();
@@ -246,7 +253,7 @@ function getPvTotal(label,type) {
                 if(res.code == 205){
                     
                     // 205状态码代表用户升级版本但未初始化
-                    $('#right .data-content').html('<div class="initialize_index"><img src="../../static/img/warningIcon.png"/><br/><p><p>检测到你正在升级版本</p></p><button onclick="initialize_index();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button><br/><br/></div>');
+                    $('#right .data-content').html('<div class="initialize_index"><img src="../../static/img/warningIcon.png"/><br/><p><p>检测到你正在升级版本</p></p><button onclick="Upgrade();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button><br/><br/></div>');
 
                 }else{
                     

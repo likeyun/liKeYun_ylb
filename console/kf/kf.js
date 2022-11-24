@@ -90,12 +90,12 @@ function getKfList(pageNum) {
                 '<tr>' +
                 '   <th>序号</th>' +
                 '   <th>标题</th>' +
-                '   <th>状态</th>' +
                 '   <th>在线状态</th>' +
                 '   <th>循环模式</th>' +
                 '   <th>安全提示</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>访问量</th>' +
+                '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -112,6 +112,9 @@ function getKfList(pageNum) {
                     // （1）序号
                     var xuhao = i+1;
                     
+                    // 客服ID
+                    var kf_id = res.kfList[i].kf_id;
+                    
                     // （2）标题
                     var kf_title = res.kfList[i].kf_title;
                     
@@ -119,11 +122,11 @@ function getKfList(pageNum) {
                     if(res.kfList[i].kf_status == '1'){
                         
                         // 正常
-                        var kf_status = '<span>正常</span>';
+                        var kf_status = '<span class="switch-on" id="'+kf_id+'" onclick="changeKfStatus(this);"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var kf_status = '<span class="status_close">停用</span>';
+                        var kf_status = '<span class="switch-off" id="'+kf_id+'" onclick="changeKfStatus(this);"><span class="press"></span></span>';
                     }
                     
                     // （4）在线状态
@@ -165,20 +168,17 @@ function getKfList(pageNum) {
                     // （8）访问量
                     var kf_pv = res.kfList[i].kf_pv;
                     
-                    // （9）客服ID
-                    var kf_id = res.kfList[i].kf_id;
-                    
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+kf_title+'</td>' +
-                        '   <td>'+kf_status+'</td>' +
                         '   <td>'+kf_online+'</td>' +
                         '   <td>'+kf_model+'</td>' +
                         '   <td>'+kf_safety+'</td>' +
                         '   <td>'+kf_creat_time+'</td>' +
                         '   <td>'+kf_pv+'</td>' +
+                        '   <td>'+kf_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -273,6 +273,34 @@ function getFenye(e){
     getKfList(pageNum);
 }
 
+// 切换switch（changeKfStatus）
+function changeKfStatus(e){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeKfStatus.php?kf_id="+e.id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 刷新
+                getKfList();
+                showTopAlert(res.msg);
+            }else{
+                
+                showTopAlert(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
+    });
+}
+
 // 获取客服子码列表（二维码列表）
 function getKfzmList(e) {
     
@@ -283,11 +311,11 @@ function getKfzmList(e) {
     var $zm_thead_HTML = $(
         '<tr>' +
         '   <th>序号</th>' +
-        '   <th>状态</th>' +
         '   <th>阈值</th>' +
         '   <th>访问量</th>' +
         '   <th>更新</th>' +
         '   <th>微信号</th>' +
+        '   <th>状态</th>' +
         '   <th style="text-align: right;">操作</th>' +
         '</tr>'
     );
@@ -309,19 +337,21 @@ function getKfzmList(e) {
                 // 遍历数据
                 for (var i=0; i<res.kfzmList.length; i++) {
                     
+                    // ID
+                    var zm_id = res.kfzmList[i].zm_id;
+                    
                     // （1）序号
                     var xuhao = i+1;
                     
-                    // 数据判断并处理
                     // （2）状态
                     if(res.kfzmList[i].zm_status == '1'){
                         
                         // 正常
-                        var zm_status = '<span>正常</span>';
+                        var zm_status = '<span class="switch-on" onclick="changeKfzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var zm_status = '<span class="status_close">停用</span>';
+                        var zm_status = '<span class="switch-off" onclick="changeKfzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }
                     
                     // 阈值
@@ -342,18 +372,15 @@ function getKfzmList(e) {
                         var zm_num = res.kfzmList[i].zm_num;
                     }
                     
-                    // ID
-                    var zm_id = res.kfzmList[i].zm_id;
-                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
-                        '   <td>'+zm_status+'</td>' +
                         '   <td>'+zm_yz+'</td>' +
                         '   <td>'+zm_pv+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+zm_num+'</td>' +
+                        '   <td id="kfzima_status_'+zm_id+'">'+zm_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -407,19 +434,21 @@ function freshenKfzmList(kf_id){
                 // 遍历数据
                 for (var i=0; i<res.kfzmList.length; i++) {
                     
+                    // ID
+                    var zm_id = res.kfzmList[i].zm_id;
+                    
                     // （1）序号
                     var xuhao = i+1;
                     
-                    // 数据判断并处理
                     // （2）状态
                     if(res.kfzmList[i].zm_status == '1'){
                         
                         // 正常
-                        var zm_status = '<span>正常</span>';
+                        var zm_status = '<span class="switch-on" onclick="changeKfzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var zm_status = '<span class="status_close">停用</span>';
+                        var zm_status = '<span class="switch-off" onclick="changeKfzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }
                     
                     // 阈值
@@ -440,18 +469,15 @@ function freshenKfzmList(kf_id){
                         var zm_num = res.kfzmList[i].zm_num;
                     }
                     
-                    // ID
-                    var zm_id = res.kfzmList[i].zm_id;
-                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
-                        '   <td>'+zm_status+'</td>' +
                         '   <td>'+zm_yz+'</td>' +
                         '   <td>'+zm_pv+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+zm_num+'</td>' +
+                        '   <td id="kfzima_status_'+zm_id+'">'+zm_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -477,6 +503,38 @@ function freshenKfzmList(kf_id){
         // 发生错误
         errorPage('服务器发生错误！')
       },
+    });
+}
+
+// 切换switch（changeKfzmStatus）
+function changeKfzmStatus(zmid){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeKfzmStatus.php?zm_id="+zmid,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 更新switch状态
+                showKfzmSwitchNewStatus(res.zm_status,zmid);
+                
+                // 显示切换结果
+                showSuccessResult(res.msg);
+                
+            }else{
+                
+                // 非200状态码操作结果
+                showErrorResult(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
     });
 }
 
@@ -1260,6 +1318,28 @@ function hideResult(){
     $("#app .result .error").css("display","none");
     $("#app .result .success").text('');
     $("#app .result .error").text('');
+}
+
+// 顶部操作结果信息提示框
+function showTopAlert(content){
+    $('#topAlert').text(content);
+    $('#topAlert').css('display','block');
+    setTimeout('hideTopAlert()', 2500); // 2.5秒后自动关闭
+}
+
+// 关闭顶部操作结果信息提示框
+function hideTopAlert(){
+    $('#topAlert').css('display','none');
+    $("#topAlert").text('');
+}
+
+// 显示子码切换后的状态
+function showKfzmSwitchNewStatus(status,zmid){
+    if(status == 1){
+        $('#kfzima_status_'+zmid).html('<span class="switch-on" onclick="changeKfzmStatus('+zmid+');"><span class="press"></span></span>');  
+    }else{
+        $('#kfzima_status_'+zmid).html('<span class="switch-off" onclick="changeKfzmStatus('+zmid+');"><span class="press"></span></span>');
+    }
 }
 
 // 获取URL参数

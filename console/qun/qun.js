@@ -90,12 +90,12 @@ function getQunList(pageNum) {
                 '<tr>' +
                 '   <th>序号</th>' +
                 '   <th>标题</th>' +
-                '   <th>状态</th>' +
                 '   <th>客服</th>' +
                 '   <th>去重</th>' +
                 '   <th>安全提示</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>访问量</th>' +
+                '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -116,11 +116,11 @@ function getQunList(pageNum) {
                     if(res.qunList[i].qun_status == '1'){
                         
                         // 正常
-                        var qun_status = '<span>正常</span>';
+                        var qun_status = '<span class="switch-on" id="'+res.qunList[i].qun_id+'" onclick="changeQunStatus(this);"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var qun_status = '<span class="status_close">停用</span>';
+                        var qun_status = '<span class="switch-off" id="'+res.qunList[i].qun_id+'" onclick="changeQunStatus(this);"><span class="press"></span></span>';
                     }
                     
                     // （3）客服
@@ -161,12 +161,12 @@ function getQunList(pageNum) {
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+res.qunList[i].qun_title+'</td>' +
-                        '   <td>'+qun_status+'</td>' +
                         '   <td>'+qun_kf_status+'</td>' +
                         '   <td>'+qun_qc+'</td>' +
                         '   <td>'+qun_safety+'</td>' +
                         '   <td>'+res.qunList[i].qun_creat_time+'</td>' +
                         '   <td>'+res.qunList[i].qun_pv+'</td>' +
+                        '   <td>'+qun_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -271,12 +271,12 @@ function getQunzmList(e) {
     var $zm_thead_HTML = $(
         '<tr>' +
         '   <th>序号</th>' +
-        '   <th>状态</th>' +
         '   <th>阈值</th>' +
         '   <th>访问量</th>' +
         '   <th>更新</th>' +
         '   <th>到期</th>' +
         '   <th>群主</th>' +
+        '   <th>状态</th>' +
         '   <th style="text-align: right;">操作</th>' +
         '</tr>'
     );
@@ -301,17 +301,20 @@ function getQunzmList(e) {
                     // 序号
                     var xuhao = i+1;
                     
-                    // 数据判断并处理
+                    // zm_id
+                    var zm_id = res.qunzmList[i].zm_id;
+                    
                     // 状态
                     if(res.qunzmList[i].zm_status == '1'){
                         
                         // 正常
-                        var zm_status = '<span>正常</span>';
+                        var zm_status = '<span class="switch-on" onclick="changeQunzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var zm_status = '<span class="status_close">停用</span>';
+                        var zm_status = '<span class="switch-off" onclick="changeQunzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }
+                    
                     // 计算更新时间距离现在过去多长时间
                     var updatePassTime = getDateDiff(getDateTimeStamp(res.qunzmList[i].zm_update_time));
                     
@@ -336,19 +339,16 @@ function getQunzmList(e) {
                         var zm_leader = res.qunzmList[i].zm_leader;
                     }
                     
-                    // zm_id
-                    var zm_id = res.qunzmList[i].zm_id;
-                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
-                        '   <td>'+zm_status+'</td>' +
                         '   <td>'+res.qunzmList[i].zm_yz+'</td>' +
                         '   <td>'+res.qunzmList[i].zm_pv+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+daoqiDate+'</td>' +
                         '   <td>'+zm_leader+'</td>' +
+                        '   <td id="qunzima_status_'+zm_id+'">'+zm_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -403,16 +403,18 @@ function freshenQunZmList(qun_id){
                     // 序号
                     var xuhao = i+1;
                     
-                    // 数据判断并处理
+                    // zm_id
+                    var zm_id = res.qunzmList[i].zm_id;
+
                     // 状态
                     if(res.qunzmList[i].zm_status == '1'){
                         
                         // 正常
-                        var zm_status = '<span>正常</span>';
+                        var zm_status = '<span class="switch-on" onclick="changeQunzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var zm_status = '<span class="status_close">停用</span>';
+                        var zm_status = '<span class="switch-off" onclick="changeQunzmStatus('+zm_id+');"><span class="press"></span></span>';
                     }
                     // 计算更新时间距离现在过去多长时间
                     var updatePassTime = getDateDiff(getDateTimeStamp(res.qunzmList[i].zm_update_time));
@@ -438,19 +440,16 @@ function freshenQunZmList(qun_id){
                         var zm_leader = res.qunzmList[i].zm_leader;
                     }
                     
-                    // zm_id
-                    var zm_id = res.qunzmList[i].zm_id;
-                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
-                        '   <td>'+zm_status+'</td>' +
                         '   <td>'+res.qunzmList[i].zm_yz+'</td>' +
                         '   <td>'+res.qunzmList[i].zm_pv+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+daoqiDate+'</td>' +
                         '   <td>'+zm_leader+'</td>' +
+                        '   <td id="qunzima_status_'+zm_id+'">'+zm_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -1001,6 +1000,79 @@ function exitLogin(){
     });
 }
 
+// 切换switch（changeQunStatus）
+function changeQunStatus(e){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeQunStatus.php?qun_id="+e.id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 刷新
+                getQunList();
+                showTopAlert(res.msg);
+            }else{
+                
+                showTopAlert(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
+    });
+}
+
+// 切换switch（changeQunzmStatus）
+function changeQunzmStatus(zmid){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeQunzmStatus.php?zm_id="+zmid,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 更新switch状态
+                showQunzmSwitchNewStatus(res.zm_status,zmid);
+                
+                // 显示切换结果
+                showSuccessResult(res.msg);
+                
+            }else{
+                
+                // 非200状态码操作结果
+                showErrorResult(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
+    });
+}
+
+// 顶部操作结果信息提示框
+function showTopAlert(content){
+    $('#topAlert').text(content);
+    $('#topAlert').css('display','block');
+    setTimeout('hideTopAlert()', 2500); // 2.5秒后自动关闭
+}
+
+// 关闭顶部操作结果信息提示框
+function hideTopAlert(){
+    $('#topAlert').css('display','none');
+    $("#topAlert").text('');
+}
+
 // 生成随机token
 function creatPageToken(length) {
     var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -1261,6 +1333,15 @@ function hideResult(){
     $("#app .result .error").css("display","none");
     $("#app .result .success").text('');
     $("#app .result .error").text('');
+}
+
+// 显示子码切换后的状态
+function showQunzmSwitchNewStatus(status,zmid){
+    if(status == 1){
+        $('#qunzima_status_'+zmid).html('<span class="switch-on" onclick="changeQunzmStatus('+zmid+');"><span class="press"></span></span>');  
+    }else{
+        $('#qunzima_status_'+zmid).html('<span class="switch-off" onclick="changeQunzmStatus('+zmid+');"><span class="press"></span></span>');
+    }
 }
 
 // 获取URL参数
