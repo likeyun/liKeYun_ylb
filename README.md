@@ -40,7 +40,7 @@ http://域名/console/index/
 
 # 功能
 
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/d9b26f158e879054a77473fdde52b473.png" />
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/bc487c26036dee2bc7706d17aaf41108.png" />
 
 # 截图
 <img src="http://kycloud3.koyoo.cn/2022111722cc2202211172032142211.png" /><br/>
