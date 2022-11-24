@@ -37,6 +37,7 @@
 				<li><a href="../kf/">客服码</a></li>
 				<li><a href="../channel/">渠道码</a></li>
 				<li><a href="../dwz/" class="selected">短网址</a></li>
+				<li><a href="../tbk/">淘宝客</a></li>
 				<li><a href="../config/">配置中心</a></li>
 				<li><a href="../user/">账号管理</a></li>
 			</ul>
@@ -120,13 +121,15 @@
 
                         <span class="text">目标链接</span>
                         <input type="text" name="dwz_url" class="form-control" id="dwz_url" autocomplete="off" placeholder="点击短网址后最终跳转到的链接">
+                    
                         </form>
+
                     </div><!-- modal-body -->
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
-                        <div class="faqnav">
-                            <span class="faq"><a href="#">?</a></span>
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=dwz" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
                             <button type="button" class="default-btn" onclick="creatDwz();">立即创建</button>
@@ -188,8 +191,8 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav">
-                    	    <span class="faq"><a href="#">?</a></span>
+                    	<div class="faqnav" title="阅读使用指南">
+                    	    <span class="faq"><a href="../faq.php?faq=dwz" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
                     	    <button type="button" class="default-btn" onclick="editDwz();">提交更新</button>
@@ -213,7 +216,7 @@
                 </div><!-- modal-header -->
                 <!-- 内容 -->
                 <div class="modal-body">
-                    将会删除该删除短网址！删除后如需恢复请阅读使用指南提供的方法。
+                    将会删除该短网址！删除后如需恢复请阅读使用指南提供的方法。
                 </div><!-- modal-body -->
                 <!-- 底部操作 -->
                 <div class="modal-footer"></div><!-- modal-footer -->
@@ -242,8 +245,8 @@
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
-                        <div class="faqnav">
-                            <span class="faq"><a href="#">?</a></span>
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=dwz" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
                             <button type="button" class="default-btn" onclick="checkDwz();">立即查询</button>
@@ -256,6 +259,9 @@
         </div><!-- modal-dialog -->
     </div><!-- checkDwzModal -->
 
+    <!--顶部操作结果信息提示框-->
+    <div id="topAlert"></div>
+    
 </div><!-- app -->
 
 </body>

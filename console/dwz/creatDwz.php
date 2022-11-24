@@ -26,6 +26,18 @@
         $dwz_url = trim($_POST['dwz_url']);
         $dwz_creat_user = trim($_SESSION["yinliubao"]);
         
+        // 验证URL合法性
+        function is_url($url){
+            $r = "/http[s]?:\/\/[\w.]+[\w\/]*[\w.]*\??[\w=&\+\%]*/is";
+            if(preg_match($r,$url)){
+                
+                return TRUE;
+            }else{
+                
+                return FALSE;
+            }
+        }
+        
         // 过滤参数
         if(empty($dwz_title) || $dwz_title == '' || $dwz_title == null || !isset($dwz_title)){
             
@@ -68,6 +80,12 @@
             $result = array(
                 'code' => 203,
                 'msg' => '目标链接未填写'
+            );
+        }else if(is_url($dwz_url) === FALSE){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '目标链接不是正确的URL格式'
             );
         }else{
             

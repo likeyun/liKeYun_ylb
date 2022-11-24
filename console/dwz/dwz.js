@@ -101,10 +101,10 @@ function getDwzList(pageNum) {
                 '   <th>序号</th>' +
                 '   <th>标题</th>' +
                 '   <th>短网址</th>' +
-                '   <th>状态</th>' +
                 '   <th>访问限制</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>访问量</th>' +
+                '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -118,6 +118,9 @@ function getDwzList(pageNum) {
                 for (var i=0; i<res.dwzList.length; i++) {
                     
                     // 数据判断并处理
+                    // ID
+                    var dwz_id = res.dwzList[i].dwz_id;
+                    
                     // （1）序号
                     var xuhao = i+1;
                     
@@ -128,11 +131,11 @@ function getDwzList(pageNum) {
                     if(res.dwzList[i].dwz_status == '1'){
                         
                         // 正常
-                        var dwz_status = '<span>正常</span>';
+                        var dwz_status = '<span class="switch-on" onclick="changeDwzStatus('+dwz_id+');"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var dwz_status = '<span class="status_close">停用</span>';
+                        var dwz_status = '<span class="switch-off" onclick="changeDwzStatus('+dwz_id+');"><span class="press"></span></span>';
                     }
                     
                     // （4）创建时间
@@ -141,16 +144,13 @@ function getDwzList(pageNum) {
                     // （5）访问量
                     var dwz_pv = res.dwzList[i].dwz_pv;
                     
-                    // （6）ID
-                    var dwz_id = res.dwzList[i].dwz_id;
-                    
-                    // （7）短链域名
+                    // （6）短链域名
                     var dwz_dlym = res.dwzList[i].dwz_dlym;
                     
-                    // （8）Key
+                    // （7）Key
                     var dwz_key = res.dwzList[i].dwz_key;
                     
-                    // （9）访问限制
+                    // （8）访问限制
                     var dwz_type = res.dwzList[i].dwz_type;
                     
                     if(dwz_type == 1){
@@ -179,10 +179,10 @@ function getDwzList(pageNum) {
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+dwz_title+'</td>' +
                         '   <td>'+dwz_dlym+'/'+dwz_key+'</td>' +
-                        '   <td>'+dwz_status+'</td>' +
                         '   <td>'+dwz_type+'</td>' +
                         '   <td>'+dwz_creat_time+'</td>' +
                         '   <td>'+dwz_pv+'</td>' +
+                        '   <td>'+dwz_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -252,7 +252,7 @@ function getDwzList(pageNum) {
                 if(res.code == 205){
                     
                     // 205状态码代表用户升级版本但未初始化
-                    warningPage('<p>检测到你正在升级版本</p><button onclick="initialize_dwz();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button>');
+                    warningPage('<p>检测到你正在升级版本</p><button onclick="Upgrade();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button>');
                     $('#button-view').html('');
                     $('#openApi').html('');
                 }else{
@@ -293,12 +293,40 @@ function getFenye(e){
     getDwzList(pageNum);
 }
 
-// 用户升级初始化
-function initialize_dwz(){
+// 切换switch（changeDwzStatus）
+function changeDwzStatus(dwz_id){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeDwzStatus.php?dwz_id="+dwz_id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 刷新
+                getDwzList();
+                showTopAlert(res.msg);
+            }else{
+                
+                showTopAlert(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
+    });
+}
+
+// 升级
+function Upgrade(){
     
     $.ajax({
         type: "POST",
-        url: "./initialize.php",
+        url: "./Upgrade.php",
         success: function(res){
             
             // 成功
@@ -471,12 +499,24 @@ function getDwzInfo(e){
                 // （4）目标链接
                 $('#dwz_url_edit').val(res.dwzInfo.dwz_url);
                 
+                // Android设备目标链接
+                $('#dwz_android_url_edit').val(res.dwzInfo.dwz_android_url);
+                
+                // iOS设备目标链接
+                $('#dwz_ios_url_edit').val(res.dwzInfo.dwz_ios_url);
+                
+                // Windows设备目标链接
+                $('#dwz_windows_url_edit').val(res.dwzInfo.dwz_windows_url);
+                
                 // （5）短网址Key
                 $('#dwz_key_edit').val(res.dwzInfo.dwz_key);
                 
                 // （6）访问限制
                 // 先将目前设置的访问限制加进去
                 var dwz_type = res.dwzInfo.dwz_type;
+                
+                // 先隐藏dwz_type_7_edit
+                $('#dwz_type_7_edit').css('display','none');
                     
                 if(dwz_type == 1){
                     
@@ -882,6 +922,19 @@ function initialize_getDomainNameList(module){
         hideResult();
     }
 
+}
+
+// 顶部操作结果信息提示框
+function showTopAlert(content){
+    $('#topAlert').text(content);
+    $('#topAlert').css('display','block');
+    setTimeout('hideTopAlert()', 2500); // 2.5秒后自动关闭
+}
+
+// 关闭顶部操作结果信息提示框
+function hideTopAlert(){
+    $('#topAlert').css('display','none');
+    $("#topAlert").text('');
 }
 
 // 打开操作反馈（操作成功）
