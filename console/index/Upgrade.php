@@ -150,6 +150,10 @@
                 
                 // 创建成功
                 $_SESSION["huoma_tbk_config"] = 'SUCCESS';
+                
+                // 淘宝客接口配置默认数据
+                $huoma_tbk_config_Data = "INSERT INTO `huoma_tbk_config` (`zjy_config_appkey`, `zjy_config_sid`, `zjy_config_pid`, `zjy_config_tbname`, `zjy_config_user`) VALUES ('未设置', '未设置', '未设置', '未设置', '$LoginUser')";
+                $conn->query($huoma_tbk_config_Data);
             }
         }
         
@@ -170,11 +174,11 @@
         
         // 验证创建或更新结果
         if(
-            isset($_SESSION["huoma_dwz"]) && 
-            isset($_SESSION["huoma_dwz_apikey"]) && 
-            isset($_SESSION["add_count_dwz_pv"]) && 
-            isset($_SESSION["huoma_tbk"]) && 
-            isset($_SESSION["huoma_tbk_config"]) && 
+            isset($_SESSION["huoma_dwz"]) || 
+            isset($_SESSION["huoma_dwz_apikey"]) || 
+            isset($_SESSION["add_count_dwz_pv"]) || 
+            isset($_SESSION["huoma_tbk"]) || 
+            isset($_SESSION["huoma_tbk_config"]) || 
             isset($_SESSION["add_count_zjy_pv"])
         ){
             
