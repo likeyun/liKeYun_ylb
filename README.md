@@ -7,9 +7,10 @@
 <img src="https://t.focus-img.cn/sh740wsh/bbs/p2/b7d7929fb83fd2e7433d3db121fa8119.png" />
 
 # 更新日志
-版本：1.1.0<br/>
-更新内容：新增短网址、优化UI布局。<br/>
-更新时间：2022/11/16
+版本：1.2.0<br/>
+更新内容：新增淘宝客、优化UI布局、修复部分已知问题。<br/>
+更新时间：2022/11/24
+源码下载：https://likeyun.lanzout.com/ilB2E0gs1nrg
 
 # 快速安装
 访问install目录即可进入安装流程。<br/>
