@@ -100,12 +100,12 @@ function getUserList(pageNum) {
                 '   <th>序号</th>' +
                 '   <th>ID</th>' +
                 '   <th>账号</th>' +
-                '   <th>状态</th>' +
                 '   <th>注册时间</th>' +
                 '   <th>邮箱</th>' +
                 '   <th>权限</th>' +
                 '   <th>管理员</th>' +
                 '   <th>备注</th>' +
+                '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -132,11 +132,11 @@ function getUserList(pageNum) {
                     if(res.userList[i].user_status == '1'){
                         
                         // 正常
-                        var user_status = '<span>正常</span>';
+                        var user_status = '<span class="switch-on" onclick="changeUserStatus('+user_id+');"><span class="press"></span></span>';
                     }else{
                         
                         // 关闭
-                        var user_status = '<span class="status_close">停用</span>';
+                        var user_status = '<span class="switch-off" onclick="changeUserStatus('+user_id+');"><span class="press"></span></span>';
                     }
                     
                     // （5）注册时间
@@ -189,12 +189,12 @@ function getUserList(pageNum) {
                             '   <td>'+xuhao+'</td>' +
                             '   <td>'+user_id+'</td>' +
                             '   <td>'+user_name+'</td>' +
-                            '   <td>'+user_status+'</td>' +
                             '   <td>'+user_creat_time+'</td>' +
                             '   <td>'+user_email+'</td>' +
                             '   <td>'+user_admin+'</td>' +
                             '   <td>'+user_manager+'</td>' +
                             '   <td>'+user_beizhu+'</td>' +
+                            '   <td>'+user_status+'</td>' +
                             '   <td class="dropdown-td">' +
                             '       <div class="dropdown">' +
                             '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
@@ -214,17 +214,17 @@ function getUserList(pageNum) {
                             '   <td>'+xuhao+'</td>' +
                             '   <td>'+user_id+'</td>' +
                             '   <td>'+user_name+'</td>' +
-                            '   <td>'+user_status+'</td>' +
                             '   <td>'+user_creat_time+'</td>' +
                             '   <td>'+user_email+'</td>' +
                             '   <td>'+user_admin+'</td>' +
                             '   <td>'+user_manager+'</td>' +
                             '   <td>'+user_beizhu+'</td>' +
+                            '   <td>'+user_status+'</td>' +
                             '   <td class="dropdown-td">' +
                             '       <div class="dropdown">' +
                             '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
                             '           <div class="dropdown-menu">' +
-                            '               <span class="dropdown-item" data-toggle="modal" data-target="#EditUserModal" onclick="getUserInfo(this)" id="'+user_id+'">编辑</span>' +
+                            '               <span class="dropdown-item" data-toggle="modal" data-target="#EditUserModal" onclick="getUserInfo('+user_id+')">编辑</span>' +
                             '           </div>' +
                             '       </div>' +
                             '   </td>' +
@@ -317,6 +317,34 @@ function redirectLoginPage(second){
     
     // second毫秒后跳转
     setTimeout('location.href="../login/";', second);
+}
+
+// 切换switch（changeUserStatus）
+function changeUserStatus(user_id){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeUserStatus.php?user_id="+user_id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 刷新
+                getUserList();
+                showTopAlert(res.msg);
+            }else{
+                
+                showTopAlert(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
+    });
 }
 
 // 创建账号
@@ -522,11 +550,11 @@ function checkUser(){
                 if(res.userList[0].user_status == '1'){
                     
                     // 正常
-                    var user_status = '<span>正常</span>';
+                    var user_status = '<span class="switch-on" onclick="changeUserStatus('+user_id+');"><span class="press"></span></span>';
                 }else{
                     
                     // 关闭
-                    var user_status = '<span class="status_close">停用</span>';
+                    var user_status = '<span class="switch-off" onclick="changeUserStatus('+user_id+');"><span class="press"></span></span>';
                 }
                 
                 // （5）注册时间
@@ -563,18 +591,18 @@ function checkUser(){
                     '   <td>'+xuhao+'</td>' +
                     '   <td>'+user_id+'</td>' +
                     '   <td>'+user_name+'</td>' +
-                    '   <td>'+user_status+'</td>' +
                     '   <td>'+user_creat_time+'</td>' +
                     '   <td>'+user_email+'</td>' +
                     '   <td>'+user_admin+'</td>' +
                     '   <td>'+user_manager+'</td>' +
                     '   <td>'+user_beizhu+'</td>' +
+                    '   <td>'+user_status+'</td>' +
                     '   <td class="dropdown-td">' +
                     '       <div class="dropdown">' +
                     '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
                     '           <div class="dropdown-menu">' +
-                    '               <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#EditUserModal" onclick="getUserInfo(this)" id="'+user_id+'">编辑</a>' +
-                    '               <a class="dropdown-item" href="javascript:;" id="'+user_id+'" data-toggle="modal" data-target="#DelUserModal" onclick="askDelUser(this)">删除</a>' +
+                    '               <span class="dropdown-item" data-toggle="modal" data-target="#EditUserModal" onclick="getUserInfo('+user_id+')">编辑</span>' +
+                    '               <span class="dropdown-item" data-toggle="modal" data-target="#DelUserModal" onclick="askDelUser('+user_id+')">删除</span>' +
                     '           </div>' +
                     '       </div>' +
                     '   </td>' +
@@ -905,6 +933,19 @@ function showErrorResult(content){
     $('#app .result').html('<div class="error">'+content+'</div>');
     $('#app .result .error').css('display','block');
     setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
+}
+
+// 顶部操作结果信息提示框
+function showTopAlert(content){
+    $('#topAlert').text(content);
+    $('#topAlert').css('display','block');
+    setTimeout('hideTopAlert()', 2500); // 2.5秒后自动关闭
+}
+
+// 关闭顶部操作结果信息提示框
+function hideTopAlert(){
+    $('#topAlert').css('display','none');
+    $("#topAlert").text('');
 }
 
 // 关闭操作反馈

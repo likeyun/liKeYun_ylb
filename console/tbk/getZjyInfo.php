@@ -18,10 +18,10 @@
         
         // 已登录
         // 接收参数
-        $user_id = trim($_GET['user_id']);
+        $zjy_id = trim($_GET['zjy_id']);
         
         // 过滤参数
-        if(empty($user_id) || !isset($user_id)){
+        if(empty($zjy_id) || !isset($zjy_id)){
             
             // 非法请求
             $result = array(
@@ -36,20 +36,15 @@
         	// 实例化类
         	$db = new DB_API($config);
         
-        	// 获取当前user_id的详情
-            $getuserInfoResult = $db->set_table('huoma_user')->findAll(
-    	        $conditions = ['user_id'=>$user_id],
-    	        $order = null,
-    	        $fields = 'user_id,user_name,user_email,user_mb_ask,user_mb_answer,user_status,user_beizhu',
-    	        $limit = null
-    	    );
+        	// 获取当前zjy_id的详情
+            $getZjyInfoResult = $db->set_table('huoma_tbk')->find(['zjy_id'=>$zjy_id]);
             
             // 返回数据
-            if($getuserInfoResult && $getuserInfoResult > 0){
+            if($getZjyInfoResult && $getZjyInfoResult > 0){
                 
                 // 有结果
                 $result = array(
-        		    'userInfo' => $getuserInfoResult,
+        		    'zjyInfo' => $getZjyInfoResult,
         		    'code' => 200,
         		    'msg' => '获取成功'
     		    );

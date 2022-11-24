@@ -37,6 +37,7 @@
 				<li><a href="../kf/">客服码</a></li>
 				<li><a href="../channel/">渠道码</a></li>
 				<li><a href="../dwz/">短网址</a></li>
+				<li><a href="../tbk/">淘宝客</a></li>
 				<li><a href="../config/">配置中心</a></li>
 				<li><a href="../user/" class="selected">账号管理</a></li>
 			</ul>
@@ -113,8 +114,8 @@
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
-                        <div class="faqnav">
-                            <span class="faq"><a href="#">?</a></span>
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=user" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
                             <button type="button" class="default-btn" onclick="creatUser();">立即创建</button>
@@ -146,8 +147,8 @@
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
-                        <div class="faqnav">
-                            <span class="faq"><a href="#">?</a></span>
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=user" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
                             <button type="button" class="default-btn" onclick="checkUser();">立即查询</button>
@@ -203,8 +204,8 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav">
-                    	    <span class="faq"><a href="#">?</a></span>
+                    	<div class="faqnav" title="阅读使用指南">
+                    	    <span class="faq"><a href="../faq.php?faq=user" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
                     	    <button type="button" class="default-btn" onclick="editUser();">提交更新</button>
@@ -238,6 +239,9 @@
         </div><!-- modal-dialog -->
     </div><!-- DelUserModal -->
 
+    <!--顶部操作结果信息提示框-->
+    <div id="topAlert"></div>
+    
 </div><!-- app -->
 
 
