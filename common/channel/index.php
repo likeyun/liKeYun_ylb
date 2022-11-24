@@ -172,7 +172,7 @@
     function updateDefault($huoma_count){
         
         $thisDate = date('Y-m-d');
-        $updateDefault = 'UPDATE huoma_count SET count_qun_pv="0",count_kf_pv="0",count_channel_pv="0",count_date="'.$thisDate.'"';
+        $updateDefault = 'UPDATE huoma_count SET count_qun_pv="0",count_kf_pv="0",count_channel_pv="0",count_dwz_pv="0",count_zjy_pv="0",count_date="'.$thisDate.'"';
         $huoma_count->findSql($updateDefault);
         $thisHour = date('H');
         $updatePv = 'UPDATE huoma_count SET count_channel_pv=count_channel_pv+1 WHERE count_hour="'.$thisHour.'"';
@@ -183,7 +183,6 @@
     function updateThisChannelHmPv($db,$cid){
         
         // 传入channel_id
-        
         $updateThisChannelHmPv = 'UPDATE huoma_channel SET channel_pv=channel_pv+1 WHERE channel_id="'.$cid.'"';
         $db->set_table('huoma_channel')->findSql($updateThisChannelHmPv);
     }

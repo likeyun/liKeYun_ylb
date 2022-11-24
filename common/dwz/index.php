@@ -45,6 +45,11 @@
             $dwz_url = getSqlData($getDwzInfoResult,'dwz_url');
             $dwz_type = getSqlData($getDwzInfoResult,'dwz_type');
             
+            // 根据设备进行跳转的目标链接
+            $dwz_android_url = getSqlData($getDwzInfoResult,'dwz_android_url');
+            $dwz_ios_url = getSqlData($getDwzInfoResult,'dwz_ios_url');
+            $dwz_windows_url = getSqlData($getDwzInfoResult,'dwz_windows_url');
+            
             // 判断该短网址的状态
             if($dwz_status == 1){
                 
@@ -56,7 +61,7 @@
                 updateCountChartPv($db);
                 
                 // 根据访问限制进行跳转
-                locationUrl($dwz_type,$dwz_url);
+                locationUrl($dwz_type,$dwz_url,$dwz_android_url,$dwz_ios_url,$dwz_windows_url);
                 
             }else{
                 
@@ -124,7 +129,7 @@
     function updateDefault($huoma_count){
         
         $thisDate = date('Y-m-d');
-        $updateDefault = 'UPDATE huoma_count SET count_qun_pv="0",count_kf_pv="0",count_Dwz_pv="0",count_dwz_pv="0",count_date="'.$thisDate.'"';
+        $updateDefault = 'UPDATE huoma_count SET count_qun_pv="0",count_kf_pv="0",count_channel_pv="0",count_dwz_pv="0",count_zjy_pv="0",count_date="'.$thisDate.'"';
         $huoma_count->findSql($updateDefault);
         $thisHour = date('H');
         $updatePv = 'UPDATE huoma_count SET count_dwz_pv=count_dwz_pv+1 WHERE count_hour="'.$thisHour.'"';
@@ -155,7 +160,7 @@
     }
     
     // 访问限制
-    function locationUrl($dwz_type,$dwz_url){
+    function locationUrl($dwz_type,$dwz_url,$dwz_android_url,$dwz_ios_url,$dwz_windows_url){
         
         // 不限制
         if($dwz_type == 1){
@@ -250,6 +255,10 @@
                 echo '<title>温馨提示</title>';
                 echo warnningInfo('仅限电脑访问');
             }
+        }else{
+            
+            echo '<title>温馨提示</title>';
+            echo warnningInfo('程序发生错误');
         }
     }
 
