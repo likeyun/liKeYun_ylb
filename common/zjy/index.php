@@ -111,7 +111,7 @@
                     <span class="dot6"></span>
                     <span class="dot7"></span>
                 </span>
-                <button class="copy_btn" id="copy" data-clipboard-text="镜花水月">一键复制</button>
+                <button class="copy_btn" id="copy" data-clipboard-text="'.rand(1,9).str_replace('￥','$',$zjy_tkl).":// CZ".rand(1000,9999).'">一键复制</button>
             </div>';
             
             // 提示文字
