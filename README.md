@@ -10,7 +10,7 @@
 版本：1.2.0<br/>
 更新内容：新增淘宝客、优化UI布局、修复部分已知问题。<br/>
 更新时间：2022/11/24<br/>
-源码下载：https://likeyun.lanzout.com/ilB2E0gs1nrg
+源码下载：https://likeyun.lanzout.com/ibmWO0gttkdi
 
 # 快速安装
 访问install目录即可进入安装流程。<br/>
