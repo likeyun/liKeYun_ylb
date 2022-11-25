@@ -50,7 +50,7 @@ http://域名/console/index/
 <img src="http://kycloud3.koyoo.cn/2022111732881202211172036336895.png" /><br/>
 
 # 赞赏
-开源以来，只收到过5笔赞赏，这项目真的用爱发电。<br/>
+赞赏作者，支持长期维护开源项目。<br/>
 <img src="https://t.focus-img.cn/sh740wsh/bbs/p2/225f43ac4f79be0ea23309b470472f43.jpg" width="400" />
 
 # 交流群
