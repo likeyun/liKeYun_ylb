@@ -20,15 +20,11 @@
 
 界面
 ---
-![](https://t.focus-img.cn/sh740wsh/bbs/p2/1a877492b39dd3a4e4c42c438921925c.png)
-
-![](https://t.focus-img.cn/sh740wsh/bbs/p2/b267e500d64ae19e525e51f9d17689fb.png)
-
-![](https://t.focus-img.cn/sh740wsh/bbs/p2/574d7993e764789f3342fc46622492d9.png)
-
-![](https://t.focus-img.cn/sh740wsh/bbs/p2/1121733477cbf7ccd14c7116a7150380.png)
-
-![](https://t.focus-img.cn/sh740wsh/bbs/p2/f9bc10ce00e963d9365e363c65ac1ed6.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAggIKSnAYouLrKpAUwsgo4jwc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgp4KSnAYo6JeVeDCnCjiXBw.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgr4KSnAYouOjIugQwrwo4nQc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgtYKSnAYokLWoqwQwqwo4lAc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgu4KSnAYohuHsoAYwpQo4jQc.png)
 
 主要功能
 ---
