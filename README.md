@@ -46,11 +46,11 @@ http://域名/console/index/
 <img src="https://t.focus-img.cn/sh740wsh/bbs/p2/bc487c26036dee2bc7706d17aaf41108.png" />
 
 # 截图
-<img src="http://kycloud3.koyoo.cn/2022111722cc2202211172032142211.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/20221117c95fa202211172033449384.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/2022111784b68202211172034483992.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/2022111773e4120221117203514350.png" /><br/>
-<img src="http://kycloud3.koyoo.cn/2022111732881202211172036336895.png" /><br/>
+![](https://d1.faiusr.com/4/AAEIABAEGAAggIKSnAYouLrKpAUwsgo4jwc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgp4KSnAYo6JeVeDCnCjiXBw.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgr4KSnAYouOjIugQwrwo4nQc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgtYKSnAYokLWoqwQwqwo4lAc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgu4KSnAYohuHsoAYwpQo4jQc.png)
 
 # 赞赏
 赞赏作者，支持长期维护开源项目。<br/>
