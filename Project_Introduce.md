@@ -22,15 +22,15 @@
 
 界面
 ---
-![](/img/bVc4eRy)
+![](https://t.focus-img.cn/sh740wsh/bbs/p2/1a877492b39dd3a4e4c42c438921925c.png)
 
-![](/img/bVc4eRz)
+![](https://t.focus-img.cn/sh740wsh/bbs/p2/b267e500d64ae19e525e51f9d17689fb.png)
 
-![](/img/bVc4eRA)
+![](https://t.focus-img.cn/sh740wsh/bbs/p2/574d7993e764789f3342fc46622492d9.png)
 
-![](/img/bVc4eRB)
+![](https://t.focus-img.cn/sh740wsh/bbs/p2/1121733477cbf7ccd14c7116a7150380.png)
 
-![](/img/bVc4eRC)
+![](https://t.focus-img.cn/sh740wsh/bbs/p2/f9bc10ce00e963d9365e363c65ac1ed6.png)
 
 主要功能
 ---
