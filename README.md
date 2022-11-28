@@ -30,6 +30,8 @@ https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
 前端框架：自写UI+少量Bootstrap+jQuery<br/>
 后端框架：原生php+mySql
 
+![](https://img.shields.io/badge/PHP-7.4.0-brightgreen.svg) ![](https://img.shields.io/badge/Bootstrap-4.0-brightgreen.svg) ![](https://img.shields.io/badge/jQuery-3.6.0-brightgreen.svg)
+
 # 使用
 管理后台路径：/console/index/<br/>
 
