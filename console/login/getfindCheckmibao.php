@@ -19,7 +19,7 @@
 	// sql防注入
     if(
         preg_match("/[\'.,:;*?~`!@#$%^&+=)(<>{}]|\]|\[|\/|\\\|\"|\|/",$user_name) || 
-        preg_match("/[\',:;*?~`!#$%^&+=)(<>{}]|\]|\[|\/|\\\|\"|\|/",$user_email))){
+        preg_match("/[\',:;*?~`!#$%^&+=)(<>{}]|\]|\[|\/|\\\|\"|\|/",$user_email)){
             
             $result = array(
 		        'code' => 203,
@@ -28,7 +28,7 @@
 	        echo json_encode($result,JSON_UNESCAPED_UNICODE);
 	        exit;
     }else if(
-        preg_match("/(and|or|select|update|drop|DROP|insert|create|delete|like|where|join|script|set)/i",$user_name))){
+        preg_match("/(and|or|select|update|drop|DROP|insert|create|delete|like|where|join|script|set)/i",$user_name)){
         
         $result = array(
 	        'code' => 203,
