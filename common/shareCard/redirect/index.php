@@ -203,7 +203,7 @@
     
     ?>
     
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script src="../../../static/js/jweixin-1.6.0.js"></script>
     <script type="text/javascript">
     
     // 初始化配置
@@ -242,7 +242,7 @@
     // 错误信息
     wx.error(function(res){
         alert(res);
-    });    
+    });
     
     </script>
     </body>
