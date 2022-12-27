@@ -247,9 +247,12 @@ input[type=file]::-webkit-file-upload-button{
 	text-decoration: none;
 	margin-right: 10px;
 }
-#app .left .account a{
-	color: #666;
-	text-decoration: none;
+#accountInfo{
+    cursor: pointer;
+}
+#accountInfo a{
+    text-decoration: none;
+    color: #666;
 }
 #topAlert{
     position:fixed;
@@ -496,6 +499,10 @@ input[type=file]::-webkit-file-upload-button{
     margin:0 auto;
 }
 #DelZjyModal .modal-footer button{
+    display: block;
+    margin:0 auto;
+}
+#DelshareCardModal .modal-footer button{
     display: block;
     margin:0 auto;
 }
@@ -862,6 +869,37 @@ input[type=file]::-webkit-file-upload-button{
     margin:20px auto 10px;
 }
 #ShareZjyModal .modal-body .box .Qrcode img{
+    width: 200px;
+    height: 200px;
+}
+
+/*ShareCardModal*/
+#ShareCardModal .modal-body .box{
+    width: 95%;
+    margin:0 auto;
+}
+#ShareCardModal .modal-body .box .longUrl{
+    width: 100%;
+    margin:0 auto;
+    padding:15px 15px;
+    font-size: 15px;
+    color: #333;
+    overflow: hidden;
+    word-wrap: break-word;
+    background: #f6f6f6;
+    border-radius: 10px;
+}
+#ShareCardModal .modal-body .box .longUrl .text{
+    display: block;
+    height:20px;
+    margin:0 0 0 0;
+}
+#ShareCardModal .modal-body .box .Qrcode{
+    width: 200px;
+    height: 200px;
+    margin:20px auto 10px;
+}
+#ShareCardModal .modal-body .box .Qrcode img{
     width: 200px;
     height: 200px;
 }
@@ -1495,4 +1533,30 @@ input[type=file]::-webkit-file-upload-button{
     left: 0;
     top: 0;
     opacity: 0;
+}
+
+/*分享卡片*/
+#createShareCardModal .input-group-append{
+    position: relative;
+}
+#editShareCardModal .input-group-append{
+    position: relative;
+}
+#createShareCardModal .file_btn{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+#editShareCardModal .file_btn{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
