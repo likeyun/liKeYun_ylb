@@ -25,6 +25,10 @@ if($faq == 'qun'){
     
     // 跳转链接
     $redUrl = 'https://docs.qq.com/doc/DREdWVGJxeFFOSFhI';
+}else if($faq == 'shareCard'){
+    
+    // 跳转链接
+    $redUrl = 'https://docs.qq.com/doc/DREdWVGJxeFFOSFhI';
 }else if($faq == 'config'){
     
     // 跳转链接

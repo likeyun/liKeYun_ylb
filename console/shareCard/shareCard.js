@@ -10,12 +10,12 @@ window.onload = function (){
     
     if(pageNum !== 'undefined'){
         
-        // 获取当前页码的中间页数据列表
-        getZjyList(pageNum);
+        // 获取当前页码的列表
+        getshareCardList(pageNum);
     }else{
         
         // 获取不到页码就获取首页
-        getZjyList();
+        getshareCardList();
     }
 }
 
@@ -66,33 +66,25 @@ function initialize_Login(loginStatus,adminStatus){
         // 显示创建按钮
         $('#button-view').css('display','block');
         
-        // 判断管理员权限
-        if(adminStatus == 1){
-            
-            // 显示开放API按钮
-            $('#openApi').html('<a href="./openApi.html"><button class="tint-btn" style="margin-left: 5px;">开放API</button></a>');
-        }
-        
     }else{
         
         // 隐藏创建按钮
         $('#button-view').css('display','none');
-        $('#openApi').css('display','none');
     }
 }
 
-// 获取中间页列表
-function getZjyList(pageNum) {
+// 获取分享卡片列表
+function getshareCardList(pageNum) {
     
     // 判断是否有pageNum参数传过来
     if(!pageNum){
         
         // 如果没有就默认请求第1页
-        reqUrl = "./getZjyList.php";
+        reqUrl = "./getshareCardList.php";
     }else{
         
         // 如果有就请求pageNum的那一页
-        reqUrl = "./getZjyList.php?p="+pageNum
+        reqUrl = "./getshareCardList.php?p="+pageNum
     }
     
     // AJAX获取
@@ -102,19 +94,17 @@ function getZjyList(pageNum) {
         success: function(res){
             
             // 初始化
-            initialize_getZjyList();
+            initialize_getshareCardList();
             
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
                 '   <th>序号</th>' +
+                '   <th>ID</th>' +
                 '   <th>标题</th>' +
-                '   <th>淘口令</th>' +
-                '   <th>原价</th>' +
-                '   <th>券后价</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>访问次数</th>' +
-                '   <th>复制次数</th>' +
+                '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -125,54 +115,51 @@ function getZjyList(pageNum) {
                 
                 // 如果有数据
                 // 遍历数据
-                for (var i=0; i<res.zjyList.length; i++) {
+                for (var i=0; i<res.shareCardList.length; i++) {
                     
                     // 数据判断并处理
                     // （1）序号
                     var xuhao = i+1;
                     
-                    // （2）标题
-                    var zjy_title = res.zjyList[i].zjy_short_title;
+                    // （2）ID
+                    var shareCard_id = res.shareCardList[i].shareCard_id;
                     
-                    // （3）淘口令
-                    var zjy_tkl = res.zjyList[i].zjy_tkl;
+                    // （3）标题
+                    var shareCard_title = res.shareCardList[i].shareCard_title;
                     
-                    // （4）原价
-                    var zjy_original_cost = res.zjyList[i].zjy_original_cost;
+                    // （4）创建时间
+                    var shareCard_create_time = res.shareCardList[i].shareCard_create_time;
                     
-                    // （5）券后价
-                    var zjy_discounted_price = res.zjyList[i].zjy_discounted_price;
+                    // （5）访问次数
+                    var shareCard_pv = res.shareCardList[i].shareCard_pv;
                     
-                    // （6）创建时间
-                    var zjy_create_time = res.zjyList[i].zjy_create_time;
-                    
-                    // （7）访问次数
-                    var zjy_pv = res.zjyList[i].zjy_pv;
-                    
-                    // （8）复制次数
-                    var zjy_copyNum = res.zjyList[i].zjy_copyNum;
-                    
-                    // （9）ID
-                    var zjy_id = res.zjyList[i].zjy_id;
+                    // （6）状态
+                    if(res.shareCardList[i].shareCard_status == '1'){
+                        
+                        // 正常
+                        var shareCard_status = '<span class="switch-on" id="'+shareCard_id+'" onclick="changeshareCardStatus(this);"><span class="press"></span></span>';
+                    }else{
+                        
+                        // 关闭
+                        var shareCard_status = '<span class="switch-off" id="'+shareCard_id+'" onclick="changeshareCardStatus(this);"><span class="press"></span></span>';
+                    }
                     
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
-                        '   <td>'+zjy_title+'</td>' +
-                        '   <td>'+zjy_tkl+'</td>' +
-                        '   <td>'+zjy_original_cost+'</td>' +
-                        '   <td>'+zjy_discounted_price+'</td>' +
-                        '   <td>'+zjy_create_time+'</td>' +
-                        '   <td>'+zjy_pv+'</td>' +
-                        '   <td>'+zjy_copyNum+'</td>' +
+                        '   <td>'+shareCard_id+'</td>' +
+                        '   <td>'+shareCard_title+'</td>' +
+                        '   <td>'+shareCard_create_time+'</td>' +
+                        '   <td>'+shareCard_pv+'</td>' +
+                        '   <td>'+shareCard_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
                         '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#ShareZjyModal" onclick="shareZjy('+zjy_id+')">分享</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#EditZjyModal" onclick="getZjyInfo('+zjy_id+')">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#DelZjyModal" onclick="askDelZjy('+zjy_id+')">删除</span>' +
+                        '               <span class="dropdown-item" data-toggle="modal" data-target="#ShareCardModal" onclick="shareCard('+shareCard_id+')">分享</span>' +
+                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editShareCardModal" onclick="getshareCardInfo('+shareCard_id+')">编辑</span>' +
+                        '               <span class="dropdown-item" data-toggle="modal" data-target="#DelshareCardModal" onclick="askDelshareCard('+shareCard_id+')">删除</span>' +
                         '           </div>' +
                         '       </div>' +
                         '   </td>' +
@@ -238,7 +225,6 @@ function getZjyList(pageNum) {
                     // 205状态码代表用户升级版本但未初始化
                     warningPage('<p>检测到你正在升级版本</p><button onclick="Upgrade();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button>');
                     $('#button-view').html('');
-                    $('#openApi').html('');
                 }else{
                     
                     warningPage(res.msg);
@@ -274,7 +260,7 @@ function getFenye(e){
     var pageNum = e.id;
     
     // 获取该页列表
-    getZjyList(pageNum);
+    getshareCardList(pageNum);
 }
 
 // 升级
@@ -303,13 +289,13 @@ function Upgrade(){
     });
 }
 
-// 创建中间页
-function createZjy(){
+// 创建分享卡片
+function createShareCard(){
     
     $.ajax({
         type: "POST",
-        url: "./createZjy.php",
-        data: $('#createZjy').serialize(),
+        url: "./createShareCard.php",
+        data: $('#createShareCard').serialize(),
         success: function(res){
             
             // 成功
@@ -319,10 +305,10 @@ function createZjy(){
                 showSuccessResult(res.msg)
                 
                 // 隐藏modal
-                setTimeout('hideModal("createZjyModal")', 500);
+                setTimeout('hideModal("createShareCardModal")', 500);
                 
                 // 重新加载中间页列表
-                setTimeout('getZjyList();', 500);
+                setTimeout('getshareCardList();', 500);
             }else{
                 
                 // 操作反馈（操作失败）
@@ -337,13 +323,13 @@ function createZjy(){
     });
 }
 
-// 编辑中间页
-function editZjy(){
+// 编辑分享卡片
+function editShareCard(){
     
     $.ajax({
         type: "POST",
-        url: "./editZjy.php",
-        data: $('#editZjy').serialize(),
+        url: "./editShareCard.php",
+        data: $('#editShareCard').serialize(),
         success: function(res){
             
             // 成功
@@ -352,11 +338,11 @@ function editZjy(){
                 // 操作反馈（操作成功）
                 showSuccessResult(res.msg)
                 
-                // 隐藏EditZjyModal
-                setTimeout('hideModal("EditZjyModal")', 500);
+                // 隐藏editShareCardModal
+                setTimeout('hideModal("editShareCardModal")', 500);
                 
                 // 重新加载中间页列表
-                setTimeout('getZjyList();', 500);
+                setTimeout('getshareCardList();', 500);
             }else{
                 
                 // 操作反馈（操作失败）
@@ -371,31 +357,31 @@ function editZjy(){
     });
 }
 
-// 询问是否要删除中间页
-function askDelZjy(zjyid){
+// 询问是否要删除分享卡片
+function askDelshareCard(shareCardid){
     
-    // 将群id添加到button的delZjy函数用于传参执行删除
-    $('#DelZjyModal .modal-footer').html('<button type="button" class="default-btn" onclick="delZjy('+zjyid+');">确定删除</button>')
+    // 将群id添加到button的delshareCard函数用于传参执行删除
+    $('#DelshareCardModal .modal-footer').html('<button type="button" class="default-btn" onclick="delshareCard('+shareCardid+');">确定删除</button>')
 }
 
-// 删除中间页
-function delZjy(zjyid){
+// 删除分享卡片
+function delshareCard(shareCardid){
     
     // 删除
     $.ajax({
         type: "GET",
-        url: "./delZjy.php?zjyid="+zjyid,
+        url: "./delshareCard.php?shareCardid="+shareCardid,
         success: function(res){
             
             // 成功
             if(res.code == 200){
                 
                 // 操作反馈（操作成功）
-                // 隐藏DelZjyModal
-                hideModal("DelZjyModal");
+                // 隐藏DelshareCardModal
+                hideModal("DelshareCardModal");
                 
-                // 重新加载中间页列表
-                setTimeout('getZjyList()', 500);
+                // 重新加载分享卡片列表
+                setTimeout('getshareCardList()', 500);
             }else{
                 
                 // 操作反馈（操作失败）
@@ -410,48 +396,39 @@ function delZjy(zjyid){
     });
 }
 
-// 获取中间页详情
-function getZjyInfo(zjy_id){
+// 获取分享卡片详情
+function getshareCardInfo(shareCard_id){
     
-    // 根据zjy_id获取详情
+    // 根据shareCard_id获取详情
     $.ajax({
         type: "GET",
-        url: "./getZjyInfo.php?zjy_id="+zjy_id,
+        url: "./getshareCardInfo.php?shareCard_id="+shareCard_id,
         success: function(res){
 
             if(res.code == 200){
                 
-                // （1）长标题
-                $('#zjy_long_title_edit').val(res.zjyInfo.zjy_long_title);
+                // （1）分享标题
+                $('#shareCard_title_edit').val(res.shareCardInfo.shareCard_title);
+                
+                // （2）分享摘要
+                $('#shareCard_desc_edit').val(res.shareCardInfo.shareCard_desc);
+                
+                // （3）分享缩略图
+                $("#editShareCardModal .select_text").text('上传图片');
+                $('#shareCard_img_edit').val(res.shareCardInfo.shareCard_img);
                 
                 // 获取域名列表
                 getDomainNameList('edit');
                 
-                // （2）获取当前设置的域名
-                $("#zjy_rkym_edit").append('<option value="'+res.zjyInfo.zjy_rkym+'">'+res.zjyInfo.zjy_rkym+'</option>');
-                $("#zjy_ldym_edit").append('<option value="'+res.zjyInfo.zjy_ldym+'">'+res.zjyInfo.zjy_ldym+'</option>');
-                $("#zjy_dlym_edit").append('<option value="'+res.zjyInfo.zjy_dlym+'">'+res.zjyInfo.zjy_dlym+'</option>');
+                // （4）获取当前设置的域名
+                $("#shareCard_rkym_edit").append('<option value="'+res.shareCardInfo.shareCard_rkym+'">'+res.shareCardInfo.shareCard_rkym+'</option>');
+                $("#shareCard_ldym_edit").append('<option value="'+res.shareCardInfo.shareCard_ldym+'">'+res.shareCardInfo.shareCard_ldym+'</option>');
                 
-                // （3）短标题
-                $('#zjy_short_title_edit').val(res.zjyInfo.zjy_short_title);
+                // （5）目标链接
+                $('#shareCard_url_edit').val(res.shareCardInfo.shareCard_url);
                 
-                // （4）淘口令
-                $('#zjy_tkl_edit').val(res.zjyInfo.zjy_tkl);
-                
-                // （5）原价
-                $('#zjy_original_cost_edit').val(res.zjyInfo.zjy_original_cost);
-                
-                // （6）券后价
-                $('#zjy_discounted_price_edit').val(res.zjyInfo.zjy_discounted_price);
-                
-                // （7）商品主图
-                $('#zjy_goods_img_edit').val(res.zjyInfo.zjy_goods_img);
-                
-                // （8）商品链接
-                $('#zjy_goods_link_edit').val(res.zjyInfo.zjy_goods_link);
-                
-                // （8）zjy_id
-                $('#zjy_id_edit').val(zjy_id);
+                // （6）ID
+                $('#shareCard_id_edit').val(res.shareCardInfo.shareCard_id);
                             
             }else{
                 
@@ -467,29 +444,23 @@ function getZjyInfo(zjy_id){
     });
 }
 
-// 获取中间页配置
-function getZjyConfig(){
+// 获取分享卡片配置
+function getshareCardConfig(){
     
     hideResult();
     
     $.ajax({
         type: "GET",
-        url: "./getZjyConfig.php",
+        url: "./getshareCardConfig.php",
         success: function(res){
 
             if(res.code == 200){
                 
-                // （1）zjy_config_appkey
-                $('#zjy_config_appkey').val(res.zjyConfigInfo.zjy_config_appkey);
+                // （1）appid
+                $('#appid').val(res.shareCardConfig.appid);
                 
-                // （2）zjy_config_sid
-                $('#zjy_config_sid').val(res.zjyConfigInfo.zjy_config_sid);
-                
-                // （3）zjy_config_pid
-                $('#zjy_config_pid').val(res.zjyConfigInfo.zjy_config_pid);
-                
-                // （4）zjy_config_tbname
-                $('#zjy_config_tbname').val(res.zjyConfigInfo.zjy_config_tbname);
+                // （2）appsecret
+                $('#appsecret').val(res.shareCardConfig.appsecret);
                             
             }
         },
@@ -502,12 +473,12 @@ function getZjyConfig(){
 }
 
 // 提交配置
-function configZjy(){
+function configshareCard(){
     
     $.ajax({
         type: "POST",
-        url: "./configZjy.php",
-        data: $('#configZjy').serialize(),
+        url: "./configshareCard.php",
+        data: $('#configshareCard').serialize(),
         success: function(res){
             
             // 成功
@@ -516,8 +487,8 @@ function configZjy(){
                 // 操作反馈（操作成功）
                 showSuccessResult(res.msg)
                 
-                // 隐藏modal
-                setTimeout('hideModal("configZjyModal")', 500);
+                // 隐藏configshareCardModal
+                setTimeout('hideModal("configshareCardModal")', 500);
 
             }else{
                 
@@ -555,26 +526,18 @@ function getDomainNameList(module){
                     // 判断rkymList是否有域名
                     if(res.rkymList.length>0){;
                         for (var i=0; i<res.rkymList.length; i++) {
-                            $("#zjy_rkym").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
+                            $("#shareCard_rkym").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
                         }
                     }else{
-                        $("#zjy_rkym").append('<option value="">暂无入口域名</option>');
+                        $("#shareCard_rkym").append('<option value="">暂无入口域名</option>');
                     }
                     // 判断ldymList是否有域名
                     if(res.ldymList.length>0){
                         for (var i=0; i<res.ldymList.length; i++) {
-                            $("#zjy_ldym").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
+                            $("#shareCard_ldym").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
                         }
                     }else{
-                        $("#zjy_zzym").append('<option value="">暂无落地域名</option>');
-                    }
-                    // 判断dlymList是否有域名
-                    if(res.dlymList.length>0){
-                        for (var i=0; i<res.dlymList.length; i++) {
-                            $("#zjy_dlym").append('<option value="'+res.dlymList[i].domain+'">'+res.dlymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_dlym").append('<option value="">暂无短链域名</option>');
+                        $("#shareCard_ldym").append('<option value="">暂无落地域名</option>');
                     }
                 }else{
                     
@@ -606,26 +569,18 @@ function getDomainNameList(module){
                     // 判断rkymList是否有域名
                     if(res.rkymList.length>0){;
                         for (var i=0; i<res.rkymList.length; i++) {
-                            $("#zjy_rkym_edit").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
+                            $("#shareCard_rkym_edit").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
                         }
                     }else{
-                        $("#zjy_rkym_edit").append('<option value="">暂无入口域名</option>');
+                        $("#shareCard_rkym_edit").append('<option value="">暂无入口域名</option>');
                     }
                     // 判断ldymList是否有域名
                     if(res.ldymList.length>0){
                         for (var i=0; i<res.ldymList.length; i++) {
-                            $("#zjy_ldym_edit").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
+                            $("#shareCard_ldym_edit").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
                         }
                     }else{
-                        $("#zjy_ldym_edit").append('<option value="">暂无落地域名</option>');
-                    }
-                    // 判断dlymList是否有域名
-                    if(res.dlymList.length>0){
-                        for (var i=0; i<res.dlymList.length; i++) {
-                            $("#zjy_dlym_edit").append('<option value="'+res.dlymList[i].domain+'">'+res.dlymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_dlym_edit").append('<option value="">暂无短链域名</option>');
+                        $("#shareCard_ldym_edit").append('<option value="">暂无落地域名</option>');
                     }
                 }else{
                     
@@ -642,8 +597,8 @@ function getDomainNameList(module){
     }
 }
 
-// 分享中间页
-function shareZjy(zjy_id){
+// 分享卡片
+function shareCard(shareCard_id){
     
     // 初始化二维码
     $("#shareQrcode").html('');
@@ -651,7 +606,7 @@ function shareZjy(zjy_id){
     // 分享
     $.ajax({
         type: "GET",
-        url: "./shareZjy.php?zjy_id="+zjy_id,
+        url: "./shareCard.php?shareCard_id="+shareCard_id,
         success: function(res){
             
             // 成功
@@ -659,9 +614,6 @@ function shareZjy(zjy_id){
                 
                 // 长链接
                 $("#longUrl").text(res.longUrl);
-                
-                // 短链接
-                $("#shortUrl").text(res.shortUrl);
                 
                 // 二维码
                 new QRCode(document.getElementById("shareQrcode"), res.longUrl);
@@ -702,6 +654,48 @@ function exitLogin(){
     });
 }
 
+
+// 切换switch（changeshareCardStatus）
+function changeshareCardStatus(e){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeshareCardStatus.php?shareCard_id="+e.id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 刷新
+                getshareCardList();
+                showTopAlert(res.msg);
+            }else{
+                
+                showTopAlert(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+        }
+    });
+}
+
+// 顶部操作结果信息提示框
+function showTopAlert(content){
+    $('#topAlert').text(content);
+    $('#topAlert').css('display','block');
+    setTimeout('hideTopAlert()', 2500); // 2.5秒后自动关闭
+}
+
+// 关闭顶部操作结果信息提示框
+function hideTopAlert(){
+    $('#topAlert').css('display','none');
+    $("#topAlert").text('');
+}
+
 // 生成随机token
 function creatPageToken(length) {
     var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -734,8 +728,8 @@ function warningPage(text){
     $("#right .data-card .loading").css('display','block');
 }
 
-// 初始化（getZjyList获取中间页列表）
-function initialize_getZjyList(){
+// 初始化（getshareCardList获取分享卡片列表）
+function initialize_getshareCardList(){
     $("#right .data-list").css('display','block');
     $("#right .data-card .loading").css('display','none');
     $("#right .data-list tbody").empty('');
@@ -747,31 +741,24 @@ function initialize_getDomainNameList(module){
     if(module == 'create'){
         
         // 将所有值清空
-        $("#taokouling").val('');
-        $("#zjy_short_title").val('');
-        $("#zjy_long_title").val('');
-        $("#zjy_tkl").val('');
-        $("#zjy_original_cost").val('');
-        $("#zjy_discounted_price").val('');
-        $("#zjy_goods_img").val('');
-        $("#zjy_goods_link").val('');
-        $("#selectGoodsImgtext").text('上传图片');
-        $("#zjy_rkym").empty();
-        $("#zjy_ldym").empty();
-        $("#zjy_dlym").empty();
+        $("#shareCard_title").val('');
+        $("#shareCard_desc").val('');
+        $("#shareCard_img").val('');
+        $("#shareCard_url").val('');
+        $("#createShareCardModal .select_text").text('上传图片');
+        $("#shareCard_rkym").empty();
+        $("#shareCard_ldym").empty();
         hideResult();
         
         // 设置默认值
-        $("#zjy_rkym").append('<option value="">选择入口域名</option>');
-        $("#zjy_ldym").append('<option value="">选择落地域名</option>');
-        $("#zjy_dlym").append('<option value="">选择短链域名</option>');
+        $("#shareCard_rkym").append('<option value="">选择入口域名</option>');
+        $("#shareCard_ldym").append('<option value="">选择落地域名</option>');
         
     }else if(module == 'edit'){
         
         // 将所有值清空
-        $("#zjy_rkym_edit").empty();
-        $("#zjy_ldym_edit").empty();
-        $("#zjy_dlym_edit").empty();
+        $("#shareCard_rkym_edit").empty();
+        $("#shareCard_ldym_edit").empty();
         hideResult();
     }
 

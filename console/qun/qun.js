@@ -31,12 +31,21 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号信息
+                var $accountInfo_HTML = $(
+                    '<span class="user_name">'+res.user_name+'</span>' +
+                    '<span onclick="exitLogin();">退出</span>'
+                );
+                $("#accountInfo").html($accountInfo_HTML);
+                
+                // 初始化
                 initialize_Login('login')
             }else{
                 
                 // 未登录
                 $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                
+                // 初始化
                 initialize_Login('unlogin');
             }
         },
@@ -53,12 +62,12 @@ function initialize_Login(loginStatus){
     
     if(loginStatus == 'login'){
         
-        // 显示创建按钮
-        $('#button-view').css('display','block');
+        // 显示
+        showElementBy('#button-view')
     }else{
         
-        // 隐藏创建按钮
-        $('#button-view').css('display','none');
+        // 隐藏
+        hideElementBy('#button-view')
     }
 }
 
@@ -599,6 +608,7 @@ function delQun(qun_id){
                 // 操作反馈（操作成功）
                 // 隐藏modal
                 hideModal("DelQunHm");
+                
                 // 重新加载群列表
                 setTimeout('getQunList()', 500);
             }else{
@@ -737,6 +747,7 @@ function getQunzmInfo(e){
                 
                 // zm_id
                 $('#zm_id_edit').val(zm_id);
+                
                 // zm_qrcode_edit
                 $('#zm_qrcode_edit').val(res.qunzmInfo.zm_qrcode);
                             
@@ -959,8 +970,10 @@ function shareQun(qun_id){
                 
                 // 长链接
                 $("#longUrl").text(res.longUrl);
+                
                 // 短链接
                 $("#shortUrl").text(res.shortUrl);
+                
                 // 二维码
                 new QRCode(document.getElementById("shareQrcode"), res.longUrl);
             }else{
@@ -1342,6 +1355,20 @@ function showQunzmSwitchNewStatus(status,zmid){
     }else{
         $('#qunzima_status_'+zmid).html('<span class="switch-off" onclick="changeQunzmStatus('+zmid+');"><span class="press"></span></span>');
     }
+}
+
+// 显示指定元素
+function showElementBy(csspath){
+    
+    // 传入CSS路径
+    $(csspath).css('display','block');
+}
+
+// 隐藏指定元素
+function hideElementBy(csspath){
+    
+    // 传入CSS路径
+    $(csspath).css('display','none');
 }
 
 // 获取URL参数
