@@ -32,12 +32,21 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号信息
+                var $accountInfo_HTML = $(
+                    '<span class="user_name">'+res.user_name+'</span>' +
+                    '<span onclick="exitLogin();">退出</span>'
+                );
+                $("#accountInfo").html($accountInfo_HTML);
+                
+                // 初始化
                 initialize_Login('login')
             }else{
                 
                 // 未登录
                 $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                
+                // 初始化
                 initialize_Login('unlogin');
             }
         },

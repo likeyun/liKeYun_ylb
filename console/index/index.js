@@ -22,14 +22,24 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号信息
+                var $accountInfo_HTML = $(
+                    '<span class="user_name">'+res.user_name+'</span>' +
+                    '<span onclick="exitLogin();">退出</span>'
+                );
+                $("#accountInfo").html($accountInfo_HTML);
+                
+                // 初始化
                 initialize_Login('login',res.user_admin)
                 $("#right .data-card .data-content").css('display','block');
                 $("#right .data-card .loading").css('display','none');
+                
             }else{
                 
                 // 未登录
                 $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                
+                // 初始化
                 initialize_Login('unlogin',2);
                 $("#right .data-card .data-content").css('display','none');
                 $("#right .data-card .loading").css('display','block');
@@ -127,4 +137,18 @@ function warningPage(text){
     $("#right .data-card .data-content").css('display','none');
     $("#right .data-card .loading").html('<img src="../../static/img/warningIcon.png"/><br/><p>'+text+'</p>');
     $("#right .data-card .loading").css('display','block');
+}
+
+// 显示指定元素
+function showElementBy(csspath){
+    
+    // 传入CSS路径
+    $(csspath).css('display','block');
+}
+
+// 隐藏指定元素
+function hideElementBy(csspath){
+    
+    // 传入CSS路径
+    $(csspath).css('display','none');
 }
