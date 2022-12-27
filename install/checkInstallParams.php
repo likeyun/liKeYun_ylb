@@ -369,16 +369,41 @@
               `zjy_config_user` varchar(32) DEFAULT NULL COMMENT '你的引流宝账号'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
             
+            $huoma_shareCard = "CREATE TABLE `huoma_shareCard` (
+              `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
+              `shareCard_id` int(10) DEFAULT NULL COMMENT '卡片ID',
+              `shareCard_title` varchar(64) DEFAULT NULL COMMENT '标题',
+              `shareCard_desc` text COMMENT '摘要',
+              `shareCard_img` text COMMENT '分享图',
+              `shareCard_rkym` text COMMENT '入口域名',
+              `shareCard_ldym` text COMMENT '落地域名',
+              `shareCard_url` text COMMENT '目标链接',
+              `shareCard_pv` int(10) NOT NULL DEFAULT '0' COMMENT '访问量',
+              `shareCard_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+              `shareCard_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态（1正常 2停用）',
+              `shareCard_create_user` varchar(32) DEFAULT NULL COMMENT '创建者'
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            
+            $huoma_shareCardConfig = "CREATE TABLE `huoma_shareCardConfig` (
+              `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
+              `appid` varchar(32) DEFAULT NULL COMMENT '公众号appid',
+              `appsecret` varchar(64) DEFAULT NULL COMMENT '公众号appsecret',
+              `access_token` text COMMENT 'access_token',
+              `access_token_expire_time` varchar(32) DEFAULT NULL COMMENT 'access_token_expire_time',
+              `jsapi_ticket` text COMMENT 'jsapi_ticket',
+              `jsapi_ticket_expire_time` varchar(32) DEFAULT NULL COMMENT 'jsapi_ticket_expire_time'
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+            
             // 连接成功
             // 检查是否已经安装
-            // （1）检查是否存在Db.php
-            if(file_exists('../console/Db.php')){
+            // （1）检查是否存在Db.php或安装锁
+            if(file_exists('./install.lock') || file_exists('../console/Db.php')){
                 
                 // 存在Db.php
                 // 已安装
                 $result = array(
                     'code' => 202,
-                    'msg' => '请勿重复安装！如需重新安装请删除 /console/Db.php'
+                    'msg' => '请勿重复安装！如需重新安装请删除 /install/install.lock 和 /console/Db.php'
                 );
             }else{
                 
@@ -400,7 +425,9 @@
                     $conn->query($huoma_dwz) === TRUE && 
                     $conn->query($huoma_dwz_apikey) === TRUE && 
                     $conn->query($huoma_tbk) === TRUE && 
-                    $conn->query($huoma_tbk_config) === TRUE){
+                    $conn->query($huoma_tbk_config) === TRUE && 
+                    $conn->query($huoma_shareCard) === TRUE && 
+                    $conn->query($huoma_shareCardConfig) === TRUE){
                     
                     // 向huoma_count插入一些默认数据
                     for ($i = 1; $i <= 23; $i++) {
@@ -414,11 +441,18 @@
                     $huoma_tbk_config_Data = "INSERT INTO `huoma_tbk_config` (`zjy_config_appkey`, `zjy_config_sid`, `zjy_config_pid`, `zjy_config_tbname`, `zjy_config_user`) VALUES ('未设置', '未设置', '未设置', '未设置', '$user_name')";
                     $conn->query($huoma_tbk_config_Data);
                     
+                    // 分享卡片接口配置默认数据
+                    $huoma_shareCardConfig_Data = "INSERT INTO `huoma_shareCardConfig` (`appid`, `appsecret`) VALUES ('未设置', '未设置')";
+                    $conn->query($huoma_shareCardConfig_Data);
+                    
                     // 数据库配置文件结构
                     $Db_Config_File = '<?php'.PHP_EOL.PHP_EOL.'// 数据库操作类'.PHP_EOL.'include \'DbClass.php\';'.PHP_EOL.PHP_EOL.'// 数据库配置'.PHP_EOL.'$config = ['.PHP_EOL.'    \'db_host\' => \''.$db_host.'\','.PHP_EOL.'    \'db_port\' => 3306,'.PHP_EOL.'    \'db_name\' => \''.$db_name.'\','.PHP_EOL.'    \'db_user\' => \''.$db_user.'\','.PHP_EOL.'    \'db_pass\' => \''.$db_pass.'\','.PHP_EOL.'    \'folderNum\' => \''.$install_folder.'\','.PHP_EOL.'    \'db_prefix\' => \'\''.PHP_EOL.'];'.PHP_EOL.'?>';
                     
                     // 创建数据库配置文件
                     file_put_contents('../console/Db.php',$Db_Config_File);
+                    
+                    // 创建安装锁
+                    file_put_contents('./install.lock','安装锁');
                     
                     // 安装成功
                     $result = array(
