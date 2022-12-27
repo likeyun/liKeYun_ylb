@@ -51,6 +51,7 @@ http://域名/console/index/
 ![](https://d1.faiusr.com/4/AAEIABAEGAAgr4KSnAYouOjIugQwrwo4nQc.png)
 ![](https://d1.faiusr.com/4/AAEIABAEGAAgtYKSnAYokLWoqwQwqwo4lAc.png)
 ![](https://d1.faiusr.com/4/AAEIABAEGAAgu4KSnAYohuHsoAYwpQo4jQc.png)
+![](https://d1.faiusr.com/4/AAEIABAEGAAgzNepnQYohqeppgIw6Ak4pwc.png)
 
 # 赞赏
 赞赏作者，支持长期维护开源项目。<br/>
