@@ -7,11 +7,11 @@
 ![](https://t.focus-img.cn/sh740wsh/bbs/p2/e896c3f402f98667ef2ed0377c4bb268.png)
 
 # 更新日志
-![](https://img.shields.io/badge/Version-1.2.1-brightgreen.svg)<br/>
-版本：1.2.1<br/>
-更新内容：新增淘宝客、优化UI布局、修复部分已知问题。<br/>
-更新时间：2022/11/24<br/>
-源码下载：https://likeyun.lanzout.com/ibmWO0gttkdi
+![](https://img.shields.io/badge/Version-1.3.0-brightgreen.svg)<br/>
+版本：1.3.0<br/>
+更新内容：新增微信分享卡片。<br/>
+更新时间：2022/12/27<br/>
+源码下载：https://likeyun.lanzout.com/i4doR0jhtw8b（国内高速下载）
 
 # 快速安装
 访问install目录即可进入安装流程。<br/>
