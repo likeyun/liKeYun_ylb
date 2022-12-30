@@ -492,8 +492,6 @@ $("#selectQunzmQrcode").change(function(e){
                     
                     // 上传失败
                     showErrorResult(res.msg)
-                    // 清空file选择的文件以重试
-                    $("#updateZmQrcode").val('');
                 }
                 
             },
@@ -501,10 +499,11 @@ $("#selectQunzmQrcode").change(function(e){
                 
                 // 上传失败
                 showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-                // 清空file选择的文件以重试
-                $("#updateZmQrcode").val('');
             }
         })
+	    
+	// 清空file选择
+        $("#selectQunzmQrcode").val('');
     }
 })
 
