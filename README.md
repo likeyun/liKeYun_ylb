@@ -11,7 +11,8 @@
 版本：1.3.0<br/>
 更新内容：新增微信分享卡片。<br/>
 更新时间：2022/12/27<br/>
-源码下载：https://likeyun.lanzout.com/i4doR0jhtw8b <br/>（国内高速下载）
+源码下载：https://likeyun.lanzout.com/i4doR0jhtw8b （国内高速下载）<br/>
+下次更新预告：2023年上半年个人工作较多，暂不维护本项目，会在下半年进行本项目的新功能开发。
 
 # 快速安装
 访问install目录即可进入安装流程。<br/>
