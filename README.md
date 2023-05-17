@@ -81,8 +81,8 @@ http://域名/console/index/
 # 交流群
 目前有5个交流群，以邀请方式加入，如需进群请扫码添加群主微信进群，微信号：sansure2016 <br/><br/>
 <img src="https://t.focus-img.cn/sh740wsh/bbs/p2/64614a266dfdcb2b161dad4adacc7819.png" width="200" /><br/>
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/ab854aade88f5a0aaba1a366b9799d60.png" width="200" /><br/>
-备用链接：https://d1.faiusr.com/2/AAEIABACGAAg447anQYoiJWcvAMwzgQ4uQU.jpg
+<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/09279adcbbba76c6840ebc160282d5ce.jpg" width="200" /><br/>
+备用链接：https://t.focus-img.cn/sh740wsh/bbs/p2/09279adcbbba76c6840ebc160282d5ce.jpg
 
 # 作者
 Name:TANKING<br/>
