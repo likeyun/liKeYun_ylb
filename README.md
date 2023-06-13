@@ -91,8 +91,8 @@ http://域名/console/index/
 目前有6个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
 微信号：sansure2016 <br/><br/>
-<img src="http://kycloud3.koyoo.cn/202306135cab6202306132309401445.png" width="230" /><br/>
-微信群均为活跃高质量话题，没有广告，欢迎各位网友加入。<br/>
+<img src="http://kycloud3.koyoo.cn/202306135cab6202306132309401445.png" width="230" /><br/><br/>
+微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
 # 作者
 Name:TANKING<br/>
