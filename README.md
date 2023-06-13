@@ -91,7 +91,7 @@ http://域名/console/index/
 目前有6个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
 微信号：sansure2016 <br/><br/>
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/e707d50380c5288768fb307ebe61d76b.jpg" width="300" /><br/><br/>
+<img src="http://p19.qhimg.com/t012fbf4c72d8d3a4df.png" width="300" /><br/><br/>
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
 # 作者
