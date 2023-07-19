@@ -61,12 +61,13 @@ http://域名/console/index/
 <img src="https://d1.faiusr.com/4/AAEIABAEGAAgmdepnQYozef6bjDwBDiSBw.png" />
 
 # 截图
-![](https://d1.faiusr.com/4/AAEIABAEGAAggIKSnAYouLrKpAUwsgo4jwc.png)
-![](https://d1.faiusr.com/4/AAEIABAEGAAgp4KSnAYo6JeVeDCnCjiXBw.png)
-![](https://d1.faiusr.com/4/AAEIABAEGAAgr4KSnAYouOjIugQwrwo4nQc.png)
-![](https://d1.faiusr.com/4/AAEIABAEGAAgtYKSnAYokLWoqwQwqwo4lAc.png)
-![](https://d1.faiusr.com/4/AAEIABAEGAAgu4KSnAYohuHsoAYwpQo4jQc.png)
-![](https://d1.faiusr.com/4/AAEIABAEGAAgzNepnQYohqeppgIw6Ak4pwc.png)
+![](http://kycloud3.koyoo.cn/202307196e1bb202307191836058631.png)
+![](http://kycloud3.koyoo.cn/20230719d4bbe20230719183622999.png)
+![](http://kycloud3.koyoo.cn/20230719a956c202307191836327435.png)
+![](http://kycloud3.koyoo.cn/202307198f12d20230719183644668.png)
+![](http://kycloud3.koyoo.cn/20230719d02fb202307191836565500.png)
+![](http://kycloud3.koyoo.cn/20230719ea5f0202307191837065299.png)
+![](http://kycloud3.koyoo.cn/2023071973d09202307191837182421.png)
 
 # 赞赏
 赞赏作者，支持长期维护开源项目。<br/>
