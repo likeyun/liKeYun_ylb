@@ -16,7 +16,7 @@
 ![](https://t.focus-img.cn/sh740wsh/bbs/p2/e896c3f402f98667ef2ed0377c4bb268.png)
 
 # 更新日志
-![](https://img.shields.io/badge/Version-1.3.0-brightgreen.svg)<br/>
+![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
 版本：2.0.0<br/>
 更新摘要：<br/>
 1. UI优化<br/>
