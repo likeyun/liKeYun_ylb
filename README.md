@@ -81,7 +81,7 @@ http://域名/console/index/
 
 # 功能
 
-![](http://p15.qhimg.com/t01f7accbb31ba7c09c.png)
+![](http://p15.qhimg.com/t017b5fcb667e4e94bd.png)
 
 # 截图
 ![](http://p19.qhimg.com/t01b87022705fac8483.png)
@@ -135,9 +135,10 @@ http://域名/console/index/
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
 # 作者
-Name:TANKING<br/>
-WeChat:sansure2016<br/>
-Blog:https://segmentfault.com/u/tanking<br/>
+Name：TANKING<br/>
+WeChat：sansure2016<br/>
+Blog：https://segmentfault.com/u/tanking<br/>
+<img src="http://p18.qhimg.com/t01fa8997c05a7243cd.jpg" width="200" />
 
 # 旧版
 有不少老用户还是比较喜欢旧版的付费进群插件，近期我对旧版的部分代码做了维护，基本也是可以正常使用的。<br/>
