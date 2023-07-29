@@ -17,7 +17,7 @@
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
-版本：2.0.0<br/>
+版本：2.0.0（代码下周上传）<br/>
 更新摘要：<br/>
 1. UI优化<br/>
 2. 安全加固<br/>
