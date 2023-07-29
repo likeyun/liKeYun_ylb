@@ -42,7 +42,7 @@
 
 访问install目录即可进入安装流程。<br/>
 
-安装示例：
+示例：
 ```
 http://域名/install/
 ```
@@ -51,14 +51,16 @@ http://域名/install/
 # 版本升级
 
 注意：基于1.3.0版本进行升级至2.0.0版本。<br/>
----<br/>
-1. 升级前请备份好数据；<br/>
-2. 备份 console/Db.php 这个文件；<br/>
-3. 备份 console/upload/ 目录； <br/>
-4. 下载2.0.0版本代码，替换1.3.0代码，然后将 console/Db.php 这个文件以及 console/upload/ 目录替换即可；<br/>
-5. 访问install目录，点击版本升级进入升级界面。<br/>
 
-# 使用指南
+**升级步骤如下：**
+1、升级前请备份好数据；<br/>
+2、备份 console/Db.php 这个文件；<br/>
+3、备份 console/upload/ 目录； <br/>
+4、下载2.0.0版本代码，替换1.3.0代码，然后；<br/>
+5、将 console/Db.php 这个文件以及 console/upload/ 目录替换；<br/>
+6、访问install目录，点击版本升级进入升级界面。<br/>
+
+# 使用说明
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
 
 就算你是个小白0基础，没有服务器、没有域名，不会搭建服务器，不会搭建网站，使用指南中有个针对0基础的教程，看完就会了。
@@ -72,7 +74,7 @@ https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
 # 使用
 管理后台路径：/console/index/<br/>
 
-后台示例：
+示例：
 ```
 http://域名/console/index/
 ```
