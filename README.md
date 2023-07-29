@@ -81,7 +81,7 @@ http://域名/console/index/
 
 # 功能
 
-<img src="https://d1.faiusr.com/4/AAEIABAEGAAgmdepnQYozef6bjDwBDiSBw.png" />
+![](http://p15.qhimg.com/t01f7accbb31ba7c09c.png)
 
 # 截图
 ![](http://p19.qhimg.com/t01b87022705fac8483.png)
