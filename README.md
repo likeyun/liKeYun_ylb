@@ -40,7 +40,7 @@
 
 # 全新安装
 
-访问install目录即可进入安装流程。<br/>
+访问 install 目录即可进入安装流程。<br/>
 
 示例：
 ```
@@ -142,8 +142,7 @@ From：Guangdong Canton<br/><br/>
 <img src="http://p18.qhimg.com/t01fa8997c05a7243cd.jpg" width="200" />
 
 # 旧版
-有不少老用户还是比较喜欢旧版的付费进群插件，近期我对旧版的部分代码做了维护，基本也是可以正常使用的。<br/>
-旧版下载：https://likeyun.lanzout.com/iG8QC0g5rmxe<br/>
+1.3.0：https://likeyun.lanzout.com/i4doR0jhtw8b<br/>
 
 # 提醒
 该软件仅适用于辅助日常工作，提高工作效率，减轻人力。请勿用于诈骗、黑灰产业，如有此类行为，后果自负。
