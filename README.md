@@ -17,16 +17,26 @@
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-1.3.0-brightgreen.svg)<br/>
-版本：1.3.0<br/>
-更新内容：新增微信分享卡片。<br/>
-更新时间：2022/12/27<br/>
-源码下载：https://likeyun.lanzout.com/i4doR0jhtw8b （国内高速下载）<br/>
----<br/>
-新版本预告：<br/>
-1. 新增素材库，创建&编辑时，图片可以直接在素材库选择；（2023-07-16 完成度100%）<br/>
-2. 批量生成短网址；（2023-07-16 完成度100%）<br/>
-3. 微信域名检测，检测到域名在微信被封禁、拦截发送提醒你更换新域名。（2023-06-13 完成度30%）<br/>
-4. 新增今日、昨日IP访问统计（2023-07-16 完成度100%）<br/>
+版本：2.0.0<br/>
+更新摘要：<br/>
+1. UI优化<br/>
+2. 安全加固<br/>
+3. 首页优化<br/>
+4. 新增素材库<br/>
+5. 新增域名检测<br/>
+6. 新增IP统计<br/>
+7. 新增今天访问量统计<br/>
+8. 新增通知渠道<br/>
+9. 新增到了阈值就发送通知提醒<br/>
+10. 新增域名检测被封就发送通知提醒<br/>
+11. 新增域名检测被封就自动启用备用域名跳转<br/>
+12. 新增淘宝客多项单页<br/>
+13. 新增批量创建短网址<br/>
+14. 新增客服码在线时间配置（在配置的时间内显示在线）<br/>
+15. 新增登录日志<br/>
+16. 优化分享卡片创建及逻辑<br/>
+17. 优化各时段访问量统计<br/>
+18. 优化文件上传检测逻辑<br/><br/>
 
 # 快速安装
 访问install目录即可进入安装流程。<br/>
@@ -61,13 +71,15 @@ http://域名/console/index/
 <img src="https://d1.faiusr.com/4/AAEIABAEGAAgmdepnQYozef6bjDwBDiSBw.png" />
 
 # 截图
-![](http://kycloud3.koyoo.cn/202307196e1bb202307191836058631.png)
-![](http://kycloud3.koyoo.cn/20230719d4bbe20230719183622999.png)
-![](http://kycloud3.koyoo.cn/20230719a956c202307191836327435.png)
-![](http://kycloud3.koyoo.cn/202307198f12d20230719183644668.png)
-![](http://kycloud3.koyoo.cn/20230719d02fb202307191836565500.png)
-![](http://kycloud3.koyoo.cn/20230719ea5f0202307191837065299.png)
-![](http://kycloud3.koyoo.cn/2023071973d09202307191837182421.png)
+![](http://p19.qhimg.com/t01b87022705fac8483.png)
+![](http://p16.qhimg.com/t01d4a75eb6fd6bc298.png)
+![](http://p17.qhimg.com/t01a3926ae642b504d3.png)
+![](http://p17.qhimg.com/t01f585e4aaf3d72688.png)
+![](http://p16.qhimg.com/t01d9ac1e1e95beb4df.png)
+![](http://p18.qhimg.com/t01cefb50a561697059.png)
+![](http://p18.qhimg.com/t012556b585e563e2da.png)
+![](http://p19.qhimg.com/t011709a0f215d496c4.png)
+![](http://p15.qhimg.com/t01ff1e54444ff377a5.png)
 
 # 赞赏
 赞赏作者，支持长期维护开源项目。<br/>
@@ -100,7 +112,7 @@ http://域名/console/index/
 | 小智 | 微信 | 88.00 |
 | 侠狼¹主号 | 微信 | 10.00 |
 | XU | 微信 | 8.80 |
-| 潜行 | 微信 | 20.00 |
+| 长卿@奇人匠心 | 微信 | 16.80 |
 
 # 交流群
 目前有6个交流群，以邀请方式加入<br/>
