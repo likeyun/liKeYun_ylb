@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/hm.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="./notification.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+				<li><a href="../index/">首页</a></li>
+				<li><a href="../qun/">群活码</a></li>
+				<li><a href="../kf/">客服码</a></li>
+				<li><a href="../channel/">渠道码</a></li>
+				<li><a href="../dwz/">短网址</a></li>
+				<li><a href="../tbk/">淘宝客</a></li>
+				<li><a href="../shareCard/">分享卡片</a></li>
+				<li id="configCenter"><a href="../config/" class="selected">配置中心</a></li>
+				<li><a href="../sucai/">素材管理</a></li>
+				<li><a href="../user/">账号管理</a></li>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account" id="accountInfo"></div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>配置中心 / 通知渠道</h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    
+			    <button class="default-btn" style="margin-left: 5px;">通知渠道</button>
+				<a href="./"><button class="tint-btn" style="margin-left: 5px;">返回</button></a>
+				
+			</div>
+			
+			<!-- 列表区域 -->
+			<div class="data-list"></div><!-- data-list -->
+			
+			<p class="loading" style="display: none;"></p>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+    
+</div><!-- app -->
+
+</body>
+</html>
