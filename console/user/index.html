@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/hm.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="./user.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+				<li><a href="../index/">首页</a></li>
+				<li><a href="../qun/">群活码</a></li>
+				<li><a href="../kf/">客服码</a></li>
+				<li><a href="../channel/">渠道码</a></li>
+				<li><a href="../dwz/">短网址</a></li>
+				<li><a href="../tbk/">淘宝客</a></li>
+				<li><a href="../shareCard/">分享卡片</a></li>
+				<li><a href="../config/">配置中心</a></li>
+				<li><a href="../sucai/">素材管理</a></li>
+				<li><a href="../user/" class="selected">账号管理</a></li>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account" id="accountInfo"></div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>账号管理</h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    
+				<button 
+				class="default-btn"
+				data-toggle="modal" 
+				data-target="#CreatUserModal" 
+				onclick="initialize_creatUser();">创建账号</button>
+				
+				<button 
+				class="tint-btn" 
+				style="margin-left: 5px;" 
+				data-toggle="modal" 
+				data-target="#checkUserModal">查询账号</button>
+				
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+			    
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div><!-- data-list -->
+			
+			<p class="loading" style="display: none;"></p>
+			
+			<!-- 分页 -->
+			<div class="fenye" style="display: none;"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+	<!-- 创建账号 -->
+    <div class="modal fade" id="CreatUserModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">创建账号</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        
+                        <form id="createUser">
+                        <span class="text">账号<span style="float:right;" id="user_name_count_style"><span id="user_name_count">0</span>/15</span></span>
+                        <input type="text" name="user_name" class="form-control" title="5-15个字符" id="user_name" autocomplete="off" placeholder="设置账号">
+                        
+                        <span class="text">密码<span style="float:right;" id="user_pass_count_style"><span id="user_pass_count">0</span>/32</span></span>
+                        <input type="text" name="user_pass" class="form-control" title="5-32个字符" id="user_pass" autocomplete="off" placeholder="设置密码">
+                        
+                        <span class="text">邮箱</span>
+                        <input type="email" name="user_email" class="form-control" title="找回密码的重要证明" id="user_email" autocomplete="off" placeholder="输入邮箱">
+                        
+                        <span class="text">密保问题</span>
+                        <select name="user_mb_ask" class="form-control" title="找回密码的重要证明" id="user_mb_ask">
+                            <option value="">选择密保问题</option>
+                            <option value="你出生的城市？">你出生的城市？</option>
+                            <option value="你母亲的姓名？">你母亲的姓名？</option>
+                            <option value="你高三班主任姓名？">你高三班主任姓名？</option>
+                            <option value="你父亲的生日？">你父亲的生日？</option>
+                            <option value="你的手机号码？">你的手机号码？</option>
+                            <option value="身份证后8位？">身份证后8位？</option>
+                            <option value="你毕业的大学全称？">你毕业的大学全称？</option>
+                        </select>
+                        
+                        <span class="text">密保问题答案</span>
+                        <input type="text" name="user_mb_answer" class="form-control" title="找回密码的重要证明" id="user_mb_answer" autocomplete="off" placeholder="输入密保问题答案">
+                        
+                        <span class="text">备注</span>
+                        <input type="text" name="user_beizhu" class="form-control" title="可以不填写，备注便于区别账号的用途" id="user_beizhu" autocomplete="off" placeholder="给账号设置一个备注">
+                        </form>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=user" target="_blank">?</a></span>
+                        </div>
+                        
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="creatUser();">立即创建</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- CreatUserModal -->
+    
+    <!-- 查询账号 -->
+    <div class="modal fade" id="checkUserModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">查询账号</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="checkUser">
+                        <span class="text">账号</span>
+                        <input type="text" name="user_name" class="form-control" id="user_name" autocomplete="off" placeholder="输入你要查询的账号">
+                        </form>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=user" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="checkUser();">立即查询</button>
+                        </div>
+                    </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- checkUserModal -->
+  	
+  	<!-- 编辑账号 -->
+    <div class="modal fade" id="EditUserModal">
+        <div class="modal-dialog">
+            
+            <div class="modal-content">
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑账号</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                <form id="editUser">
+                <span class="text">账号</span>
+                <input type="text" class="form-control" disabled='disabled' style="cursor:no-drop;" title="账号不可修改" id="user_name_edit">
+                
+                <span class="text">密码<span style="float:right;" id="user_pass_count_style_edit"><span id="user_pass_count_edit">0</span>/32</span></span>
+                <input type="text" name="user_pass" class="form-control" title="修改密码才填写，否则留空" id="user_pass_edit" autocomplete="off" placeholder="如需修改密码可输入新密码">
+                
+                <span class="text">邮箱</span>
+                <input type="email" name="user_email" class="form-control" title="找回密码的重要证明" id="user_email_edit" autocomplete="off" placeholder="输入邮箱">
+                
+                <span class="text">密保问题</span>
+                <select name="user_mb_ask" class="form-control" title="找回密码的重要证明" id="user_mb_ask_edit"></select>
+                
+                <span class="text">密保问题答案</span>
+                <input type="text" name="user_mb_answer" class="form-control" title="找回密码的重要证明" id="user_mb_answer_edit" autocomplete="off" placeholder="输入密保问题答案">
+                
+                <span class="text">状态</span>
+                <select name="user_status" class="form-control" id="user_status_edit"></select>
+                
+                <span class="text">备注</span>
+                <input type="text" name="user_beizhu" class="form-control" title="可以不填写，备注便于区别账号的用途" id="user_beizhu_edit" autocomplete="off" placeholder="给账号设置一个备注">
+                
+                <!--user_id-->
+                <input type="hidden" name="user_id" id="user_id_edit">
+
+                </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav" title="阅读使用指南">
+                    	    <span class="faq"><a href="../faq.php?faq=user" target="_blank">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" onclick="editUser();">提交更新</button>
+                    	</div>
+                    </div>
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- EditUserModal -->
+  	
+  	<!-- 确定删除账号 -->
+    <div class="modal fade" id="DelUserModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除账号</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该账号及该账号创建的所有活码数据，包括群活码、客服码、渠道码等数据，不可恢复！
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- DelUserModal -->
+
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+    
+</div><!-- app -->
+
+
+<script type="text/javascript">
+
+// 监听账号输入
+$('#user_name').on('input propertychange', function(){
+    
+    // 获取账号
+    var user_name = $('#user_name').val();
+    
+    // 计算个数
+    $('#user_name_count').text(user_name.length);
+    if(user_name.length < 5 || user_name.length > 15){
+        
+        // 红色样式
+        $('#user_name_count_style').css('color','#f00');
+        $('#user_name').css('border-color','#f00');
+    }else{
+        
+        // 默认样式
+        $('#user_name_count_style').css('color','#999');
+        $('#user_name').css('border-color','#ced4da');
+    }
+})
+
+// 监听密码输入（创建）
+$('#user_pass').on('input propertychange', function(){
+    
+    // 获取密码
+    var user_pass = $('#user_pass').val();
+    
+    // 计算个数
+    $('#user_pass_count').text(user_pass.length);
+    if(user_pass.length < 5 || user_pass.length > 32){
+        
+        // 红色样式
+        $('#user_pass_count_style').css('color','#f00');
+        $('#user_pass').css('border-color','#f00');
+    }else{
+        
+        // 默认样式
+        $('#user_pass_count_style').css('color','#999');
+        $('#user_pass').css('border-color','#ced4da');
+    }
+})
+
+// 监听密码输入（编辑）
+$('#user_pass_edit').on('input propertychange', function(){
+    
+    // 获取密码
+    var user_pass = $('#user_pass_edit').val();
+    
+    // 计算个数
+    $('#user_pass_count_edit').text(user_pass.length);
+    if(user_pass.length < 5 || user_pass.length > 32){
+        
+        // 红色样式
+        $('#user_pass_count_style_edit').css('color','#f00');
+        $('#user_pass_edit').css('border-color','#f00');
+    }else{
+        
+        // 默认样式
+        $('#user_pass_count_style_edit').css('color','#999');
+        $('#user_pass_edit').css('border-color','#ced4da');
+    }
+})
+
+</script>
+
+</body>
+</html>

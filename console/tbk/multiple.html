@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/hm.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../static/js/clipboard.min.js"></script>
+	<script type="text/javascript" src="./multiple.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+				<li><a href="../index/">首页</a></li>
+				<li><a href="../qun/">群活码</a></li>
+				<li><a href="../kf/">客服码</a></li>
+				<li><a href="../channel/">渠道码</a></li>
+				<li><a href="../dwz/">短网址</a></li>
+				<li><a href="../tbk/" class="selected">淘宝客</a></li>
+				<li><a href="../shareCard/">分享卡片</a></li>
+				<li><a href="../config/">配置中心</a></li>
+				<li><a href="../sucai/">素材管理</a></li>
+				<li><a href="../user/">账号管理</a></li>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account" id="accountInfo"></div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>淘宝客 / 多项单页</h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+				<button class="default-btn" 
+				data-toggle="modal" 
+				data-target="#createSpaModal" 
+				onclick="getDomainNameList('create')">创建单页</button>
+				
+				<a href="./"><button class="tint-btn" style="margin-left:5px;">返回首页</button></a>
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div><!-- data-list -->
+			
+			<!--没有数据的时候展示-->
+			<p class="loading" style="display: none;"></p>
+			
+			<!-- 分页 -->
+			<div class="fenye"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+	<!-- 创建单页 -->
+    <div class="modal fade" id="createSpaModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">创建单页</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                <form id="createMultiSPA" enctype="multipart/form-data">
+                    <span class="text">标题</span>
+                    <input type="text" name="multiSPA_title" class="form-control" autocomplete="off" placeholder="单页标题">
+                    
+                    <span class="text">
+                        <span>项目</span>
+                        <span class="paiban" onclick="copy_Template('createSpaModal')">复制</span>
+                        <span class="paiban" onclick="p_Template('createSpaModal')">文案</span>
+                    </span>
+                    <textarea class="form-control multi_project" placeholder="项目内容（点击文案和复制添加模板）" title="输入框右下角可调整高度"></textarea>
+                    
+                    <span class="text">入口域名</span>
+                    <select name="multiSPA_rkym" class="form-control" title="扫码或点击链接后先跳转到这个域名"></select>
+                    
+                    <span class="text">落地域名</span>
+                    <select name="multiSPA_ldym" class="form-control" title="最终展示单页使用的域名"></select>
+                    
+                    <span class="text">短链域名</span>
+                    <select name="multiSPA_dlym" class="form-control" title="短网址所使用的域名"></select>
+                    
+                    <!--商品主图上传_预览-->
+                    <span class="goodsPic_upload_preview">
+                        
+                        <!--商品主图预览-->
+                    	<div class="goodsPic_preview">
+                    	    <div class="upload_tips" title="无需主图可不上传">主图预览</div>
+                    	</div>
+                    	
+                    	<!--上传按钮、素材库按钮-->
+                    	<div class="goodsPic_upload">
+                    	    <div class="Re-upload reUpload">
+                    	        <span class="text">上传主图</span>
+                    	        <input type="file" name="file" accept="image/*" id="selectZhutu" />
+                    	    </div>
+                    	    <div class="Re-upload selectFromSCK" onclick="getSuCai('1','createSpaModal');">从素材库选择</div>
+                    	</div>
+                    </span>
+                    
+                    <!--项目HTML内容-->
+                    <input type="hidden" name="multiSPA_project">
+                    
+                    <!--主图图片地址-->
+                    <input type="hidden" name="multiSPA_img">
+                
+                </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    <div class="faqnav" title="阅读使用指南">
+                        <span class="faq">
+                            <a href="../faq.php?faq=tbk" target="_blank">?</a>
+                        </span>
+                    </div>
+                    <div class="btnnav">
+                        <button type="button" class="default-btn" onclick="createMultiSPA();">立即创建</button>
+                    </div>
+                </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- createSpaModal -->
+    
+    <!-- 编辑单页 -->
+    <div class="modal fade" id="editSpaModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑单页</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                <form id="editMultiSPA" enctype="multipart/form-data">
+                    <span class="text">标题</span>
+                    <input type="text" name="multiSPA_title" class="form-control" autocomplete="off" placeholder="单页标题">
+                    
+                    <span class="text">
+                        <span>项目</span>
+                        <span class="paiban" onclick="copy_Template('editSpaModal')">复制</span>
+                        <span class="paiban" onclick="p_Template('editSpaModal')">文案</span>
+                    </span>
+                    <textarea class="form-control multi_project" placeholder="项目内容（点击文案和复制添加模板）" title="输入框右下角可调整高度"></textarea>
+                    
+                    <span class="text">入口域名</span>
+                    <select name="multiSPA_rkym" class="form-control" title="扫码或点击链接后先跳转到这个域名"></select>
+                    
+                    <span class="text">落地域名</span>
+                    <select name="multiSPA_ldym" class="form-control" title="最终展示单页使用的域名"></select>
+                    
+                    <span class="text">短链域名</span>
+                    <select name="multiSPA_dlym" class="form-control" title="短网址所使用的域名"></select>
+                    
+                    <!--商品主图上传_预览-->
+                    <span class="goodsPic_upload_preview">
+                        
+                        <!--商品主图预览-->
+                    	<div class="goodsPic_preview">
+                    	    <div class="upload_tips" title="无需主图可不上传">主图预览</div>
+                    	</div>
+                    	
+                    	<!--上传按钮、素材库按钮-->
+                    	<div class="goodsPic_upload">
+                    	    <div class="Re-upload reUpload">
+                    	        <span class="text">上传主图</span>
+                    	        <input type="file" name="file" accept="image/*" id="updateZhutu" />
+                    	    </div>
+                    	    <div class="Re-upload selectFromSCK" onclick="getSuCai('1','editSpaModal');">从素材库选择</div>
+                    	</div>
+                    </span>
+                    
+                    <!--项目HTML内容-->
+                    <input type="hidden" name="multiSPA_project">
+                    
+                    <!--项目id-->
+                    <input type="hidden" name="multiSPA_id">
+                    
+                    <!--主图图片地址-->
+                    <input type="hidden" name="multiSPA_img">
+                
+                </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    <div class="faqnav" title="阅读使用指南">
+                        <span class="faq">
+                            <a href="../faq.php?faq=tbk" target="_blank">?</a>
+                        </span>
+                    </div>
+                    <div class="btnnav">
+                        <button type="button" class="default-btn" onclick="editMultiSPA();">提交更新</button>
+                    </div>
+                </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- editSpaModal -->
+    
+    <!--素材库-->
+    <div class="modal fade" id="suCaiKu">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header" title="点击右上角&times;可返回二维码列表">
+                    <h4 class="modal-title">素材库</h4>
+                    <span class="hideSuCaiPannel_closeIcon"></span>
+                </div>
+                
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <div class="sucai-upload">
+                        <button type="button" class="default-btn upload_sucai_button">
+                            <span>上传素材</span>
+                            <form id="uploadSuCaiTosuCaiKuForm" enctype="multipart/form-data">
+                                <input type="file" name="file" class="upload_sucai" accept="image/*" id="uploadSuCaiTosuCaiKu" />
+                                <input text="text" id="uploadSuCai_fromPannel" value="createSpaModal" style="display:none;" />
+                            </form>
+                        </button>
+                    </div>
+                    
+                    <!--素材容器-->
+                    <div class="sucai-view"></div>
+                    
+                    <!--分页-->
+                    <div class="fenye"></div>
+                </div>
+                
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav" title="阅读使用指南">
+                    	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" 
+                    	    data-dismiss="modal" 
+                    	    onclick="hideSuCaiPannel('createSpaModal')">取消</button>
+                    	</div>
+                    </div>
+                </div>
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div>
+        </div>
+    </div><!-- suCaiKu -->
+  	
+  	<!-- 删除单页 -->
+    <div class="modal fade" id="delMultiSPAModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除单页</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该单页！删除后无法恢复。
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- DelZjyModal -->
+    
+    <!-- 分享单页 -->
+    <div class="modal fade" id="shareMultiSPAModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">分享单页</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="longUrl"><span class="text">长链接：</span><span id="longUrl"></span></div>
+                        <div class="shortUrl"><span class="text">短链接：</span><span id="shortUrl"></span></div>
+                        <div class="Qrcode" id="shareQrcode"></div>
+                    </div>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- shareKfHm -->
+    
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+
+</div><!-- app -->
+
+<script>
+    
+    // 监听淘口令解析输入框
+    $('#taokouling').on('input propertychange', function(){
+        
+        // 获取taokouling
+        var taokouling = $('#taokouling').val();
+        
+        $.ajax({
+            type: "POST",
+            url: "./explainTkl.php?tkl="+taokouling,
+            success: function(res){
+                
+                // 成功
+                if(res.code == 200){
+                    
+                    // （1）长标题
+                    $('#zjy_long_title').val(res.zjy_long_title);
+                    
+                    // （2）短标题
+                    $('#zjy_short_title').val(res.zjy_short_title);
+                    
+                    // （3）淘口令
+                    $('#zjy_tkl').val(res.zjy_tkl);
+                    
+                    // （4）原价
+                    $('#zjy_original_cost').val(res.zjy_original_cost);
+                    
+                    // （5）券后价
+                    $('#zjy_discounted_price').val(res.zjy_discounted_price);
+                    
+                    // （6）商品主图
+                    $('#zjy_goods_img').val(res.zjy_goods_img);
+                    
+                    // （7）商品链接
+                    $('#zjy_goods_link').val(res.zjy_goods_link);
+                    
+                    // 解析成功要隐藏Modal
+                    explainTkl_ResultText(res.msg)
+                    setTimeout('hideResult()', 1000);
+                    
+                }else{
+                    
+                    // （1）长标题
+                    $('#zjy_long_title').val('');
+                    
+                    // （2）短标题
+                    $('#zjy_short_title').val('');
+                    
+                    // （3）淘口令
+                    $('#zjy_tkl').val('');
+                    
+                    // （4）原价
+                    $('#zjy_original_cost').val('');
+                    
+                    // （5）券后价
+                    $('#zjy_discounted_price').val('');
+                    
+                    // （6）商品主图
+                    $('#zjy_goods_img').val('');
+                    
+                    // （7）商品链接
+                    $('#zjy_goods_link').val('');
+                    
+                    // 清空输入框的时候隐藏modal
+                    if(taokouling == '' || taokouling == null){
+                        
+                        hideResult();
+                    }else{
+                        
+                        setTimeout('explainTkl_ResultText("'+res.msg+'")', 1500);
+                    }
+                }
+            },
+            error: function() {
+                
+                showErrorResult('console/tbk/explainTkl.php发生错误');
+            },
+            beforeSend: function(res){
+                
+                // 解析中
+                explainTkl_ResultText('解析中...')
+            }
+        });
+        
+    })
+    
+    // 解析过程显示的提醒
+    function explainTkl_ResultText(content){
+        
+        $('#app .result').html('<div class="success">'+content+'</div>');
+        $('#app .result .success').css('display','block');
+    }
+    
+    // 上传商品主图（创建）
+    $("#selectGoodsImg").change(function(e){
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            
+            // file表单数据
+            var imageData = new FormData(document.getElementById("createZjy"));
+            
+            // 异步上传
+            $.ajax({
+                url:"../upload.php",
+                type:"POST",
+                data:imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 上传成功
+                        $('#zjy_goods_img').val(res.url);
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectGoodsImg").val('');
+                        $("#selectGoodsImgtext").text('重新上传');
+                        
+                    }else{
+                        
+                        // 上传失败
+                        showErrorResult(res.msg)
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectGoodsImg").val('');
+                    }
+                    
+                    $('#app .result').html('<div class="success">'+res.msg+'</div>');
+                    $('#app .result .success').css('display','block');
+                    setTimeout('hideResult()', 1300); // 1.3秒后自动关闭
+                    
+                },
+                error: function() {
+                    
+                    // 上传失败
+                    showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                    
+                    // 清空file选择的文件以重试
+                    $("#selectGoodsImg").val('');
+                },
+                beforeSend: function(res){
+                
+                    // 上传中
+                    $('#app .result').html('<div class="success">上传中...</div>');
+                    $('#app .result .success').css('display','block');
+                }
+            })
+        }
+    })
+    
+    // 上传商品主图（编辑）
+    $("#selectGoodsImg_edit").change(function(e){
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            
+            // file表单数据
+            var imageData = new FormData(document.getElementById("editZjy"));
+            
+            // 异步上传
+            $.ajax({
+                url:"../upload.php",
+                type:"POST",
+                data:imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 上传成功
+                        $('#zjy_goods_img_edit').val(res.url);
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectGoodsImg_edit").val('');
+                        $("#selectGoodsImg_edittext").text('重新上传');
+                        
+                    }else{
+                        
+                        // 上传失败
+                        showErrorResult(res.msg)
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectGoodsImg_edit").val('');
+                    }
+                    
+                    $('#app .result').html('<div class="success">'+res.msg+'</div>');
+                    $('#app .result .success').css('display','block');
+                    setTimeout('hideResult()', 1300); // 1.3秒后自动关闭
+                    
+                },
+                error: function() {
+                    
+                    // 上传失败
+                    showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                    
+                    // 清空file选择的文件以重试
+                    $("#selectGoodsImg_edit").val('');
+                },
+                beforeSend: function(res){
+                
+                    // 上传中
+                    $('#app .result').html('<div class="success">上传中...</div>');
+                    $('#app .result .success').css('display','block');
+                }
+            })
+        }
+    })
+
+</script>
+</body>
+</html>
