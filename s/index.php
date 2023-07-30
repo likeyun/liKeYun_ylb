@@ -29,7 +29,6 @@
         echo warnInfo('温馨提示','该链接不安全，请重新生成！');
         exit;
     }
-    
     if(preg_match('/(select|update|drop|DROP|insert|create|delete|where|join|script)/i',$key)){
        
         echo warnInfo('温馨提示','该链接不安全，请重新生成！');
