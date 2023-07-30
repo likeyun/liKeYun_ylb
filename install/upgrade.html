@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>版本升级 - 引流宝</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../static/css/hm.css">
+	<link rel="shortcut icon" href="../static/img/logo.png">
+	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <style>
+        #progress-bar {
+            width: 90%;
+            height: 30px;
+            margin: 30px auto 0;
+            background-color: #f1f1f1;
+            border-radius: 100px;
+            font-size: 16px;
+        }
+        
+        #fill-progress {
+            height: 100%;
+            background-color: rgb(59,94,225);
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    
+	<div class="formBox_install">
+	    
+	    <!--安装环境检测-->
+	    <div id="check_Install">
+	        
+	        <!--LOGO-->
+    	    <div class="header-box">
+    	        <img src="../static/img/20221025100444.png" />
+    	    </div>
+    	    
+    	    <!--分割线-->
+    	    <div class="line"></div>
+    	    
+    	    <!--检测结果-->
+    	    <div class="check_Result" style="color:#D72822;text-align:center;margin-top:35px;padding: 0 20px;"></div>
+            
+            <!--安装按钮-->
+            <span id="installBtn"></span>
+	    </div>
+    	
+    	<!--升级成功-->
+    	<div id="success_Install">
+    	    
+    	    <!--LOGO-->
+    	    <div class="header-box">
+    	        <img src="../static/img/20221025100444.png" />
+    	    </div>
+    	    
+    	    <!--分割线-->
+    	    <div class="line"></div>
+    	    
+    	    <!--安装成功图标-->
+    	    <div class="successIcon">
+    	        <img src="../static/img/successInstall.png" />
+    	    </div>
+    	    
+    	    <h3>升级完成！</h3>
+    	    <p style="text-align:center;font-size:14px;color:#999;">（请手动删除 install 目录）</p>
+    	    
+    	    <!--登录管理后台-->
+    	    <div class="link-card">
+    	        <a href="../console/index/" target="_blank">
+        	        <div class="title">登录管理后台</div>
+        	        <div class="desc">登录管理后台使用引流宝！</div>
+        	        <div class="go">
+        	            <img src="../static/img/go.png" />
+        	        </div>
+    	        </a>
+    	    </div>
+    	    <div class="link-card">
+    	        <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank">
+        	        <div class="title">引流宝使用说明</div>
+        	        <div class="desc">快速学习和了解正确的使用姿势！</div>
+        	        <div class="go">
+        	            <img src="../static/img/go.png" />
+        	        </div>
+    	        </a>
+    	    </div>
+    	</div>
+    	
+    	<!--升级失败-->
+    	<div id="fail_Install" style="display:none;">
+    	    
+    	    <!--LOGO-->
+    	    <div class="header-box">
+    	        <img src="../static/img/20221025100444.png" />
+    	    </div>
+    	    
+    	    <!--分割线-->
+    	    <div class="line"></div>
+    	    
+    	    <h4 style="color:#D72822;text-align:center;margin-top:35px;padding: 0 20px;"></h4>
+    	    
+    	</div>
+    	
+	</div>
+
+</div><!-- app -->
+
+<script type="text/javascript">
+
+// 进入页面就执行升级检测
+upgradeCheck();
+
+// 升级检测
+function upgradeCheck(){
+    
+    $.ajax({
+        type: "POST",
+        url: "upgradeCheck.php",
+        success: function(res){
+            
+            if(res.code == 200){
+                
+                // 200状态码
+                $('.check_Result').html('<h4 style="text-align:center;margin-top:35px;">'+res.msg+'</h4>');
+            }else{
+                
+                // 其它状态码
+                $('.check_Result').html('<h4 style="text-align:center;margin-top:35px;">'+res.msg+'</h4>');
+            }
+            
+            // 开始升级
+            if(res.code == 200){
+                
+                // 显示升级按钮
+                $('#installBtn').css('display','block');
+                $('#installBtn').html('<button class="form-control-login" onclick="startUpgrade();">开始升级</button>');
+            }else{
+                
+                // 隐藏升级按钮
+                $('#installBtn').css('display','none');
+                $('#installBtn').html('');
+            }
+        },
+        error: function(){
+            
+            // 无法升级，请全新安装！
+            $('.check_Result').html('<h4 style="text-align:center;margin-top:35px;">无法升级，请全新安装！</h4>');
+        }
+    });
+}
+
+// 开始升级
+function startUpgrade(){
+    
+    // 询问确定升级
+    var beifen=confirm("升级前建议你对旧版数据库进行备份！确定升级吗？")
+    if(beifen == true){
+        
+        // 是
+        // 隐藏升级检测
+        $('#check_Install').css('display','none');
+        
+        // 开始升级
+        $.ajax({
+            type: "POST",
+            url: "upgrade.php",
+            success: function(res){
+                
+                // 显示升级成功
+                if(res.code == 200){
+                    
+                    $('#fail_Install').css('display','none');
+                    $('#success_Install').css('display','block');
+                }else{
+                    
+                    // 升级失败
+                    $('#fail_Install').css('display','block');
+                    $('#fail_Install h4').text(res.msg);
+                }
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                $('#fail_Install').css('display','block');
+                $('#fail_Install h4').text('服务器发生错误！');
+            },
+            beforeSend: function() {
+                
+                // 执行中
+                $('#fail_Install').css('display','block');
+                $('#fail_Install h4').html('正在升级，请勿刷新... <div id="progress-bar"><div id="fill-progress">0%</div></div>');
+                const progressBar = document.getElementById("progress-bar");
+                const fillProgress = document.getElementById("fill-progress");
+            
+                let progress = 0;
+                const totalDuration = 4500;
+                const intervalDuration = 50;
+            
+                const updateProgressBar = () => {
+                  progress += (intervalDuration / totalDuration) * 100;
+                  if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                  }
+            
+                  fillProgress.style.width = `${progress}%`;
+                  fillProgress.innerText = `${Math.floor(progress)}%`;
+                };
+            
+                const progressInterval = setInterval(updateProgressBar, intervalDuration);
+            }
+        });
+        
+    }
+}
+
+</script>
+
+</body>
+</html>
