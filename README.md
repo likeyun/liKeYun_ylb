@@ -41,7 +41,7 @@
 
 # 国内源码高速下载链接
 
-蓝奏云：https://likeyun.lanzout.com/icqa513xtuah
+蓝奏云：https://likeyun.lanzout.com/iVscn13y0jtc
 
 # 全新安装
 
