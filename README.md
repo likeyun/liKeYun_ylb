@@ -39,6 +39,10 @@
 17. 优化各时段访问量统计<br/>
 18. 优化文件上传检测逻辑<br/><br/>
 
+# 国内源码下载链接
+
+蓝奏云：https://likeyun.lanzout.com/icqa513xtuah
+
 # 全新安装
 
 访问 install 目录即可进入安装流程。<br/>
