@@ -499,6 +499,7 @@
               `multiSPA_rkym` text DEFAULT NULL COMMENT '入口域名',
               `multiSPA_ldym` text DEFAULT NULL COMMENT '落地域名',
               `multiSPA_dlym` text DEFAULT NULL COMMENT '短链域名',
+              `multiSPA_key` varchar(10) DEFAULT NULL COMMENT '短网址Key',
               `multiSPA_project` text DEFAULT NULL COMMENT '项目HTML',
               `multiSPA_img` text DEFAULT NULL COMMENT '主图Url',
               `multiSPA_pv` int(10) DEFAULT '0' COMMENT '访问量',
