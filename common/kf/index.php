@@ -13,15 +13,38 @@
         <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     </head>
 <body>
-    
+<script type="text/javascript">
+
+    // 复制函数
+    function copyWeChatNum(e) {
+        
+        // 写入剪贴板
+        navigator.clipboard.writeText(e.dataset.wxnum).then(function() { 
+            
+            // 复制成功
+            document.querySelector('#wxnum .copy').innerText = '已复制';
+        }).catch(function(err) {  
+            
+            // 复制失败
+            document.querySelector('#wxnum .copy').innerText = '复制失败';
+        });
+        
+        // 恢复
+        setTimeout(function() {
+            
+            // 回复为复制文案
+            document.querySelector('#wxnum .copy').innerText = '复制';
+        }, 3000);
+    }
+</script>
 <?php
 
     /**
      * 标题：客服码公共页面
-     * 维护：2023年7月26日
+     * 维护：2023年8月1日
      * 作者：TANKING
      * 博客：https://segmentfault.com/u/tanking
-     * 摘要：优化代码结构、新增通知渠道、新增IP记录、UI样式优化、新增在线时间配置
+     * 摘要：优化代码结构、新增通知渠道、新增IP记录、UI样式优化
      */
      
     // 页面编码
@@ -132,7 +155,11 @@
                                 </div>';
                                 
                                 // 微信号
-                                echo '<p id="wxnum">微信号：'.$zm_num.'</p>';
+                                echo 
+                                '<p id="wxnum">
+                                    <span class="num">微信号 : '.$zm_num.'</span>
+                                    <span class="copy" data-wxnum="'.$zm_num.'" onclick="copyWeChatNum(this)">复制</span>
+                                </p>';
                                 
                                 // 在线状态
                                 if($kf_online == 1){
@@ -203,7 +230,11 @@
                             if(!empty($zm_num)){
                                 
                                 // 微信号
-                                echo '<p id="wxnum">微信号：'.$zm_num.'</p>';
+                                echo 
+                                '<p id="wxnum">
+                                    <span class="num">微信号 : '.$zm_num.'</span>
+                                    <span class="copy" data-wxnum="'.$zm_num.'" onclick="copyWeChatNum(this)">复制</span>
+                                </p>';
                             }
                             
                             // 在线状态
