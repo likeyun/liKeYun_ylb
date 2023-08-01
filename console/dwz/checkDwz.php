@@ -38,7 +38,8 @@
         	$db = new DB_API($config);
         
         	// 获取当前登录用户创建的短网址
-            $searchDwzSQL = "SELECT * FROM huoma_dwz WHERE dwz_title LIKE '%$dwz_title_check%' AND dwz_creat_user = '$LoginUser'";
+            // 根据标题或Key查询
+            $searchDwzSQL = "SELECT * FROM huoma_dwz WHERE dwz_title LIKE '%$dwz_title_check%' OR dwz_key LIKE '%$dwz_title_check%' AND dwz_creat_user = '$LoginUser'";
             $searchDwzSQLResult = $db->set_table('huoma_dwz')->findSql($searchDwzSQL);
         	
             // 判断获取结果
