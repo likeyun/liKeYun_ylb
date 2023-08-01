@@ -136,9 +136,24 @@ html body{
 }
 #wxnum{
     text-align: center;
-    font-size: 16px;
+    margin: 20px auto 0;
+}
+#wxnum .num{
+    color: rgb(7,193,96);
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #fff;
     color: #666;
-    margin:17px auto 0;
+    font-size: 13px;
+    margin-left: 5px;
+}
+#wxnum .copy{
+    color: rgb(7,193,96);
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #fff;
+    font-size: 13px;
+    /*margin-left: 5px;*/
 }
 #kf_online_true{
     width: 90%;
