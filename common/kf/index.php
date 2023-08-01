@@ -39,7 +39,7 @@
         // 恢复
         setTimeout(function() {
         
-            // 恢复为复制文案
+            // 恢复为“复制”
             document.querySelector('#wxnum .copy').innerText = '复制';
         }, 3000);
     }
