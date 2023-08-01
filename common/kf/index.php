@@ -15,27 +15,35 @@
 <body>
 <script type="text/javascript">
 
-    // 复制函数
+    // 设置剪贴板
     function copyWeChatNum(e) {
-        
-        // 写入剪贴板
-        navigator.clipboard.writeText(e.dataset.wxnum).then(function() { 
-            
-            // 复制成功
-            document.querySelector('#wxnum .copy').innerText = '已复制';
-        }).catch(function(err) {  
-            
-            // 复制失败
-            document.querySelector('#wxnum .copy').innerText = '复制失败';
-        });
+    
+        // 创建一个临时textarea元素
+        const tempTextArea = document.createElement('textarea');
+    
+        // 使其在视觉上不可见
+        tempTextArea.value = e.dataset.wxnum;
+        tempTextArea.style.position = 'fixed';
+        document.body.appendChild(tempTextArea);
+    
+        // 选择并复制文本
+        tempTextArea.select();
+        document.execCommand('copy');
+    
+        // 清理并移除临时元素
+        document.body.removeChild(tempTextArea);
+    
+        // 复制成功
+        document.querySelector('#wxnum .copy').innerText = '已复制';
         
         // 恢复
         setTimeout(function() {
-            
-            // 回复为复制文案
+        
+            // 恢复为复制文案
             document.querySelector('#wxnum .copy').innerText = '复制';
         }, 3000);
     }
+
 </script>
 <?php
 
