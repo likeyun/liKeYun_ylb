@@ -268,13 +268,13 @@
                 
                 // 当前状态：停用
                 // kf_status !== 1的情况
-                echo warnInfo('温馨提示','二维码已被管理员暂停使用');
+                echo warnInfo('温馨提示','该链接已被管理员暂停使用');
             } // if($kf_status == 1)
         }else{
             
             // 不存在
             // 获取不到该kf_id的详情
-            echo warnInfo('温馨提示','二维码不存在或已被管理员删除');
+            echo warnInfo('温馨提示','该链接不存在或已被管理员删除');
         } // if($getKfInfoResult && $getKfInfoResult > 0)
         
     } // if($kid && $kid !== '')
