@@ -2645,3 +2645,17 @@ input[type=file]::-webkit-file-upload-button {
     display: block;
     margin-top: 15px;
 }
+
+#right .searchDwzForm{
+    width: 300px;
+    float: right;
+}
+
+#right .searchDwzForm input[name="dwz_keyword"]{
+    width: 230px;
+    float: left;
+}
+#right .searchDwzForm .checkDwz{
+    width: 60px;
+    float: right;
+}
