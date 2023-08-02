@@ -65,11 +65,14 @@
 				data-target="#createBatchDwzModal" 
 				onclick="getDomainNameList('batchcreat')">批量创建</button>
 				
-				<button class="tint-btn" style="margin-left:5px;" 
-				data-toggle="modal" 
-				data-target="#checkDwzModal">查询短网址</button>
-				
+				<!--开放API-->
 				<span id="openApi"></span>
+				
+				<!--查询短网址-->
+				<div class="searchDwzForm">
+				    <input type="text" name="dwz_keyword" class="form-control" placeholder="短网址标题关键词或Key" />
+				    <button class="tint-btn checkDwz" onclick="checkDwz()">查询</button>
+				</div>
 			</div>
 
 			<!-- 列表区域 -->
@@ -339,44 +342,6 @@
             </div><!-- modal-content -->
         </div><!-- modal-dialog -->
     </div><!-- DelDwzModal -->
-    
-    <!-- 查询短网址 -->
-    <div class="modal fade" id="checkDwzModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                
-                    <!-- 头部 -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">查询短网址</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div><!-- modal-header -->
-                    
-                    <!-- 表单 -->
-                    <div class="modal-body">
-                        <form id="checkDwz">
-                        <span class="text">短网址标题或Key</span>
-                        <input type="text" name="dwz_title_check" class="form-control" id="dwz_title_check" autocomplete="off" placeholder="输入标题关键词或Key">
-                        </form>
-                    </div><!-- modal-body -->
-                    
-                    <!-- 底部操作 -->
-                    <div class="modal-footer">
-                        <div class="footer-btn">
-                        <div class="faqnav" title="阅读使用指南">
-                            <span class="faq"><a href="../faq.php?faq=dwz" target="_blank">?</a></span>
-                        </div>
-                        <div class="btnnav">
-                            <button type="button" class="default-btn" onclick="checkDwz();">立即查询</button>
-                        </div>
-                    </div>
-                </div><!-- modal-footer -->
-                
-                <!-- 操作反馈 -->
-                <div class="result"></div>
-                
-            </div><!-- modal-content -->
-        </div><!-- modal-dialog -->
-    </div><!-- checkDwzModal -->
 
     <!-- 全局信息提示框 -->
     <div id="notification">

@@ -693,146 +693,156 @@ function getDwzInfo(e){
 // 查询短网址
 function checkDwz() {
     
-    $.ajax({
-        type: "POST",
-        url: './checkDwz.php',
-        data: $('#checkDwz').serialize(),
-        success: function(res){
-            
-            // 表头
-            var $thead_HTML = $(
-                '<tr>' +
-                '   <th>序号</th>' +
-                '   <th>标题</th>' +
-                '   <th>短网址</th>' +
-                '   <th>状态</th>' +
-                '   <th>访问限制</th>' +
-                '   <th>创建时间</th>' +
-                '   <th>访问量</th>' +
-                '   <th style="text-align: right;">操作</th>' +
-                '</tr>'
-            );
-            $("#right .data-list thead").html($thead_HTML);
-            
-            // 200状态码
-            if(res.code == 200){
-                
-                // 初始化
-                $("#right .data-list tbody").empty('');
-                
-                // 隐藏分页
-                $('#right .fenye').css('display','none');
-                
-                for (var i=0; i<res.dwzList.length; i++) {
-                    
-                    // （1）序号
-                    var xuhao = i+1;
-                    
-                    // （2）标题
-                    var dwz_title = res.dwzList[i].dwz_title;
-                    
-                    // （3）状态
-                    if(res.dwzList[i].dwz_status == '1'){
-                        
-                        // 正常
-                        var dwz_status = '<span>正常</span>';
-                    }else{
-                        
-                        // 关闭
-                        var dwz_status = '<span class="status_close">停用</span>';
-                    }
-                    
-                    // （4）创建时间
-                    var dwz_creat_time = res.dwzList[i].dwz_creat_time;
-                    
-                    // （5）访问量
-                    var dwz_pv = res.dwzList[i].dwz_pv;
-                    
-                    // （6）ID
-                    var dwz_id = res.dwzList[i].dwz_id;
-                    
-                    // （7）短链域名
-                    var dwz_dlym = res.dwzList[i].dwz_dlym;
-                    
-                    // （8）Key
-                    var dwz_key = res.dwzList[i].dwz_key;
-                    
-                    // （9）访问限制
-                    var dwz_type = res.dwzList[i].dwz_type;
-                    
-                    if(dwz_type == 1){
-                        
-                        var dwz_type = '不限制';
-                    }else if(dwz_type == 2){
-                        
-                        var dwz_type = '仅限微信内访问';
-                    }else if(dwz_type == 3){
-                        
-                        var dwz_type = '仅限iOS设备访问';
-                    }else if(dwz_type == 4){
-                        
-                        var dwz_type = '仅限Android设备访问';
-                    }else if(dwz_type == 5){
-                        
-                        var dwz_type = '仅限手机浏览器访问';
-                    }else if(dwz_type == 6){
-                        
-                        var dwz_type = '仅限PC浏览器访问';
-                    }
-                    
-                    // 列表
-                    var $tbody_HTML = $(
-                        '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
-                        '   <td>'+dwz_title+'</td>' +
-                        '   <td>'+dwz_dlym+'/'+dwz_key+'</td>' +
-                        '   <td>'+dwz_status+'</td>' +
-                        '   <td>'+dwz_type+'</td>' +
-                        '   <td>'+dwz_creat_time+'</td>' +
-                        '   <td>'+dwz_pv+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</a>' +
-                        '               <a class="dropdown-item" href="javascript:;" id="'+dwz_id+'" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz(this)">删除</a>' +
-                        '           </div>' +
-                        '       </div>' +
-                        '   </td>' +
-                        '</tr>'
-                    );
-                    $("#right .data-list tbody").append($tbody_HTML);
-                }
-                
-                // 自动关闭checkDwzModal
-                setTimeout('hideModal("checkDwzModal");',500);
-                
-                // 清空输入框
-                setTimeout('$("#dwz_title_check").val("");',600);
-                
-            }else{
-                
-                // 非200状态码
-                showErrorResult(res.msg)
-                
-                // 未登录
-                if(res.code == 201){
-                    
-                    // 跳转到登录页面
-                    jumpUrl('../login/');
-                }
-                
-                // 清空输入框
-                setTimeout('$("#dwz_check").val("");',2500);
-            }
-            
-      },
-      error: function(){
+    // 获取关键词
+    const keyword = $('input[name="dwz_keyword"]').val();
+    
+    if(!keyword){
         
-        // 发生错误
-        showErrorResultForphpfileName('checkDwz.php');
-      },
-    });
+        // 空值
+        showNotification('请输入短网址标题关键词或Key');
+        
+        // 设置表单边框为红色
+        $('input[name="dwz_keyword"]').css('border-color','#f00');
+    }else{
+        
+        // 查询
+        $.ajax({
+            type: "POST",
+            url: './checkDwz.php?keyword='+keyword,
+            success: function(res){
+                
+                // 表头
+                var $thead_HTML = $(
+                    '<tr>' +
+                    '   <th>序号</th>' +
+                    '   <th>标题</th>' +
+                    '   <th>短网址</th>' +
+                    '   <th>状态</th>' +
+                    '   <th>访问限制</th>' +
+                    '   <th>创建时间</th>' +
+                    '   <th>访问量</th>' +
+                    '   <th style="text-align: right;">操作</th>' +
+                    '</tr>'
+                );
+                $("#right .data-list thead").html($thead_HTML);
+                
+                // 200状态码
+                if(res.code == 200){
+                    
+                    // 初始化
+                    $("#right .data-list tbody").empty('');
+                    
+                    // 隐藏分页
+                    $('#right .fenye').css('display','none');
+                    
+                    for (var i=0; i<res.dwzList.length; i++) {
+                        
+                        // （1）序号
+                        var xuhao = i+1;
+                        
+                        // （2）标题
+                        var dwz_title = res.dwzList[i].dwz_title;
+                        
+                        // （3）状态
+                        if(res.dwzList[i].dwz_status == '1'){
+                            
+                            // 正常
+                            var dwz_status = '<span>正常</span>';
+                        }else{
+                            
+                            // 关闭
+                            var dwz_status = '<span class="status_close">停用</span>';
+                        }
+                        
+                        // （4）创建时间
+                        var dwz_creat_time = res.dwzList[i].dwz_creat_time;
+                        
+                        // （5）访问量
+                        var dwz_pv = res.dwzList[i].dwz_pv;
+                        
+                        // （6）ID
+                        var dwz_id = res.dwzList[i].dwz_id;
+                        
+                        // （7）短链域名
+                        var dwz_dlym = res.dwzList[i].dwz_dlym;
+                        
+                        // （8）Key
+                        var dwz_key = res.dwzList[i].dwz_key;
+                        
+                        // （9）访问限制
+                        var dwz_type = res.dwzList[i].dwz_type;
+                        
+                        if(dwz_type == 1){
+                            
+                            var dwz_type = '不限制';
+                        }else if(dwz_type == 2){
+                            
+                            var dwz_type = '仅限微信内访问';
+                        }else if(dwz_type == 3){
+                            
+                            var dwz_type = '仅限iOS设备访问';
+                        }else if(dwz_type == 4){
+                            
+                            var dwz_type = '仅限Android设备访问';
+                        }else if(dwz_type == 5){
+                            
+                            var dwz_type = '仅限手机浏览器访问';
+                        }else if(dwz_type == 6){
+                            
+                            var dwz_type = '仅限PC浏览器访问';
+                        }
+                        
+                        // 列表
+                        var $tbody_HTML = $(
+                            '<tr>' +
+                            '   <td>'+xuhao+'</td>' +
+                            '   <td>'+dwz_title+'</td>' +
+                            '   <td>'+dwz_dlym+'/'+dwz_key+'</td>' +
+                            '   <td>'+dwz_status+'</td>' +
+                            '   <td>'+dwz_type+'</td>' +
+                            '   <td>'+dwz_creat_time+'</td>' +
+                            '   <td>'+dwz_pv+'</td>' +
+                            '   <td class="dropdown-td">' +
+                            '       <div class="dropdown">' +
+                            '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
+                            '           <div class="dropdown-menu">' +
+                            '               <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</a>' +
+                            '               <a class="dropdown-item" href="javascript:;" id="'+dwz_id+'" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz(this)">删除</a>' +
+                            '           </div>' +
+                            '       </div>' +
+                            '   </td>' +
+                            '</tr>'
+                        );
+                        $("#right .data-list tbody").append($tbody_HTML);
+                    }
+                    
+                    // 显示查询的结果
+                    showNotification(res.msg);
+                    
+                }else{
+                    
+                    // 非200状态码
+                    showNotification(res.msg);
+                    
+                    // 未登录
+                    if(res.code == 201){
+                        
+                        // 跳转到登录页面
+                        jumpUrl('../login/');
+                    }
+                }
+                
+          },
+          error: function(){
+            
+            // 发生错误
+            showNotification('checkDwz.php服务错误！');
+          },
+        });
+        
+        // 恢复表单样式
+        $('input[name="dwz_keyword"]').css('border-color','#CED4DA');
+    }
 }
 
 // 使用 appendOptionsToSelect 函数来为每个 select 元素处理选项的添加
