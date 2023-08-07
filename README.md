@@ -21,9 +21,9 @@
 引流宝将会新增一些需要使用支付接口的功能，例如：<br/>
 1、知识付费<br/>
 2、付费进群<br/>
-3、电商系统<br/>
--
-现在需要征集一些稳定的付费接口平台，希望大家踊跃推荐至邮箱king@likeyunba.com，最好附上链接等相关介绍！<br/>
+3、电商系统<br/><br/>
+
+现在需要征集一些稳定的付费接口平台，希望大家踊跃推荐至邮箱king@likeyunba.com，最好附上链接等相关介绍！
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
