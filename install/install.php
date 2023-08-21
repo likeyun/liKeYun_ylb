@@ -464,7 +464,7 @@
               `email_acount` text DEFAULT NULL COMMENT '邮件发送端账号',
               `email_pwd` text DEFAULT NULL COMMENT '邮件发送端授权码',
               `email_smtp` varchar(64) DEFAULT NULL COMMENT '邮件服务器',
-              `email_port` varchar(5) DEFAULT NULL COMMENT '邮件服务器端口',
+              `email_port` varchar(32) DEFAULT NULL COMMENT '邮件服务器端口',
               `email_receive` text DEFAULT NULL COMMENT '接收邮件的邮箱',
               `SendKey` text DEFAULT NULL COMMENT 'Server酱SendKey',
               `http_url` text DEFAULT NULL COMMENT '接收POST数据的URL'
