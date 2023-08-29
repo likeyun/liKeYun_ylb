@@ -20,7 +20,7 @@
         // 接收参数
         $appid = trim($_POST['appid']);
         $appsecret = trim($_POST['appsecret']);
-        
+        $wxCallback_url = trim($_POST['wxCallback_url']);
         // 过滤参数
         if(empty($appid) || !isset($appid) || $appid == '未设置'){
             
@@ -49,6 +49,7 @@
             $updateshareCardConfigData = [
                 'appid'=>$appid,
                 'appsecret'=>$appsecret
+                'wxCallback_url'=>$wxCallback_url
             ];
             
             // 更新条件
