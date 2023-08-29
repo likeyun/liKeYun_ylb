@@ -27,6 +27,9 @@
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
+版本：2.0.1<br/>
+更新摘要：<br/>
+1. 微信卡片分享兼容彩虹的微信公众号多域名回调系统，经过微信公众号多域名回调系统进行获取access_token<br/>
 版本：2.0.0<br/>
 更新摘要：<br/>
 1. UI优化<br/>
