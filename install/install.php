@@ -405,6 +405,7 @@
               `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
               `appid` varchar(32) DEFAULT NULL COMMENT '公众号appid',
               `appsecret` varchar(64) DEFAULT NULL COMMENT '公众号appsecret',
+	      `wxCallback_url` varchar(64) DEFAULT NULL COMMENT '彩虹的微信公众号多域名回调系统自建域名',
               `access_token` text COMMENT 'access_token',
               `access_token_expire_time` varchar(32) DEFAULT NULL COMMENT 'access_token_expire_time',
               `jsapi_ticket` text COMMENT 'jsapi_ticket',
