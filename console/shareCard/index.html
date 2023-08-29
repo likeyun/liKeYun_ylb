@@ -288,10 +288,15 @@
                         
                         <span class="text">appsecret</span>
                         <input type="text" name="appsecret" class="form-control" id="appsecret" autocomplete="off" placeholder="公众号appsecret">
+
+			<span class="text">微信回调系统域名</span>
+                        <input type="text" name="wxCallback_url" class="form-control" id="wxCallback_url" autocomplete="off" placeholder="彩虹的微信公众号多域名回调系统自建域名">
                         </form>
                         
                         <!--提醒文字-->
                         <p style="color:#999;font-size:14px;margin:15px 0;">使用测试号还需前往 <a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login" target="_blank">微信公众平台测试号</a> 配置JS接口安全域名并且仅限已关注测试号的微信调用JS-SDK权限。</p>
+
+			<p style="color:#999;font-size:14px;margin:15px 0;">微信回调系统域名不填写，默认是使用微信官方接口获取access_token。微信公众号多域名回调系统需要自行搭建,请前往 <a href="https://blog.cccyun.cn/post-470.html" target="_blank">彩虹博客下载源码搭建</a> 。</p>
                     </div><!-- modal-body -->
                     
                     <!-- 底部操作 -->
