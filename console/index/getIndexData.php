@@ -20,6 +20,7 @@
         // 需要获取的 hourNum_type
         $hourNum_type = trim($_GET['hourNum_type']);
         $label = trim($_GET['label']);
+        $LoginUser = $_SESSION["yinliubao"];
         
         // 过滤参数
         $allowedHourNum_type = ['qun', 'kf', 'channel', 'zjy', 'dwz', 'shareCard', 'multiSPA'];
@@ -104,25 +105,71 @@
             
         }
         
-        // 结果
-        $result = array(
-            'code' => 200,
-            'msg' => '获取成功',
-            'pvTotals' => $pvTotals, // 今天各渠道的总访问量
-            'hourNumArray' => $hourNumArray, // 0-23时访问量
-            'chartData' => array(
-			    array(
-                    'label' => $label, // 当前展示的数据所属的渠道
-                    'data' => $hourNumArray, // 各时段的数据
-                    'backgroundColor' => ['rgba(59,94,225,1)'], // 背景颜色
-                    'borderColor' => ['rgba(59,94,225,0.5)'], // 线条颜色
-                    'borderWidth' => 2, // 线条宽度
-                    'cubicInterpolationMode' => 'monotone',
-                    'tension' => 1
-			    )
-			), // 折线图配置
-        );
+        // 获取当前登录账号的管理员权限
+    	$user_admin = $db->set_table('huoma_user')->getField(['user_name'=>$LoginUser],'user_admin');
+    	
+        // 根据管理员权限返回数据
+        if($user_admin == 1) {
+            
+            // 当前为管理员
+            $result = array(
+                'code' => 200,
+                'msg' => '获取成功',
+                'pvTotals' => $pvTotals, // 今天各渠道的总访问量
+                'hourNumArray' => $hourNumArray, // 0-23时访问量
+                'chartData' => array(
+    			    array(
+                        'label' => $label, // 当前展示的数据所属的渠道
+                        'data' => $hourNumArray, // 各时段的数据
+                        'backgroundColor' => ['rgba(59,94,225,1)'], // 背景颜色
+                        'borderColor' => ['rgba(59,94,225,0.5)'], // 线条颜色
+                        'borderWidth' => 2, // 线条宽度
+                        'cubicInterpolationMode' => 'monotone',
+                        'tension' => 1
+    			    )
+    			), // 折线图配置
+            );
+        }else {
+            
+            // 非管理员
+            // $pvTotals_ = array(
+            //     'qun_pvTotal' => '无权限',
+            //     'kf_pvTotal' => '无权限',
+            //     'channel_pvTotal' => '无权限',
+            //     'dwz_pvTotal' => '无权限',
+            //     'zjy_pvTotal' => '无权限',
+            //     'shareCard_pvTotal' => '无权限',
+            //     'multiSPA_pvTotal' => '无权限',
+            // );
+            $pvTotals_ = array(
+                'qun_pvTotal' => '-',
+                'kf_pvTotal' => '-',
+                'channel_pvTotal' => '-',
+                'dwz_pvTotal' => '-',
+                'zjy_pvTotal' => '-',
+                'shareCard_pvTotal' => '-',
+                'multiSPA_pvTotal' => '-',
+            );
+            $hourNumArray_ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         
+            $result = array(
+                'code' => 200,
+                'msg' => '非管理员不展示数据',
+                'pvTotals' => $pvTotals_, // 今天各渠道的总访问量
+                'hourNumArray' => $hourNumArray_, // 0-23时访问量
+                'chartData' => array(
+    			    array(
+                        'label' => $label, // 当前展示的数据所属的渠道
+                        'data' => $hourNumArray_, // 各时段的数据
+                        'backgroundColor' => ['rgba(59,94,225,1)'], // 背景颜色
+                        'borderColor' => ['rgba(59,94,225,0.5)'], // 线条颜色
+                        'borderWidth' => 2, // 线条宽度
+                        'cubicInterpolationMode' => 'monotone',
+                        'tension' => 1
+    			    )
+    			), // 折线图配置
+            );
+        }
     }else{
         
         // 未登录

@@ -50,45 +50,89 @@
             )
         );
         
-        // 需要分情况获取
-        if($getTodayIPNum && $yesTerdayIPNum){
+        // 获取当前登录账号的管理员权限
+    	$user_admin = $db->set_table('huoma_user')->getField(['user_name'=>$LoginUser],'user_admin');
+    	
+    	// 根据管理员权限返回数据
+        if($user_admin == 1) {
             
-            // 1 今天有、昨天有
-            $result = array(
-			    'code' => 200,
-                'msg' => '获取成功（今天有、昨天有）',
-                'todayIP' => $getTodayIPNum,
-                'yesterdayIP' => $yesTerdayIPNum
-		    );
-        }else if($getTodayIPNum){
+            // 管理员
+            // 需要分情况获取
+            if($getTodayIPNum && $yesTerdayIPNum){
+                
+                // 1 今天有、昨天有
+                $result = array(
+    			    'code' => 200,
+                    'msg' => '获取成功（今天有、昨天有）',
+                    'todayIP' => $getTodayIPNum,
+                    'yesterdayIP' => $yesTerdayIPNum
+    		    );
+            }else if($getTodayIPNum){
+                
+                // 2 今天有、昨天无
+                $result = array(
+    			    'code' => 200,
+                    'msg' => '获取成功（今天有、昨天无）',
+                    'todayIP' => $getTodayIPNum,
+                    'yesterdayIP' => $initVal
+    		    );
+            }else if($yesTerdayIPNum){
+                
+                // 3 今天无、昨天有
+                $result = array(
+    			    'code' => 200,
+                    'msg' => '获取成功（今天无、昨天有）',
+                    'todayIP' => $initVal,
+                    'yesterdayIP' => $yesTerdayIPNum
+    		    );
+            }else{
+                
+                // 4 今天无、昨天无
+                $result = array(
+    			    'code' => 200,
+                    'msg' => '获取成功（今天无、昨天无）',
+                    'todayIP' => $initVal,
+                    'yesterdayIP' => $initVal
+    		    );
+            }
+        }else {
             
-            // 2 今天有、昨天无
-            $result = array(
-			    'code' => 200,
-                'msg' => '获取成功（今天有、昨天无）',
-                'todayIP' => $getTodayIPNum,
-                'yesterdayIP' => $initVal
-		    );
-        }else if($yesTerdayIPNum){
+            // $ipNum = array(
+            //     array(
+            //         'id' => '-',
+            //         'qun_ip' => '无权限',
+            //         'kf_ip' => '无权限',
+            //         'channel_ip' => '无权限',
+            //         'dwz_ip' => '无权限',
+            //         'zjy_ip' => '无权限',
+            //         'shareCard_ip' => '无权限',
+            //         'multiSPA_ip' => '无权限',
+            //         'ip_create_time' => '-'
+            //     )
+            // );
             
-            // 3 今天无、昨天有
-            $result = array(
-			    'code' => 200,
-                'msg' => '获取成功（今天无、昨天有）',
-                'todayIP' => $initVal,
-                'yesterdayIP' => $yesTerdayIPNum
-		    );
-        }else{
+            $ipNum = array(
+                array(
+                    'id' => '-',
+                    'qun_ip' => '-',
+                    'kf_ip' => '-',
+                    'channel_ip' => '-',
+                    'dwz_ip' => '-',
+                    'zjy_ip' => '-',
+                    'shareCard_ip' => '-',
+                    'multiSPA_ip' => '-',
+                    'ip_create_time' => '-'
+                )
+            );
             
-            // 4 今天无、昨天无
+            // 非管理员
             $result = array(
-			    'code' => 200,
-                'msg' => '获取成功（今天无、昨天无）',
-                'todayIP' => $initVal,
-                'yesterdayIP' => $initVal
-		    );
+    			'code' => 200,
+                'msg' => '非管理员不展示数据',
+                'todayIP' => $ipNum,
+                'yesterdayIP' => $ipNum
+    		);
         }
-        
     }else{
         
         // 未登录
