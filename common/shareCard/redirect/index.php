@@ -112,9 +112,24 @@
             // LOLO
             echo '<img src="../../../static/img/20221025100444.png" id="logo" />';
             
+            //兼容微信公众号多域名回调系统接口
+            $get_wxCallback_url = $db->set_table('huoma_shareCardConfig')->find(['id'=>1]);
+            if($get_wxCallback_url){
+                // 获取wxCallback_url
+                $wxCallback_url = json_decode(json_encode($get_wxCallback_url))->wxCallback_url;
+                if ($wxCallback_url) {
+                    $wxapi_url = $wxCallback_url;
+                     
+                }else{
+                $wxapi_url = "https://api.weixin.qq.com/cgi-bin";
+                
+            }
+                 
+            }
+            
             // 请求接口获取新的access_token
-            function getNewToken($appid,$appsecret){
-                $get_access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret."";
+            function getNewToken($appid,$appsecret,$wxapi_url){
+                $get_access_token_url = $wxapi_url."/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret."";
                 $access_token_json =  file_get_contents($get_access_token_url);
                 $access_token = json_decode($access_token_json)->access_token;
                 return $access_token;
@@ -145,7 +160,7 @@
                         
                         // 已过期
                         // 请求接口获取新的access_token
-                        $access_token_Str = getNewToken($appid,$appsecret);
+                        $access_token_Str = getNewToken($appid,$appsecret,$wxapi_url);
                         $NewToken = ['access_token'=>$access_token_Str,'access_token_expire_time'=>time()+7000];
                         $db->set_table('huoma_shareCardConfig')->update(['id'=>1],$NewToken);
                     }else{
@@ -157,7 +172,7 @@
                     
                     // 没有token
                     // 请求接口获取新的access_token
-                    $access_token_Str = getNewToken($appid,$appsecret);
+                    $access_token_Str = getNewToken($appid,$appsecret,$wxapi_url);
                     $NewToken = ['access_token'=>$access_token_Str,'access_token_expire_time'=>time()+7000];
                     $db->set_table('huoma_shareCardConfig')->update(['id'=>1],$NewToken);
                 }

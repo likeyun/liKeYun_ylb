@@ -440,7 +440,9 @@ function getshareCardConfig(){
                 
                 // （2）appsecret
                 $('#appsecret').val(res.shareCardConfig.appsecret);
-                            
+
+		// （3）appsecret
+                $('#wx_url').val(res.shareCardConfig.wx_url);
             }
         },
         error: function() {
