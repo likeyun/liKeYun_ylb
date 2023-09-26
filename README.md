@@ -164,6 +164,7 @@ From：Guangdong Canton<br/><br/>
 
 # 旧版
 1.3.0：https://likeyun.lanzout.com/i4doR0jhtw8b<br/>
+2.0.0：https://likeyun.lanzout.com/imKAq143yfkd<br/>
 
 # 提醒
 该软件仅适用于辅助日常工作，提高工作效率，减轻人力。请勿用于诈骗、黑灰产业，如有此类行为，后果自负。
