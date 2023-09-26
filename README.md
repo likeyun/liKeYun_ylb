@@ -59,7 +59,7 @@
 
 # 国内源码高速下载链接
 
-蓝奏云：https://likeyun.lanzout.com/iWPgY19yh4sj
+蓝奏云：https://likeyun.lanzout.com/iBc1b19yjwxe
 
 # 全新安装
 
