@@ -117,6 +117,26 @@
             $getdwzidResult = $db->set_table('huoma_dwz')->find($getdwzid);
             $dwz_creat_user = json_decode(json_encode($getdwzidResult))->dwz_creat_user;
             
+            // 验证当前的dwz_key是否已经被设置过
+            $checkDwzKey = $db->set_table('huoma_dwz')->find(['dwz_key'=>$dwz_key]);
+            
+            if($checkDwzKey) {
+                
+                // 当前短网址Key的创建者
+                $dwzKeyCreateUser = json_decode(json_encode($checkDwzKey))->dwz_creat_user;
+                
+                if($dwzKeyCreateUser !== $LoginUser) {
+                    
+                    // 如果不是当前创建者的
+                    $result = array(
+                        'code' => 203,
+                        'msg' => '你设置的短网址Key已被其它账号使用'
+                    );
+                    echo json_encode($result,JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
+            }
+            
             // 判断操作结果
             if($dwz_creat_user == $LoginUser){
                 
