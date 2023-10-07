@@ -22,8 +22,6 @@
 登录账号：yinliubao<br/>
 登录密码：yinliubao666<br/>
 
-现在需要征集一些稳定的付费接口平台，希望大家踊跃推荐至邮箱king@likeyunba.com，最好附上链接等相关介绍！
-
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
 版本：2.0.0<br/>
