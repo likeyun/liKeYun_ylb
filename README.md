@@ -16,12 +16,11 @@
 
 ![](https://t.focus-img.cn/sh740wsh/bbs/p2/e896c3f402f98667ef2ed0377c4bb268.png)
 
-# 征集
+# 在线体验
 
-引流宝将会新增一些需要使用支付接口的功能，例如：<br/>
-1、知识付费<br/>
-2、付费进群<br/>
-3、电商系统<br/>
+体验地址：https://www.p7v.cn/console/index/<br/>
+登录账号：yinliubao<br/>
+登录密码：yinliubao666<br/>
 
 现在需要征集一些稳定的付费接口平台，希望大家踊跃推荐至邮箱king@likeyunba.com，最好附上链接等相关介绍！
 
