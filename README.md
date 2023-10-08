@@ -146,10 +146,10 @@ http://域名/console/index/
 | 长卿@奇人匠心 | 微信 | 16.80 |
 
 # 交流群
-目前有6个交流群，以邀请方式加入<br/>
+目前有7个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
 微信号：sansure2016 <br/><br/>
-<img src="http://p19.qhimg.com/t012fbf4c72d8d3a4df.png" width="300" /><br/><br/>
+<img src="http://p17.qhimg.com/t01c5795ee4423dba85.jpg" width="300" /><br/><br/>
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
 # 作者
