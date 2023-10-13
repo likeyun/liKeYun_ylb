@@ -23,6 +23,14 @@
 登录密码：yinliubao666 <br/>
 
 # 更新日志
+![](https://img.shields.io/badge/Version-2.1.0-brightgreen.svg)<br/>
+版本：2.1.0<br/>
+更新摘要：<br/>
+1. UI优化<br/>
+2. 优化升级<br/>
+3. 首页优化<br/>
+4. 新增抖音跳微信<br/>
+
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
 版本：2.0.0<br/>
 更新摘要：<br/>
@@ -44,14 +52,6 @@
 16. 优化分享卡片创建及逻辑<br/>
 17. 优化各时段访问量统计<br/>
 18. 优化文件上传检测逻辑<br/><br/>
-
-![](https://img.shields.io/badge/Version-2.1.0-brightgreen.svg)<br/>
-版本：2.1.0<br/>
-更新摘要：<br/>
-1. UI优化<br/>
-2. 优化升级<br/>
-3. 首页优化<br/>
-4. 新增抖音跳微信<br/>
 
 
 # 国内源码高速下载链接
