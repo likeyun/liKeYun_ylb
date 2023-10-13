@@ -14,7 +14,7 @@
 👉 短网址使用场景：<br/>
 生成的短网址可以控制其访问权限，例如仅限在微信内访问，或者不能在微信访问，或者仅限电脑浏览器访问，仅限安卓手机访问，仅限苹果手机访问。短链接在推广活动中，有着精简而不简单的作用，你还可以有完全控制权。<br/><br/>
 
-![](https://t.focus-img.cn/sh740wsh/bbs/p2/e896c3f402f98667ef2ed0377c4bb268.png)
+![https://wenda.mafengwo.net/img/47/4b/644b96c5e538c4eec8c1012b44df44b8.jpeg](https://wenda.mafengwo.net/img/47/4b/644b96c5e538c4eec8c1012b44df44b8.jpeg)
 
 # 演示站
 
