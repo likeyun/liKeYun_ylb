@@ -18,9 +18,9 @@
 
 # 演示站
 
-体验地址：[https://ur1.shop/console/index/](https://ur1.shop/console/index/)
-登录账号：yinliubao<br/>
-登录密码：yinliubao666<br/>
+登录地址：[https://ur1.shop/console/index/](https://ur1.shop/console/index/) <br/>
+登录账号：yinliubao <br/>
+登录密码：yinliubao666 <br/>
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
