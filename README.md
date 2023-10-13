@@ -16,9 +16,9 @@
 
 ![](https://t.focus-img.cn/sh740wsh/bbs/p2/e896c3f402f98667ef2ed0377c4bb268.png)
 
-# 在线体验
+# 演示站
 
-体验地址：https://www.p7v.cn/console/index/<br/>
+体验地址：[https://ur1.shop/console/index/](https://ur1.shop/console/index/)
 登录账号：yinliubao<br/>
 登录密码：yinliubao666<br/>
 
