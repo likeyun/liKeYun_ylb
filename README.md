@@ -29,7 +29,7 @@
 1. UI优化<br/>
 2. 优化升级<br/>
 3. 首页优化<br/>
-4. 新增抖音跳微信<br/>
+4. 新增外部跳微信<br/>
 
 ![](https://img.shields.io/badge/Version-2.0.0-brightgreen.svg)<br/>
 版本：2.0.0<br/>
