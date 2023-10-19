@@ -18,7 +18,7 @@
 
 # 演示站
 
-登录地址：[https://ur1.shop/console/index/](https://ur1.shop/console/index/) <br/>
+登录地址：[https://u.ur1.shop/console/index/](https://u.ur1.shop/console/index/) <br/>
 登录账号：yinliubao <br/>
 登录密码：yinliubao666 <br/>
 
