@@ -116,7 +116,7 @@ http://域名/console/index/
 
 # 赞赏
 赞赏作者，支持长期维护开源项目。<br/>
-<img src="https://t.focus-img.cn/sh740wsh/bbs/p2/225f43ac4f79be0ea23309b470472f43.jpg" width="400" />
+<img src="http://p19.qhimg.com/t01c2dc9b6c30e3c324.jpg" width="300" />
 
 **赞赏记录**
 
