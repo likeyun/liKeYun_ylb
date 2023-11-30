@@ -16,6 +16,10 @@
 
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
+# 进群
+
+<img src="https://i3.hoopchina.com.cn/user/1701341000381/8mbUtztylY220Z6cktJB3GznpSg_3D.png" />
+
 # 演示站
 
 登录地址：[https://u.ur1.shop/console/index/](https://u.ur1.shop/console/index/) <br/>
