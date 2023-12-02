@@ -147,6 +147,7 @@ From：Guangdong Canton<br/><br/>
 # 旧版
 1.3.0：https://likeyun.lanzout.com/i4doR0jhtw8b<br/>
 2.0.0：https://likeyun.lanzout.com/imKAq143yfkd<br/>
+2.1.0：https://likeyun.lanzout.com/iyh7l1gm5iyh<br/>
 
 # 开源协议
 ![](https://img.shields.io/badge/开源协议-MIT-brightgreen.svg) 该软件遵循MIT开源协议。
