@@ -40,10 +40,6 @@
 6. 新增域名用户组授权<br/>
 7. 首页新增近7天IP数据<br/>
 
-# 国内源码高速下载链接
-
-蓝奏云：https://likeyun.lanzout.com/iBc1b19yjwxe
-
 # 全新安装
 
 访问 install 目录即可进入安装流程。<br/>
@@ -62,7 +58,7 @@ http://域名/install/
 3、备份 console/upload/ 目录； <br/>
 4、下载新版本代码；<br/>
 5、将 console/Db.php 这个文件以及 console/upload/ 目录替换；<br/>
-6、访问install目录，选择你要升级的选项。<br/>
+6、访问install目录，选择你要升级的版本选项。<br/>
 
 # 使用说明
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
