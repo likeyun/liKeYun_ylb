@@ -16,6 +16,8 @@
 
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
+<h2>已在1、2、3、4、5、6、7群的，请不要加入8群，或者我会将你踢出旧群。</h2>
+
 # 进群
 
 <img src="https://i3.hoopchina.com.cn/user/1701341000381/8mbUtztylY220Z6cktJB3GznpSg_3D.png" />
