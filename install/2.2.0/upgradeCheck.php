@@ -46,7 +46,6 @@
         
         // 检测这些表是否存在
         $sqlCheckTable = "SHOW TABLES LIKE '$tableName'";
-        $result = $conn->query($sqlCheckTable);
         
         // 表存在
         if ($result->num_rows > 0) {
