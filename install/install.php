@@ -399,6 +399,7 @@
               `shareCard_pv` int(10) NOT NULL DEFAULT '0' COMMENT '访问量',
               `shareCard_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
               `shareCard_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态（1正常 2停用）',
+              `shareCard_model` int(1) DEFAULT NULL COMMENT '分享模式',
               `shareCard_create_user` varchar(32) DEFAULT NULL COMMENT '创建者'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分享卡片'";
             
