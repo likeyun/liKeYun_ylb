@@ -50,12 +50,16 @@
     // 设置所有域名的授权用户组添加一个默认
     $set_all_domain_usergroup = "UPDATE huoma_domain SET domain_usergroup='[\"默认\"]'";
     
+    // 给huoma_shareCard添加一个shareCard_model字段
+    $ALTER_shareCard_model = "ALTER TABLE `huoma_shareCard` ADD `shareCard_model` int(1) DEFAULT NULL COMMENT '分享模式'";
+    
     if (
         $conn->query($ylb_usergroup) === TRUE && 
         $conn->query($ylb_usergroup_Data) === TRUE && 
         $conn->query($ALTER_user_group) === TRUE && 
         $conn->query($set_all_user_group) === TRUE && 
         $conn->query($ALTER_domain_usergroup) === TRUE && 
+        $conn->query($ALTER_shareCard_model) === TRUE && 
         $conn->query($set_all_domain_usergroup) === TRUE
         ) {
         
