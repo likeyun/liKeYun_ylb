@@ -13,11 +13,6 @@
 
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
-# 进群
-
-**已在1、2、3、4、5、6、7群的，请不要加入8群，被发现我会将你踢出旧群，提出后我会将你微信删除，不再接受邀请~** <br/><br/>
-<img src="https://i3.hoopchina.com.cn/user/1701341000381/8mbUtztylY220Z6cktJB3GznpSg_3D.png" width="300" />
-
 # 演示站（2.1.0）
 
 登录地址：[https://u.ur1.shop/console/index/](https://u.ur1.shop/console/index/) <br/>
@@ -26,7 +21,7 @@
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.2.0-brightgreen.svg)<br/>
-版本：2.2.0<br/>
+版本：2.2.1<br/>
 更新摘要：<br/>
 1. UI优化<br/>
 2. 优化升级<br/>
@@ -35,7 +30,7 @@
 5. 新增用户组<br/>
 6. 新增域名用户组授权<br/>
 7. 首页新增近7天IP数据<br/>
-8. 新增分享卡片的认证号模式<br/>
+8. 新增分享卡片的认证号模式、Safari分享模式<br/>
 
 # 全新安装
 
