@@ -123,8 +123,9 @@
                     
                     <span class="text">模式</span>
                     <select name="shareCard_model" class="form-control">
-                        <option value="1">测试号</option>
-                        <option value="2">认证号</option>
+                        <option value="1" title="没有认证公众号的方法">测试号</option>
+                        <option value="2" title="需要认真的公众号">认证号</option>
+                        <option value="3" title="无需公众号的方法">Safari分享</option>
                     </select>
 
                     <span class="text">落地域名</span>
@@ -267,6 +268,7 @@
                     <div class="box">
                         <div class="longUrl"><span class="text">链接：</span><span id="longUrl"></span></div>
                         <div class="Qrcode" id="shareQrcode"></div>
+                        <div class="scanTips" id="scanTips">scanTips</div>
                     </div>
                 </div><!-- modal-body -->
                 

@@ -164,10 +164,14 @@ function getshareCardList(pageNum) {
                         
                         // 测试号
                         var shareCard_model = '测试号';
-                    }else{
+                    }else if(res.shareCardList[i].shareCard_model == '2'){
                         
                         // 认证号
                         var shareCard_model = '认证号';
+                    }else if(res.shareCardList[i].shareCard_model == '3'){
+                        
+                        // Safari分享
+                        var shareCard_model = 'Safari分享';
                     }
                     
                     // 列表
@@ -458,12 +462,20 @@ function getshareCardInfo(shareCard_id){
                 if(res.shareCardInfo.shareCard_model == '1') {
                     $('#editShareCardModal select[name="shareCard_model"]').append(
                         '<option value="'+res.shareCardInfo.shareCard_model+'">测试号</option>' +
-                        '<option value="2">认证号</option>'
+                        '<option value="2">认证号</option>' +
+                        '<option value="3">Safari分享</option>'
                     );
-                }else {
+                }else if(res.shareCardInfo.shareCard_model == '2') {
                     $('#editShareCardModal select[name="shareCard_model"]').append(
                         '<option value="'+res.shareCardInfo.shareCard_model+'">认证号</option>' +
-                        '<option value="1">测试号</option>'
+                        '<option value="1">测试号</option>' +
+                        '<option value="3">Safari分享</option>'
+                    );
+                }else if(res.shareCardInfo.shareCard_model == '3') {
+                    $('#editShareCardModal select[name="shareCard_model"]').append(
+                        '<option value="'+res.shareCardInfo.shareCard_model+'">Safari分享</option>' +
+                        '<option value="1">测试号</option>' +
+                        '<option value="2">认证号</option>'
                     );
                 }
 
@@ -619,6 +631,7 @@ function shareCard(shareCard_id){
                 
                 // 二维码
                 new QRCode(document.getElementById("shareQrcode"), res.longUrl);
+                $('#scanTips').text(res.scanTips);
             }else{
                 
                 // 操作反馈（操作失败）

@@ -50,23 +50,31 @@
                 // 目标链接
                 $shareCard_url = $getshareCardInfoResult['shareCard_url'];
                 
-                if($shareCard_model == 1) {
+                if($shareCard_model == '1') {
                     
                     // 测试号
                     $longUrl = dirname(dirname(dirname($shareCard_ldym.$_SERVER["REQUEST_URI"]))).'/common/shareCard/redirect/?sid='.$shareCard_id;
-                }else {
+                    $scanTips = '请使用已关注测试号的微信扫码';
+                }else if($shareCard_model == '2') {
                     
                     // 认证号
                     // shareCard_url是你自己开发的页面
                     // 需要让自己的页面接收sid
                     $longUrl = addSidToURL($shareCard_url, $shareCard_id);
+                    $scanTips = '请使用微信扫码';
+                }else if($shareCard_model == '3') {
+                    
+                    // Safari分享
+                    $longUrl = dirname(dirname(dirname($shareCard_ldym.$_SERVER["REQUEST_URI"]))).'/common/shareCard/Safari/?sid='.$shareCard_id;
+                    $scanTips = '请使用iPhone手机的相机扫码';
                 }
                 
                 // 有结果
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
-        		    'longUrl' => $longUrl
+        		    'longUrl' => $longUrl,
+        		    'scanTips' => $scanTips
     		    );
             }else{
                 
