@@ -1,7 +1,9 @@
 *{
 	padding: 0;
 	margin: 0;
-	font-family: system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif;
+	/*font-family: system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif;*/
+	font-family: "Verdana", sans-serif;
+	/*font-family: "Lucida Sans Unicode", sans-serif;*/
 }
 body{
 	background: #f2f3f3;
@@ -674,6 +676,22 @@ input[type=file]::-webkit-file-upload-button{
 #delMultiSPAModal .modal-footer button{
     display: block;
     margin:0 auto;
+}
+#scanTips {
+    text-align: center;
+    font-size: 15px;
+    color: #666;
+    margin-top: 20px;
+}
+
+.yiwen {
+    cursor:pointer;
+    padding:0 5px;
+    background:#eee;
+    color:#999;
+    font-size:12px;
+    border-radius:100px;
+    margin-left: 5px;
 }
 
 /*群活码、群二维码*/
@@ -1834,14 +1852,15 @@ input[type=file]::-webkit-file-upload-button{
 
 .swiper-slide .card-title {
     width: 80%;
-    font-size: 14px;
+    font-size: 16px;
     margin: 15px auto 0;
+    font-family: "Lucida Sans Unicode", sans-serif;
 }
 
 .swiper-slide .card-num {
     width: 80%;
-    margin: 5px auto 0;
-    font-size: 30px;
+    margin: 0 auto;
+    font-size: 34px;
 }
 
 .swiper-slide .ip-num {
@@ -1851,7 +1870,8 @@ input[type=file]::-webkit-file-upload-button{
 }
 
 .swiper-slide-selected {
-    background: linear-gradient(45deg, #3B5EE1, #6995EB);
+    /*background: linear-gradient(45deg, #3B5EE1, #6995EB);*/
+    background: rgb(56,94,226);
     color: #fff;
 }
 
@@ -2829,4 +2849,64 @@ input[type=file]::-webkit-file-upload-button {
     color: #999;
     width: 100%;
     margin-top: 20px;
+}
+
+/*插件中心*/
+#right .data-list .plugin-card {
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    display: flex;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+
+#right .data-list .plugin-card .plugin-logo {
+    width: 80px;
+    height: 80px;
+}
+#right .data-list .plugin-card .plugin-logo img {
+    width: 45px;
+    height: 45px;
+    margin: 17.5px auto;
+    border-radius: 100px;
+    display: block;
+}
+#right .data-list .plugin-card .plugin-info {
+    flex: 2;
+}
+#right .data-list .plugin-card .plugin-info .plugin-name {
+   width: 100%;
+   height: 45px;
+   line-height: 55px;
+   font-size: 18px;
+   color: #333;
+}
+#right .data-list .plugin-card .plugin-info .plugin-desc {
+   width: 100%;
+   height: 35px;
+   line-height: 20px;
+   font-size: 15px;
+   color: #ccc;
+}
+#right .data-list .plugin-card .plugin-btn {
+    width: 230px;
+}
+#right .data-list .plugin-card .plugin-btn .btn-conf{
+    width: 90px;
+    height: 35px;
+    border-radius: 10px;
+    float: right;
+    background: #3B5EE1;
+    margin: 22.5px 15px 0 0;
+    line-height: 35px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+#right .data-list .plugin-card .plugin-btn .install-uninstall {
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
 }
