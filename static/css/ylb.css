@@ -2888,7 +2888,7 @@ input[type=file]::-webkit-file-upload-button {
    height: 35px;
    line-height: 20px;
    font-size: 15px;
-   color: #ccc;
+   color: #999;
 }
 #right .data-list .plugin-card .plugin-btn {
     width: 230px;
