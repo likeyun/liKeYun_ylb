@@ -602,7 +602,7 @@
                         'db_pass' => $db_pass,
                         'db_prefix' => '',
                         'folderNum' => $install_folder,
-                        'version' => '2.2.0'
+                        'version' => '2.3.0'
                     ];
                     
                     // 生成Db.php文件内容
