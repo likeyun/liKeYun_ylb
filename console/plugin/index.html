@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
-	<script type="text/javascript" src="./sucai.js"></script>
+	<script type="text/javascript" src="./plugin.js"></script>
 </head>
 <body>
 
@@ -54,25 +54,17 @@
 		<div class="data-card">
 		    
 			<!-- 按钮区域 -->
-			<div class="button-view" id="button-view" style="display:none;">
+			<div class="button-view" id="button-view">
 			    
-			    <button class="default-btn upimg">
-    			    <form id="uploadSuCai" enctype="multipart/form-data">
-    			        <input type="file" class="file_input" name="file" accept="image/*" id="selectSuCai" />
-    			        <span> - </span>
-    				</form>
-				</button>
+			    <button class="default-btn">插件管理</button>
+				
+				<a href="https://docs.qq.com/doc/DREtjbXB5WVNLU1NR" target="blank">
+				    <button class="tint-btn" style="margin-left:5px;">开发文档</button>
+				</a>
 			</div>
 
-			<!-- 数据列表 -->
-			<div class="data-list">
-                
-                <h5>插件中心将在下一个版本发布，敬请期待...</h5>
-                <img src="../../static/img/zansangma.jpg" width="300" />
-                <p></p>
-                <h5>微信扫码赞赏，给开发提提速~</h5>
-                <a href="../../static/img/jiaQun.jpg" target="blank">点击关注新版发布...</a>
-			</div><!-- data-list -->
+			<!-- 列表 -->
+			<div class="data-list"></div>
 			
 			<p class="loading" style="display: none;"></p>
 			
@@ -82,6 +74,46 @@
     <!-- 全局信息提示框 -->
     <div id="notification">
         <div id="notification-text"></div>
+    </div>
+    
+    <!-- 安装插件 -->
+    <div class="modal fade" id="anzhuangModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h4 class="modal-title">安装插件</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    安装插件将会在你服务器创建配置文件和数据库表！确定安装吗？
+                </div>
+                
+                <div class="modal-footer"></div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- 卸载插件 -->
+    <div class="modal fade" id="xiezaiModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h4 class="modal-title">卸载插件</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    确定要卸载该插件？卸载后可能会清空所有数据！
+                </div>
+                
+                <div class="modal-footer"></div>
+                
+            </div>
+        </div>
     </div>
     
 </div><!-- app -->

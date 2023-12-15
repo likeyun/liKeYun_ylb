@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../../../static/css/ylb.css">
+	<link rel="stylesheet" href="app.css">
+	<link rel="shortcut icon" href="../../../../static/img/logo.png">
+	<script type="text/javascript" src="../../../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="./app.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../../../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+				<li><a href="../../../index/">首页</a></li>
+				<li><a href="../../../qun/">群活码</a></li>
+				<li><a href="../../../kf/">客服码</a></li>
+				<li><a href="../../../channel/">渠道码</a></li>
+				<li><a href="../../../dwz/">短网址</a></li>
+				<li><a href="../../../tbk/">多项单页</a></li>
+				<li><a href="../../../shareCard/">分享卡片</a></li>
+				<li><a href="../../../jumpWeChat/">外部跳微信</a></li>
+				<li><a href="../../../plugin/" class="selected">插件中心</a></li>
+				<li><a href="../../../config/">配置中心</a></li>
+				<li><a href="../../../sucai/">素材管理</a></li>
+				<li><a href="../../../user/">账号管理</a></li>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account" id="accountInfo"></div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>引流宝插件示例代码</h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+				<a href="../../">
+				    <button class="tint-btn" style="margin-left:5px;">返回插件中心</button>
+				</a>
+			</div>
+
+			<!-- 数据列表或其它需要正常展示的内容 -->
+			<!--默认隐藏这个区域，需要用js设置css为display:block-->
+			<!--例如加载成功，加载到数据，登录成功之类的情况再修改css为display:block-->
+			<div class="data-list" style="display:none;">
+				
+				<!--表单区域-->
+				<div class="formView">
+				<form id="form1" enctype="multipart/form-data">
+				    
+				    <!--输入框组件-->
+				    <span class="text">表单1</span>
+                    <input type="text" name="input1" class="form-control" placeholder="表单1">
+                    
+                    <!--上传文件组件-->
+                    <span class="text">上传图片</span>
+                    <div class="uploadForm">
+                        <div class="inputView">
+                            <input type="text" name="imgurl" class="form-control" placeholder="上传或粘贴图片链接">
+                        </div>
+                        <div class="imgSelect">
+                            <!--id="fileSelect"需要与下面的上传函数对应-->
+                            <input type="file" class="fileSelect" id="fileSelect" name="file" />
+                            <span>本地上传</span>
+                        </div>
+                    </div>
+                    
+                    <!--下拉菜单组件-->
+                    <span class="text">下拉菜单</span>
+                    <select class="form-control" name="select1">
+                        <option value="选项1">选项1</option>
+                        <option value="选项2">选项2</option>
+                    </select>
+                    
+                    <!--加个换行把按钮撑下去-->
+                    <br/>
+                    
+                    <!--提交表单组件-->
+                    <!-- default-btn是深色按钮 -->
+                    <!-- btn-center可以将按钮水平居中 -->
+                    <button type="button" class="default-btn btn-center" onclick="tijiaoForm();">提交表单（深色按钮）</button>
+                    
+                    <br/>
+                    
+                    <!-- tint-btn是浅色按钮 -->
+                    <button type="button" class="tint-btn btn-center" onclick="tijiaoForm();">提交表单（浅色按钮）</button>
+                    
+                    <br/>
+                    <button type="button" class="tint-btn btn-center" data-toggle="modal" data-target="#createModal">显示一个模态框</button>
+                    
+                    <!--操作结果显示在这里-->
+                    <div class="ret-text"></div>
+				</form>
+				</div>
+				
+				<!--数据列表，使用表格渲染-->
+				<div class="data-table-list">
+				    <table class="table">
+				        
+				        <!--表头区域-->
+				        <!--这里的表头会使用JS渲染数据到这里-->
+				        <thead></thead>
+				        
+				        <!--数据区域-->
+				        <!--这里的数据会使用JS渲染数据到这里-->
+				        <tbody></tbody>
+				    </table>
+				</div>
+			</div>
+			
+			<!--没有数据、加载数据失败、加载中，等情况将模板渲染到这里-->
+			<p class="loading" style="display: none;"></p>
+			
+			<!-- 分页组件 -->
+			<div class="fenye"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+	
+	<!--模态框-->
+	<div class="modal fade" id="createModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!--modal-header-->
+                <div class="modal-header">
+                    <h4 class="modal-title">这是一个模态框</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!--modal-body-->
+                <div class="modal-body">
+                    <form id="createForm">
+                        <span class="text">模态框里面的表单1</span>
+                        <input type="text" name="modal_input1" class="form-control" placeholder="模态框里面的表单1">
+                        
+                        <span class="text">模态框里面的表单2</span>
+                        <input type="text" name="modal_input2" class="form-control" placeholder="模态框里面的表单2">
+                        
+                    </form>
+                </div>
+                    
+                <!--modal-footer-->
+                <div class="modal-footer">
+                    <button type="button" class="default-btn btn-center" onclick="createTijiao();">提交模态框里面的表单</button>
+                </div>
+                
+                <!-- 操作反馈 -->
+                <!--result节点-->
+                <div class="result"></div>
+                
+            </div>
+        </div>
+    </div><!-- createModal -->
+
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+
+</div><!-- app -->
+
+<script>
+    
+    // 上传组件
+    // 这里填写是的是id=fileSelect
+    // 即input file的id
+    // 上传的后端服务使用引流宝的../../../upload.php
+    // 返回的数据格式是一个json对象
+    $("#fileSelect").change(function(e){
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        
+        // 如果选中了文件
+        if(fileSelect.length>0){
+            
+            // 获取到选中的文件
+            // 这里填写的是<form>标签的id
+            var imageData = new FormData(document.getElementById("form1"));
+            
+            // 异步上传
+            $.ajax({
+                url:"../../../upload.php",
+                type: "POST",
+                data: imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 上传成功
+                        // 将图片地址填写到上传组件的输入框中
+                        $('input[name="imgurl"]').val(res.url);
+                        
+                        // 将按钮的文字改成已上传
+                        $('#form1 .imgSelect span').text('已上传')
+                    }else{
+                        
+                        // 上传失败
+                        // 将按钮的文字改成上传失败
+                        $('#form1 .imgSelect span').text('上传失败')
+                    }
+                },
+                error: function() {
+                    
+                    // 上传失败
+                    // 在ret-text节点显示“服务器发生错误”
+                    $('.ret-text').html('<p class="error">服务器发生错误</p>');
+                },
+                beforeSend: function(res){
+                
+                    // 上传中
+                    // 将按钮的文字改成上传中...
+                    $('#form1 .imgSelect span').text('上传中...')
+                }
+            })
+        }
+    })
+    
+</script>
+</body>
+</html>
