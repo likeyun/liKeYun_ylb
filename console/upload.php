@@ -98,6 +98,10 @@
                 // 执行SQL
                 $uploadSuCai = $db->set_table('huoma_sucai')->add($uploadSuCaiParams);
                 
+                // 自定义图片地址
+                // 将http://www.youdomain.com换成你的
+                $imgUrlPath = 'http://www.youdomain.com/console';
+                
                 // 执行结果
                 if($uploadSuCai){
                     
