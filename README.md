@@ -77,7 +77,8 @@ http://域名/console/index/
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/233199/35/5994/134735/656d5672F4ba6963b/db0916f3c068a009.png)
 
 # 截图
-![](http://p17.qhimg.com/t013e028fbd3fff1763.jpg)
+![](http://p16.qhimg.com/t01ca2ed59b763a1bfb.png)
+![](http://p15.qhimg.com/t019599cbc426929f9a.png)
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/197765/17/36238/50195/65228f7eF215bcec1/97e59f5307984043.jpg)
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/110256/29/28792/47096/65228f7fFbfdb108a/d1d784f3346504f9.jpg)
 ![](http://p16.qhimg.com/t01d4a75eb6fd6bc298.png)
