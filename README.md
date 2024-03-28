@@ -17,12 +17,6 @@
 
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
-# 演示站（2.1.0）
-
-登录地址：[https://u.ur1.shop/console/index/](https://u.ur1.shop/console/index/) <br/>
-登录账号：yinliubao <br/>
-登录密码：yinliubao666 <br/>
-
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.3.0-brightgreen.svg)<br/>
 版本：2.3.0<br/>
