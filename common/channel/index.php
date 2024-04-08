@@ -66,7 +66,7 @@
                 $data_referer = getAppName();
                 
                 // 来源ip
-                $data_ip = $_SERVER['REMOTE_ADDR'];
+                $data_ip = getIp();
                 
                 // 查询该IP是否被加入黑名单
                 $checkThisIpIsAccessDenied = $db->set_table('huoma_channel_accessdenied')->find(['data_ip'=>$data_ip]);
@@ -272,6 +272,24 @@
             <img src="../../../static/img/warn.png" />
         </div>
         <p id="warnText">'.$warnText.'</p>';
+    }
+    
+    
+    // 获取当前访问设备的IP地址
+    function getIp(){
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+            $cip = $_SERVER['HTTP_CLIENT_IP'];
+        }else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            $cip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }else if(!empty($_SERVER['REMOTE_ADDR'])){
+            $cip = $_SERVER['REMOTE_ADDR'];
+        }else{
+            $cip = '';
+        }
+        preg_match("/[\d.]{7,15}/", $cip, $cips);
+        $cip = isset($cips[0]) ? $cips[0] : 'unknown';
+        unset($cips);
+        return $cip;
     }
     
     // 获取当前访问设备的操作系统
