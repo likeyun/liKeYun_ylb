@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../static/js/clipboard.min.js"></script>
+	<script type="text/javascript" src="./tbk.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+			    <a href="../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/">
+				<li class="nav-li">
+				    <i class="icon i-dwz"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-tbk-dark"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/">
+				<li class="nav-li">
+				    <i class="icon i-config"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>淘宝客 ➜ <span class="mbx">中间页</span></h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    
+			    <!--flex布局按钮容器-->
+    			<div class="flex-button-view">
+    			    
+    			    <!--导航-->
+    			    <div class="button-daohang">
+    			        <button class="default-btn" style="margin-left:5px;">中间页</button>
+    			        <a href="multiple.html"><button class="tint-btn" style="margin-left:5px;">多项单页</button></a>
+    			        <button class="tint-btn" style="margin-left:5px;" 
+        				data-toggle="modal" 
+        				data-target="#configZjyModal" 
+        				onclick="getZjyConfig();">接口配置</button>
+    			    </div>
+    			    
+    			    <!--功能-->
+    			    <div class="button-gongneng">
+    			        <button class="tint-btn" 
+        				data-toggle="modal" 
+        				data-target="#createZjyModal" 
+        				onclick="getDomainNameList('create')" style="margin-left:5px;">创建中间页</button>
+    			    </div>
+    			</div>
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div><!-- data-list -->
+			<p class="loading" style="display: none;"></p>
+			<!-- 分页 -->
+			<div class="fenye"></div>
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+	<!-- 创建中间页 -->
+    <div class="modal fade" id="createZjyModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:650px;">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">创建中间页</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="createZjy" enctype="multipart/form-data">
+                        <span class="text">淘口令</span>
+                        <input type="text" name="taokouling" style="height:50px;" class="form-control" autocomplete="off" title="粘贴后会解析商品信息并自动填写" placeholder="粘贴淘口令或包含淘口令的文案">
+                        
+                        <span class="text">长标题</span>
+                        <input type="text" name="zjy_long_title" class="form-control" id="zjy_long_title" autocomplete="off" placeholder="商品的长标题">
+                        
+                        <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                            <div style="width:48%;height:70px;float:left;">
+                                <span class="text">短标题</span>
+                                <input type="text" name="zjy_short_title" class="form-control" autocomplete="off" placeholder="商品的短标题">
+                            </div>
+                            <div style="width:48%;height:70px;float:right;">
+                                <span class="text">转链后的淘口令</span>
+                                <input type="text" name="zjy_tkl" title="使用了你的PID生成的淘口令" class="form-control" autocomplete="off" placeholder="你的PID生成的淘口令">
+                            </div>
+                        </div>
+                        
+                        <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                            <div style="width:48%;height:70px;float:left;">
+                                <span class="text">原价</span>
+                                <input type="text" name="zjy_original_cost" class="form-control" autocomplete="off" placeholder="领券前的价格">
+                            </div>
+                            <div style="width:48%;height:70px;float:right;">
+                                <span class="text">券后价</span>
+                                <input type="text" name="zjy_discounted_price" title="领券后的价格" class="form-control" autocomplete="off" placeholder="领券后的价格">
+                            </div>
+                        </div>
+                        
+                        <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">短链域名</span>
+                                <select name="zjy_dlym" class="form-control" title="短网址所使用的域名"></select>
+                            </div>
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">入口域名</span>
+                                <select name="zjy_rkym" class="form-control" title="扫码或点击链接后先跳转到这个域名"></select>
+                            </div>
+                            <div style="flex:1;">
+                                <span class="text">落地域名</span>
+                                <select name="zjy_ldym" class="form-control" title="最终展示中间页使用的域名"></select>
+                            </div>
+                        </div>
+                        
+                        <span class="text">商品主图</span>
+                        <div class="input-group mb-3" style="display:flex;">
+                            <input type="text" name="zjy_goods_img" class="form-control goodIMG_url" placeholder="粘贴图片链接或上传">
+                            <div class="upload_goodIMG_btn">
+                                <input type="file" name="file" accept="image/*" id="chooseIMG_create" />
+                                <span class="uploadText">上传图片</span>
+                            </div>
+                            <div class="upload_goodIMG_btn" onclick="getSuCai('1','createZjyModal');">
+                                <span class="selectText">从素材库选择</span>
+                            </div>
+                        </div>
+                        
+                        </form>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq">
+                                <a href="../faq.php?faq=tbk" target="_blank">?</a>
+                            </span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="createZjy();">立即创建</button>
+                        </div>
+                    </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- createZjyModal -->
+  	
+  	<!-- 编辑中间页 -->
+    <div class="modal fade" id="EditZjyModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:650px;">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">编辑中间页</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="editZjy" enctype="multipart/form-data">
+                        <span class="text">长标题</span>
+                        <input type="text" name="zjy_long_title" class="form-control" autocomplete="off" placeholder="商品的长标题">
+                        
+                        <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                            <div style="width:48%;height:70px;float:left;">
+                                <span class="text">短标题</span>
+                                <input type="text" name="zjy_short_title" class="form-control" autocomplete="off" placeholder="商品的短标题">
+                            </div>
+                            <div style="width:48%;height:70px;float:right;">
+                                <span class="text">转链后的淘口令</span>
+                                <input type="text" name="zjy_tkl" title="使用了你的PID生成的淘口令" class="form-control" autocomplete="off" placeholder="你的PID生成的淘口令">
+                            </div>
+                        </div>
+                        
+                        <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                            <div style="width:48%;height:70px;float:left;">
+                                <span class="text">原价</span>
+                                <input type="text" name="zjy_original_cost" class="form-control" autocomplete="off" placeholder="领券前的价格">
+                            </div>
+                            <div style="width:48%;height:70px;float:right;">
+                                <span class="text">券后价</span>
+                                <input type="text" name="zjy_discounted_price" title="领券后的价格" class="form-control" autocomplete="off" placeholder="领券后的价格">
+                            </div>
+                        </div>
+                        
+                        <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">短链域名</span>
+                                <select name="zjy_dlym" class="form-control" title="短网址所使用的域名"></select>
+                            </div>
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">入口域名</span>
+                                <select name="zjy_rkym" class="form-control" title="扫码或点击链接后先跳转到这个域名"></select>
+                            </div>
+                            <div style="flex:1;">
+                                <span class="text">落地域名</span>
+                                <select name="zjy_ldym" class="form-control" title="最终展示中间页使用的域名"></select>
+                            </div>
+                        </div>
+                        
+                        <span class="text">商品主图</span>
+                        <div class="input-group mb-3" style="display:flex;">
+                            <input type="text" name="zjy_goods_img" class="form-control goodIMG_url" placeholder="粘贴图片链接或上传">
+                            <div class="upload_goodIMG_btn">
+                                <input type="file" name="file" accept="image/*" id="chooseIMG_edit" />
+                                <span class="uploadText">重新上传</span>
+                            </div>
+                            <div class="upload_goodIMG_btn" onclick="getSuCai('1','EditZjyModal');">
+                                <span class="selectText">从素材库选择</span>
+                            </div>
+                        </div>
+                        
+                        <!--id-->
+                        <input type="hidden" name="zjy_id" id="zjy_id_edit" />
+                        
+                        </form>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用说明">
+                            <span class="faq"><a href="../faq.php?faq=tbk" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="editZjy();">提交更新</button>
+                        </div>
+                    </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- editZjyModal -->
+  	
+  	<!-- 确定删除中间页 -->
+    <div class="modal fade" id="DelZjyModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除中间页</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该中间页！删除后无法恢复。
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- DelZjyModal -->
+    
+    <!-- 分享中间页 -->
+    <div class="modal fade" id="ShareZjyModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">分享中间页</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="longUrl"><span class="text">长链接：</span><span id="longUrl"></span></div>
+                        <div class="shortUrl"><span class="text">短链接：</span><span id="shortUrl"></span></div>
+                        <div class="Qrcode" id="shareQrcode"></div>
+                    </div>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- shareKfHm -->
+    
+    <!-- 接口配置 -->
+    <div class="modal fade" id="configZjyModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">接口配置</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="configZjy">
+                        <span class="text">appkey</span>
+                        <input type="text" name="zjy_config_appkey" class="form-control" id="zjy_config_appkey" autocomplete="off" placeholder="折淘客开放平台Appkey">
+                        
+                        <span class="text">sid</span>
+                        <input type="text" name="zjy_config_sid" class="form-control" id="zjy_config_sid" autocomplete="off" placeholder="折淘客开放平台sid">
+                        
+                        <span class="text">PID</span>
+                        <input type="text" name="zjy_config_pid" class="form-control" id="zjy_config_pid" autocomplete="off" placeholder="你的PID">
+                        
+                        <span class="text">淘宝账号</span>
+                        <input type="text" name="zjy_config_tbname" class="form-control" id="zjy_config_tbname" autocomplete="off" placeholder="你的淘宝账号">
+                        
+                        </form>
+                        
+                        <!--提醒文字-->
+                        <p style="color:#999;font-size:14px;margin:15px 0;">中间页使用的是折淘客开放平台提供的接口进行解析淘口令，可前往<a href="http://www.zhetaoke.com/user/shouquan.html" target="_blank"> 折淘客开放平台 </a>获取以上配置信息或阅读<a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank"> 使用说明 </a>了解获取步骤。</p>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=tbk" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="configZjy();">提交配置</button>
+                        </div>
+                    </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- configZjyModal -->
+    
+    <!--素材库-->
+    <div class="modal fade" id="suCaiKu">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header" title="点击右上角&times;可返回二维码列表">
+                    <h4 class="modal-title">素材库</h4>
+                    <span class="hideSuCaiPannel_closeIcon"></span>
+                </div>
+                
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <div class="sucai-upload">
+                        <button type="button" class="default-btn upload_sucai_button">
+                            <span>上传素材</span>
+                            <form id="uploadSuCaiTosuCaiKuForm" enctype="multipart/form-data">
+                                <input type="file" name="file" class="upload_sucai" accept="image/*" id="uploadSuCaiTosuCaiKu" />
+                                <input text="text" id="uploadSuCai_fromPannel" value="createZjyModal" style="display:none;" />
+                            </form>
+                        </button>
+                    </div>
+                    
+                    <!--素材容器-->
+                    <div class="sucai-view"></div>
+                    
+                    <!--分页-->
+                    <div class="fenye"></div>
+                </div>
+                
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav" title="阅读使用指南">
+                    	    <span class="faq"><a href="../faq.php?faq=tbk" target="_blank">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" 
+                    	    data-dismiss="modal" 
+                    	    onclick="hideSuCaiPannel('createZjyModal')">取消</button>
+                    	</div>
+                    </div>
+                </div>
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div>
+        </div>
+    </div><!-- suCaiKu -->
+    
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+
+</div><!-- app -->
+
+<script>
+    
+    // 监听淘口令解析输入框
+    $('input[name="taokouling"]').on('input propertychange', function(){
+        
+        // 获取taokouling
+        var taokouling = $('input[name="taokouling"]').val();
+        
+        $.ajax({
+            type: "POST",
+            url: "./explainTkl.php?tkl="+taokouling,
+            success: function(res){
+                
+                // 成功
+                if(res.code == 200){
+                    
+                    // 长标题
+                    $('input[name="zjy_long_title"]').val(res.zjy_long_title);
+                    
+                    // 短标题
+                    $('input[name="zjy_short_title"]').val(res.zjy_short_title);
+                    
+                    // 淘口令
+                    $('input[name="zjy_tkl"]').val(res.zjy_tkl);
+                    
+                    // 原价
+                    $('input[name="zjy_original_cost"]').val(res.zjy_original_cost);
+                    
+                    // 券后价
+                    $('input[name="zjy_discounted_price"]').val(res.zjy_discounted_price);
+                    
+                    // 商品主图
+                    $('input[name="zjy_goods_img"]').val(res.zjy_goods_img);
+                    
+                    // 商品链接
+                    $('input[name="zjy_goods_link"]').val(res.zjy_goods_link);
+                    
+                    // 解析成功要隐藏Modal
+                    explainTkl_ResultText(res.msg)
+                    setTimeout('hideResult()', 1000);
+                    
+                }else{
+                    
+                    // 长标题
+                    $('input[name="zjy_long_title"]').val('');
+                    
+                    // 短标题
+                    $('input[name="zjy_short_title"]').val('');
+                    
+                    // 淘口令
+                    $('input[name="zjy_tkl"]').val('');
+                    
+                    // 原价
+                    $('input[name="zjy_original_cost"]').val('');
+                    
+                    // 券后价
+                    $('input[name="zjy_discounted_price"]').val('');
+                    
+                    // 商品主图
+                    $('input[name="zjy_goods_img"]').val('');
+                    
+                    // 商品链接
+                    $('input[name="zjy_goods_link"]').val('');
+                    
+                    // 清空输入框的时候隐藏modal
+                    if(taokouling == '' || taokouling == null){
+                        
+                        hideResult();
+                    }else{
+                        
+                        setTimeout('explainTkl_ResultText("'+res.msg+'")', 1500);
+                    }
+                }
+            },
+            error: function() {
+                
+                showErrorResult('console/tbk/explainTkl.php发生错误');
+            },
+            beforeSend: function(res){
+                
+                // 解析中
+                explainTkl_ResultText('解析中...')
+            }
+        });
+        
+    })
+    
+    // 解析过程显示的提醒
+    function explainTkl_ResultText(content){
+        
+        $('#app .result').html('<div class="success">'+content+'</div>');
+        $('#app .result .success').css('display','block');
+    }
+    
+</script>
+</body>
+</html>
