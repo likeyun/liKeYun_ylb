@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../static/js/clipboard.min.js"></script>
+	<script type="text/javascript" src="./km.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+			    <a href="../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/">
+				<li class="nav-li">
+				    <i class="icon i-dwz"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-kami-dark"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/">
+				<li class="nav-li">
+				    <i class="icon i-config"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>卡密分发 ➜ <span class="mbx">卡密管理</span></h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    
+			    <!--flex布局按钮容器-->
+    			<div class="flex-button-view">
+    			    
+    			    <!--导航-->
+    			    <div class="button-daohang">
+    			        <a href="./"><div class="back-lastpage"></div></a>
+			    		<button class="default-btn">卡密列表</button>
+    			    </div>
+    			    
+    			    <!--功能-->
+    			    <div class="button-gongneng">
+    			        <button class="tint-btn" 
+        				data-toggle="modal" 
+        				data-target="#addKamiModal" style="margin-left:5px;">导入卡密</button>
+        				
+        				<button class="tint-btn" style="margin-left:5px;"
+        				data-toggle="modal" 
+        				data-target="#cleanKmModal" onclick="cleanKmModal();">清空卡密</button>
+    			    </div>
+    			</div>
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div>
+			
+			<p class="loading" style="display: none;"></p>
+			
+			<!-- 分页 -->
+			<div class="fenye"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+	<!-- 导入卡密 -->
+    <div class="modal fade" id="addKamiModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">导入卡密</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="addKami">
+                        <span class="text">选择csv文件</span>
+                        <div style="display:flex;">
+                            <div style="flex:1;">
+                                <input type="text" name="kmFile" class="form-control" autocomplete="off" placeholder="上传csv文件">
+                                <input type="hidden" name="kami_id">
+                            </div>
+                            <div style="width:110px;margin-left:10px;">
+                                <span class="kami_TXTUpload">
+                                    <input type="file" name="file" accept=".csv" class="fileSelect" id="selectCSV" />
+                                    <span class="uploadText">上传文件</span>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!--导入说明-->
+                        <p class="addKnow">
+                            仅支持在csv文件中批量导入卡密，请按照csv模板准备你的卡密数据，为保证效率，每次导入卡密的个数不超过1000条。<a href="./kmFiles/卡密csv模板.csv" download="卡密csv模板.csv">下载csv模板</a>
+                        </p>
+                    </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-click">
+                        <div class="click-left">
+                            <span class="faq"><a href="../faq.php?faq=kami" target="_blank">?</a></span>
+                        </div>
+                        <div class="click-right">
+                            <button type="button" class="default-btn" onclick="addKami();">立即导入</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+   
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- addKamiModal -->
+    
+    <!-- 编辑卡密 -->
+    <div class="modal fade" id="editKmModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑卡密</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="editKm">
+                    <span class="text">卡密</span>
+                    <input type="text" name="km" class="form-control" autocomplete="off" placeholder="卡密内容">
+                    
+                    <span class="text">有效期</span>
+                    <input type="text" name="km_expiryDate" class="form-control" autocomplete="off" placeholder="例如：7天、1个月、1年">
+                    
+                    <span class="text">到期时间</span>
+                    <input type="text" name="km_expireDate" class="form-control" autocomplete="off" placeholder="例如：2014-12-31">
+                    
+                    <span class="text">备注</span>
+                    <input type="text" name="km_beizhu" class="form-control" autocomplete="off" placeholder="备注信息">
+                    
+                    <span class="text">状态</span>
+                    <select name="km_status" class="form-control"></select>
+                    
+                    <input type="hidden" name="km_id">
+                    </form>
+                </div>
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-click">
+                        <div class="click-left">
+                            <span class="faq"><a href="../faq.php?faq=kami" target="_blank">?</a></span>
+                        </div>
+                        <div class="click-right">
+                            <button type="button" class="default-btn" onclick="editKm();">提交编辑</button>
+                        </div>
+                    </div>
+                </div>
+   
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- editKmModal -->
+  	
+  	<!-- 确定删除卡密 -->
+    <div class="modal fade" id="delKmModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除卡密</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该卡密！删除后无法恢复。
+                </div>
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div>
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- delKmModal -->
+    
+    <!-- 清空卡密 -->
+    <div class="modal fade" id="cleanKmModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">清空卡密</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除所有卡密！删除后无法恢复。
+                </div>
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div>
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- delKamiProjectModal -->
+    
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+
+</div><!-- app -->
+
+<script>
+    
+    // 上传CSV文件
+    $("#selectCSV").change(function(e){
+        
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            var imageData = new FormData(document.getElementById("addKami"));
+            $.ajax({
+                url:"uploadCSV.php",
+                type: "POST",
+                data: imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 将图片地址填写到表单
+                        $('#addKamiModal input[name="kmFile"]').val(res.filePath);
+                        $('#addKamiModal .uploadText').text(res.msg);
+                    }else{
+                        
+                        // 上传失败
+                        showErrorResult(res.msg);
+                    }
+                },
+                error: function() {
+                    
+                    // 服务器发生错误
+                    showErrorResult('服务器发生错误');
+                },
+                beforeSend: function(){
+                    
+                    // 上传中
+                    $('#addKamiModal .uploadText').text('上传中...');
+                }
+            })
+        }
+        
+        $('#selectCSV').val('');
+    })
+
+</script>
+</body>
+</html>

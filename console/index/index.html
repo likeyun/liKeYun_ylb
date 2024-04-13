@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>私域引流宝</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/chart.js"></script>
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/favicon.png">
+	<script type="text/javascript" src="./index.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧布局 -->
+	<div class="left">
+        
+        <!--左侧容器-->
+		<div class="dhview">
+		    
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+			    <a href="../index/" class="selected">
+			    <li class="nav-li">
+			        <i class="icon i-data-dark"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/">
+				<li class="nav-li">
+				    <i class="icon i-dwz"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/">
+				<li class="nav-li">
+				    <i class="icon i-config"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
+			</ul>
+
+			<!-- 账号及版本信息 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧布局 -->
+	<div id="right">
+	    
+	    <h3>数据</h3>
+		<div class="data-card" style="background:none;padding:0;">
+		    
+		    <!--数据、图表容器-->
+		    <div class="data-chart">
+		        
+		        <!--数据面板-->
+		        <div class="data-pannel">
+		            
+		            <!--左右切换-->
+		            <div class="pre-swiper"></div>
+		            <div class="next-swiper"></div>
+		            
+		            <!--访问量卡片-->
+                    <div class="swiper"></div>
+                    
+		        </div><!--data-pannel-->
+		        
+		        <!--图表面板-->
+		        <div class="chart-pannel">
+		            
+		            <p class="chart-pannel-title">📈 24小时 PV 图表 <span class="autofreshen"></span></p>
+                    
+                    <!--图表-->
+                    <div class="chart-view">
+                        <canvas id="eachHourPvChart" width="350" height="130" style="width:100%;height:100px;"></canvas>
+                    </div><!--chart-view-->
+		        </div><!--chart-pannel-->
+		        
+		        <!--7天IP数据-->
+		        <div class="ipDataList">
+		            <p style="font-size:20px;">🌐 近7天 UV 数据</p>
+		            <table class="table" style="text-align: center;font-size:15px;">
+    				    <thead></thead>
+    				    <tbody></tbody>
+    				</table>
+		        </div>
+		    </div><!--data-chart-->
+		    
+		    <!--项目说明-->
+		    <div class="project-info"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+</div><!-- app -->
+
+</body>
+</html>
