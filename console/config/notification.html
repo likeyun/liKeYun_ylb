@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="./notification.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul>
+			    <a href="../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/">
+				<li class="nav-li">
+				    <i class="icon i-dwz"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-config-dark"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
+			</ul>
+
+			<!-- 账号 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>配置中心 ➜ <span class="mbx">通知渠道</span></h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    <a href="./"><div class="back-lastpage"></div></a>
+			    <button class="default-btn" style="margin-left: 5px;">通知渠道</button>
+			</div>
+			
+			<!-- 列表区域 -->
+			<div class="data-list"></div><!-- data-list -->
+			
+			<p class="loading" style="display: none;"></p>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+    
+</div><!-- app -->
+
+</body>
+</html>
