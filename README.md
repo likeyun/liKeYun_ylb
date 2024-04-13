@@ -19,18 +19,16 @@
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
 # 更新日志
-![](https://img.shields.io/badge/Version-2.3.0-brightgreen.svg)<br/>
-版本：2.3.0<br/>
-更新摘要：<br/>
-1. 2.2.0更新摘要：<br/>
-2. 优化升级<br/>
-3. 首页优化<br/>
-4. 优化外部跳微信<br/>
-5. 新增用户组<br/>
-6. 新增域名用户组授权<br/>
-7. 首页新增近7天IP数据<br/>
-8. 新增分享卡片的认证号模式、Safari分享模式<br/>
-9. 2.3.0更新摘要：新增插件中心
+![](https://img.shields.io/badge/Version-2.4.0-brightgreen.svg)<br/>
+1. 2.4.0版本新特性：<br>
+2. UI界面大量的优化<br>
+3. 新增群活码并流<br>
+4. 新增短网址轮询域名<br>
+5. 外部跳微信抽离出来作为插件<br>
+6. 群活码、客服码、渠道码整合到活码一栏<br>
+7. 提供用户账号注册<br>
+8. 渠道码新增操作系统渠道数据记录<br>
+9. 新增卡密分发小程序管理<br>
 
 # 全新安装
 
