@@ -45,7 +45,7 @@ http://域名/install/
 5、将 console/Db.php 这个文件以及 console/upload/ 目录替换；<br/>
 6、访问install目录，选择你要升级的版本选项。<br/>
 
-# 使用说明
+# 使用文档
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
 
 就算你是个小白0基础，没有服务器、没有域名，不会搭建服务器，不会搭建网站，使用指南中有个针对0基础的教程，看完就会了。
