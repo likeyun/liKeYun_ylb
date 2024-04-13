@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../../../static/img/logo.png">
+	<link rel="stylesheet" href="app.css">
+	<script type="text/javascript" src="../../../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/clipboard.min.js"></script>
+	<script type="text/javascript" src="./app.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+    	
+    	<!-- 左侧 -->
+    	<div class="left">
+    		<div class="dhview">
+    
+    			<!-- LOGO -->
+    			<a href="../../../index/" class="index">
+    			    <div class="logo"></div>
+    			</a>
+    
+    			<!-- 导航 -->
+			<ul>
+			    <a href="../../../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../../../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../../../dwz/">
+				<li class="nav-li">
+				    <i class="icon i-dwz"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../../../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../../../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../../../plugin/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-plugin-dark"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../../../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../../../config/">
+				<li class="nav-li">
+				    <i class="icon i-config"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../../../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../../../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
+			</ul>
+    
+    			<!-- 账号 -->
+    			<div class="account">加载中...</div>
+    		    
+    		</div>
+    	</div>
+    
+    	<!-- 右侧 -->
+    	<div id="right">
+    	    
+    	    <!--面板标题-->
+    		<h3>
+    		    <a href="./" class="mianbaoxie_a">插件中心</a> ➜ <span class="mbx">外部跳微信小程序</span> 
+		    </h3>
+		    
+		    <!--数据区域-->
+    		<div class="data-card">
+    		    
+    			<!-- 按钮区域 -->
+    			<div class="button-view" id="button-view" style="display:none;">
+    			    
+    			    <!--返回按钮-->
+    			    <a href="../../">
+    			        <div class="back-lastpage"></div>
+    			    </a>
+				    
+				    <button class="default-btn">链接管理</button>
+    				
+    				<button class="tint-btn" 
+    				data-toggle="modal" 
+    				data-target="#createJwModal" 
+    				onclick="getDomainNameList('create')" style="margin-left:5px;">创建链接</button>
+    			</div>
+    
+    			<!-- 列表区域 -->
+    			<div class="data-list">
+    			    
+    				<table class="table">
+    				    <thead></thead>
+    				    <tbody></tbody>
+    				</table>
+    			</div><!-- data-list -->
+    			
+    			<p class="loading" style="display: none;"></p>
+    			
+    			<!-- 分页 -->
+    			<div class="fenye"></div>
+    			
+    		</div><!-- data-card -->
+    	</div><!-- right -->
+    
+    	<!-- 创建链接 -->
+        <div class="modal fade" id="createJwModal">
+            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                        <!-- 头部 -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">创建链接</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- 表单 -->
+                        <div class="modal-body">
+                            <form id="createJw" enctype="multipart/form-data">
+                            <span class="text">链接标题</span>
+                            <input type="text" name="jw_title" class="form-control" autocomplete="off" placeholder="卡片显示的标题">
+                            
+                            <span class="text">域名（默认使用对象存储域名）</span>
+                            <select name="jw_dxccym" class="form-control" title="选择用于跳转的域名"></select>
+                            
+                            <span class="text">分享图标</span>
+                            <div class="upload-input">
+                                <input type="text" name="jw_icon" class="form-control" autocomplete="off" placeholder="粘贴图片链接或上传">
+                                <span class="input-group-text">
+                                    <span id="chooseIMG_1">上传图片</span>
+                                    <input type="file" name="file1" id="up1" accept="image/*" class="input-group-text-fileselect" />
+                                </span>
+                            </div>
+                            
+                            <span class="text">背景图片</span>
+                            <div class="upload-input">
+                                <input type="text" name="jw_bgimg" class="form-control" autocomplete="off" placeholder="粘贴图片链接或上传">
+                                <span class="input-group-text">
+                                    <span id="chooseIMG_2">上传图片</span>
+                                    <input type="file" name="file2" id="up2" accept="image/*" class="input-group-text-fileselect" />
+                                </span>
+                            </div>
+                            
+                            <span class="text">备注</span>
+                            <input type="text" name="jw_beizhu" class="form-control" autocomplete="off" placeholder="简单描述这个链接的用途，可留空">
+                            
+                            <span class="text">目标链接</span>
+                            <input type="text" name="jw_url" class="form-control" autocomplete="off" placeholder="Url Scheme 链接">
+                            <a href="img/what_is_url_scheme.jpg" target="_blank" class="what_is_url_scheme">*什么是Url Scheme 链接？</a>
+                            </form>
+                        </div><!-- modal-body -->
+                        
+                        <!-- 底部操作 -->
+                        <div class="modal-footer">
+                            <div class="footer-btn">
+                            <div class="faqnav" title="阅读使用指南">
+                                <span class="faq">
+                                    <a href="../faq.php?faq=jw" target="_blank">?</a>
+                                </span>
+                            </div>
+                            <div class="btnnav">
+                                <button type="button" class="default-btn" onclick="createJw();">立即创建</button>
+                            </div>
+                        </div>
+                        
+                    </div><!-- modal-footer -->
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- createJwModal -->
+      	
+      	<!-- 编辑链接 -->
+        <div class="modal fade" id="editJwModal">
+            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                        <!-- 头部 -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">编辑链接</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- 表单 -->
+                        <div class="modal-body">
+                            <form id="editJw" enctype="multipart/form-data">
+                            <span class="text">链接标题</span>
+                            <input type="text" name="jw_title" class="form-control" autocomplete="off" placeholder="卡片显示的标题">
+                            
+                            <span class="text">域名（默认使用对象存储域名）</span>
+                            <select name="jw_dxccym" class="form-control" title="选择用于跳转的域名"></select>
+                            
+                            <span class="text">分享图标</span>
+                            <div class="upload-input">
+                                <input type="text" name="jw_icon" class="form-control" autocomplete="off" placeholder="粘贴图片链接或上传">
+                                <span class="input-group-text">
+                                    <span id="chooseIMG_3">上传图片</span>
+                                    <input type="file" name="file1" id="up3" accept="image/*" class="input-group-text-fileselect" />
+                                </span>
+                            </div>
+                            
+                            <span class="text">背景图片</span>
+                            <div class="upload-input">
+                                <input type="text" name="jw_bgimg" class="form-control" autocomplete="off" placeholder="粘贴图片链接或上传">
+                                <span class="input-group-text">
+                                    <span id="chooseIMG_4">上传图片</span>
+                                    <input type="file" name="file2" id="up4" accept="image/*" class="input-group-text-fileselect" />
+                                </span>
+                            </div>
+                            
+                            <span class="text">备注</span>
+                            <input type="text" name="jw_beizhu" class="form-control" autocomplete="off" placeholder="简单描述这个链接的用途，可留空">
+                            
+                            <span class="text">目标链接</span>
+                            <input type="text" name="jw_url" class="form-control" autocomplete="off" placeholder="最终跳转的页面链接，例weixin://dl/business/?t=">
+                            
+                            <!--ID，隐藏域-->
+                            <input type="hidden" name="jw_id">
+                            
+                            </form>
+                        </div><!-- modal-body -->
+                        
+                        <!-- 底部操作 -->
+                        <div class="modal-footer">
+                            <div class="footer-btn">
+                            <div class="faqnav" title="阅读使用指南">
+                                <span class="faq">
+                                    <a href="../faq.php?faq=jw" target="_blank">?</a>
+                                </span>
+                            </div>
+                            <div class="btnnav">
+                                <button type="button" class="default-btn" onclick="editJw();">提交编辑</button>
+                            </div>
+                        </div>
+                        
+                    </div><!-- modal-footer -->
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- editJwModal -->
+      	
+      	<!-- 确定删除链接 -->
+        <div class="modal fade" id="delJwModal">
+            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">删除链接</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- 内容 -->
+                    <div class="modal-body">
+                        将会删除该链接！删除后无法恢复。
+                    </div>
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer"></div>
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- delJwModal -->
+        
+        <!-- 分享链接 -->
+        <div class="modal fade" id="ShareJwModal">
+            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">分享链接</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <div class="box">
+                            <div class="longUrl"><span class="text">链接：</span><span id="longUrl"></span></div>
+                            <div class="Qrcode" id="shareQrcode"></div>
+                            <p style="text-align:center;font-size:15px;color:#999;">扫码预览</p>
+                        </div>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer"></div>
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- ShareJwModal -->
+        
+        <!-- 全局信息提示框 -->
+        <div id="notification">
+            <div id="notification-text"></div>
+        </div>
+    
+    </div><!-- app -->
+
+</body>
+</html>
