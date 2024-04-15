@@ -75,7 +75,7 @@
                 // 安装失败
                 $result = array(
         			'code' => 201,
-                    'msg' => '安装失败：' . $conn->error
+                    'msg' => '安装失败：' . $conn->error . '，请检查console目录权限是否为777'
         		);
             }
             
