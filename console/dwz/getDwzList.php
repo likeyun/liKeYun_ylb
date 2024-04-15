@@ -17,7 +17,6 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	@$page = $_GET['p']?$_GET['p']:1;
     	
         // 当前登录的用户
@@ -25,9 +24,6 @@
         
         // 数据库配置
     	include '../Db.php';
-    	
-    	// 版本检测
-        include './UpgradeCheck.php';
         
         // 实例化类
     	$db = new DB_API($config);
@@ -38,7 +34,7 @@
     	$dwzNum = $db->set_table('huoma_dwz')->getCount(['dwz_creat_user'=>$LoginUser]);
     
     	// 每页数量
-    	$lenght = 10;
+    	$lenght = 12;
     
     	// 每页第一行
     	$offset = ($page-1)*$lenght;
@@ -58,7 +54,7 @@
     		$nextpage=$allpage;
     	}
     
-    	// 获取当前登录用户创建的短网址，每页10个DESC排序
+    	// 获取当前登录用户创建的短网址，每页12个DESC排序
     	$getdwzList = $db->set_table('huoma_dwz')->findAll(
     	    $conditions = ['dwz_creat_user' => $LoginUser],
     	    $order = 'ID DESC',
@@ -94,7 +90,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录过期'
+            'msg' => '未登录'
 		);
     }
 

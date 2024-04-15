@@ -59,14 +59,15 @@
                 $longUrl = dirname(dirname(dirname($channel_rkym.$_SERVER["REQUEST_URI"]))).'/common/channel/redirect/?cid='.$channel_id;
                 
                 // 生成shortUrl
-                $shortUrl = $channel_rkym.'/s/'.$channel_key;
+                $shortUrl = $channel_dlym.'/s/'.$channel_key;
                 
                 // 有结果
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
         		    'longUrl' => $longUrl,
-        		    'shortUrl' => $shortUrl
+        		    'shortUrl' => $shortUrl,
+        		    'qrcodeUrl' => $longUrl.'&t='.time()
     		    );
             }else{
                 

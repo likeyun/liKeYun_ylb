@@ -17,11 +17,10 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
         $kf_id = trim($_GET['kf_id']);
         
         // 过滤参数
-        if(empty($kf_id) || $kf_id == '' || $kf_id == null || !isset($kf_id)){
+        if(empty($kf_id) || !isset($kf_id)){
             
             // 非法请求
             $result = array(
@@ -35,38 +34,38 @@
         
         	// 实例化类
         	$db = new DB_API($config);
-        
-        	// 数据库huoma_kf表
-        	$huoma_kf = $db->set_table('huoma_kf');
-        
-        	// 执行查询（查询当前kf_id的详情）
-        	$getKfInfo = ['kf_id'=>$kf_id];
-            $getKfInfoResult = $huoma_kf->find($getKfInfo);
+
+        	// 查询当前kf_id的详情
+            $getKfInfo = $db->set_table('huoma_kf')->find(['kf_id'=>$kf_id]);
             
             // 返回数据
-            if($getKfInfoResult && $getKfInfoResult > 0){
+            if($getKfInfo && $getKfInfo > 0){
                 
                 // 入口域名
-                $kf_rkym = json_decode(json_encode($getKfInfoResult))->kf_rkym;
+                $kf_rkym = json_decode(json_encode($getKfInfo))->kf_rkym;
                 
                 // 短链域名
-                $kf_dlym = json_decode(json_encode($getKfInfoResult))->kf_dlym;
+                $kf_dlym = json_decode(json_encode($getKfInfo))->kf_dlym;
                 
                 // 短链Key
-                $kf_key = json_decode(json_encode($getKfInfoResult))->kf_key;
+                $kf_key = json_decode(json_encode($getKfInfo))->kf_key;
                 
                 // 生成longUrl
-                $longUrl = dirname(dirname(dirname($kf_rkym.$_SERVER["REQUEST_URI"]))).'/common/kf/redirect/?kid='.$kf_id;
+                $longUrl = dirname(dirname(dirname($kf_rkym.$_SERVER["REQUEST_URI"]))).'/common/kf/redirect/?kid='.$kf_id.'#'.base64_encode($kf_key);
                 
                 // 生成shortUrl
                 $shortUrl = $kf_dlym.'/s/'.$kf_key;
+                
+                // 生成qrcodeUrl
+                $qrcodeUrl = dirname(dirname(dirname($kf_rkym.$_SERVER["REQUEST_URI"]))).'/common/kf/redirect/?kid='.$kf_id.'#'.base64_encode(time());
                 
                 // 有结果
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
         		    'longUrl' => $longUrl,
-        		    'shortUrl' => $shortUrl
+        		    'shortUrl' => $shortUrl,
+        		    'qrcodeUrl' => $qrcodeUrl
     		    );
             }else{
                 

@@ -17,11 +17,10 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	$domain_id = trim($_GET['domain_id']);
     	
         // 过滤参数
-        if(empty($domain_id) || $domain_id == '' || $domain_id == null || !isset($domain_id)){
+        if(empty($domain_id) || !isset($domain_id)){
             
             $result = array(
 			    'code' => 203,
@@ -44,8 +43,7 @@
                 
                 // 获得管理权限
                 // 执行删除
-                $delDomainName = ['domain_id'=>$domain_id];
-                $delDomainNameResult = $db->set_table('huoma_domain')->delete($delDomainName);
+                $delDomainNameResult = $db->set_table('huoma_domain')->delete(['domain_id'=>$domain_id]);
                 
                 // 判断操作结果
                 if($delDomainNameResult){

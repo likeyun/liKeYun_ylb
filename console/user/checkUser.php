@@ -55,7 +55,7 @@
                 $getCheckUserInfo = $huoma_user->findAll(
         	        $conditions = ['user_name'=>$user_name],
         	        $order = 'ID ASC',
-        	        $fields = 'user_id,user_name,user_email,user_creat_time,user_admin,user_status,user_manager,user_beizhu',
+        	        $fields = 'user_id,user_name,user_email,user_creat_time,user_admin,user_status,user_manager,user_beizhu,user_group',
         	        $limit = null
         	    );
         	    

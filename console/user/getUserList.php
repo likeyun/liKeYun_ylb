@@ -17,7 +17,6 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	@$page = $_GET['p']?$_GET['p']:1;
     	
         // 当前登录的用户
@@ -35,6 +34,7 @@
         // 获取当前登录用户的账号权限
         $getuserAdmin = ['user_name'=>$LoginUser];
         $getuserAdminResult = $huoma_user->find($getuserAdmin);
+        
         // 权限 1管理 2非管理
         $user_admin = json_decode(json_encode($getuserAdminResult))->user_admin;
         
@@ -94,7 +94,7 @@
         $getuserList = $huoma_user->findAll(
     	    $conditions = $condition,
     	    $order = 'ID ASC',
-    	    $fields = 'user_id,user_name,user_email,user_creat_time,user_admin,user_status,user_manager,user_beizhu',
+    	    $fields = 'user_id,user_name,user_email,user_creat_time,user_admin,user_status,user_manager,user_beizhu,user_group',
     	    $limit = ''.$offset.','.$lenght.''
     	);
     	
@@ -126,7 +126,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录过期'
+            'msg' => '未登录'
 		);
     }
 

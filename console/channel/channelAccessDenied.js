@@ -32,12 +32,24 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">'+res.user_name+' <span onclick="exitLogin();" class="exitLogin">退出</span></div>'
+                );
+                $(".left .account").html($account);
+                
                 initialize_Login('login')
             }else{
                 
                 // 未登录
-                $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">未登录</div>'
+                );
+                $(".left .account").html($account);
+                
                 initialize_Login('unlogin');
             }
         },
@@ -170,8 +182,10 @@ function getChannelAccessDeniedList(pageNum) {
                     );
                     $("#right .data-card .fenye").css("display","block");
                 }
+                
                 // 渲染分页控件
                 $("#right .data-card .fenye").html($channelAccessDeniedIPListFenye_HTML);
+                
                 // 设置URL
                 if(res.page !== 1){
                     window.history.pushState('', '', '?p='+res.page+'&token='+creatPageToken(32));
@@ -180,7 +194,7 @@ function getChannelAccessDeniedList(pageNum) {
             }else{
                 
                 // 非200状态码
-                warningPage(res.msg)
+                noData(res.msg);
             }
             
       },
@@ -199,37 +213,6 @@ function getFenye(pageNum){
     getChannelAccessDeniedList(pageNum);
 }
 
-// 询问是否要清空
-function askCleanAllChannelData(channel_id){
-    
-    // 将群id添加到button的CleanAllChannelData函数用于传参执行删除
-    $('#CleanAllChannelData .modal-footer').html('<button type="button" class="default-btn" onclick="CleanAllChannelData('+channel_id+');">确定清空</button>')
-}
-
-// 清空数据
-function CleanAllChannelData(channel_id){
-    
-    $.ajax({
-        type: "GET",
-        url: "./cleanAllChannelData.php?channel_id="+channel_id,
-        success: function(res){
-            
-            // 成功
-            if(res.code == 200){
-                
-                // 刷新
-                location.reload();
-            }
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-        }
-    });
-}
-
-
 // 解封IP
 function delAccessDenied(e){
     $.ajax({
@@ -240,16 +223,9 @@ function delAccessDenied(e){
         },
         success: function(res){
             
-            // 成功
-            if(res.code == 200){
-                
-                // 显示已解封
-                showTopAlert('已解封');
-                
-                // 获取黑名单IP列表
-                getChannelAccessDeniedList(1);
-                
-            }
+            // 操作成功
+            showNotification(res.msg);
+            getChannelAccessDeniedList(1);
         },
         error: function() {
             
@@ -282,6 +258,31 @@ function exitLogin(){
     });
 }
 
+// 显示全局信息提示弹出提示
+function showNotification(message) {
+    
+    // 获取文案
+	$('#notification-text').text(message);
+	
+    // 计算文案长度并设置宽度
+	var textLength = message.length * 25;
+	$('#notification-text').css('width',textLength+'px');
+	
+    // 距离顶部的高度
+	$('#notification').css('top', '25px');
+	
+    // 延迟隐藏
+	setTimeout(function() {
+		hideNotification();
+	}, 3000);
+}
+
+// 隐藏全局信息提示弹出提示
+function hideNotification() {
+	var $notificationContainer = $('#notification');
+	$notificationContainer.css('top', '-100px');
+}
+
 // 生成随机token
 function creatPageToken(length) {
     var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -306,6 +307,17 @@ function warningPage(text){
     $("#right .data-card .loading").css('display','block');
 }
 
+// 暂无数据
+function noData(text){
+    
+    $("#right .data-list").css('display','none');
+    $("#right .data-card .loading").html(
+    '<img src="../../static/img/noData.png" class="noData" /><br/>' +
+    '<p class="noDataText">'+text+'</p>'
+    );
+    $("#right .data-card .loading").css('display','block');
+}
+
 // 顶部操作结果信息提示框
 function showTopAlert(content){
     $('#topAlert').text(content);
@@ -323,6 +335,7 @@ function hideTopAlert(){
 function hideModal(modal_Id){
     $('#'+modal_Id+'').modal('hide');
 }
+
 // 显示Modal（传入节点id决定隐藏哪个Modal）
 function showModal(modal_Id){
     $('#'+modal_Id+'').modal('show');

@@ -16,6 +16,15 @@
 	$user_name = trim($_POST['user_name']);
 	$user_pass = trim($_POST['user_pass']);
 	
+    // 验证是否已安装
+    if(!file_exists('../Db.php')){
+        
+        // 未安装
+        $result = array('code' => 404, 'msg' => '请安装后再登录...');
+        echo json_encode($result,JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+	
 	// sql防注入
     if(
         preg_match("/[\'.,:;*?~`!@#$%^&+=)(<>{}]|\]|\[|\/|\\\|\"|\|/",$user_name) || 
@@ -41,7 +50,7 @@
     }
 	
     // 过滤参数
-    if(empty($user_name) || $user_name == '' || $user_name == null || !isset($user_name)){
+    if(empty($user_name) || !isset($user_name)){
         
         $result = array(
 		    'code' => 203,
@@ -59,7 +68,7 @@
 		    'code' => 203,
             'msg' => '账号不能存在特殊字符'
 	    );
-    }else if(empty($user_pass) || $user_pass == '' || $user_pass == null || !isset($user_pass)){
+    }else if(empty($user_pass) || !isset($user_pass)){
         
         $result = array(
 		    'code' => 203,
@@ -94,6 +103,7 @@
         
         // 账号（数据库的账号）
         $username = json_decode(json_encode($checkUserResult))->user_name;
+        
         // 密码（数据库的密码）
         $userpass = json_decode(json_encode($checkUserResult))->user_pass;
         
@@ -106,15 +116,28 @@
             if($user_status == 1){
                 
                 // 正常
+                // 设置SESSION有效期为7天（604800秒）
+                ini_set('session.gc_maxlifetime', 604800);
+
                 // 设置SESSION
+                session_cache_expire(10080);
                 session_start();
                 $_SESSION["yinliubao"] = $user_name;
+                
+                // 保存一个持久的COOKIE，用于识别用户
+                $cookie_value = $user_name.'_'.md5(time());
+                setcookie($user_name, $cookie_value, time() + (7 * 24 * 3600), '/'); // 保存7天
                 
                 // 账号、密码都正确、账号状态正常
                 $result = array(
                     'code' => 200,
                     'msg' => '登录成功'
                 );
+                
+                // 登录日志
+                $loginLogFile = "loginlog.txt";
+                $loginLogData = 'Time：' .date('Y-m-d H:i:s'). '，Ip：' .$_SERVER['REMOTE_ADDR']. '，User：' . $user_name . PHP_EOL . '';
+                file_put_contents($loginLogFile, $loginLogData, FILE_APPEND);
             }else{
                 
                 // 停用

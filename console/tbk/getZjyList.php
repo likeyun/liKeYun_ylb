@@ -25,9 +25,6 @@
         
         // 数据库配置
     	include '../Db.php';
-    	
-        // 版本检测
-        include './UpgradeCheck.php';
         
         // 实例化类
     	$db = new DB_API($config);

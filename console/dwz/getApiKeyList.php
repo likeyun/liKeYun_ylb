@@ -16,7 +16,6 @@
     session_start();
     if(isset($_SESSION["yinliubao"])){
         
-        // 已登录
         // 接收参数
     	@$page = $_GET['p']?$_GET['p']:1;
     	

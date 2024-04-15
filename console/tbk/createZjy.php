@@ -26,7 +26,8 @@
         $zjy_ldym = trim($_POST['zjy_ldym']);
         $zjy_dlym = trim($_POST['zjy_dlym']);
         $zjy_goods_img = trim($_POST['zjy_goods_img']);
-        $zjy_goods_link = trim($_POST['zjy_goods_link']);
+        // $zjy_goods_link = trim($_POST['zjy_goods_link']);
+        $zjy_goods_link = ''; // // 功能不稳定，下线，用空白内容代替
         $zjy_create_user = trim($_SESSION["yinliubao"]);
         
         // 过滤参数

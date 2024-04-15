@@ -19,12 +19,22 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">'+res.user_name+' <span onclick="exitLogin();" class="exitLogin">退出</span></div>'
+                );
+                $(".left .account").html($account);
                 initialize_Login('login',res.user_admin)
             }else{
                 
                 // 未登录
-                $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">未登录</div>'
+                );
+                $(".left .account").html($account);
                 initialize_Login('unlogin');
             }
         },
@@ -138,12 +148,6 @@ function initialize_creatApiKey(){
     $("#apikey_ip").val('');
     // 默认为1年后到期
     $("#apikey_expire").val((new Date().getFullYear()+1) + '-' + (new Date().getMonth()+1) + '-' + (new Date().getDate()));
-    hideResult();
-}
-
-// 初始化（checkApiKey）
-function initialize_checkApiKey(){
-    $("#apikey_check").val('');
     hideResult();
 }
 

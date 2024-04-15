@@ -17,8 +17,10 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
         $user_id = trim($_GET['user_id']);
+        
+        // 当前登录的用户
+        $LoginUser = $_SESSION["yinliubao"];
         
         // 过滤参数
         if(empty($user_id) || !isset($user_id)){
@@ -37,21 +39,25 @@
         	$db = new DB_API($config);
         
         	// 获取当前user_id的详情
-            $getuserInfoResult = $db->set_table('huoma_user')->findAll(
+            $getUserInfo = $db->set_table('huoma_user')->findAll(
     	        $conditions = ['user_id'=>$user_id],
     	        $order = null,
-    	        $fields = 'user_id,user_name,user_email,user_mb_ask,user_mb_answer,user_status,user_beizhu',
+    	        $fields = 'user_id,user_name,user_email,user_mb_ask,user_mb_answer,user_status,user_beizhu,user_group',
     	        $limit = null
     	    );
+    	    
+    	    // 获取当前登录用户的账号权限
+            $LoginUserAdmin = $db->set_table('huoma_user')->find(['user_name'=>$LoginUser])['user_admin'];
             
             // 返回数据
-            if($getuserInfoResult && $getuserInfoResult > 0){
+            if($getUserInfo){
                 
                 // 有结果
                 $result = array(
-        		    'userInfo' => $getuserInfoResult,
+        		    'userInfo' => $getUserInfo,
         		    'code' => 200,
-        		    'msg' => '获取成功'
+        		    'msg' => '获取成功',
+        		    'user_admin' => $LoginUserAdmin
     		    );
             }else{
                 

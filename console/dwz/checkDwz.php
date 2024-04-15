@@ -17,18 +17,17 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
-    	$dwz_key = trim($_POST['dwz_key']);
+    	$dwz_keyword = trim($_GET['keyword']);
     	
         // 当前登录的用户
         $LoginUser = $_SESSION["yinliubao"];
         
         // 过滤参数
-    	if(empty($dwz_key) || !isset($dwz_key)){
+    	if(!isset($dwz_keyword) || empty($dwz_keyword)){
     	    
     	    $result = array(
     		    'code' => 203,
-    		    'msg' => '请输入你要查询的短网址Key'
+    		    'msg' => '请输入你要查询的短网址标题关键词'
     		);
     	}else{
     	    
@@ -39,19 +38,18 @@
         	$db = new DB_API($config);
         
         	// 获取当前登录用户创建的短网址
-        	$getdwzList = $db->set_table('huoma_dwz')->find([
-        	    'dwz_creat_user' => $LoginUser,
-        	    'dwz_key' => $dwz_key
-        	]);
+            // 根据标题或Key查询
+            $searchDwzSQL = "SELECT * FROM huoma_dwz WHERE dwz_title LIKE '%$dwz_keyword%' OR dwz_key LIKE '%$dwz_keyword%' AND dwz_creat_user = '$LoginUser'";
+            $searchDwzSQLResult = $db->set_table('huoma_dwz')->findSql($searchDwzSQL);
         	
             // 判断获取结果
-        	if($getdwzList && $getdwzList > 0){
+        	if($searchDwzSQLResult){
         	    
-        	    // 获取成功
+        	    // 执行SQL成功
         		$result = array(
-        		    'dwzList' => $getdwzList,
+        		    'dwzList' => $searchDwzSQLResult,
         		    'code' => 200,
-        		    'msg' => '获取成功'
+        		    'msg' => '查询成功'
         		);
         	}else{
         	    
@@ -68,7 +66,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录过期'
+            'msg' => '未登录'
 		);
     }
 

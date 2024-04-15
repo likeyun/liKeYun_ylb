@@ -7,6 +7,10 @@
      * 202 失败
      * 203 空值
      * 204 无结果
+     * 程序用途：获取群活码详情
+     * 最后维护日期：2023-06-03
+     * 作者：TANKING
+     * 博客：https://segmentfault.com/u/tanking
      */
 
 	// 页面编码
@@ -18,10 +22,10 @@
         
         // 已登录
         // 接收参数
-        $qun_id = trim($_GET['qun_id']);
+        $qun_id = trim(intval($_GET['qun_id']));
         
         // 过滤参数
-        if(empty($qun_id) || $qun_id == '' || $qun_id == null || !isset($qun_id)){
+        if(empty($qun_id) || !isset($qun_id)){
             
             // 非法请求
             $result = array(
@@ -36,25 +40,21 @@
         	// 实例化类
         	$db = new DB_API($config);
         
-        	// 数据库huoma_qun表
-        	$huoma_qun = $db->set_table('huoma_qun');
-        
-        	// 执行查询（查询当前qun_id的详情）
-        	$where_QunInfo = ['qun_id'=>$qun_id];
-            $find_QunInfo = $huoma_qun->find($where_QunInfo);
+        	// 执行SQL
+            $getQumhmInfo = $db->set_table('huoma_qun')->find(['qun_id'=>$qun_id]);
             
-            // 返回数据
-            if($find_QunInfo && $find_QunInfo > 0){
+            // 执行结果
+            if($getQumhmInfo && $getQumhmInfo > 0){
                 
-                // 有结果
+                // 获取成功
                 $result = array(
-        		    'qunInfo' => $find_QunInfo,
+        		    'qunInfo' => $getQumhmInfo,
         		    'code' => 200,
         		    'msg' => '获取成功'
     		    );
             }else{
                 
-                // 无结果
+                // 获取失败
                 $result = array(
         		    'code' => 204,
         		    'msg' => '获取失败'

@@ -21,7 +21,7 @@
         $kf_id = trim($_GET['kf_id']);
         
         // 过滤参数
-        if(empty($kf_id) || $kf_id == '' || $kf_id == null || !isset($kf_id)){
+        if(empty($kf_id) || !isset($kf_id)){
             
             // 非法请求
             $result = array(

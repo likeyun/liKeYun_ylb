@@ -17,11 +17,10 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	$user_id = trim($_GET['user_id']);
     	
         // 过滤参数
-        if(empty($user_id) || $user_id == '' || $user_id == null || !isset($user_id)){
+        if(empty($user_id) || !isset($user_id)){
             
             $result = array(
 			    'code' => 203,
@@ -37,16 +36,12 @@
         
         	// 实例化类
         	$db = new DB_API($config);
-        
-        	// 数据库huoma_user表
-        	$huoma_user = $db->set_table('huoma_user');
         	
             // 验证当前登录用户是否有管理员权限
-            $getLoginUserAdmin = ['user_name'=>$LoginUser];
-            $getLoginUserAdminResult = $huoma_user->find($getLoginUserAdmin);
-            $user_admin = json_decode(json_encode($getLoginUserAdminResult))->user_admin;
-            $user_name = json_decode(json_encode($getLoginUserAdminResult))->user_name;
-            $user_id_bythisLoginUser = json_decode(json_encode($getLoginUserAdminResult))->user_id;
+            $checkUser = $db->set_table('huoma_user')->find(['user_name' => $LoginUser]);
+            $user_admin = json_decode(json_encode($checkUser))->user_admin;
+            $user_name = json_decode(json_encode($checkUser))->user_name;
+            $user_id_bythisLoginUser = json_decode(json_encode($checkUser))->user_id;
             
             // 判断操作结果
             if($user_admin == 1){
@@ -64,31 +59,22 @@
                 }else{
                     
                     // 否
-                    $delThisUser = ['user_id'=>$user_id];
-                    $delThisUserResult = $huoma_user->delete($delThisUser);
+                    $delUserAccount = $db->set_table('huoma_user')->delete(['user_id' => $user_id]);
                     
-                    // 判断操作结果
-                    if($delThisUserResult){
+                    // 操作结果
+                    if($delUserAccount){
                         
                         // 删除成功
                         $result = array(
         			        'code' => 200,
-                            'msg' => '删除成功'
+                            'msg' => '已删除'
         		        );
                     }else{
                         
                         // 删除失败
-                        $errorInfo = json_decode(json_encode($delThisUserResult,true))[2];
-                        if(!$errorInfo){
-                        
-                            // 如果没有报错信息
-                            $errorInfo = '未知';
-                        }
-                        
-                        // 删除失败
                         $result = array(
                             'code' => 202,
-                            'msg' => '删除失败，原因：'.$errorInfo
+                            'msg' => '删除失败'
                         );
                     }
                 }
@@ -107,7 +93,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录失效'
+            'msg' => '未登录'
 		);
     }
 

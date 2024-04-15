@@ -1,165 +1,204 @@
-<?php
-
-// 页面编码
-header("Content-type:text/html;charset=utf-8");
-
-// 获取参数
-$key = trim($_GET['key']);
-
-// 过滤参数
-if($key && $key !== ''){
+<html>
+    <head>
+        <meta name="wechat-enable-text-zoom-em" content="true">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="color-scheme" content="light dark">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
+        <link rel="stylesheet" href="../../static/css/common.css">
+        <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+        <script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+    </head>
+    <body>
+        
+    <?php
     
-    // 数据库配置
-    include '../console/Db.php';
+    // 页面编码
+    header("Content-type:text/html;charset=utf-8");
     
-    // 实例化类
-    $db = new DB_API($config);
+    // 获取参数
+    $key = trim($_GET['key']);
     
-    // 目录级别
-    $folderNum = $config['folderNum'];
-
-    // 根据key获取落地域名和qun_id
-    $getQunldym = ['qun_key'=>$key];
-    $getQunldymResult = $db->set_table('huoma_qun')->find($getQunldym);
-    if($getQunldymResult){
+    // 防止SQL注入
+    if(preg_match('/[_\-\/\[\].,:;\'"=+*`~!@#$%^&()]/',$key)){
+       
+        echo warnInfo('温馨提示','该链接不安全，请重新生成！');
+        exit;
+    }
+    
+    if(preg_match('/(select|update|drop|DROP|insert|create|delete|where|join|script)/i',$key)){
+       
+        echo warnInfo('温馨提示','该链接不安全，请重新生成！');
+        exit;
+    }
+    
+    // 过滤参数
+    if($key){
         
-        echo '<title>加载中...</title>';
+        // 数据库配置
+        include '../console/Db.php';
         
-        // 获取成功
-        $qun_ldym = json_decode(json_encode($getQunldymResult))->qun_ldym;
-        $qun_id = json_decode(json_encode($getQunldymResult))->qun_id;
+        // 实例化类
+        $db = new DB_API($config);
         
-        // 301跳转
-        redirectHmPage($folderNum,$qun_ldym,'qun','qid',$qun_id);
-        
-    }else{
-        
-        // 获取失败
-        // 尝试获取客服码
-        // 根据key获取落地域名和kf_id
-        $getKfldym = ['kf_key'=>$key];
-        $getKfldymResult = $db->set_table('huoma_kf')->find($getKfldym);
-        if($getKfldymResult){
+        // 目录级别
+        $folderNum = $config['folderNum'];
+    
+        // 根据key获取群活码信息
+        $getQunInfo = $db->set_table('huoma_qun')->find(['qun_key'=>$key]);
+        if($getQunInfo){
             
             echo '<title>加载中...</title>';
             
             // 获取成功
-            $kf_ldym = json_decode(json_encode($getKfldymResult))->kf_ldym;
-            $kf_id = json_decode(json_encode($getKfldymResult))->kf_id;
-          
-            // 301跳转
-            redirectHmPage($folderNum,$kf_ldym,'kf','kid',$kf_id);
-        
+            $qun_rkym = json_decode(json_encode($getQunInfo))->qun_rkym; // 入口域名
+            $qun_id = json_decode(json_encode($getQunInfo))->qun_id;
+            
+            // 用入口域名跳转
+            redirectHmPage($folderNum,$qun_rkym,'qun','qid',$qun_id);
+            
         }else{
             
-            // 获取失败
-            // 尝试获取渠道码
-            // 根据key获取落地域名和kf_id
-            $getChannelldym = ['channel_key'=>$key];
-            $getChannelldymResult = $db->set_table('huoma_channel')->find($getChannelldym);
-            if($getChannelldymResult){
+            // 根据key获取客服码信息
+            $getKefuInfo = $db->set_table('huoma_kf')->find(['kf_key'=>$key]);
+            if($getKefuInfo){
                 
                 echo '<title>加载中...</title>';
                 
                 // 获取成功
-                $channel_ldym = json_decode(json_encode($getChannelldymResult))->channel_ldym;
-                $channel_id = json_decode(json_encode($getChannelldymResult))->channel_id;
-                
-                // 301跳转
-                redirectHmPage($folderNum,$channel_ldym,'channel','cid',$channel_id);
-                
+                $kf_rkym = json_decode(json_encode($getKefuInfo))->kf_rkym; // 入口域名
+                $kf_id = json_decode(json_encode($getKefuInfo))->kf_id;
+              
+                // 用入口域名跳转
+                redirectHmPage($folderNum,$kf_rkym,'kf','kid',$kf_id);
+            
             }else{
                 
-                // 获取失败
-                // 尝试获取中间页
-                // 根据key获取落地域名和zjy_id
-                $getZjyldym = ['zjy_key'=>$key];
-                $getZjyldymResult = $db->set_table('huoma_tbk')->find($getZjyldym);
-                if($getZjyldymResult){
+                // 根据key获取渠道码信息
+                $getChannelInfo = $db->set_table('huoma_channel')->find(['channel_key'=>$key]);
+                if($getChannelInfo){
                     
                     echo '<title>加载中...</title>';
                     
                     // 获取成功
-                    $zjy_ldym = json_decode(json_encode($getZjyldymResult))->zjy_ldym;
-                    $zjy_id = json_decode(json_encode($getZjyldymResult))->zjy_id;
+                    $channel_rkym = json_decode(json_encode($getChannelInfo))->channel_rkym; // 入口域名
+                    $channel_id = json_decode(json_encode($getChannelInfo))->channel_id;
                     
-                    // 301跳转
-                    redirectHmPage($folderNum,$zjy_ldym,'zjy','zid',$zjy_id);
+                    // 用入口域名跳转
+                    redirectHmPage($folderNum,$channel_rkym,'channel','cid',$channel_id);
                     
                 }else{
                     
-                    // 获取失败
-                    echo '<title>温馨提示</title>';
-                    echo warnningInfo('链接不存在或已被管理员删除');
+                    // 根据key获取中间页信息
+                    $getZjyInfo = $db->set_table('huoma_tbk')->find(['zjy_key'=>$key]);
+                    if($getZjyInfo){
+                        
+                        echo '<title>加载中...</title>';
+                        
+                        // 获取成功
+                        $zjy_rkym = json_decode(json_encode($getZjyInfo))->zjy_rkym; // 入口域名
+                        $zjy_id = json_decode(json_encode($getZjyInfo))->zjy_id;
+                        
+                        // 用入口域名跳转
+                        redirectHmPage($folderNum,$zjy_rkym,'zjy','zid',$zjy_id);
+                        
+                    }else{
+                        
+                        // 根据key获取多项单页信息
+                        $getMultiSPAInfo = $db->set_table('huoma_tbk_mutiSPA')->find(['multiSPA_key'=>$key]);
+                        if($getMultiSPAInfo){
+                            
+                            echo '<title>加载中...</title>';
+                            
+                            // 获取成功
+                            $multiSPA_rkym = json_decode(json_encode($getMultiSPAInfo))->multiSPA_rkym; // 入口域名
+                            $multiSPA_id = json_decode(json_encode($getMultiSPAInfo))->multiSPA_id;
+                            
+                            // 用入口域名跳转
+                            redirectHmPage($folderNum,$multiSPA_rkym,'multiSPA','mid',$multiSPA_id);
+                            
+                        }else{
+                            
+                            // 获取失败
+                            echo warnInfo('温馨提示','链接不存在或已被管理员删除');
+                        }
+                    }
                 }
             }
-        }
-        
-    }
-}else{
-    
-    // 参数为空
-    echo '<title>温馨提示</title>';
-    echo warnningInfo('请求参数为空');
-}
-
-// 跳转到落地页
-function redirectHmPage($folderNum,$ldym,$hmType,$hmidName,$hmid){
-    
-    if($folderNum == 1){
             
-        // 根目录
-        $longUrl = $ldym.'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid;
+        }
     }else{
         
-        // 其他目录
-        $longUrl = $ldym.'/'.redirectURL($folderNum).'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid;
+        // 参数为空
+        echo warnInfo('温馨提示','请求参数为空');
     }
     
-    // 301跳转
-    header('HTTP/1.1 301 Moved Permanently');
-    
-    // 跳转
-    header('Location:'.$longUrl);
-}
-
-// 目录级别
-function redirectURL($folderNum){
-    
-    if($folderNum == 2){
+    // 跳转到落地页
+    function redirectHmPage($folderNum,$rkym,$hmType,$hmidName,$hmid){
         
-        // 二级目录（跟目录下的一个目录）
-        // 假设根目录为wwwroot/
-        // 活码系统代码放在wwwroot/huoma/
-        // 那么/huoma/这个就是二级目录
-        return basename(dirname(dirname(__FILE__)));
-    }else if($folderNum == 3){
+        if($folderNum == 1){
+                
+            // 根目录
+            $longUrl = $rkym.'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid.'&t='.time();
+        }else{
+            
+            // 其他目录
+            $longUrl = $rkym.'/'.redirectURL($folderNum).'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid.'&t='.time();
+        }
         
-        // 三级目录（跟目录下的一个目录里面的一个目录）
-        // 假设根目录名wwwroot/
-        // 活码系统代码放在wwwroot/tool/huoma/
-        // 那么tool/这个就是二级目录，huoma/就是三级目录
-        return basename(dirname(dirname(dirname(__FILE__)))).'/'.basename(dirname(dirname(__FILE__)));
-    }else if($folderNum == 4){
+        // 301跳转
+        header('HTTP/1.1 301 Moved Permanently');
         
-        // 四级目录（跟目录/二级目录/三级目录/四级目录）
-        // 假设根目录名wwwroot/
-        // 活码系统代码放在wwwroot/wx/tool/huoma/
-        // 那么wx/是二级目录，tool/是三级目录，huoma/是四级目录
-        $oneFolder = basename(dirname(dirname(dirname(dirname(__FILE__))))).'/';
-        $twoFolder = basename(dirname(dirname(dirname(__FILE__)))).'/';
-        $threeFolder = basename(dirname(dirname(__FILE__)));
-        return $oneFolder.$twoFolder.$threeFolder;
+        // 跳转
+        header('Location:'.$longUrl);
     }
-}
-
-// 提醒文字
-function warnningInfo($warnningText){
     
-    // 传入$warnningText
-    return '<div id="warnning"><img src="../static/img/warnning.svg" /></div><p id="warnningText">'.$warnningText.'</p>';
+    // 目录级别
+    function redirectURL($folderNum){
+        
+        if($folderNum == 2){
+            
+            // 二级目录（跟目录下的一个目录）
+            // 假设根目录为wwwroot/
+            // 活码系统代码放在wwwroot/huoma/
+            // 那么/huoma/这个就是二级目录
+            return basename(dirname(dirname(__FILE__)));
+        }else if($folderNum == 3){
+            
+            // 三级目录（跟目录下的一个目录里面的一个目录）
+            // 假设根目录名wwwroot/
+            // 活码系统代码放在wwwroot/tool/huoma/
+            // 那么tool/这个就是二级目录，huoma/就是三级目录
+            return basename(dirname(dirname(dirname(__FILE__)))).'/'.basename(dirname(dirname(__FILE__)));
+        }else if($folderNum == 4){
+            
+            // 四级目录（跟目录/二级目录/三级目录/四级目录）
+            // 假设根目录名wwwroot/
+            // 活码系统代码放在wwwroot/wx/tool/huoma/
+            // 那么wx/是二级目录，tool/是三级目录，huoma/是四级目录
+            $oneFolder = basename(dirname(dirname(dirname(dirname(__FILE__))))).'/';
+            $twoFolder = basename(dirname(dirname(dirname(__FILE__)))).'/';
+            $threeFolder = basename(dirname(dirname(__FILE__)));
+            return $oneFolder.$twoFolder.$threeFolder;
+        }
+    }
     
-}
-
-?>
-<link rel="stylesheet" href="../static/css/common.css">
+    // 提醒文字
+    function warnInfo($title,$warnText){
+        
+        return '
+        <title>'.$title.'</title>
+        <div id="warnning">
+            <img src="../../../static/img/warn.png" />
+        </div>
+        <p id="warnText">'.$warnText.'</p>';
+    }
+    
+    ?>
+    
+    </body>
+</html>

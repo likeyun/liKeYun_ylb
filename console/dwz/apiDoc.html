@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>引流宝</title>
+	<title></title>
 	<meta charset="utf-8">
-	<!--公共样式-->
 	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-	<!--整个项目的样式-->
-	<link rel="stylesheet" href="../../static/css/hm.css">
-	<!--网页标题图标-->
+	<link rel="stylesheet" href="../../static/css/ylb.css">
 	<link rel="shortcut icon" href="../../static/img/logo.png">
-	<!--公共JS-->
 	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
-	<!--API授权列表JS-->
 	<script type="text/javascript" src="./apiDoc.js"></script> 
 </head>
 <body>
@@ -30,47 +25,109 @@
 			    <div class="logo"></div>
 			</a>
 
-			<!-- LIST -->
+			<!-- 导航 -->
 			<ul>
-				<li><a href="../index/">首页</a></li>
-				<li><a href="../qun/">群活码</a></li>
-				<li><a href="../kf/">客服码</a></li>
-				<li><a href="../channel/">渠道码</a></li>
-				<li><a href="../dwz/" class="selected">短网址</a></li>
-				<li><a href="../tbk/">淘宝客</a></li>
-				<li><a href="../config/">配置中心</a></li>
-				<li><a href="../account/">账号管理</a></li>
+			    <a href="../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-dwz-dark"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/">
+				<li class="nav-li">
+				    <i class="icon i-config"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
 			</ul>
 
 			<!-- 账号 -->
-			<div class="account" id="accountInfo"></div>
+			<div class="account">加载中...</div>
 		    
 		</div>
 	</div>
 
 	<!-- 右侧 -->
 	<div id="right">
-		<h4>
-		    <a href="./" class="mianbaoxie_a">短网址</a> / 开放API / 开发文档
+	    
+		<h3>
+		    <a href="./" class="mianbaoxie_a">短网址</a> ➜ <span class="mbx">开放API</span> ➜ <span class="mbx">开发文档</span>
 		    <span id="channel_title" style="float:right;"></span>
-		</h4>
+		</h3>
+		
 		<div class="data-card">
 			<!-- 按钮区域 -->
 			<div class="button-view" id="button-view" style="display:none;">
+			    <a href="../dwz/"><div class="back-lastpage"></div></a>
 			    <a href="./apiDoc.html"><button class="default-btn" style="margin-left:5px;">开发文档</button></a>
-			    <a href="./openApi.html"><button class="tint-btn" style="margin-left:5px;">返回开放API</button></a>
-			    <a href="../dwz/"><button class="tint-btn" style="margin-left:5px;">返回短网址</button></a>
 			</div>
 
 			<!-- 列表区域 -->
 			<div class="data-list" style="display:none;">
 			    
 				<!--请求地址-->
-				<span class="text">请求地址（POST JSON字符串）</span>
+				<span class="text">请求地址（POST JSON对象）</span>
 				<span class="reqUrl"></span>
 				
 				<!--请求参数-->
-				<span class="text">请求参数</span>
+				<span class="text">请求参数（将以下参数构建JSON对象）</span>
 				<div class="reqParams">
                 <table class="table table-striped">
                 <thead>

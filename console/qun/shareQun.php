@@ -17,11 +17,10 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
         $qun_id = trim($_GET['qun_id']);
         
         // 过滤参数
-        if(empty($qun_id) || $qun_id == '' || $qun_id == null || !isset($qun_id)){
+        if(empty($qun_id) || !isset($qun_id)){
             
             // 非法请求
             $result = array(
@@ -36,37 +35,37 @@
         	// 实例化类
         	$db = new DB_API($config);
         
-        	// 数据库huoma_qun表
-        	$huoma_qun = $db->set_table('huoma_qun');
-        
-        	// 执行查询（查询当前qun_id的详情）
-        	$where_QunInfo = ['qun_id'=>$qun_id];
-            $find_QunInfo = $huoma_qun->find($where_QunInfo);
+        	// 查询当前qun_id的详情
+            $getQunInfo = $db->set_table('huoma_qun')->find(['qun_id'=>$qun_id]);
             
             // 返回数据
-            if($find_QunInfo && $find_QunInfo > 0){
+            if($getQunInfo){
                 
                 // 入口域名
-                $qun_rkym = json_decode(json_encode($find_QunInfo))->qun_rkym;
+                $qun_rkym = json_decode(json_encode($getQunInfo))->qun_rkym;
                
                 // 短链域名
-                $qun_dlym = json_decode(json_encode($find_QunInfo))->qun_dlym;
+                $qun_dlym = json_decode(json_encode($getQunInfo))->qun_dlym;
                
                 // 短链Key
-                $qun_key = json_decode(json_encode($find_QunInfo))->qun_key;
+                $qun_key = json_decode(json_encode($getQunInfo))->qun_key;
                 
                 // 生成longUrl
-                $longUrl = dirname(dirname(dirname($qun_rkym.$_SERVER["REQUEST_URI"]))).'/common/qun/redirect/?qid='.$qun_id;
+                $longUrl = dirname(dirname(dirname($qun_rkym.$_SERVER["REQUEST_URI"]))).'/common/qun/redirect/?qid=' . $qun_id . '#' . base64_encode($qun_key);
                 
                 // 生成shortUrl
                 $shortUrl = $qun_dlym.'/s/'.$qun_key;
+                
+                // 生成qrcodeUrl
+                $qrcodeUrl = dirname(dirname(dirname($qun_rkym.$_SERVER["REQUEST_URI"]))).'/common/qun/redirect/?qid='.$qun_id.'#'.base64_encode(time());
                 
                 // 有结果
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
         		    'longUrl' => $longUrl,
-        		    'shortUrl' => $shortUrl
+        		    'shortUrl' => $shortUrl,
+        		    'qrcodeUrl' => $qrcodeUrl
     		    );
             }else{
                 

@@ -32,19 +32,29 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
-                initialize_Login('login',res.user_admin)
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">'+res.user_name+' <span onclick="exitLogin();" class="exitLogin">退出</span></div>'
+                );
+                $(".left .account").html($account);
+                initialize_Login('login',res.user_admin);
             }else{
                 
                 // 未登录
-                $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">未登录</div>'
+                );
+                $(".left .account").html($account);
                 initialize_Login('unlogin');
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            errorPage('data-list','getLoginStatus.php');
         }
     });
 }
@@ -62,6 +72,7 @@ function initialize_Login(loginStatus,adminStatus){
             
             // 隐藏button-view
             $('#button-view').css('display','none');
+            
             // 显示loadding
             warningPage('没有管理权限')
         }
@@ -251,8 +262,15 @@ function getApiKeyList(pageNum) {
                 
             }else{
                 
+                // 未登录
+                if(res.code == 201){
+                    
+                    // 跳转到登录页面
+                    jumpUrl('../login/');
+                }
+                
                 // 非200状态码
-                warningPage(res.msg)
+                noData(res.msg);
                 
             }
             
@@ -260,7 +278,7 @@ function getApiKeyList(pageNum) {
       error: function(){
         
         // 发生错误
-        errorPage('服务器发生错误！')
+        errorPage('data-list','getApiKeyList.php');
       },
     });
 }
@@ -290,7 +308,7 @@ function exitLogin(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            errorPage('data-list','exitLogin.php');
         }
     });
 }
@@ -300,7 +318,7 @@ function creatApiKey(){
     
     $.ajax({
         type: "POST",
-        url: "./creatApiKey.php",
+        url: "./createApiKey.php",
         data: $('#creatApiKey').serialize(),
         success: function(res){
             
@@ -324,7 +342,7 @@ function creatApiKey(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('createApiKey.php');
         }
     });
 }
@@ -333,13 +351,14 @@ function creatApiKey(){
 function askDelApiKey(apikey_id){
     
     // 将群id添加到button的delApiKey函数用于传参执行删除
-    $('#DelApiKeyModal .modal-footer').html('<button type="button" class="default-btn" onclick="delApiKey('+apikey_id+');">确定删除</button>')
+    $('#DelApiKeyModal .modal-footer').html(
+        '<button type="button" class="default-btn" onclick="delApiKey('+apikey_id+');">确定删除</button>'
+    )
 }
 
 // 删除ApiKey
 function delApiKey(apikey_id){
     
-    // 删除
     $.ajax({
         type: "GET",
         url: "./delApiKey.php?apikey_id="+apikey_id,
@@ -348,22 +367,24 @@ function delApiKey(apikey_id){
             // 成功
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
-                // 隐藏modal
+                // 成功
+                // 隐藏Modal
                 hideModal("DelApiKeyModal");
                 
                 // 重新加载短网址列表
                 setTimeout('getApiKeyList()', 500);
+                
+                showNotification(res.msg);
             }else{
                 
                 // 操作反馈（操作失败）
-                showErrorResult(res.msg)
+                showNotification(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showNotification('服务器发生错误');
         }
     });
 }
@@ -371,7 +392,6 @@ function delApiKey(apikey_id){
 // 获取ApiKey详情
 function getApiKeyInfo(apikey_id){
     
-    // 根据apikey_id获取ApiKey详情
     $.ajax({
         type: "GET",
         url: "./getApiKeyInfo.php?apikey_id="+apikey_id,
@@ -420,7 +440,7 @@ function getApiKeyInfo(apikey_id){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('getApiKeyInfo.php');
         }
     });
 }
@@ -437,24 +457,24 @@ function editApiKey(){
             // 成功
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
+                // 成功
                 showSuccessResult(res.msg)
                 
-                // 隐藏EditApiKeyModal modal
+                // 隐藏Modal
                 setTimeout('hideModal("EditApiKeyModal")', 500);
                 
                 // 重新加载ApiKey列表
                 setTimeout('getApiKeyList();', 500);
             }else{
                 
-                // 操作反馈（操作失败）
+                // 失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('editApiKey.php');
         }
     });
 }
@@ -462,7 +482,6 @@ function editApiKey(){
 // 查询ApiKey
 function checkApiKey() {
     
-    // AJAX获取
     $.ajax({
         type: "POST",
         url: './checkApiKey.php',
@@ -487,10 +506,9 @@ function checkApiKey() {
             );
             $("#right .data-list thead").html($thead_HTML);
             
-            // 状态码为200代表有数据
+            // 200状态码
             if(res.code == 200){
                 
-                // 如果有数据
                 // （1）序号
                 var xuhao = 1;
                 
@@ -526,6 +544,7 @@ function checkApiKey() {
                 
                 // （9）状态
                 var apikey_status = res.apikeyInfo.apikey_status;
+                
                 if(apikey_status == '1'){
                     
                     // 正常
@@ -569,36 +588,75 @@ function checkApiKey() {
                 );
                 $("#right .data-list tbody").html($tbody_HTML);
                 
-                setTimeout('hideModal("checkApiKeyModal")', 300);
+                showNotification('查到相关结果');
                 
             }else{
                 
                 // 非200状态码
-                showErrorResult(res.msg)
+                showNotification(res.msg);
             }
             
       },
       error: function(){
         
         // 发生错误
-        errorPage('服务器发生错误！')
+        showNotification('服务器发生错误');
       },
     });
 }
 
+// 显示全局信息提示弹出提示
+function showNotification(message) {
+    
+    // 获取文案
+	$('#notification-text').text(message);
+	
+    // 计算文案长度并设置宽度
+	var textLength = message.length * 25;
+	$('#notification-text').css('width',textLength+'px');
+	
+    // 距离顶部的高度
+	$('#notification').css('top', '25px');
+	
+    // 延迟隐藏
+	setTimeout(function() {
+		hideNotification();
+	}, 3000);
+}
+
+// 隐藏全局信息提示弹出提示
+function hideNotification() {
+	var $notificationContainer = $('#notification');
+	$notificationContainer.css('top', '-100px');
+}
+
 // 随机生成用户名
 function randUserName(){
+    
     $('#apikey_user').val(creatPageToken(8));
 }
 
 // 随机生成Apikey
 function randApiKey(){
+    
     $('#apikey_edit').val(creatPageToken(10));
 }
 
 // 随机生成ApiSecrete
 function randApiSecrete(){
+    
     $('#apikey_secrete_edit').val(creatPageToken(28));
+}
+
+// 暂无数据
+function noData(text){
+    
+    $("#right .data-list").css('display','none');
+    $("#right .data-card .loading").html(
+    '<img src="../../static/img/noData.png" class="noData" /><br/>' +
+    '<p class="noDataText">'+text+'</p>'
+    );
+    $("#right .data-card .loading").css('display','block');
 }
 
 // 顶部操作结果信息提示框
@@ -627,23 +685,41 @@ function creatPageToken(length) {
 function hideModal(modal_Id){
     $('#'+modal_Id+'').modal('hide');
 }
+
 // 显示Modal（传入节点id决定隐藏哪个Modal）
 function showModal(modal_Id){
     $('#'+modal_Id+'').modal('show');
 }
 
-// 错误页面
-function errorPage(text){
-    $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html('<img src="../../static/img/errorIcon.png"/><br/><p>'+text+'</p>');
-    $("#right .data-card .loading").css('display','block');
+// 排查提示1
+function showErrorResultForphpfileName(phpfileName){
+    $('#app .result').html('<div class="error">服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+phpfileName+'的返回信息进行排查！<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a></div>');
+    $('#app .result .error').css('display','block');
+    setTimeout('hideResult()', 3000);
 }
 
-// 提醒页面
-function warningPage(text){
-    $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html('<img src="../../static/img/warningIcon.png"/><br/><p>'+text+'</p>');
-    $("#right .data-card .loading").css('display','block');
+// 排查提示2
+function errorPage(from,text){
+    
+    if(from == 'data-list'){
+        
+        $("#right .data-list").css('display','none');
+        $("#right .data-card .loading").html(
+            '<img src="../../static/img/errorIcon.png"/><br/>' +
+            '<p>服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+text+'的返回信息进行排查！</p>' +
+            '<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a>'
+        );
+        $("#right .data-card .loading").css('display','block');
+        
+    }else if(from == 'qrcode-list'){
+
+        $("#qunQrcodeListModal table").html(
+            '<img src="../../static/img/errorIcon.png"/><br/>' +
+            '<p>服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+text+'的返回信息进行排查！</p>' +
+            '<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a>'
+        );
+    }
+    
 }
 
 // 打开操作反馈（操作成功）
@@ -681,12 +757,6 @@ function initialize_creatApiKey(){
     $("#apikey_ip").val('');
     // 默认为1年后到期
     $("#apikey_expire").val((new Date().getFullYear()+1) + '-' + (new Date().getMonth()+1) + '-' + (new Date().getDate()));
-    hideResult();
-}
-
-// 初始化（checkApiKey）
-function initialize_checkApiKey(){
-    $("#apikey_check").val('');
     hideResult();
 }
 

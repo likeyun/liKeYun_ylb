@@ -17,11 +17,10 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	$data_ip = trim($_POST['data_ip']);
     	
         // 过滤参数
-        if(empty($data_ip) || $data_ip == '' || $data_ip == null || !isset($data_ip)){
+        if(empty($data_ip) || !isset($data_ip)){
             
             $result = array(
 			    'code' => 203,
@@ -38,19 +37,17 @@
         	// 实例化类
         	$db = new DB_API($config);
 
-            // 验证当前要删除的data_ip的发布者是否为当前登录的用户
-            $getdata_ip_add_user= ['data_ip'=>$data_ip];
-            $getdata_ip_add_user_Result = $db->set_table('huoma_channel_accessdenied')->find($getdata_ip_add_user);
-            $add_user = json_decode(json_encode($getdata_ip_add_user_Result))->add_user;
+            // 验证用户
+            $checkUser = $db->set_table('huoma_channel_accessdenied')->find(['data_ip' => $data_ip]);
+            $add_user = json_decode(json_encode($checkUser))->add_user;
             
             // 判断操作结果
             if($add_user == $LoginUser){
                 
-                // 用户一致：允许操作
-                $delip = ['data_ip'=>$data_ip];
-                $delipResult = $db->set_table('huoma_channel_accessdenied')->delete($delip);
+                // 允许操作
+                $delipResult = $db->set_table('huoma_channel_accessdenied')->delete(['data_ip' => $data_ip]);
                 
-                // 判断操作结果
+                // 操作结果
                 if($delipResult){
                     
                     // 已解封
@@ -61,26 +58,19 @@
                     
                 }else{
                     
-                    // 解析报错信息
-                    $errorInfo = json_decode(json_encode($delipResult,true))[2];
-                    if(!$errorInfo){
-                        
-                        // 如果没有报错信息
-                        $errorInfo = '未知';
-                    }
                     // 删除失败
                     $result = array(
         			    'code' => 202,
-                        'msg' => '解封失败，原因：'.$errorInfo
+                        'msg' => '解封失败'
         		    );
                 }
                 
             }else{
                 
-                // 用户不一致：禁止操作
+                // 禁止操作
                 $result = array(
         			'code' => 202,
-                    'msg' => '解封失败：无法获取到数据，原因：数据已被删除、数据不存在、获取数据失败等...'
+                    'msg' => '解封失败：禁止操作！'
         		);
             }
         }
@@ -90,7 +80,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录失效'
+            'msg' => '未登录'
 		);
     }
 

@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>引流宝</title>
+	<title></title>
 	<meta charset="utf-8">
-	<!--公共样式-->
 	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-	<!--整个项目的样式-->
-	<link rel="stylesheet" href="../../static/css/hm.css">
-	<!--网页标题图标-->
+	<link rel="stylesheet" href="../../static/css/ylb.css">
 	<link rel="shortcut icon" href="../../static/img/logo.png">
-	<!--公共JS-->
 	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
-	<!--配置中心JS-->
 	<script type="text/javascript" src="./config.js"></script>
+	<style>
+	
+    /* 选中样式 */
+    .usergroup_selected {
+        color: rgb(59,94,225);
+        background: rgba(59,94,225,0.1);
+        cursor: pointer;
+        padding: 5px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+        float: left;
+    }
+
+    /* 未选中样式 */
+    .unselected {
+        background-color: #eee;
+        color: #666;
+        cursor: pointer;
+        padding: 5px 12px;
+        border-radius: 100px;
+        font-size: 14px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+        float: left;
+    }
+  </style>
 </head>
 <body>
 
@@ -30,43 +53,136 @@
 			    <div class="logo"></div>
 			</a>
 
-			<!-- LIST -->
+			<!-- 导航 -->
 			<ul>
-				<li><a href="../index/">首页</a></li>
-				<li><a href="../qun/">群活码</a></li>
-				<li><a href="../kf/">客服码</a></li>
-				<li><a href="../channel/">渠道码</a></li>
-				<li><a href="../dwz/">短网址</a></li>
-				<li><a href="../tbk/">淘宝客</a></li>
-				<li id="configCenter"><a href="../config/" class="selected">配置中心</a></li>
-				<li><a href="../user/">账号管理</a></li>
+			    <a href="../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/">
+				<li class="nav-li">
+				    <i class="icon i-dwz"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-config-dark"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
 			</ul>
 
 			<!-- 账号 -->
-			<div class="account" id="accountInfo"></div>
+			<div class="account">加载中...</div>
 		    
 		</div>
 	</div>
 
 	<!-- 右侧 -->
 	<div id="right">
-		<h4>配置中心</h4>
+	    
+		<h3>配置中心</h3>
 		<div class="data-card">
+		    
 			<!-- 按钮区域 -->
 			<div class="button-view" id="button-view" style="display:none;">
-				<button class="default-btn" data-toggle="modal" data-target="#addDomainNameModal" onclick="initialize_addDomainName();">添加域名</button>
-			</div>
+			    
+			    <!--flex布局按钮容器-->
+    			<div class="flex-button-view">
+    			    
+    			    <!--导航-->
+    			    <div class="button-daohang">
+    			        <button class="default-btn">域名库</button>
+    			        <button class="tint-btn" 
+				            data-toggle="modal" 
+				            data-target="#domainNameCheckConfigModal" 
+				            style="margin-left: 5px;"
+				            onclick="getDomainNameCheckConfigInfo();">域名检测
+				        </button>
+				        <a href="notification.html"><button class="tint-btn" style="margin-left: 5px;">通知渠道</button></a>
+    			    </div>
+    			    
+    			    <!--功能-->
+    			    <div class="button-gongneng">
+    			        <button class="tint-btn" 
+				            data-toggle="modal" 
+				            data-target="#addDomainNameModal" 
+				            style="margin-left: 5px;"
+				            onclick="initialize_addDomainName();">添加域名
+				        </button>
+    			    </div>
+    			</div>
 
+			</div>
+			
 			<!-- 列表区域 -->
 			<div class="data-list">
+			    
 				<table class="table">
 				    <thead></thead>
 				    <tbody></tbody>
 				</table>
 			</div><!-- data-list -->
+			
 			<p class="loading" style="display: none;"></p>
+			
 			<!-- 分页 -->
 			<div class="fenye"></div>
+			
 		</div><!-- data-card -->
 	</div><!-- right -->
 
@@ -74,11 +190,13 @@
     <div class="modal fade" id="addDomainNameModal">
         <div class="modal-dialog">
             <div class="modal-content">
+                
                     <!-- 头部 -->
                     <div class="modal-header">
                         <h4 class="modal-title">添加域名</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div><!-- modal-header -->
+                    
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="addDomainName">
@@ -91,9 +209,13 @@
                             <option value="1">入口域名</option>
                             <option value="2">落地域名</option>
                             <option value="3">短链域名</option>
+                            <option value="4" title="应用场景：域名被封就启用备用域名">备用域名</option>
+                            <option value="5" title="例如阿里云OSS，腾讯云COS">对象存储域名</option>
+                            <option value="6">轮询域名</option>
                         </select>
                         </form>
                     </div><!-- modal-body -->
+                    
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
@@ -104,35 +226,128 @@
                             <button type="button" class="default-btn" onclick="addDomainName();">立即添加</button>
                         </div>
                     </div>
+                    
                 </div><!-- modal-footer -->
+                
                 <!-- 操作反馈 -->
                 <div class="result"></div>
+                
             </div><!-- modal-content -->
         </div><!-- modal-dialog -->
-    </div><!-- CreatQunHm -->
-  	
+    </div><!-- addDomainNameModal -->
+    
+    <!-- 添加授权用户组 -->
+    <div class="modal fade" id="addUsergroupModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                    <div class="modal-header">
+                        <h4 class="modal-title">添加授权用户组</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <span class="text" style="margin-bottom: 10px;">选择一个或多个用户组</span>
+                        <span id="selectedTags"></span>
+                        <span id="availableTags"></span>
+                        <input type="hidden" class="newUsergroupArray" />
+                        <input type="hidden" class="domain_id" />
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=config" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="setUsergroup()">立即添加</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+    </div><!-- addDomainNameModal -->
+    
+    <!-- 域名检测 -->
+    <div class="modal fade" id="domainNameCheckConfigModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">域名检测</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="editDomainNameCheckConfig">
+                            
+                            <p style="color:#f00;">因域名检测接口失效，域名检测功能已经不能正常使用了，请保持关闭状态！如果你有接口，可以找我付费更新这个功能自用。<br/><a href="../../static/img/jiaQun.jpg">👉 联系我</a></p>
+                            
+                            <span class="text">开启状态</span>
+                            <select name="domainCheck_status" class="form-control" id="domainCheck_status"></select>
+                            
+                            <span class="text">通知渠道</span>
+                            <select name="domainCheck_channel" class="form-control" id="domainCheck_channel" title="检测到落地域名被拦截将给你发送通知"></select>
+                            
+                            <span class="text">备用域名</span>
+                            <select name="domainCheck_byym" class="form-control" id="domainCheck_byym" title="检测到落地域名被拦截将会跳转到此域名">
+                            </select>
+                        </form>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=config" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="editDomainNameCheckConfig();">提交设置</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- defaultDomainNameModal -->
   	
   	<!-- 确定删除域名 -->
     <div class="modal fade" id="DelDomainModal">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
+                
                 <!-- 头部 -->
                 <div class="modal-header">
                     <h4 class="modal-title">删除域名</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div><!-- modal-header -->
+                
                 <!-- 内容 -->
                 <div class="modal-body">
                     已创建的活码只要不删除域名解释不影响使用！
                 </div><!-- modal-body -->
+                
                 <!-- 底部操作 -->
                 <div class="modal-footer"></div><!-- modal-footer -->
+                
                 <!-- 操作反馈 -->
                 <div class="result"></div>
+                
             </div><!-- modal-content -->
         </div><!-- modal-dialog -->
     </div><!-- DelDomainModal -->
 
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
+    
 </div><!-- app -->
 
 

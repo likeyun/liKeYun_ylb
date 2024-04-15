@@ -9,7 +9,6 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="format-detection" content="telephone=no">
         <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
-        <!--样式文件-->
         <link rel="stylesheet" href="../../static/css/common.css">
         <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     </head>
@@ -17,14 +16,22 @@
     
 <?php
 
+    /**
+     * 标题：群活码公共页面
+     * 维护：2024年1月3日
+     * 作者：TANKING
+     * 博客：https://segmentfault.com/u/tanking
+     * 该软件遵循MIT开源协议。
+     */
+     
     // 页面编码
     header("Content-type:text/html;charset=utf-8");
     
-    // 获取参数（intval函数用于过滤特殊字符防止SQL注入）
+    // 获取参数
     $qid = trim(intval($_GET['qid']));
     
     // 过滤参数
-    if($qid && $qid !== ''){
+    if($qid){
         
         // 数据库配置
         include '../../console/Db.php';
@@ -33,45 +40,52 @@
         $db = new DB_API($config);
         
         // 获取群活码信息
-        $getQunInfo = ['qun_id'=>$qid];
-        $getQunInfoResult = $db->set_table('huoma_qun')->find($getQunInfo);
+        $getQunInfoResult = $db->set_table('huoma_qun')->find(['qun_id' => $qid]);
         
         // 验证该群活码是否存在
-        if($getQunInfoResult && $getQunInfoResult > 0){
+        if($getQunInfoResult){
             
-            // 存在
             // 解析所需字段
             $qun_title = getSqlData($getQunInfoResult,'qun_title');
             $qun_status = getSqlData($getQunInfoResult,'qun_status');
             $qun_qc = getSqlData($getQunInfoResult,'qun_qc');
+            $qun_pv = getSqlData($getQunInfoResult,'qun_pv');
             $qun_kf = getSqlData($getQunInfoResult,'qun_kf');
             $qun_kf_status = getSqlData($getQunInfoResult,'qun_kf_status');
             $qun_safety = getSqlData($getQunInfoResult,'qun_safety');
             $qun_beizhu = getSqlData($getQunInfoResult,'qun_beizhu');
+            $qun_notify = getSqlData($getQunInfoResult,'qun_notify');
             
             // 判断该群活码的状态
             if($qun_status == 1){
                 
                 // 当前状态：正常
-                // 更新当前群活码的访问量
-                updateThisQunHmPv($db,$qid);
+                // --------------
+                // 更新当前群活码的总访问量
+                updateQunPv($db,$qid,$qun_pv);
                 
-                // 更新数据统计表（首页展示各时段数据）
-                updateCountChartPv($db);
-
-                // 占位（顶部扫码安全提示固定定位导致的空缺，用这个占位补上）
-                echo '<div id="zhanwei"></div>';
+                // 更新当前群活码的今天访问量
+                updateQunTodayPv($db,$qid);
+                
+                // 更新当前小时的总访问量
+                updateCurrentHourPageView($db,'qun');
+                
+                // 更新群活码今天ip总访问量
+                updateTodayIpNum($db);
                 
                 // 显示符合阈值条件的二维码
                 // 定义一个数组变量用于储存当前qun_id的所有二维码
                 $QrcodeList = array();
                 
                 // 获取当前qun_id的所有二维码
-                $getQrcodeList = ['qun_id'=>$qid];
-                $getQrcodeListResult = $db->set_table('huoma_qun_zima')->findAll($getQrcodeList);
+                $getQrcodeListResult = $db->set_table('huoma_qun_zima')->findAll(['qun_id'=>$qid]);
                 
                 // 判断获取结果
-                if($getQrcodeListResult && $getQrcodeListResult > 0){
+                if($getQrcodeListResult){
+                    
+                    // 占位
+                    // 顶部扫码安全提示固定定位导致的空缺，用这个占位补上
+                    echo '<div id="zhanwei"></div>';
 
                     // 去重（qun_qc == 1才会执行以下代码）
                     if($qun_qc == 1){
@@ -80,7 +94,7 @@
                         if ($_COOKIE[$qid] && !empty($_COOKIE[$qid])) {
                             
                             // 顶部三件套（标题、扫码安全验证提示、备注）
-                            topMsg($qun_title,$qun_safety,$qun_beizhu);
+                            topMsg($qun_title,$qun_safety,'');
                             
                             // 把首次进入页面展示的二维码展示出来
                             // 7天内都是展示这个二维码
@@ -89,7 +103,22 @@
                             // 均不会被老用户查看到，新扫码的用户因为没有缓存
                             // 所以新扫码的人是看到你最后操作的阈值条件去展示二维码
                             // 去重功能开启后，不计算扫码次数
-                            echo '<p id="scanTips">请长按下方二维码进群</p><div id="zm_qrcode"><img src="'.$_COOKIE[$qid].'" /></div>';
+                            if($qun_kf) {
+                                
+                                // 如果上传了客服二维码
+                                // 优先展示客服二维码
+                                $qc_Show = $qun_kf;
+                            }else {
+                               
+                                // 否则使用缓存
+                                $qc_Show = $_COOKIE[$qid];
+                            }
+                            
+                            echo '
+                                <p id="scanTips">请长按下方二维码进群</p>
+                                <div id="zm_qrcode">
+                                    <img src="'.$qc_Show.'" />
+                                </div>';
                             exit;
                         }
                     }
@@ -132,9 +161,13 @@
                             topMsg($qun_title,$qun_safety,$qun_beizhu);
                             
                             // 展示符合阈值条件的群二维码
-                            echo '<p id="scanTips">请长按下方二维码进群</p><div id="zm_qrcode"><img src="'.$zm_qrcode.'" /></div>';
+                            echo '
+                            <p id="scanTips">请长按下方二维码进群</p>
+                            <div id="zm_qrcode">
+                                <img src="'.$zm_qrcode.'" />
+                            </div>';
                             
-                            // 客服（qun_kf_status == 1才会显示客服）
+                            // 客服
                             if($qun_kf_status == 1){
                                 
                                 // 显示一个超链接
@@ -142,8 +175,9 @@
                                 echo '<div style="width:100%;height:50px;"></div>';
                             }
                             
-                            // 更新当前二维码的访问量（仅更新符合当前阈值条件的二维码的访问量）
-                            updateThisQrcodePv($db,$zm_id);
+                            // 更新当前群二维码的访问量
+                            // 注意：仅更新符合当前阈值条件的群二维码访问量
+                            updateQunQrcodePv($db,$zm_id,$zm_pv);
                             
                             // 只需要获取符合当前阈值条件的第一个结果
                             // 所以循环一次就得跳出
@@ -155,15 +189,23 @@
                         }
                     } // foreach ($QrcodeList as $k => $v)
                     
-                    // 当遍历结果为false的时候或者是遍历后的数组<=0的时候
-                    // 简单来说就是不符合以上遍历条件的情况需要显示的内容
+                    // 当遍历结果为false的时候或遍历后的数组<=0的时候
+                    // 即不符合以上遍历条件的情况
+                    // 简单来说就是没有二维码展示了
+                    // 就只能展示下面这些
                     if($foreachResult == false || count($QrcodeForeachList) <= 0){
                         
                         // 暂无符合阈值条件的二维码
-                        echo '<title>温馨提示</title>';
-                        echo warnningInfo('扫码次数已达上限（阈值）');
+                        echo '<script>document.querySelector("#zhanwei").remove();</script>';
+                        echo warnInfo('温馨提示','扫码次数已达上限');
                         
-                        // 客服（qun_kf_status == 1才会显示客服）
+                        // 发送通知
+                        if($qun_notify){
+                            
+                            // 请求推送
+                            sendNotification($qun_notify,"群活码【".$qun_title."】达到阈值上限，请及时更新！",$db);
+                        }
+                        
                         // 这里直接展示客服二维码
                         // 因为是没有符合阈值条件的群二维码
                         // 所以直接展示客服二维码去联系客服了解详细的情况
@@ -181,96 +223,152 @@
                     
                     // 获取不到二维码
                     // 代表群活码上传之后，还没上传群二维码
-                    echo '<title>温馨提示</title>';
-                    echo warnningInfo('管理员暂未上传群二维码');
-                } // if($getQrcodeListResult && $getQrcodeListResult > 0)
+                    echo warnInfo('温馨提示','管理员暂未上传群二维码');
+                } // if($getQrcodeListResult)
             }else{
                 
                 // 当前状态：停用
                 // qun_status !== 1的情况
-                echo '<title>温馨提示</title>';
-                echo warnningInfo('该群已被管理员暂停使用');
+                echo warnInfo('温馨提示','该群已被管理员暂停使用');
             } // if($qun_status == 1)
         }else{
             
             // 不存在
             // 获取不到该qun_id的详情
-            echo '<title>温馨提示</title>';
-            echo warnningInfo('该群不存在或已被管理员删除');
-        } // if($getQunInfoResult && $getQunInfoResult > 0)
+            echo warnInfo('温馨提示','该群不存在或已被管理员删除');
+        } // if($getQunInfoResult)
         
-    } // if($qid && $qid !== '')
+    } // if($qid)
+    
     
     /**
-     * 以下是封装的一些操作函数
-     * 一方面是便于多处调用
-     * 另一方面是保持代码的整洁可读性
+     * 封装的一些操作函数
     **/
-     
-    // 更新数据统计表
-    function updateCountChartPv($db){
+    
+    // 更新群活码今天ip总访问量
+    function updateTodayIpNum($db){
         
-        // 更新数据统计表
-        // 数据库huoma_count表
-        $huoma_count = $db->set_table('huoma_count');
+        // 获取ip地址
+        $getIP = $_SERVER['REMOTE_ADDR'];
         
-        // 先检查一下当前统计表的数据是不是今天的
-        $checkCountData = ['id'=>1];
-        $checkCountDataResult = $huoma_count->find($checkCountData);
+        // 获取今天的ip记录数
+        $getTodayIpNum = $db->set_table('huoma_ip')->find(['ip_create_time'=>date('Y-m-d')]);
         
-        // 统计表第一条数据当前的日期
-        $count_date = json_decode(json_encode($checkCountDataResult))->count_date;
-        
-        // 判断日期是否为今天的
-        if($count_date == date('Y-m-d')){
+        // 如果有记录
+        if($getTodayIpNum){
             
-            // 今天
-            // 更新当前小时的访问量
-            updateThisHourPv($huoma_count);
+            // 查询当前ip是否为今天首次访问
+            $getThisIpISFirstTimeToday = $db->set_table('huoma_ip_temp')->find(['create_date'=>date('Y-m-d'),'ip'=>$getIP,'from_page'=>'qun']);
             
+            // 如果没有记录
+            // 说明这个ip是今天第一次访问
+            if(!$getThisIpISFirstTimeToday){
+                
+                // 将当前ip添加至临时ip表
+                $db->set_table('huoma_ip_temp')->add(['ip'=>$getIP,'create_date'=>date('Y-m-d'),'from_page'=>'qun']);
+                
+                // 然后更新今天的ip记录数
+                $qun_ip = json_decode(json_encode($getTodayIpNum))->qun_ip;
+                $newQun_ip = $qun_ip + 1;
+                $db->set_table('huoma_ip')->update(['ip_create_time'=>date('Y-m-d')],['qun_ip'=>$newQun_ip]);
+            }
         }else{
             
-            // 非今天
-            // （1）将日期更新为今天并且访问量归零
-            // （2）更新当前小时的访问量
-            updateDefault($huoma_count);
+            // 如果没有记录
+            // 将当前ip添加至临时ip表并记录为今天的ip访问
+            $db->set_table('huoma_ip_temp')->add(['ip'=>$getIP,'create_date'=>date('Y-m-d'),'from_page'=>'qun']);
+            
+            // 新增这个ip今天的访问次数
+            $db->set_table('huoma_ip')->add(['qun_ip'=>1,'ip_create_time'=>date('Y-m-d')]);
+        }
+        
+        // 昨天的日期
+        $yesterdayDate = date('Y-m-d',strtotime("yesterday"));
+        
+        // 检查是否存在昨天的ip记录
+        $getYesterdayIp = $db->set_table('huoma_ip_temp')->find(['create_date'=>$yesterdayDate,'from_page'=>'qun']);
+        
+        // 如果有记录
+        if($getYesterdayIp){
+            
+            // 清理昨天日期的临时ip
+            $db->set_table('huoma_ip_temp')->delete(['create_date'=>$yesterdayDate,'from_page'=>'qun']);
         }
     }
     
-    // 更新当前小时的访问量
-    function updateThisHourPv($huoma_count){
+    // 更新当前群活码的今天访问量
+    function updateQunTodayPv($db,$qid){
         
-        $thisHour = date('H');
-        $updatePv = 'UPDATE huoma_count SET count_qun_pv=count_qun_pv+1 WHERE count_hour="'.$thisHour.'"';
-        $huoma_count->findSql($updatePv);
+        // 获取qun_today_pv字段并提取pv和date
+        $getTodayQunPv = $db->set_table('huoma_qun')->find(['qun_id'=>$qid]);
+        if($getTodayQunPv){
+            
+            // qun_today_pv的值
+            $qun_today_pv = getSqlData($getTodayQunPv,'qun_today_pv');
+            
+            // pv的值
+            $today_pv = json_decode($qun_today_pv,true)['pv'];
+            
+            // date的值
+            $today_date = json_decode($qun_today_pv,true)['date'];
+            
+            // 检查这个记录是不是今天的
+            if($today_date == date('Y-m-d')){
+                
+                // 如果是今天的
+                // 更新pv的值
+                $newToday_pv = $today_pv + 1;
+                $db->set_table('huoma_qun')->update(
+                    ['qun_id'=>$qid],
+                    ['qun_today_pv'=>'{"pv":"'.$newToday_pv.'","date":"'.date('Y-m-d').'"}']
+                );
+            }else{
+                
+                // 如果不是今天的
+                // 先将日期更新为今天的
+                // 再更新今天pv的值
+                $db->set_table('huoma_qun')->update(
+                    ['qun_id'=>$qid],
+                    ['qun_today_pv'=>'{"pv":"1","date":"'.date('Y-m-d').'"}']
+                );
+            }
+        }
     }
     
-    // （1）将日期更新为今天并且访问量归零
-    // （2）更新当前小时的访问量
-    function updateDefault($huoma_count){
+    // 更新当前小时的总访问量
+    function updateCurrentHourPageView($db,$hourNum_type){
         
-        $thisDate = date('Y-m-d');
-        $updateDefault = 'UPDATE huoma_count SET count_qun_pv="0",count_kf_pv="0",count_channel_pv="0",count_dwz_pv="0",count_zjy_pv="0",count_date="'.$thisDate.'"';
-        $huoma_count->findSql($updateDefault);
-        $thisHour = date('H');
-        $updatePv = 'UPDATE huoma_count SET count_qun_pv=count_qun_pv+1 WHERE count_hour="'.$thisHour.'"';
-        $huoma_count->findSql($updatePv);
+        // 引入公共文件
+        include '../../console/public/updateCurrentHourPageView.php';
     }
     
-    // 更新当前群活码的访问量
-    function updateThisQunHmPv($db,$qid){
+    // 更新当前群活码的总访问量
+    function updateQunPv($db,$qid,$qun_pv){
         
-        // 传入qun_id
-        $updateThisQunHmPv = 'UPDATE huoma_qun SET qun_pv=qun_pv+1 WHERE qun_id="'.$qid.'"';
-        $db->set_table('huoma_qun')->findSql($updateThisQunHmPv);
+        // 即qid的访问量
+        $newQun_pv = $qun_pv + 1;
+        $db->set_table('huoma_qun')->update(
+            ['qun_id'=>$qid],
+            ['qun_pv'=>$newQun_pv]
+        );
     }
     
-    // 更新当前二维码的访问量
-    function updateThisQrcodePv($db,$zm_id){
+    // 更新当前展示的群二维码的访问量
+    function updateQunQrcodePv($db,$zm_id,$zm_pv){
         
-        // 传入zm_id
-        $updateThisQrcodePv = 'UPDATE huoma_qun_zima SET zm_pv=zm_pv+1 WHERE zm_id="'.$zm_id.'"';
-        $db->set_table('huoma_qun_zima')->findSql($updateThisQrcodePv);
+        // 即zm_id的访问量
+        $newQunQrcode_pv = $zm_pv + 1;
+        $db->set_table('huoma_qun_zima')->update(
+            ['zm_id'=>$zm_id],
+            ['zm_pv'=>$newQunQrcode_pv]
+        );
+    }
+    
+    // 发送通知
+    function sendNotification($noti_type,$noti_text,$db){
+        
+        // 根据noti_type选择发送的渠道
+        include_once '../../console/public/sendNotification.php';
     }
     
     // 解析数组
@@ -281,18 +379,25 @@
     }
     
     // 提醒文字
-    function warnningInfo($warnningText){
+    function warnInfo($title,$warnText){
         
-        // 传入$warnningText
-        return '<div id="warnning"><img src="../../static/img/warnning.svg" /></div><p id="warnningText">'.$warnningText.'</p>';
-        
+        return '
+        <title>'.$title.'</title>
+        <div id="warnning">
+            <img src="../../static/img/warn.png" />
+        </div>
+        <p id="warnText">'.$warnText.'</p>';
     }
     
     // 直接显示客服二维码
     function showKfQrcode($qun_kf){
         
         // 传入客服二维码IMGURL
-        return '<div id="showKfQrcode"><img src="'.$qun_kf.'" /></div><p id="warnningText">可咨询微信客服了解</p>';
+        return '
+        <div id="showKfQrcode">
+            <img src="'.$qun_kf.'" />
+        </div>
+        <p id="warnningText">可咨询微信客服了解</p>';
         
     }
     
@@ -306,7 +411,11 @@
         if($qun_safety == 1){
             
             // 开启
-            echo '<div id="qun_safety"><div class="icon"></div><div class="text">二维码已通过安全验证</div></div>';
+            echo '
+            <div id="qun_safety">
+                <div class="icon"></div>
+                <div class="text">二维码已通过安全验证</div>
+            </div>';
         }
         
         // 备注

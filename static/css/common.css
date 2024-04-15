@@ -1,6 +1,24 @@
 html body{
     background:#eee;
 }
+
+/*提醒图标*/
+#warnning{
+    width: 80px;
+    height: 80px;
+    margin: 50px auto 20px;
+}
+#warnText{
+    text-align: center;
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+}
+#warnning img{
+    width: 80px;
+    height: 80px;
+}
+
 /*群活码*/
 #qun_safety{
     width: 100%;
@@ -13,7 +31,7 @@ html body{
     width: 26px;
     height: 26px;
     float: left;
-    background: url('../../static/img/renzhengIcon3.png')no-repeat;
+    background: url('../../static/img/renzheng.png')no-repeat;
     margin:9.5px 9.5px;
 }
 #qun_safety .text{
@@ -28,16 +46,7 @@ html body{
     width: 100%;
     height: 45px;
 }
-#warnning{
-    width: 70px;
-    height: 70px;
-    margin:80px auto 20px;
-}
-#warnningText{
-    text-align: center;
-    font-size: 16px;
-    color: #666;
-}
+
 #showKfQrcode{
     width: 120px;
     height: 120px;
@@ -60,9 +69,8 @@ html body{
 #scanTips{
     text-align: center;
     font-size: 15px;
-    font-weight: bold;
     color: #999;
-    margin:15px auto 0;
+    margin: 15px auto 0;
 }
 #zm_qrcode{
     width: 90%;
@@ -98,7 +106,7 @@ html body{
     width: 26px;
     height: 26px;
     float: left;
-    background: url('../../static/img/renzhengIcon3.png')no-repeat;
+    background: url('../../static/img/renzheng.png')no-repeat;
     margin:9.5px 9.5px;
 }
 #kf_safety .text{
@@ -112,27 +120,40 @@ html body{
 #kf_beizhu{
     text-align: justify;
     color: #666;
-    padding:15px 15px;
-    margin:15px auto 0;
+    padding: 15px 15px;
+    margin: 15px auto 0;
     background: #fff;
     border-radius: 10px;
     width: 90%;
     font-size: 15px;
 }
 #kfzm_qrcode{
-    width: 220px;
-    height: 220px;
-    margin:20px auto 0;
+    width: 250px;
+    margin: 15px auto 0;
 }
 #kfzm_qrcode img{
-    width: 220px;
-    height: 220px;
+    width: 250px;
 }
 #wxnum{
     text-align: center;
-    font-size: 16px;
+    margin: 20px auto 0;
+}
+#wxnum .num{
+    color: rgb(7,193,96);
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #fff;
     color: #666;
-    margin:17px auto 0;
+    font-size: 13px;
+    margin-left: 5px;
+}
+#wxnum .copy{
+    color: rgb(7,193,96);
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: #fff;
+    font-size: 13px;
+    /*margin-left: 5px;*/
 }
 #kf_online_true{
     width: 90%;
@@ -393,4 +414,92 @@ html body{
     color: #fff;
     padding:0px 20px;
     font-size: 16px;
+}
+
+/*短网址*/
+#jietuQrcode img{
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: 20px auto;
+}
+
+/*多项单页*/
+#multiSPA_title{
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+    background-image: -webkit-linear-gradient(left, #ED835F , #EA4144);
+    position: fixed;
+    top: 0;
+}
+
+#multiSPA_zhanwei{
+    width: 100%;
+    height: 60px;
+}
+
+#multiSPA_img{
+    width: 90%;
+    margin: 10px auto 30px;
+}
+
+#multiSPA_img img{
+    width: 100%;
+}
+
+#multiSPA_project{
+    width: 90%;
+    margin: 15px auto 0;
+}
+
+#multiSPA_project p{
+    width: 100%;
+    font-size: 15px;
+    color: #666;
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: 1px dashed #ED835F;
+    background: #fff;
+    margin-top: -10px;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+#multiSPA_project c{
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    background-image: -webkit-linear-gradient(left, #ED835F , #EA4144);
+    margin-top: -15px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+}
+
+#multiSPA_bottom_zhanwei{
+    width: 100%;
+    height: 80px;
+}
+
+#copyModal {
+    display: none;
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 5px;
+    text-align: center;
+    transition: opacity 0.3s;
+    max-width: 80%;
 }

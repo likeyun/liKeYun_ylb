@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>引流宝</title>
+	<title></title>
 	<meta charset="utf-8">
-	<!--公共样式-->
 	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-	<!--整个项目的样式-->
-	<link rel="stylesheet" href="../../static/css/hm.css">
-	<!--网页标题图标-->
+	<link rel="stylesheet" href="../../static/css/ylb.css">
 	<link rel="shortcut icon" href="../../static/img/logo.png">
-	<!--公共JS-->
 	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
-	<!--API授权列表JS-->
 	<script type="text/javascript" src="./openApi.js"></script> 
 </head>
 <body>
@@ -30,37 +25,119 @@
 			    <div class="logo"></div>
 			</a>
 
-			<!-- LIST -->
+			<!-- 导航 -->
 			<ul>
-				<li><a href="../index/">首页</a></li>
-				<li><a href="../qun/">群活码</a></li>
-				<li><a href="../kf/">客服码</a></li>
-				<li><a href="../channel/">渠道码</a></li>
-				<li><a href="../dwz/" class="selected">短网址</a></li>
-				<li><a href="../tbk/">淘宝客</a></li>
-				<li><a href="../config/">配置中心</a></li>
-				<li><a href="../account/">账号管理</a></li>
+			    <a href="../index/" >
+			    <li class="nav-li">
+			        <i class="icon i-data"></i>
+			        <span class="nav-text">数据</span>
+			    </li>
+			    </a>
+			    
+			    <a href="../qun/">
+			    <li class="nav-li">
+			        <i class="icon i-hm"></i>
+			        <span class="nav-text">活码</span>
+			    </li>
+			    </a>
+			    
+				<a href="../dwz/" class="selected">
+				<li class="nav-li">
+				    <i class="icon i-dwz-dark"></i>
+				    <span class="nav-text">短网址</span>
+				</li>
+				</a>
+				
+				<a href="../tbk/">
+				<li class="nav-li">
+				    <i class="icon i-tbk"></i>
+				    <span class="nav-text">淘宝客</span>
+				</li>
+				</a>
+				
+				<a href="../shareCard/">
+				<li class="nav-li">
+				    <i class="icon i-share"></i>
+				    <span class="nav-text">分享卡片</span>
+				</li>
+				</a>
+				
+				<a href="../plugin/">
+				<li class="nav-li">
+				    <i class="icon i-plugin"></i>
+				    <span class="nav-text">插件中心</span>
+				</li>
+				</a>
+				
+				<a href="../kami/">
+				<li class="nav-li">
+				    <i class="icon i-kami"></i>
+				    <span class="nav-text">卡密分发</span>
+				</li>
+				</a>
+				
+				<a href="../config/">
+				<li class="nav-li">
+				    <i class="icon i-config"></i>
+				    <span class="nav-text">配置中心</span>
+				</li>
+				</a>
+				
+				<a href="../sucai/">
+				<li class="nav-li">
+				    <i class="icon i-sucai"></i>
+				    <span class="nav-text">素材管理</span>
+				</li>
+				</a>
+				
+				<a href="../user/">
+				<li class="nav-li">
+				    <i class="icon i-account"></i>
+				    <span class="nav-text">账号管理</span>
+			    </li>
+			    </a>
 			</ul>
 
 			<!-- 账号 -->
-			<div class="account" id="accountInfo"></div>
+			<div class="account">加载中...</div>
 		    
 		</div>
 	</div>
 
 	<!-- 右侧 -->
 	<div id="right">
-		<h4>
-		    <a href="./" class="mianbaoxie_a">短网址</a> / 开放API
+	    
+		<h3>
+		    <a href="./" class="mianbaoxie_a">短网址</a> ➜ <span class="mbx">开放API</span>
 		    <span id="channel_title" style="float:right;"></span>
-		</h4>
+		</h3>
+		
 		<div class="data-card">
+
 			<!-- 按钮区域 -->
 			<div class="button-view" id="button-view" style="display:none;">
-			    <a href="javascript:;"><button class="default-btn" data-toggle="modal" data-target="#creatApiKeyModal" onclick="initialize_creatApiKey();" style="margin-left:5px;">创建ApiKey</button></a>
-			    <a href="javascript:;"><button class="tint-btn" data-toggle="modal" data-target="#checkApiKeyModal" onclick="initialize_checkApiKey();" style="margin-left:5px;">查询ApiKey</button></a>
-			    <a href="./apiDoc.html"><button class="tint-btn" style="margin-left:5px;">开发文档</button></a>
-			    <a href="./"><button class="tint-btn" style="margin-left:5px;">返回短网址</button></a>
+			    
+			    <!--flex布局按钮容器-->
+    			<div class="flex-button-view">
+    			    
+    			    <!--导航-->
+    			    <div class="button-daohang">
+    			        <a href="./"><div class="back-lastpage"></div></a>
+    			        <button class="default-btn" style="margin-left:5px;">ApiKey</button>
+    			    </div>
+    			    
+    			    <!--功能-->
+    			    <div class="button-gongneng">
+    			        <a href="javascript:;"><button class="tint-btn" data-toggle="modal" data-target="#creatApiKeyModal" onclick="initialize_creatApiKey();" style="margin-left:5px;">创建ApiKey</button></a>
+    			        <a href="./apiDoc.html"><button class="tint-btn" style="margin-left:5px;">开发文档</button></a>
+    			        <div style="float:right;display:flex;">
+        			        <form id="checkApiKey">
+        			            <input type="text" class="form-control" style="flex:1;" name="apikey" placeholder="输入你要查询的ApiKey" />
+        			        </form>
+        			        <button type="button" class="tint-btn" style="width: 65px;height:36px;margin-left:8px;" onclick="checkApiKey()">查询</button>
+        			    </div>
+    			    </div>
+    			</div>
 			</div>
 
 			<!-- 列表区域 -->
@@ -70,9 +147,12 @@
 				    <tbody></tbody>
 				</table>
 			</div><!-- data-list -->
+			
 			<p class="loading" style="display: none;"></p>
+			
 			<!-- 分页 -->
 			<div class="fenye"></div>
+			
 		</div><!-- data-card -->
 	</div><!-- right -->
 	
@@ -80,11 +160,13 @@
     <div class="modal fade" id="creatApiKeyModal">
         <div class="modal-dialog">
             <div class="modal-content">
+                
                     <!-- 头部 -->
                     <div class="modal-header">
                         <h4 class="modal-title">创建ApiKey</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div><!-- modal-header -->
+                    
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="creatApiKey">
@@ -99,6 +181,7 @@
                         
                         </form>
                     </div><!-- modal-body -->
+                    
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
@@ -120,11 +203,13 @@
     <div class="modal fade" id="EditApiKeyModal">
         <div class="modal-dialog">
             <div class="modal-content">
+                
                     <!-- 头部 -->
                     <div class="modal-header">
                         <h4 class="modal-title">编辑ApiKey</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div><!-- modal-header -->
+                    
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="editApiKey">
@@ -192,38 +277,10 @@
         </div><!-- modal-dialog -->
     </div><!-- DelApiKeyModal -->
     
-    <!-- 查询ApiKey -->
-    <div class="modal fade" id="checkApiKeyModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                    <!-- 头部 -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">查询ApiKey</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div><!-- modal-header -->
-                    <!-- 表单 -->
-                    <div class="modal-body">
-                        <form id="checkApiKey">
-                        <span class="text">ApiKey</span>
-                        <input type="text" name="apikey" class="form-control" id="apikey_check" autocomplete="off" placeholder="输入你要查询的ApiKey">
-                        </form>
-                    </div><!-- modal-body -->
-                    <!-- 底部操作 -->
-                    <div class="modal-footer">
-                        <div class="footer-btn">
-                        <div class="faqnav">
-                            <span class="faq"><a href="#">?</a></span>
-                        </div>
-                        <div class="btnnav">
-                            <button type="button" class="default-btn" onclick="checkApiKey();">立即查询</button>
-                        </div>
-                    </div>
-                </div><!-- modal-footer -->
-                <!-- 操作反馈 -->
-                <div class="result"></div>
-            </div><!-- modal-content -->
-        </div><!-- modal-dialog -->
-    </div><!-- checkApiKeyModal -->
+    <!-- 全局信息提示框 -->
+    <div id="notification">
+        <div id="notification-text"></div>
+    </div>
 
 </div><!-- app -->
 

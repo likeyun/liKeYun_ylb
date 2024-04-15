@@ -1,18 +1,177 @@
 <html>
     <head>
-        <title>引流宝1.2.1</title>
+        <title>引流宝，致力于获取私域流量，多平台引流增效，数据监控工具！ - 该软件遵循MIT开源协议</title>
         <meta charset="utf-8">
+        <link rel="shortcut icon" href="../../static/img/favicon.png">
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+                font-family: 'Lucida Sans Unicode';
+            }
+            .logo{
+                width: 520px;
+                height: 180px;
+                display: block;
+                background: url('./static/img/index_logo.png')no-repeat;
+                background-size: 80%;
+                background-position: center;
+                margin: 30px auto 0;
+            }
+            hr {
+                height: 1px;
+                width: 100%;
+                border: none;
+                background: #ddd;
+                margin: 20px auto;
+            }
+            .title1 {
+                text-align: center;
+                font-size: 27px;
+                color: #666;
+            }
+            .button-group {
+                width: 200px;
+                height: 40px;
+                margin: 30px auto 0;
+            }
+            .button-group .left {
+                width: 100px;
+                height: 40px;
+                float: left;
+                border: none;
+                background: #385EE2;
+                color: #fff;
+                font-size: 16px;
+                border-radius: 10px;
+                outline: none;
+            }
+            .button-group .left:hover {
+                background: #2149d5;
+                cursor: pointer;
+            }
+            .button-group .right {
+                width: 80px;
+                height: 40px;
+                float: right;
+                border: none;
+                background: #F1F1F1;
+                color: #666;
+                font-size: 16px;
+                border-radius: 10px;
+                outline: none;
+            }
+            .button-group .right:hover {
+                background: #e6e3e3;
+                cursor: pointer;
+            }
+            .title2 {
+                text-align: center;
+                font-size: 20px;
+                color: #666;
+            }
+            ul {
+                width: 100%;
+                margin: 20px auto 0;
+                background: #eee;
+                padding: 20px 0;
+            }
+            ul li {
+                text-align: center;
+                list-style: none;
+                font-size: 16px;
+                color: #666;
+                line-height: 27px;
+            }
+            .zhichi {
+                text-align: center;
+                color: #999;
+                font-size: 17px;
+                margin: 20px 0;
+            }
+            .zhichiimg {
+                display: block;
+                width: 200px;
+                margin: 20px auto 30px;
+            }
+            
+            .footer {
+                width: 100%;
+                height: 100px;
+                background: #eee;
+                text-align: center;
+                line-height: 100px;
+            }
+            .footer .link {
+                text-decoration: none;
+                color: #666;
+                font-size: 14px;
+                margin-left: 10px;
+            }
+        </style>
     </head>
     <body>
-        <div style="width:800px;margin:100px auto 0;padding:20px 20px;background:#eee;border-radius:20px;color:#333;">
-            <h1>欢迎使用引流宝1.2.1</h1>
-            <h3>你可以将你的首页模板HTML代码复制替换到本文件！</h3>
-            <h4>如需安装和登录管理后台请阅读 <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI">引流宝使用指南</a></h4>
-            <h1>更新内容：</h1>
-            <ol>
-                <li>优化一些逻辑</li>
-                <li>新增淘宝客（中间页创建）</li>
-            </ol>
+        
+        <!-- 该软件遵循MIT开源协议 -->
+        <!-- 该软件遵循MIT开源协议 -->
+        <!-- 该软件遵循MIT开源协议 -->
+        <!-- 作者：https://segmentfault.com/u/tanking -->
+        
+        <div id="app">
+            
+            <!--LOGO-->
+            <div class='logo'></div>
+            
+            <!--分割线-->
+            <hr><br>
+            
+            <!--标题-->
+            <p class="title1">致力于获取私域流量，多平台引流增效，数据监控工具</p>
+            
+            <!--按钮组-->
+            <div class="button-group">
+                <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="blank">
+                    <button class="left">快速上手</button>
+                </a>
+                <a href="./install" target="blank">
+                    <button class="right">安装</button>
+                </a>
+            </div>
+            
+            <!--分割线-->
+            <br><hr>
+            
+            <!--标题-->
+            <p class="title2">当前版本：2.4.0</p>
+            
+            <!--更新动态-->
+            <ul>
+                <li>2.4.0版本新特性：</li>
+                <li>UI界面大量的优化</li>
+                <li>新增群活码并流</li>
+                <li>新增短网址轮询域名</li>
+                <li>外部跳微信抽离出来作为插件</li>
+                <li>群活码、客服码、渠道码整合到活码一栏</li>
+                <li>提供用户账号注册</li>
+                <li>渠道码新增操作系统渠道数据记录</li>
+                <li>新增卡密分发小程序管理</li>
+            </ul>
+            <br>
+            
+            <!--标题-->
+            <p class="title2">支持作者</p>
+            <p class="zhichi">视个人能力适当支持作者持续维护该项目</p>
+            
+            <!--赞赏码-->
+            <img src="./static/img/zhichi.jpg" class="zhichiimg" />
+            
+            <!--底部-->
+            <div class="footer">
+                <a href="https://segmentfault.com/u/tanking" class="link" target="blank">🔗作者博客</a>
+                <a href="https://github.com/likeyun/liKeYun_Ylb" class="link" target="blank">🔗开源仓库</a>
+                <a href="https://beian.miit.gov.cn/" class="link" target="blank">🔗粤ICP备XXXXXXXX号</a>
+            </div>
+            
         </div>
     </body>
 </html>

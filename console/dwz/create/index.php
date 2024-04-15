@@ -26,9 +26,9 @@
     // 管理员需进行设置
     // 设置后即作为用户请求Api生成短网址使用的域名
     // -----------------------
-    $dwz_rkym = ''; // 入口域名
-    $dwz_zzym = ''; // 中转域名
-    $dwz_dlym = ''; // 短链域名
+    $dwz_rkym = 'https://ylb.wxpad.cn'; // 入口域名
+    $dwz_zzym = 'https://ylb.wxpad.cn'; // 中转域名
+    $dwz_dlym = 'https://1-url.cn'; // 短链域名
     
     // 数据库配置
 	include '../../Db.php';
@@ -56,43 +56,43 @@
     }
     
     // 过滤参数
-    if(empty($dwz_title) || $dwz_title == '' || $dwz_title == null || !isset($dwz_title)){
+    if(empty($dwz_title) || !isset($dwz_title)){
         
         $result = array(
             'code' => 203,
             'msg' => 'dwz_title参数为空'
         );
-    }else if(empty($dwz_rkym) || $dwz_rkym == '' || $dwz_rkym == null || !isset($dwz_rkym)){
+    }else if(empty($dwz_rkym) || !isset($dwz_rkym)){
         
         $result = array(
             'code' => 203,
-            'msg' => '入口域名未设置，请联系管理员设置'
+            'msg' => '入口域名未设置，请打开 console/dwz/create/index.php 第29行 进行配置'
         );
-    }else if(empty($dwz_zzym) || $dwz_zzym == '' || $dwz_zzym == null || !isset($dwz_zzym)){
+    }else if(empty($dwz_zzym) || !isset($dwz_zzym)){
         
         $result = array(
             'code' => 203,
-            'msg' => '中转域名未设置，请联系管理员设置'
+            'msg' => '中转域名未设置，请打开 console/dwz/create/index.php 第30行 进行配置'
         );
-    }else if(empty($dwz_dlym) || $dwz_dlym == '' || $dwz_dlym == null || !isset($dwz_dlym)){
+    }else if(empty($dwz_dlym) || !isset($dwz_dlym)){
         
         $result = array(
             'code' => 203,
-            'msg' => '短链域名未设置，请联系管理员设置'
+            'msg' => '短链域名未设置，请打开 console/dwz/create/index.php 第31行 进行配置'
         );
-    }else if(empty($dwz_dlws) || $dwz_dlws == '' || $dwz_dlws == null || !isset($dwz_dlws)){
+    }else if(empty($dwz_dlws) || !isset($dwz_dlws)){
         
         $result = array(
             'code' => 203,
             'msg' => 'dwz_dlws参数为空'
         );
-    }else if(empty($dwz_type) || $dwz_type == '' || $dwz_type == null || !isset($dwz_type)){
+    }else if(empty($dwz_type) || !isset($dwz_type)){
         
         $result = array(
             'code' => 203,
             'msg' => 'dwz_type参数为空'
         );
-    }else if(empty($dwz_url) || $dwz_url == '' || $dwz_url == null || !isset($dwz_url)){
+    }else if(empty($dwz_url) || !isset($dwz_url)){
         
         $result = array(
             'code' => 203,
@@ -241,7 +241,7 @@
                         // 请求次数更新失败
                         $result = array(
                             'code' => 200,
-                            'msg' => '创建成功，但请求次数更新失败！错误代码所在位置：console/dwz/create/index.php第200行'
+                            'msg' => '创建成功，但请求次数更新失败！错误代码所在位置：console/dwz/create/index.php第229行'
                         );
                     }
                     

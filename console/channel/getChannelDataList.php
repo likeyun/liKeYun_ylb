@@ -17,7 +17,6 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	@$page = $_GET['p']?$_GET['p']:1;
     	$channel_id = trim($_GET['channel_id']);
     	
@@ -30,14 +29,11 @@
     	// 实例化类
     	$db = new DB_API($config);
     
-    	// 数据库huoma_channel_data表
-    	$huoma_channel_data = $db->set_table('huoma_channel_data');
-    
     	// 获取总数
-    	$channelDataNum = $huoma_channel_data->getCount(['channel_id'=>$channel_id]);
+    	$channelDataNum = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $channel_id]);
     
     	// 每页数量
-    	$lenght = 10;
+    	$lenght = 13;
     
     	// 每页第一行
     	$offset = ($page-1)*$lenght;
@@ -58,20 +54,40 @@
     	}
     
     	// 获取当前channel_id来源数据，每页10个DESC排序
-    	$getchannelDataList = $huoma_channel_data->findAll(
+    	$getchannelDataList = $db->set_table('huoma_channel_data')->findAll(
     	    $conditions = ['channel_id' => $channel_id],
     	    $order = 'ID DESC',
     	    $fields = null,
     	    $limit = ''.$offset.','.$lenght.''
     	);
     	
+        // 渠道标题
+        $channelTitle = json_decode(json_encode($db->set_table('huoma_channel')->find(['channel_id'=>$channel_id])))->channel_title;
+
         // 判断获取结果
     	if($getchannelDataList && $getchannelDataList > 0){
     	    
-    	    // 根据channel_id获取channel_title
-    	    $huoma_channel = $db->set_table('huoma_channel');
-            $getChanneltitle = ['channel_id'=>$channel_id];
-            $getChanneltitleResult = $huoma_channel->find($getChanneltitle);
+    	    // 将这个总数更新到channel_DataTotal字段
+    	    $db->set_table('huoma_channel')->update(['channel_id' => $channel_id],['channel_DataTotal' => $channelDataNum]);
+    	    
+    	    // 统计设备数据量
+            $Android_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $channel_id,'data_device' => 'Android']);
+            $iOS_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $channel_id,'data_device' => 'iOS']);
+            $Windows_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $channel_id,'data_device' => 'Windows']);
+            $Linux_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $channel_id,'data_device' => 'Linux']);
+            $MacOS_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $channel_id,'data_device' => 'Mac']);
+            
+            // 更新对应的Total
+            $db->set_table('huoma_channel')->update(
+                ['channel_id' => $channel_id],
+                [
+                    'Android_Total' => $Android_Total,
+                    'iOS_Total' => $iOS_Total,
+                    'Windows_Total' => $Windows_Total,
+                    'Linux_Total' => $Linux_Total,
+                    'MacOS_Total' => $MacOS_Total
+                ]
+            );
     	    
     	    // 获取成功
     		$result = array(
@@ -82,7 +98,7 @@
     		    'nextpage' => $nextpage,
     		    'allpage' => $allpage,
     		    'page' => $page,
-    		    'channel_title' => json_decode(json_encode($getChanneltitleResult))->channel_title,
+    		    'channel_title' => $channelTitle,
     		    'code' => 200,
     		    'msg' => '获取成功'
     		);
@@ -91,7 +107,8 @@
     	    // 获取失败
             $result = array(
                 'code' => 204,
-                'msg' => '暂无数据'
+                'msg' => '暂无数据',
+                'channel_title' => $channelTitle
             );
     	}
     }else{
@@ -99,7 +116,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录过期'
+            'msg' => '未登录'
 		);
     }
 

@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>登录账号 - 引流宝</title>
+	<title></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
-	<!--公共样式-->
 	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-	<!--整个项目的样式-->
-	<link rel="stylesheet" href="../../static/css/hm.css">
-	<!--网页标题图标-->
+	<link rel="stylesheet" href="../../static/css/ylb.css">
 	<link rel="shortcut icon" href="../../static/img/logo.png">
-	<!--公共JS-->
 	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 </head>
@@ -23,7 +19,7 @@
 	    
 	    <!--header-->
 	    <div class="header-box">
-	        <img src="../../static/img/20221025100444.png" />
+	        <img src="../../static/img/index_logo.png" />
 	    </div>
 	    <div class="line"></div>
 	    <!--form-->
@@ -34,7 +30,10 @@
     	        <label>管理员密码</label>
     	        <input type="password" class="form-control" placeholder="输入管理员密码" name="user_pass" />
     	        <button class="form-control-login" onclick="loginCheck();">立即登录</button>
-    	        <a href="./find.html" class="findPass">找回密码</a>
+    	        <div class="links">
+    	            <a href="./find.html" class="link">找回密码</a>
+    	            <a href="./reg.html" class="link">注册账号</a>
+    	        </div>
 	        </form>
 	    </div>
 	    
@@ -47,63 +46,63 @@
 
 <script type="text/javascript">
 
-function loginCheck(){
+    function loginCheck(){
+        
+        // 验证账号
+        $.ajax({
+            type: "POST",
+            url: "./loginCheck.php",
+            data: $('#loginCheck').serialize(),
+            success: function(res){
+                
+                // 成功
+                if(res.code == 200){
+                    
+                    // 操作反馈（200状态码）
+                    showSuccessResult(res.msg)
+                    // 0.5秒后跳转到首页
+                    redirectPage('../index/',500);
+                    
+                }else{
     
-    // 验证账号
-    $.ajax({
-        type: "POST",
-        url: "./loginCheck.php",
-        data: $('#loginCheck').serialize(),
-        success: function(res){
-            
-            // 成功
-            if(res.code == 200){
+                    // 操作反馈（非200状态码）
+                    showErrorResult(res.msg)
+                }
+            },
+            error: function() {
                 
-                // 操作反馈（200状态码）
-                showSuccessResult(res.msg)
-                // 0.5秒后跳转到首页
-                redirectPage('../index/',500);
-                
-            }else{
-
-                // 操作反馈（非200状态码）
-                showErrorResult(res.msg)
+                // 服务器发生错误
+                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
             }
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-        }
-    });
-}
-
-// 打开操作反馈（操作成功）
-function showSuccessResult(content){
-    $('#app .loginresult').html('<div class="success">'+content+'</div>');
-    $('#app .loginresult .success').css('display','block');
-    setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
-}
-
-// 打开操作反馈（操作失败）
-function showErrorResult(content){
-    $('#app .loginresult').html('<div class="error">'+content+'</div>');
-    $('#app .loginresult .error').css('display','block');
-    setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
-}
-
-// 关闭操作反馈
-function hideResult(){
-    $("#app .loginresult .success").css("display","none");
-    $("#app .loginresult .error").css("display","none");
-    $("#app .loginresult .success").text('');
-    $("#app .loginresult .error").text('');
-}
-
-// 跳转到指定路径
-function redirectPage(pagePath,timeout){
-    setTimeout('location.href="'+pagePath+'"', timeout);
-}
+        });
+    }
+    
+    // 打开操作反馈（操作成功）
+    function showSuccessResult(content){
+        $('#app .loginresult').html('<div class="success">'+content+'</div>');
+        $('#app .loginresult .success').css('display','block');
+        setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
+    }
+    
+    // 打开操作反馈（操作失败）
+    function showErrorResult(content){
+        $('#app .loginresult').html('<div class="error">'+content+'</div>');
+        $('#app .loginresult .error').css('display','block');
+        setTimeout('hideResult()', 2500); // 2.5秒后自动关闭
+    }
+    
+    // 关闭操作反馈
+    function hideResult(){
+        $("#app .loginresult .success").css("display","none");
+        $("#app .loginresult .error").css("display","none");
+        $("#app .loginresult .success").text('');
+        $("#app .loginresult .error").text('');
+    }
+    
+    // 跳转到指定路径
+    function redirectPage(pagePath,timeout){
+        setTimeout('location.href="'+pagePath+'"', timeout);
+    }
 
 </script>
 

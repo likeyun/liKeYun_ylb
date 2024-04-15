@@ -62,7 +62,8 @@
         		    'code' => 200,
         		    'msg' => '获取成功',
         		    'longUrl' => $longUrl,
-        		    'shortUrl' => $shortUrl
+        		    'shortUrl' => $shortUrl,
+        		    'qrcodeUrl' => $longUrl.'&t='.time()
     		    );
             }else{
                 

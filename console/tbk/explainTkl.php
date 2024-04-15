@@ -79,14 +79,25 @@
                     if($code == 200){
                         
                         $explainJson = json_decode($reqResult,true)["content"][0];
-                        $short_title = $explainJson['title']; // 短标题
+                        $long_title = $explainJson['tao_title']; // 长标题
+                        $short_title = mb_substr($long_title,0,13,'utf-8');// 短标题（通过截取长标题前13个字实现）
                         $yprice = $explainJson['size']; // 原价
                         $qhprice = $explainJson['quanhou_jiage']; // 券后价
                         $youhuiquan = $yprice-$qhprice; // 优惠券价格
-                        $long_title = $explainJson['tao_title'];
                         $picUrl = $explainJson['small_images']; // 主图地址
                         $mytkl = $explainJson['tkl'];  // 淘口令
                         $shorturl2 = $explainJson['shorturl2']; // 微信跳转淘宝APP的链接
+                        
+                        // 券后价格式化
+						if(strpos($qhprice,'.') !==false){
+						    
+							// 如果包含小数点，就要在最后面加一个0
+							$qhprice = $qhprice."0";
+						}else{
+						    
+							// 不包含小数点，就要在最后面加.00
+							$qhprice = $qhprice.".00";
+						}
                         
                         // 解析成功
                         $result = array(

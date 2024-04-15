@@ -16,7 +16,6 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
         $domain = trim($_POST['domain']);
         $domain_type = trim($_POST['domain_type']);
         
@@ -38,7 +37,7 @@
         }
         
         // 过滤参数
-        if(empty($domain) || $domain == '' || $domain == null || !isset($domain)){
+        if(empty($domain) || !isset($domain)){
             
             $result = array(
                 'code' => 203,
@@ -50,7 +49,7 @@
                 'code' => 203,
                 'msg' => '你输入的不是正确的域名格式'
             );
-        }else if(empty($domain_type) || $domain_type == '' || $domain_type == null || !isset($domain_type)){
+        }else if(empty($domain_type) || !isset($domain_type)){
             
             $result = array(
                 'code' => 203,
@@ -73,6 +72,12 @@
                 $domain_type_text = '落地域名';
             }else if($domain_type == 3){
                 $domain_type_text = '短链域名';
+            }else if($domain_type == 4){
+                $domain_type_text = '备用域名';
+            }else if($domain_type == 5){
+                $domain_type_text = '对象存储域名';
+            }else if($domain_type == 6){
+                $domain_type_text = '轮询域名';
             }
             
             // 获取当前登录账号的管理员权限
@@ -81,14 +86,15 @@
                 
                 // 获得管理权限
                 // 验证域名是否已被添加
-                $checkDomainExist = ['domain'=>$domain,'domain_type'=>$domain_type];
+                $checkDomainExist = ['domain' => $domain,'domain_type' => $domain_type];
                 $checkDomainExistResult = $db->set_table('huoma_domain')->getCount($checkDomainExist);
             	
             	// 插入参数
                 $addDomainName_Sql = [
                     'domain'=>$domain,
                     'domain_type'=>$domain_type,
-                    'domain_id'=>$domain_id
+                    'domain_id'=>$domain_id,
+                    'domain_usergroup'=>'["默认"]',
                 ];
                 
                 // 验证是否已经添加过
@@ -134,10 +140,11 @@
         // 未登录
         $result = array(
             'code' => 201,
-            'msg' => '未登录或登录过期'
+            'msg' => '未登录'
         );
     }
 
 	// 输出JSON
 	echo json_encode($result,JSON_UNESCAPED_UNICODE);
+	
 ?>

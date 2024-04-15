@@ -9,7 +9,6 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="format-detection" content="telephone=no">
         <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
-        <!--样式文件-->
         <link rel="stylesheet" href="../../static/css/common.css">
         <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
     </head>
@@ -20,11 +19,11 @@
     // 页面编码
     header("Content-type:text/html;charset=utf-8");
     
-    // 获取参数（intval函数用于过滤特殊字符防止SQL注入）
+    // 获取参数
     $cid = trim(intval($_GET['cid']));
     
     // 过滤参数
-    if($cid && $cid !== ''){
+    if($cid){
         
         // 数据库配置
         include '../../console/Db.php';
@@ -48,16 +47,27 @@
             if($channel_status == 1){
                 
                 // 当前状态：正常
-                // 更新当前渠道码的访问量
-                updateThisChannelHmPv($db,$cid);
+                // 更新渠道码的总访问量
+                updateChannelPv($db,$cid);
                 
-                // 更新数据统计表访问量
-                updateCountChartPv($db);
+                // 更新渠道码的今天访问量
+                updateChannelTodayPv($db,$cid);
+                
+                // 更新当前小时的总访问量
+                updateCurrentHourPageView($db,'channel');
+                
+                // 记录今天ip访问量
+                updateTodayIpNum($db);
+                
+                // 更新数据量
+                updateChannelDataTotal($db,$cid);
                 
                 // 来源操作系统
                 $data_device = getSystem();
+                
                 // 来源APP
                 $data_referer = getAppName();
+                
                 // 来源ip
                 $data_ip = getIp();
                 
@@ -66,8 +76,7 @@
                 if($checkThisIpIsAccessDenied){
                     
                     // 在黑名单里
-                    echo '<title>温馨提示</title>';
-                    echo warnningInfo('你被管理员设为禁止访问');
+                    echo warnInfo('温馨提示','你的IP已被管理员封禁！');
                 }else{
                     
                     // 不在黑名单
@@ -110,15 +119,13 @@
                 
                 // 当前状态：停用
                 // channel_status !== 1的情况
-                echo '<title>温馨提示</title>';
-                echo warnningInfo('页面已被管理员暂停使用');
+                echo warnInfo('温馨提示','页面已被管理员暂停使用');
             } // if($channel_status == 1)
         }else{
             
             // 不存在
             // 获取不到该channel_id的详情
-            echo '<title>温馨提示</title>';
-            echo warnningInfo('页面不存在或已被管理员删除');
+            echo warnInfo('温馨提示','页面不存在或已被管理员删除');
         } // if($getChannelInfoResult && $getChannelInfoResult > 0)
         
     } // if($cid && $cid !== '')
@@ -129,65 +136,111 @@
      * 另一方面是保持代码的整洁可读性
      */
      
-    // 更新数据统计表
-    function updateCountChartPv($db){
+    // 记录今天ip访问量
+    function updateTodayIpNum($db){
         
-        // 更新数据统计表
-        // 数据库huoma_count表
-        $huoma_count = $db->set_table('huoma_count');
+        // 获取ip地址
+        $getIP = $_SERVER['REMOTE_ADDR'];
         
-        // 先检查一下当前统计表的数据是不是今天的
-        $checkCountData = ['id'=>1];
-        $checkCountDataResult = $huoma_count->find($checkCountData);
+        // 获取今天的ip记录数
+        $getTodayIpNum = $db->set_table('huoma_ip')->find(['ip_create_time'=>date('Y-m-d')]);
         
-        // 统计表第一条数据当前的日期
-        $count_date = json_decode(json_encode($checkCountDataResult))->count_date;
-        
-        // 判断日期是否为今天的
-        if($count_date == date('Y-m-d')){
+        // 如果有记录
+        if($getTodayIpNum){
             
-            // 今天
-            // 更新当前小时的访问量
-            updateThisHourPv($huoma_count);
+            // 查询当前ip是否为今天首次访问
+            $getThisIpISFirstTimeToday = $db->set_table('huoma_ip_temp')->find(['create_date'=>date('Y-m-d'),'ip'=>$getIP,'from_page'=>'channel']);
             
+            // 如果没有记录
+            // 说明这个ip是今天第一次访问
+            if(!$getThisIpISFirstTimeToday){
+                
+                // 将当前ip添加至临时ip表
+                $db->set_table('huoma_ip_temp')->add(['ip'=>$getIP,'create_date'=>date('Y-m-d'),'from_page'=>'channel']);
+                
+                // 然后更新今天的ip记录数
+                $channel_ip = json_decode(json_encode($getTodayIpNum))->channel_ip;
+                $newChannel_ip = $channel_ip + 1;
+                $db->set_table('huoma_ip')->update(['ip_create_time'=>date('Y-m-d')],['channel_ip'=>$newChannel_ip]);
+            }
         }else{
             
-            // 非今天
-            // （1）将日期更新为今天并且访问量归零
-            // （2）更新当前小时的访问量
-            updateDefault($huoma_count);
+            // 如果没有记录
+            // 将当前ip添加至临时ip表并记录为今天的ip访问
+            $db->set_table('huoma_ip_temp')->add(['ip'=>$getIP,'create_date'=>date('Y-m-d'),'from_page'=>'channel']);
+            
+            // 新增这个ip今天的访问次数
+            $db->set_table('huoma_ip')->add(['channel_ip'=>1,'ip_create_time'=>date('Y-m-d')]);
+        }
+        
+        // 昨天的日期
+        $yesterdayDate = date('Y-m-d',strtotime("yesterday"));
+        
+        // 检查是否存在昨天的ip记录
+        $getYesterdayIp = $db->set_table('huoma_ip_temp')->find(['create_date'=>$yesterdayDate,'from_page'=>'channel']);
+        
+        // 如果有记录
+        if($getYesterdayIp){
+            
+            // 清理昨天日期的临时ip
+            $db->set_table('huoma_ip_temp')->delete(['create_date'=>$yesterdayDate,'from_page'=>'channel']);
         }
     }
     
-    // 更新当前小时的访问量
-    function updateThisHourPv($huoma_count){
+    // 更新渠道码的今天访问量
+    function updateChannelTodayPv($db,$cid){
         
-        $thisHour = date('H');
-        $updatePv = 'UPDATE huoma_count SET count_channel_pv=count_channel_pv+1 WHERE count_hour="'.$thisHour.'"';
-        $huoma_count->findSql($updatePv);
+        // 获取channel_today_pv字段并提取pv和date
+        $getTodayChannelPv = $db->set_table('huoma_channel')->find(['channel_id'=>$cid]);
+        if($getTodayChannelPv){
+            
+            // channel_today_pv的值
+            $channel_today_pv = getSqlData($getTodayChannelPv,'channel_today_pv');
+            
+            // pv的值
+            $today_pv = json_decode($channel_today_pv,true)['pv'];
+            
+            // date的值
+            $today_date = json_decode($channel_today_pv,true)['date'];
+            
+            // 检查这个记录是不是今天的
+            if($today_date == date('Y-m-d')){
+                
+                // 如果是今天的
+                // 更新pv的值
+                $newToday_pv = $today_pv + 1;
+                $db->set_table('huoma_channel')->update(
+                    ['channel_id'=>$cid],
+                    ['channel_today_pv'=>'{"pv":"'.$newToday_pv.'","date":"'.date('Y-m-d').'"}']
+                );
+            }else{
+                
+                // 如果不是今天的
+                // 先将日期更新为今天的
+                // 再更新今天pv的值
+                $db->set_table('huoma_channel')->update(
+                    ['channel_id'=>$cid],
+                    ['channel_today_pv'=>'{"pv":"1","date":"'.date('Y-m-d').'"}']
+                );
+            }
+        }
     }
     
-    // （1）将日期更新为今天并且访问量归零
-    // （2）更新当前小时的访问量
-    function updateDefault($huoma_count){
+    // 更新当前小时的总访问量
+    function updateCurrentHourPageView($db,$hourNum_type){
         
-        $thisDate = date('Y-m-d');
-        $updateDefault = 'UPDATE huoma_count SET count_qun_pv="0",count_kf_pv="0",count_channel_pv="0",count_dwz_pv="0",count_zjy_pv="0",count_date="'.$thisDate.'"';
-        $huoma_count->findSql($updateDefault);
-        $thisHour = date('H');
-        $updatePv = 'UPDATE huoma_count SET count_channel_pv=count_channel_pv+1 WHERE count_hour="'.$thisHour.'"';
-        $huoma_count->findSql($updatePv);
+        // 引入公共文件
+        include '../../console/public/updateCurrentHourPageView.php';
     }
     
-    // 更新当前渠道码的访问量
-    function updateThisChannelHmPv($db,$cid){
+    // 更新当前渠道码的总访问量
+    function updateChannelPv($db,$cid){
         
-        // 传入channel_id
-        $updateThisChannelHmPv = 'UPDATE huoma_channel SET channel_pv=channel_pv+1 WHERE channel_id="'.$cid.'"';
-        $db->set_table('huoma_channel')->findSql($updateThisChannelHmPv);
+        $updateChannelPv = 'UPDATE huoma_channel SET channel_pv=channel_pv+1 WHERE channel_id="'.$cid.'"';
+        $db->set_table('huoma_channel')->findSql($updateChannelPv);
     }
     
-    // 更新当前渠道码单条来源数据的访问量
+    // 更新渠道码单条来源数据的访问量
     function updateThisChannelDataPv($db,$data_id,$channel_url){
 
         // 传入data_id
@@ -198,11 +251,42 @@
             
             // 跳转到目标页
             header('Location:'.$channel_url);
+            // echo $_SERVER['HTTP_USER_AGENT'];
         }else{
             
             // 跳转到目标页
             header('Location:'.$channel_url);
+            // echo $_SERVER['HTTP_USER_AGENT'];
         }
+    }
+    
+    // 更新数据量
+    function updateChannelDataTotal($db,$cid) {
+        
+        // 获取这个cid的数据总数
+        $channelDataTotal = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $cid]);
+        
+        // 更新channelDataTotal
+        $db->set_table('huoma_channel')->update(['channel_id' => $cid],['channel_DataTotal' => $channelDataTotal]);
+        
+        // 统计设备数据量
+        $Android_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $cid,'data_device' => 'Android']);
+        $iOS_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $cid,'data_device' => 'iOS']);
+        $Windows_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $cid,'data_device' => 'Windows']);
+        $Linux_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $cid,'data_device' => 'Linux']);
+        $MacOS_Total = $db->set_table('huoma_channel_data')->getCount(['channel_id' => $cid,'data_device' => 'Mac']);
+        
+        // 更新对应的Total
+        $db->set_table('huoma_channel')->update(
+            ['channel_id' => $cid],
+            [
+                'Android_Total' => $Android_Total,
+                'iOS_Total' => $iOS_Total,
+                'Windows_Total' => $Windows_Total,
+                'Linux_Total' => $Linux_Total,
+                'MacOS_Total' => $MacOS_Total
+            ]
+        );
     }
     
     // 解析数组
@@ -213,11 +297,14 @@
     }
     
     // 提醒文字
-    function warnningInfo($warnningText){
+    function warnInfo($title,$warnText){
         
-        // 传入$warnningText
-        return '<div id="warnning"><img src="../../static/img/warnning.svg" /></div><p id="warnningText">'.$warnningText.'</p>';
-        
+        return '
+        <title>'.$title.'</title>
+        <div id="warnning">
+            <img src="../../static/img/warn.png" />
+        </div>
+        <p id="warnText">'.$warnText.'</p>';
     }
     
     
@@ -345,14 +432,18 @@
             
             // UC浏览器
             return $DEVICE_BROWSER = 'UC浏览器';
+        }else if(preg_match('/BytedanceWebView/i',$HTTP_DEVICE)){
+            
+            // UC浏览器
+            return $DEVICE_BROWSER = '抖音';
         }else if(preg_match('/Chrome/i',$HTTP_DEVICE)){
             
-            // Chrome内核浏览器
-            return $DEVICE_BROWSER = 'Chrome内核浏览器';
+            // PC浏览器
+            return $DEVICE_BROWSER = 'PC浏览器';
         }else{
             
-            // 未知APP
-            return $DEVICE_BROWSER = '未知APP';
+            // 未知来源
+            return $DEVICE_BROWSER = '未知来源';
         }
     }
 

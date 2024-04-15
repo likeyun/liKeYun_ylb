@@ -10,13 +10,31 @@ window.onload = function (){
     
     if(pageNum !== 'undefined'){
         
-        // 获取当前页码的中间页数据列表
+        // 获取当前页码数据列表
         getZjyList(pageNum);
     }else{
         
-        // 获取不到页码就获取首页
+        // 获取首页
         getZjyList();
     }
+    
+    // clipboard插件
+    var clipboard = new ClipboardJS('#ShareZjyModal .modal-footer button');
+    clipboard.on('success', function(e) {
+        
+        // 复制成功
+        $('#ShareZjyModal .modal-footer button').text('已复制');
+    });
+    
+    // 监听multi_project可编辑的DIV的输入
+    $("#createSpaModal .multi_project").on("input", function() {
+        
+        // 实时获取输入的内容
+        const multi_project_content = $(this).val();
+        
+        // 将内容实时加入到表单输入框
+        $('#createSpaModal input[name="multiSPA_project"]').val(multi_project_content.replace(/\n/g, "<br/>"));
+    });
 }
 
 // 获取登录状态
@@ -32,19 +50,33 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">'+res.user_name+' <span onclick="exitLogin();" class="exitLogin">退出</span></div>'
+                );
+                $(".left .account").html($account);
+                
+                // 初始化
                 initialize_Login('login',res.user_admin)
             }else{
                 
                 // 未登录
-                $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">未登录</div>'
+                );
+                $(".left .account").html($account);
+                
+                // 初始化
                 initialize_Login('unlogin');
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            errorPage('data-list','getLoginStatus.php');
         }
     });
 }
@@ -61,7 +93,9 @@ function initialize_Login(loginStatus,adminStatus){
         if(adminStatus == 1){
             
             // 显示开放API按钮
-            $('#openApi').html('<a href="./openApi.html"><button class="tint-btn" style="margin-left: 5px;">开放API</button></a>');
+            $('#openApi').html(
+                '<a href="./openApi.html"><button class="tint-btn" style="margin-left: 5px;">开放API</button></a>'
+            );
         }
         
     }else{
@@ -172,93 +206,119 @@ function getZjyList(pageNum) {
                     $("#right .data-list tbody").append($tbody_HTML);
                 }
                 
-                // 分页
-                if(res.page == 1 && res.allpage == 1){
-                    
-                    // 当前页码=1 且 总页码>1
-                    // 无需显示分页控件
-                    $("#right .data-card .fenye").css("display","none");
-                }else if(res.page == 1 && res.allpage > 1){
-                    
-                    // 当前页码=1 且 总页码>1
-                    // 代表还有下一页
-                    var $Fenye_HTML = $(
-                    '<ul>' +
-                    '   <li><button id="'+res.nextpage+'" onclick="getFenye(this);" title="下一页"><img src="../../static/img/nextPage.png" /></button></li>' +
-                    '   <li><button id="'+res.allpage+'" onclick="getFenye(this);" title="最后一页"><img src="../../static/img/lastPage.png" /></button></li>' +
-                    '</ul>'
-                    );
-                    $("#right .data-card .fenye").css("display","block");
-                }else if(res.page == res.allpage){
-                    
-                    // 当前页码=总页码
-                    // 代表这是最后一页
-                    var $Fenye_HTML = $(
-                    '<ul>' +
-                    '   <li><button id="1" onclick="getFenye(this);" title="第一页"><img src="../../static/img/firstPage.png" /></button></li>' +
-                    '   <li><button id="'+res.prepage+'" onclick="getFenye(this);" title="上一页"><img src="../../static/img/prevPage.png" /></button></li>' +
-                    '</ul>'
-                    );
-                    $("#right .data-card .fenye").css("display","block");
-                }else{
-                    
-                    var $Fenye_HTML = $(
-                    '<ul>' +
-                    '   <li><button id="1" onclick="getFenye(this);" title="第一页"><img src="../../static/img/firstPage.png" /></button></li>' +
-                    '   <li><button id="'+res.prepage+'" onclick="getFenye(this);" title="上一页"><img src="../../static/img/prevPage.png" /></button></li>' +
-                    '   <li><button id="'+res.nextpage+'" onclick="getFenye(this);" title="下一页"><img src="../../static/img/nextPage.png" /></button></li>' +
-                    '   <li><button id="'+res.allpage+'" onclick="getFenye(this);" title="最后一页"><img src="../../static/img/lastPage.png" /></button></li>' +
-                    '</ul>'
-                    );
-                    $("#right .data-card .fenye").css("display","block");
-                }
+                // 分页组件
+                fenyeComponent(res.page,res.allpage,res.nextpage,res.prepage);
                 
-                // 渲染分页控件
-                $("#right .data-card .fenye").html($Fenye_HTML);
-                
-                // 设置URL
-                if(res.page !== 1){
-                    window.history.pushState('', '', '?p='+res.page+'&token='+creatPageToken(32));
-                }
+                // 设置URL路由
+                setRouter(pageNum);
                 
             }else{
                 
-                // 非200状态码
-                if(res.code == 205){
+                // 未登录
+                if(res.code == 201){
                     
-                    // 205状态码代表用户升级版本但未初始化
-                    warningPage('<p>检测到你正在升级版本</p><button onclick="Upgrade();" class="default-btn" style="cursor:pointer;">'+res.msg+'</button>');
-                    $('#button-view').html('');
-                    $('#openApi').html('');
-                }else{
-                    
-                    warningPage(res.msg);
+                    // 跳转到登录页面
+                    jumpUrl('../login/');
                 }
                 
-                // 如果是未登录
-                // 3秒后自动跳转到登录页面
-                if(res.code == 201){
-                    redirectLoginPage(3000);
-                }
+                // 非200状态码
+                noData(res.msg);
+                
             }
             
       },
       error: function(){
         
         // 发生错误
-        errorPage('服务器发生错误！')
+        errorPage('data-list','getZjyList.php');
       },
     });
 }
 
-// 跳转到登录界面
-function redirectLoginPage(second){
+// 分页组件
+function fenyeComponent(thisPage,allPage,nextPage,prePage){
     
-    // second毫秒后跳转
-    setTimeout('location.href="../login/";', second);
+    if(thisPage == 1 && allPage == 1){
+        
+        // 当前页码=1 且 总页码=1
+        // 无需显示分页控件
+        $("#right .data-card .fenye").css("display","none");
+        
+    }else if(thisPage == 1 && allPage > 1){
+        
+        // 当前页码=1 且 总页码>1
+        // 代表还有下一页
+        var $fenyeComponent_HTML = $(
+        '<ul>' +
+        '   <li>'+ 
+        '       <button id="'+nextPage+'" onclick="getFenye(this);" title="下一页">'+ 
+        '           <img src="../../static/img/nextPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '   <li>'+ 
+        '       <button id="'+allPage+'" onclick="getFenye(this);" title="最后一页">'+ 
+        '           <img src="../../static/img/lastPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '</ul>'
+        );
+        $("#right .data-card .fenye").css("display","block");
+        
+    }else if(thisPage == allPage){
+        
+        // 当前页码=总页码
+        // 代表这是最后一页
+        var $fenyeComponent_HTML = $(
+        '<ul>' +
+        '   <li>'+ 
+        '       <button id="1" onclick="getFenye(this);" title="第一页">'+ 
+        '           <img src="../../static/img/firstPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '   <li>'+ 
+        '   <button id="'+prePage+'" onclick="getFenye(this);" title="上一页">'+ 
+        '       <img src="../../static/img/prevPage.png" />'+ 
+        '   </button>'+ 
+        '   </li>' +
+        '</ul>'
+        );
+        $("#right .data-card .fenye").css("display","block");
+        
+    }else{
+        
+        var $fenyeComponent_HTML = $(
+        '<ul>' +
+        '   <li>'+ 
+        '       <button id="1" onclick="getFenye(this);" title="第一页">'+ 
+        '           <img src="../../static/img/firstPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '   <li>'+ 
+        '       <button id="'+prePage+'" onclick="getFenye(this);" title="上一页">'+ 
+        '           <img src="../../static/img/prevPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '   <li>'+ 
+        '       <button id="'+nextPage+'" onclick="getFenye(this);" title="下一页">'+ 
+        '           <img src="../../static/img/nextPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '   <li>'+ 
+        '       <button id="'+allPage+'" onclick="getFenye(this);" title="最后一页">'+ 
+        '           <img src="../../static/img/lastPage.png" />'+ 
+        '       </button>'+ 
+        '   </li>' +
+        '</ul>'
+        );
+        $("#right .data-card .fenye").css("display","block");
+        
+    }
+    
+    // 渲染分页组件
+    $("#right .data-card .fenye").html($fenyeComponent_HTML);
 }
 
-// 分页
+// 获取分页数据
 function getFenye(e){
     
     // 页码
@@ -266,32 +326,6 @@ function getFenye(e){
     
     // 获取该页列表
     getZjyList(pageNum);
-}
-
-// 升级
-function Upgrade(){
-    
-    $.ajax({
-        type: "POST",
-        url: "./Upgrade.php",
-        success: function(res){
-            
-            // 成功
-            if(res.code == 200){
-                
-                alert(res.msg);
-                location.reload();
-            }else{
-                
-                alert(res.msg);
-            }
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            alert('服务器发生错误');
-        }
-    });
 }
 
 // 创建中间页
@@ -309,8 +343,9 @@ function createZjy(){
                 // 操作反馈（操作成功）
                 showSuccessResult(res.msg)
                 
-                // 隐藏modal
+                // 隐藏Modal
                 setTimeout('hideModal("createZjyModal")', 500);
+                setTimeout('hideModal("createZjyQuickModal")', 500);
                 
                 // 重新加载中间页列表
                 setTimeout('getZjyList();', 500);
@@ -323,7 +358,42 @@ function createZjy(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('createZjy.php');
+        }
+    });
+}
+
+// 一键创建
+function createZjyQuick(){
+    
+    $.ajax({
+        type: "POST",
+        url: "./createZjy.php",
+        data: $('#createZjyQuick').serialize(),
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 操作反馈（操作成功）
+                showSuccessResult(res.msg)
+                
+                // 隐藏Modal
+                setTimeout('hideModal("createZjyModal")', 500);
+                setTimeout('hideModal("createZjyQuickModal")', 500);
+                
+                // 重新加载中间页列表
+                setTimeout('getZjyList();', 500);
+            }else{
+                
+                // 操作反馈（操作失败）
+                showErrorResult(res.msg)
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResultForphpfileName('createZjy.php');
         }
     });
 }
@@ -340,24 +410,24 @@ function editZjy(){
             // 成功
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
+                // 成功
                 showSuccessResult(res.msg)
                 
-                // 隐藏EditZjyModal
+                // 隐藏Modal
                 setTimeout('hideModal("EditZjyModal")', 500);
                 
                 // 重新加载中间页列表
                 setTimeout('getZjyList();', 500);
             }else{
                 
-                // 操作反馈（操作失败）
+                // 失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('editZjy.php');
         }
     });
 }
@@ -365,8 +435,11 @@ function editZjy(){
 // 询问是否要删除中间页
 function askDelZjy(zjyid){
     
-    // 将群id添加到button的delZjy函数用于传参执行删除
-    $('#DelZjyModal .modal-footer').html('<button type="button" class="default-btn" onclick="delZjy('+zjyid+');">确定删除</button>')
+    // 将群id添加到button的
+    // delZjy函数用于传参执行删除
+    $('#DelZjyModal .modal-footer').html(
+        '<button type="button" class="default-btn" onclick="delZjy('+zjyid+');">确定删除</button>'
+    )
 }
 
 // 删除中间页
@@ -381,22 +454,24 @@ function delZjy(zjyid){
             // 成功
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
-                // 隐藏DelZjyModal
+                // 隐藏Modal
                 hideModal("DelZjyModal");
                 
                 // 重新加载中间页列表
                 setTimeout('getZjyList()', 500);
+                
+                // 显示删除结果
+                setTimeout('showNotification("'+res.msg+'")', 600);
             }else{
                 
-                // 操作反馈（操作失败）
+                // 失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('delZjy.php');
         }
     });
 }
@@ -404,7 +479,6 @@ function delZjy(zjyid){
 // 获取中间页详情
 function getZjyInfo(zjy_id){
     
-    // 根据zjy_id获取详情
     $.ajax({
         type: "GET",
         url: "./getZjyInfo.php?zjy_id="+zjy_id,
@@ -412,48 +486,56 @@ function getZjyInfo(zjy_id){
 
             if(res.code == 200){
                 
-                // （1）长标题
-                $('#zjy_long_title_edit').val(res.zjyInfo.zjy_long_title);
+                // 长标题
+                $('#EditZjyModal input[name="zjy_long_title"]').val(res.zjyInfo.zjy_long_title);
                 
                 // 获取域名列表
                 getDomainNameList('edit');
                 
-                // （2）获取当前设置的域名
-                $("#zjy_rkym_edit").append('<option value="'+res.zjyInfo.zjy_rkym+'">'+res.zjyInfo.zjy_rkym+'</option>');
-                $("#zjy_ldym_edit").append('<option value="'+res.zjyInfo.zjy_ldym+'">'+res.zjyInfo.zjy_ldym+'</option>');
-                $("#zjy_dlym_edit").append('<option value="'+res.zjyInfo.zjy_dlym+'">'+res.zjyInfo.zjy_dlym+'</option>');
+                // 获取当前设置的域名
+                $('#EditZjyModal select[name="zjy_rkym"]').append(
+                    '<option value="'+res.zjyInfo.zjy_rkym+'">'+res.zjyInfo.zjy_rkym+'</option>'
+                );
                 
-                // （3）短标题
-                $('#zjy_short_title_edit').val(res.zjyInfo.zjy_short_title);
+                $('#EditZjyModal select[name="zjy_ldym"]').append(
+                    '<option value="'+res.zjyInfo.zjy_ldym+'">'+res.zjyInfo.zjy_ldym+'</option>'
+                );
                 
-                // （4）淘口令
-                $('#zjy_tkl_edit').val(res.zjyInfo.zjy_tkl);
+                $('#EditZjyModal select[name="zjy_dlym"]').append(
+                    '<option value="'+res.zjyInfo.zjy_dlym+'">'+res.zjyInfo.zjy_dlym+'</option>'
+                );
                 
-                // （5）原价
-                $('#zjy_original_cost_edit').val(res.zjyInfo.zjy_original_cost);
+                // 短标题
+                $('#EditZjyModal input[name="zjy_short_title"]').val(res.zjyInfo.zjy_short_title);
                 
-                // （6）券后价
-                $('#zjy_discounted_price_edit').val(res.zjyInfo.zjy_discounted_price);
+                // 淘口令
+                $('#EditZjyModal input[name="zjy_tkl"]').val(res.zjyInfo.zjy_tkl);
                 
-                // （7）商品主图
-                $('#zjy_goods_img_edit').val(res.zjyInfo.zjy_goods_img);
+                // 原价
+                $('#EditZjyModal input[name="zjy_original_cost"]').val(res.zjyInfo.zjy_original_cost);
+            
+                // 券后价
+                $('#EditZjyModal input[name="zjy_discounted_price"]').val(res.zjyInfo.zjy_discounted_price);
                 
-                // （8）商品链接
-                $('#zjy_goods_link_edit').val(res.zjyInfo.zjy_goods_link);
+                // 商品主图
+                $('#EditZjyModal input[name="zjy_goods_img"]').val(res.zjyInfo.zjy_goods_img);
                 
-                // （8）zjy_id
-                $('#zjy_id_edit').val(zjy_id);
+                // 商品链接
+                $('#EditZjyModal input[name="zjy_goods_link"]').val(res.zjyInfo.zjy_goods_link);
+                
+                // zjy_id
+                $('#EditZjyModal input[name="zjy_id"]').val(zjy_id);
                             
             }else{
                 
-                // 操作反馈（操作失败）
+                // 失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('getZjyInfo.php');
         }
     });
 }
@@ -461,8 +543,10 @@ function getZjyInfo(zjy_id){
 // 获取中间页配置
 function getZjyConfig(){
     
+    // 初始化
     hideResult();
     
+    // 获取
     $.ajax({
         type: "GET",
         url: "./getZjyConfig.php",
@@ -487,7 +571,7 @@ function getZjyConfig(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('getZjyConfig.php');
         }
     });
 }
@@ -504,133 +588,82 @@ function configZjy(){
             // 成功
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
+                // 成功
                 showSuccessResult(res.msg)
                 
-                // 隐藏modal
+                // 隐藏Modal
                 setTimeout('hideModal("configZjyModal")', 500);
 
             }else{
                 
-                // 操作反馈（操作失败）
+                // 失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('configZjy.php');
         }
     });
+}
+
+// 使用 appendOptionsToSelect函数来为每个select元素处理选项的添加
+function appendOptionsToSelect(selectElement, dataList) {
+    
+    if (dataList.length > 0) {
+        
+        // 有域名
+        for (var i = 0; i < dataList.length; i++) {
+            
+            // 添加至指定的节点
+            selectElement.append(
+                '<option value="' + dataList[i].domain + '">' + dataList[i].domain + '</option>'
+            );
+        }
+    } else {
+        
+        // 暂无域名
+        selectElement.append('<option value="">暂无域名</option>');
+    }
 }
 
 // 获取域名列表
 function getDomainNameList(module){
     
-    // 判断是作用于哪个模块的
-    if(module == 'create'){
-        
-        // 初始化
-        initialize_getDomainNameList(module);
-        
-        // 获取
-        $.ajax({
-            type: "GET",
-            url: "./getDomainNameList.php",
-            success: function(res){
+    // 初始化
+    initialize_getDomainNameList(module);
+
+    // 获取
+    $.ajax({
+        type: "GET",
+        url: "../public/getDomainNameList.php",
+        success: function (res) {
+            
+            // 成功
+            if (res.code == 200) {
                 
-                // 成功
-                if(res.code == 200){
-                    
-                    // 操作反馈（操作成功）
-                    // 判断rkymList是否有域名
-                    if(res.rkymList.length>0){;
-                        for (var i=0; i<res.rkymList.length; i++) {
-                            $("#zjy_rkym").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_rkym").append('<option value="">暂无入口域名</option>');
-                    }
-                    // 判断ldymList是否有域名
-                    if(res.ldymList.length>0){
-                        for (var i=0; i<res.ldymList.length; i++) {
-                            $("#zjy_ldym").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_zzym").append('<option value="">暂无落地域名</option>');
-                    }
-                    // 判断dlymList是否有域名
-                    if(res.dlymList.length>0){
-                        for (var i=0; i<res.dlymList.length; i++) {
-                            $("#zjy_dlym").append('<option value="'+res.dlymList[i].domain+'">'+res.dlymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_dlym").append('<option value="">暂无短链域名</option>');
-                    }
-                }else{
-                    
-                    // 操作反馈（操作失败）
-                    showErrorResult(res.msg)
-                }
-            },
-            error: function() {
+                // 创建
+                appendOptionsToSelect($("#createZjyModal select[name='zjy_rkym']"), res.rkymList);
+                appendOptionsToSelect($("#createZjyModal select[name='zjy_ldym']"), res.ldymList);
+                appendOptionsToSelect($("#createZjyModal select[name='zjy_dlym']"), res.dlymList);
                 
-                // 服务器发生错误
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                // 编辑
+                appendOptionsToSelect($("#EditZjyModal select[name='zjy_rkym']"), res.rkymList);
+                appendOptionsToSelect($("#EditZjyModal select[name='zjy_ldym']"), res.ldymList);
+                appendOptionsToSelect($("#EditZjyModal select[name='zjy_dlym']"), res.dlymList);
+            } else {
+                
+                // 操作失败
+                showErrorResult(res.msg);
             }
-        });
-    }else if(module == 'edit'){
-        
-        // 初始化
-        initialize_getDomainNameList(module);
-        
-        // 获取
-        $.ajax({
-            type: "GET",
-            url: "./getDomainNameList.php",
-            success: function(res){
-                
-                // 成功
-                if(res.code == 200){
-                    
-                    // 操作反馈（操作成功）
-                    // 判断rkymList是否有域名
-                    if(res.rkymList.length>0){;
-                        for (var i=0; i<res.rkymList.length; i++) {
-                            $("#zjy_rkym_edit").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_rkym_edit").append('<option value="">暂无入口域名</option>');
-                    }
-                    // 判断ldymList是否有域名
-                    if(res.ldymList.length>0){
-                        for (var i=0; i<res.ldymList.length; i++) {
-                            $("#zjy_ldym_edit").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_ldym_edit").append('<option value="">暂无落地域名</option>');
-                    }
-                    // 判断dlymList是否有域名
-                    if(res.dlymList.length>0){
-                        for (var i=0; i<res.dlymList.length; i++) {
-                            $("#zjy_dlym_edit").append('<option value="'+res.dlymList[i].domain+'">'+res.dlymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#zjy_dlym_edit").append('<option value="">暂无短链域名</option>');
-                    }
-                }else{
-                    
-                    // 操作反馈（操作失败）
-                    showErrorResult(res.msg)
-                }
-            },
-            error: function() {
-                
-                // 服务器发生错误
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-            }
-        });
-    }
+        },
+        error: function () {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！');
+        }
+    });
 }
 
 // 分享中间页
@@ -652,22 +685,498 @@ function shareZjy(zjy_id){
                 $("#longUrl").text(res.longUrl);
                 
                 // 短链接
-                $("#shortUrl").text(res.shortUrl);
+                $("#shortUrl").html('<span id="zjy_'+zjy_id+'">'+res.shortUrl+'</span>');
                 
                 // 二维码
-                new QRCode(document.getElementById("shareQrcode"), res.longUrl);
+                new QRCode(document.getElementById("shareQrcode"), res.qrcodeUrl);
+                
+                // 复制按钮
+                $('#ShareZjyModal .modal-footer').html(
+                    '<button class="default-btn" data-clipboard-action="copy" data-clipboard-target="#zjy_'+zjy_id+'">复制链接</button>'
+                );
             }else{
                 
-                // 操作反馈（操作失败）
-                showErrorResult(res.msg)
+                // 失败
+                showErrorResult(res.msg);
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('shareZjy.php');
         }
     });
+}
+
+// 上传
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 选择本地商品主图（创建时）
+    $("#chooseIMG_create").change(function(e) {
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        
+        if (fileSelect.length > 0) {
+ 
+            // 获取表单选中的数据
+            var imageData = new FormData(document.getElementById("createZjy"));
+            
+            // 上传
+            uploadZhutu(imageData,"createZjyModal");
+        }
+        
+    });
+    
+    // 选择本地商品主图（编辑时）
+    $("#chooseIMG_edit").change(function(e) {
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        
+        if (fileSelect.length > 0) {
+ 
+            // 获取表单选中的数据
+            var imageData = new FormData(document.getElementById("editZjy"));
+            
+            // 上传
+            uploadZhutu(imageData,"EditZjyModal");
+        }
+        
+    });
+    
+    // 清除file的选择
+    $('#chooseIMG_create').val('');
+    $('#chooseIMG_edit').val('');
+    
+    // 上传
+    function uploadZhutu(imageData,modalId){
+        
+        $.ajax({
+            url: "../upload.php",
+            type: "POST",
+            data: imageData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                
+                if(res.code == 200){
+                    
+                    // 上传成功
+                    $('#'+modalId+' input[name="zjy_goods_img"]').val(res.url);
+                    $('#'+modalId+' .uploadText').text("重新上传");
+                    showSuccessResult(res.msg);
+                }else{
+                    
+                    // 上传失败
+                    showErrorResult(res.msg);
+                }
+            },
+            error: function() {
+                
+                // 上传失败
+                showErrorResultForphpfileName('upload.php');
+            }
+        });
+    }
+    
+    // 上传至素材库
+    $("#uploadSuCaiTosuCaiKu").change(function(e){
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            
+            // file表单数据
+            var imageData = new FormData(document.getElementById("uploadSuCaiTosuCaiKuForm"));
+            
+            // 获取fromPannel
+            var fromPannel = $('#uploadSuCai_fromPannel').val();
+            
+            // 异步上传
+            $.ajax({
+                url:"../public/uploadToSuCaiKu.php",
+                type:"POST",
+                data:imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 上传成功
+                        // 刷新素材库
+                        getSuCai(1,fromPannel);
+                    }else{
+                        
+                        // 上传失败
+                        showErrorResult(res.msg)
+                    }
+                    
+                    // 清空file控件的选择
+                    $('#uploadSuCaiTosuCaiKu').val('');
+                },
+                error: function() {
+                    
+                    // 上传失败
+                    showErrorResultForphpfileName('uploadToSuCaiKu.php');
+                }
+            })
+        }
+    })
+})
+
+// 获取素材
+function getSuCai(pageNum,fromPannel){
+    
+    // 初始化
+    $('#suCaiKu .modal-body .sucai-view').empty('');
+    
+    // 关闭界面
+    hideModal('createZjyModal');
+    
+    // 关闭编辑单页界面
+    hideModal('EditZjyModal');
+    
+    // 打开素材库界面
+    showModal('suCaiKu');
+    
+    // 如果fromPannel是EditZjyModal
+    // 需要修改素材库底部的取消按钮的点击事件函数为EditZjyModal
+    if(fromPannel == 'EditZjyModal'){
+        
+        $('#suCaiKu .modal-footer .btnnav').html(
+            '<button type="button" class="default-btn" data-dismiss="modal" onclick="hideSuCaiPannel(\'EditZjyModal\')">取消</button>'
+        );
+        
+        // 还需要修改素材库uploadSuCai_fromPannel的value
+        // 不修改的话，会造成在选择素材的页面点击上传素材
+        // 上传后的素材，点击选择素材后会打开创建单页而不是但会继续编辑
+        $('#uploadSuCai_fromPannel').val('EditZjyModal');
+    }
+    
+    // 判断是否有pageNum参数传过来
+    if(pageNum == undefined){
+        
+        // 没有参数就设置默认值
+        var pageNum = 1;
+    }
+    
+    // 获取从哪个面板点击打开的
+    if(fromPannel == 'createZjyModal'){
+        
+        // 上一个面板是createZjyModal
+        // 渲染出来的关闭按钮是需要返回createZjyModal的
+        $('#suCaiKu .hideSuCaiPannel_closeIcon').html(
+            '<button type="button" class="close" data-dismiss="modal" onclick="hideSuCaiPannel(\'createZjyModal\')">&times;</button>'
+        );
+    }
+    
+    if(fromPannel == 'EditZjyModal'){
+        
+        // 上一个面板是EditZjyModal
+        // 渲染出来的关闭按钮是需要返回EditZjyModal的
+        $('#suCaiKu .hideSuCaiPannel_closeIcon').html(
+            '<button type="button" class="close" data-dismiss="modal" onclick="hideSuCaiPannel(\'EditZjyModal\')">&times;</button>'
+        );
+    }
+    
+    // 开始获取素材列表
+    $.ajax({
+        type: "POST",
+        url: "../public/getSuCaiList.php?p="+pageNum,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 遍历数据
+                for (var i=0; i<res.suCaiList.length; i++) {
+                    
+                    // 素材ID
+                    var sucai_id = res.suCaiList[i].sucai_id;
+                    
+                    // 素材文件名
+                    var sucai_filename = res.suCaiList[i].sucai_filename;
+                    
+                    // 素材备注
+                    var sucai_beizhu = res.suCaiList[i].sucai_beizhu;
+                    
+                    // 根据fromPannel决定点击事件
+                    if(fromPannel == 'createZjyModal'){
+                        
+                        // 更新
+                        var clickFunction = 'selectSucaiForZhuitu('+sucai_id+')';
+                        
+                    }else if(fromPannel == 'EditZjyModal'){
+                        
+                        // 新增
+                        var clickFunction = 'selectSucaiEditZhuitu('+sucai_id+')';
+                    }
+                    
+                    
+                    var $sucaiList_HTML = $(
+                    '<div class="sucai_msg" title="'+sucai_beizhu+'" onclick="'+clickFunction+'">' +
+                    '   <div class="sucai_cover">' +
+                    '       <img src="../upload/'+sucai_filename+'" />' +
+                    '   </div>' +
+                    '   <div class="sucai_name">'+sucai_filename+'</div>' +
+                    '</div>'
+                    );
+                    
+                    // 渲染HTML
+                    $('#suCaiKu .modal-body .sucai-view').append($sucaiList_HTML);
+                }
+            }else{
+                
+                // 获取失败
+                getSuCaiFail(res.msg);
+            }
+            
+            // 分页控件
+            if(res.totalNum > 12){
+                
+                // 渲染分页控件
+                suCaifenyeControl(pageNum,fromPannel,res.nextpage,res.prepage,res.allpage);
+                
+            }else{
+                
+                // 隐藏分页控件
+                $('#suCaiKu .fenye').css('display','none');
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            getSuCaiFail('服务器发生错误，请检查getSuCaiList.php服务是否正常！');
+        }
+    });
+}
+
+// 获取素材失败
+function getSuCaiFail(text){
+    
+    $('#suCaiKu .modal-body .sucai-view').html(
+        '<div class="loading">'+
+        '   <img src="../../static/img/noRes.png" class="noRes"/>' +
+        '   <br/><p>'+text+'</p>'+
+        '</div>'
+    );
+}
+
+// 素材库分页控件
+function suCaifenyeControl(thisPage,fromPannel,nextPage,prePage,allPage){
+
+    if(thisPage == 1 && allPage == 1){
+        
+        // 当前页码=1 且 总页码=1
+        // 无需显示分页控件
+        $('#suCaiKu .fenye').css('display','none');
+        
+    }else if(thisPage == 1 && allPage > 1){
+        
+        // 当前页码=1 且 总页码>1
+        // 代表还有下一页
+        // 需要显示下一页、最后一页控件
+        
+        // 控件HTML结构
+        var $suCaiFenye = $(
+        '<ul>' +
+        '   <li>' +
+        '       <button id="'+nextPage+'_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="下一页">' +
+        '           <img src="../../static/img/nextPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '   <li>' +
+        '       <button id="'+allPage+'_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="最后一页">' +
+        '           <img src="../../static/img/lastPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '</ul>'
+        );
+        
+        // 显示控件
+        $('#suCaiKu .fenye').css('display','block');
+        
+    }else if(thisPage == allPage){
+        
+        // 当前页码=总页码
+        // 代表这是最后一页
+        // 需要显示第一页、上一页控件
+        
+        // 控件HTML结构
+        var $suCaiFenye = $(
+        '<ul>' +
+        '   <li>' +
+        '       <button id="1_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="第一页">' +
+        '           <img src="../../static/img/firstPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '   <li>' +
+        '       <button id="'+prePage+'_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="上一页">' +
+        '           <img src="../../static/img/prevPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '</ul>'
+        );
+        
+        // 显示控件
+        $('#suCaiKu .fenye').css('display','block');
+        
+    }else{
+        
+        // 其他情况
+        // 需要显示所有控件
+        
+        // 控件HTML结构
+        var $suCaiFenye = $(
+        '<ul>' +
+        '   <li>' +
+        '       <button id="1_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="第一页">' +
+        '           <img src="../../static/img/firstPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '   <li>' +
+        '       <button id="'+prePage+'_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="上一页">' +
+        '           <img src="../../static/img/prevPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '   <li>' +
+        '       <button id="'+nextPage+'_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="下一页">' +
+        '           <img src="../../static/img/nextPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '   <li>' +
+        '       <button id="'+allPage+'_'+fromPannel+'" onclick="getSuCaiFenyeData(this);" title="最后一页">' +
+        '           <img src="../../static/img/lastPage.png" />' +
+        '       </button>' +
+        '   </li>' +
+        '</ul>'
+        );
+        
+        // 显示控件
+        $('#suCaiKu .fenye').css('display','block');
+    }
+    
+    // 渲染分页控件
+    $('#suCaiKu .fenye').html($suCaiFenye);
+}
+
+// 获取素材库分页数据
+function getSuCaiFenyeData(e){
+    
+    var FenyeData = e.id;
+    var FenyeData_parts = FenyeData.split("_");
+    var pageNum = FenyeData_parts[0]; // 页码
+    var fromPannel = FenyeData_parts[1]; // 来源
+    
+    // 获取该页列表
+    getSuCai(pageNum,fromPannel);
+}
+
+// 选择当前素材（创建时）
+function selectSucaiForZhuitu(sucai_id){
+    
+    $.ajax({
+        type: "POST",
+        url: "./selectSucaiForZhuitu.php?sucai_id="+sucai_id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 将主图Url设置到表单中
+                $("#createZjyModal input[name='zjy_goods_img']").val(res.zhutuImgUrl);
+                
+                // 修改从素材库选择素材的按钮文字
+                $('#createZjyModal .selectText').text('重新选择素材');
+                
+                // 成功选择素材
+                // 隐藏素材面板
+                setTimeout("hideModal('suCaiKu')",1000);
+                
+                showSuccessResultTimes('已选择',1100);
+                
+                // 打开createZjyModal
+                setTimeout("showModal('createZjyModal')",1200);
+                
+                // 解决一个bug（这里别动）
+                setTimeout("$('body').attr('class', 'modal-open')",1600);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResultForphpfileName('selectSucaiForZhuitu.php');
+        }
+    });
+}
+
+// 选择当前素材（编辑时）
+function selectSucaiEditZhuitu(sucai_id){
+    
+    $.ajax({
+        type: "POST",
+        url: "./selectSucaiForZhuitu.php?sucai_id="+sucai_id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 将主图Url设置到表单中
+                $("#EditZjyModal input[name='zjy_goods_img']").val(res.zhutuImgUrl);
+                
+                // 修改从素材库选择素材的按钮文字
+                $('#EditZjyModal .selectText').text('重新选择素材');
+                
+                // 成功选择素材
+                // 隐藏素材面板
+                setTimeout("hideModal('suCaiKu')",1000);
+                
+                showSuccessResultTimes('已选择',1100);
+                
+                // 打开EditZjyModal
+                setTimeout("showModal('EditZjyModal')",1200);
+                
+                // 解决一个bug（这里别动）
+                setTimeout("$('body').attr('class', 'modal-open')",1600);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showErrorResultForphpfileName('selectSucaiEditZhuitu.php');
+        }
+    });
+}
+
+// 为了便于继续操作创建单页
+// 素材库的界面关闭后
+// 点击右上角X会继续打开创建单页
+function hideSuCaiPannel(fromPannel){
+    
+    // 先隐藏suCaiKu面板
+    hideModal('suCaiKu');
+    
+    // 根据fromPannel决定打开哪个 Modal
+    if(fromPannel == 'createZjyModal'){
+        
+        // 显示createZjyModal
+        showModal('createZjyModal')
+    }else if(fromPannel == 'EditZjyModal'){
+        
+        // 显示EditZjyModal
+        showModal('EditZjyModal')
+    }
+}
+
+// 打开操作反馈（操作成功）
+function showSuccessResultTimes(content,times){
+    $('#app .result').html('<div class="success">'+content+'</div>');
+    $('#app .result .success').css('display','block');
+    setTimeout('hideResult()', times);
 }
 
 // 注销登录
@@ -688,7 +1197,7 @@ function exitLogin(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            errorPage('data-list','exitLogin.php');
         }
     });
 }
@@ -702,26 +1211,91 @@ function creatPageToken(length) {
     return result;
 }
 
+// 显示全局信息提示弹出提示
+function showNotification(message) {
+    
+    // 获取文案
+	$('#notification-text').text(message);
+	
+    // 计算文案长度并设置宽度
+	var textLength = message.length * 25;
+	$('#notification-text').css('width',textLength+'px');
+	
+    // 距离顶部的高度
+	$('#notification').css('top', '25px');
+	
+    // 延迟隐藏
+	setTimeout(function() {
+		hideNotification();
+	}, 3000);
+}
+
+// 设置URL路由
+function setRouter(pageNum){
+    
+    // 第一页不设置
+    if(pageNum !== 1){
+        
+        // 根据页码+token设置路由
+        window.history.pushState('', '', '?p='+pageNum+'&token='+creatPageToken(32));
+    }
+}
+
+// 隐藏全局信息提示弹出提示
+function hideNotification() {
+	var $notificationContainer = $('#notification');
+	$notificationContainer.css('top', '-100px');
+}
+
 // 隐藏Modal（传入节点id决定隐藏哪个Modal）
 function hideModal(modal_Id){
     $('#'+modal_Id+'').modal('hide');
 }
+
 // 显示Modal（传入节点id决定隐藏哪个Modal）
 function showModal(modal_Id){
     $('#'+modal_Id+'').modal('show');
 }
 
-// 错误页面
-function errorPage(text){
-    $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html('<img src="../../static/img/errorIcon.png"/><br/><p>'+text+'</p>');
-    $("#right .data-card .loading").css('display','block');
+// 排查提示1
+function showErrorResultForphpfileName(phpfileName){
+    $('#app .result').html('<div class="error">服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+phpfileName+'的返回信息进行排查！<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a></div>');
+    $('#app .result .error').css('display','block');
+    setTimeout('hideResult()', 3000);
 }
 
-// 提醒页面
-function warningPage(text){
+// 排查提示2
+function errorPage(from,text){
+    
+    if(from == 'data-list'){
+        
+        $("#right .data-list").css('display','none');
+        $("#right .data-card .loading").html(
+            '<img src="../../static/img/errorIcon.png"/><br/>' +
+            '<p>服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+text+'的返回信息进行排查！</p>' +
+            '<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a>'
+        );
+        $("#right .data-card .loading").css('display','block');
+        
+    }else if(from == 'qrcode-list'){
+
+        $("#qunQrcodeListModal table").html(
+            '<img src="../../static/img/errorIcon.png"/><br/>' +
+            '<p>服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+text+'的返回信息进行排查！</p>' +
+            '<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a>'
+        );
+    }
+    
+}
+
+// 暂无数据
+function noData(text){
+    
     $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html('<img src="../../static/img/warningIcon.png"/><br/><p>'+text+'</p>');
+    $("#right .data-card .loading").html(
+    '<img src="../../static/img/noData.png" class="noData" /><br/>' +
+    '<p class="noDataText">'+text+'</p>'
+    );
     $("#right .data-card .loading").css('display','block');
 }
 
@@ -736,36 +1310,32 @@ function initialize_getZjyList(){
 function initialize_getDomainNameList(module){
     
     if(module == 'create'){
-        
-        // 将所有值清空
-        $("#taokouling").val('');
-        $("#zjy_short_title").val('');
-        $("#zjy_long_title").val('');
-        $("#zjy_tkl").val('');
-        $("#zjy_original_cost").val('');
-        $("#zjy_discounted_price").val('');
-        $("#zjy_goods_img").val('');
-        $("#zjy_goods_link").val('');
+        $('#createZjyModal input[name="taokouling"]').val('');
+        $('#createZjyModal input[name="zjy_long_title"]').val('');
+        $('#createZjyModal input[name="zjy_short_title"]').val('');
+        $('#createZjyModal input[name="zjy_tkl"]').val('');
+        $('#createZjyModal input[name="zjy_original_cost"]').val('');
+        $('#createZjyModal input[name="zjy_discounted_price"]').val('');
+        $('#createZjyModal input[name="zjy_goods_img"]').val('');
         $("#selectGoodsImgtext").text('上传图片');
-        $("#zjy_rkym").empty();
-        $("#zjy_ldym").empty();
-        $("#zjy_dlym").empty();
+        $('#createZjyModal select[name="zjy_rkym"]').empty();
+        $('#createZjyModal select[name="zjy_ldym"]').empty();
+        $('#createZjyModal select[name="zjy_dlym"]').empty();
         hideResult();
-        
-        // 设置默认值
-        $("#zjy_rkym").append('<option value="">选择入口域名</option>');
-        $("#zjy_ldym").append('<option value="">选择落地域名</option>');
-        $("#zjy_dlym").append('<option value="">选择短链域名</option>');
-        
+
     }else if(module == 'edit'){
-        
-        // 将所有值清空
-        $("#zjy_rkym_edit").empty();
-        $("#zjy_ldym_edit").empty();
-        $("#zjy_dlym_edit").empty();
+        $('#EditZjyModal select[name="zjy_rkym"]').empty();
+        $('#EditZjyModal select[name="zjy_ldym"]').empty();
+        $('#EditZjyModal select[name="zjy_dlym"]').empty();
         hideResult();
     }
+}
 
+// 跳转到指定路径
+function jumpUrl(jumpUrl){
+    
+    // 1秒后跳转至jumpUrl
+    setTimeout('location.href="'+jumpUrl+'"',1000);
 }
 
 // 打开操作反馈（操作成功）

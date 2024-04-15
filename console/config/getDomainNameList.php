@@ -7,6 +7,7 @@
      * 202 失败
      * 203 空值
      * 204 无结果
+     * 205 无权限
      */
 
 	// 页面编码
@@ -17,7 +18,6 @@
     if(isset($_SESSION["yinliubao"])){
         
         // 已登录
-        // 接收参数
     	@$page = $_GET['p']?$_GET['p']:1;
     	
         // 当前登录的用户
@@ -33,7 +33,7 @@
     	$domainNum = count($db->set_table('huoma_domain')->findAll());
     
     	// 每页数量
-    	$lenght = 10;
+    	$lenght = 12;
     
     	// 每页第一行
     	$offset = ($page-1)*$lenght;
@@ -92,7 +92,7 @@
     	    
     	   // 没有管理权限
     	   $result = array(
-                'code' => 204,
+                'code' => 205,
                 'msg' => '没有管理权限'
             );
     	}
@@ -101,7 +101,7 @@
         // 未登录
         $result = array(
 			'code' => 201,
-            'msg' => '未登录或登录过期'
+            'msg' => '未登录'
 		);
     }
 

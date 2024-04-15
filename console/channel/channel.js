@@ -1,5 +1,3 @@
-
-// 进入就加载
 window.onload = function (){
     
     // 获取登录状态
@@ -17,6 +15,14 @@ window.onload = function (){
         // 获取不到页码就获取首页
         getChannelList();
     }
+    
+    // clipboard插件
+    var clipboard = new ClipboardJS('#shareChannelHm .modal-footer button');
+    clipboard.on('success', function(e) {
+        
+        // 复制成功
+        $('#shareChannelHm .modal-footer button').text('已复制');
+    });
 }
 
 // 获取登录状态
@@ -32,19 +38,33 @@ function getLoginStatus(){
             if(res.code == 200){
                 
                 // 已登录
-                $('#accountInfo').html('<span class="user_name">'+res.user_name+'</span><a href="javascript:;" onclick="exitLogin();">退出</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">'+res.user_name+' <span onclick="exitLogin();" class="exitLogin">退出</span></div>'
+                );
+                $(".left .account").html($account);
+                
+                // 初始化
                 initialize_Login('login')
             }else{
                 
                 // 未登录
-                $('#accountInfo').html('<a href="../login/">登录账号</a>');
+                // 账号及版本信息
+                var $account = $(
+                    '<div class="version">'+res.version+'</div>' +
+                    '<div class="user_name">未登录</div>'
+                );
+                $(".left .account").html($account);
+                
+                // 初始化
                 initialize_Login('unlogin');
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            errorPage();
         }
     });
 }
@@ -91,9 +111,16 @@ function getChannelList(pageNum) {
                 '<tr>' +
                 '   <th>序号</th>' +
                 '   <th>标题</th>' +
-                '   <th>状态</th>' +
                 '   <th>创建时间</th>' +
-                '   <th>访问量</th>' +
+                '   <th>总访问量</th>' +
+                '   <th>今天访问量</th>' +
+                '   <th>Android</th>' +
+                '   <th>iOS</th>' +
+                '   <th>Windows</th>' +
+                '   <th>Linux</th>' +
+                '   <th>MacOS</th>' +
+                '   <th>数据量</th>' +
+                '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -113,15 +140,21 @@ function getChannelList(pageNum) {
                     // （2）标题
                     var channel_title = res.channelList[i].channel_title;
                     
-                    // （3）状态
+                    // 状态
                     if(res.channelList[i].channel_status == '1'){
                         
                         // 正常
-                        var channel_status = '<span>正常</span>';
+                        var channel_status = 
+                        '<span class="switch-on" id="'+res.channelList[i].channel_id+'" onclick="changeChannelStatus(this);">' +
+                        '   <span class="press"></span>' +
+                        '</span>';
                     }else{
                         
                         // 关闭
-                        var channel_status = '<span class="status_close">停用</span>';
+                        var channel_status = 
+                        '<span class="switch-off" id="'+res.channelList[i].channel_id+'" onclick="changeChannelStatus(this);">' +
+                        '   <span class="press"></span>' +
+                        '</span>';
                     }
                     
                     // （4）创建时间
@@ -133,22 +166,63 @@ function getChannelList(pageNum) {
                     // （6）渠道码ID
                     var channel_id = res.channelList[i].channel_id;
                     
+                    // 设备数据量
+                    var Android_Total = res.channelList[i].Android_Total;
+                    var iOS_Total = res.channelList[i].iOS_Total;
+                    var Windows_Total = res.channelList[i].Windows_Total;
+                    var Linux_Total = res.channelList[i].Linux_Total;
+                    var MacOS_Total = res.channelList[i].MacOS_Total;
+                    
+                    // 数据量
+                    var channel_DataTotal = res.channelList[i].channel_DataTotal;
+                    
+                    // 今天访问量
+                    var channel_today_pv = JSON.parse(res.channelList[i].channel_today_pv.toString()).pv;
+                    var channel_today_date = JSON.parse(res.channelList[i].channel_today_pv.toString()).date;
+                    
+                    // 获取日期
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const todayDate = `${year}-${month}-${day}`;
+                    
+                    if(channel_today_date == todayDate){
+                        
+                        // 日期一致
+                        // 显示今天的访问量
+                        var channel_pv_today = channel_today_pv;
+                    }else{
+                        
+                        // 日期不一致
+                        // 显示0
+                        var channel_pv_today = 0;
+                    }
+                    
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+channel_title+'</td>' +
-                        '   <td>'+channel_status+'</td>' +
                         '   <td>'+channel_creat_time+'</td>' +
                         '   <td>'+channel_pv+'</td>' +
+                        '   <td>'+channel_pv_today+'</td>' +
+                        '   <td>'+Android_Total+'</td>' +
+                        '   <td>'+iOS_Total+'</td>' +
+                        '   <td>'+Windows_Total+'</td>' +
+                        '   <td>'+Linux_Total+'</td>' +
+                        '   <td>'+MacOS_Total+'</td>' +
+                        '   <td>'+channel_DataTotal+'</td>' +
+                        '   <td>'+channel_status+'</td>' +
                         '   <td class="dropdown-td">' +
                         '       <div class="dropdown">' +
                         '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
                         '           <div class="dropdown-menu">' +
-                        '               <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#shareChannelHm" onclick="shareChannel('+channel_id+')">分享</a>' +
-                        '               <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#EditChannelHm" onclick="getChannelInfo(this)" id="'+channel_id+'">编辑</a>' +
+                        '               <span class="dropdown-item" data-toggle="modal" data-target="#shareChannelHm" onclick="shareChannel('+channel_id+')">分享</span>' +
+                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editChannelModal" onclick="getChannelInfo(this)" id="'+channel_id+'">编辑</span>' +
                         '               <a class="dropdown-item" href="./channelData.html?channelid='+channel_id+'" title="查看当前渠道的数据">数据</a>' +
-                        '               <a class="dropdown-item" href="javascript:;" id="'+channel_id+'" data-toggle="modal" data-target="#DelChannelHm" onclick="askDelChannel(this)">删除</a>' +
+                        '               <span class="dropdown-item" onclick="resetChannelPv('+channel_id+')" title="重置总访问量和今日访问量">重置</span>' +
+                        '               <span class="dropdown-item" id="'+channel_id+'" data-toggle="modal" data-target="#DelChannelHm" onclick="askDelChannel(this)">删除</span>' +
                         '           </div>' +
                         '       </div>' +
                         '   </td>' +
@@ -206,30 +280,24 @@ function getChannelList(pageNum) {
                 
             }else{
                 
-                // 非200状态码
-                warningPage(res.msg)
-                
-                // 如果是未登录
-                // 3秒后自动跳转到登录页面
+                // 未登录
                 if(res.code == 201){
-                    redirectLoginPage(3000);
+                    
+                    // 跳转到登录页面
+                    jumpUrl('../login/');
                 }
+                
+                // 非200状态码
+                noData(res.msg);
             }
             
       },
       error: function(){
         
         // 发生错误
-        errorPage('服务器发生错误！')
+        errorPage('data-list','getChannelList.php');
       },
     });
-}
-
-// 跳转到登录界面
-function redirectLoginPage(second){
-    
-    // second毫秒后跳转
-    setTimeout('location.href="../login/";', second);
 }
 
 // 分页
@@ -246,7 +314,7 @@ function getFenye(e){
 function creatChannel(){
     $.ajax({
         type: "POST",
-        url: "./creatChannel.php",
+        url: "./createChannel.php",
         data: $('#creatChannel').serialize(),
         success: function(res){
             
@@ -256,8 +324,8 @@ function creatChannel(){
                 // 操作反馈（操作成功）
                 showSuccessResult(res.msg)
                 
-                // 隐藏modal
-                setTimeout('hideModal("CreatChannelHm")', 500);
+                // 隐藏Modal
+                setTimeout('hideModal("CreateChannelModal")', 500);
                 
                 // 重新加载客服码列表
                 setTimeout('getChannelList();', 500);
@@ -270,7 +338,7 @@ function creatChannel(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('createChannel.php');
         }
     });
 }
@@ -289,8 +357,8 @@ function editChannel(){
                 // 操作反馈（操作成功）
                 showSuccessResult(res.msg)
                 
-                // 隐藏EditChannelHm modal
-                setTimeout('hideModal("EditChannelHm")', 500);
+                // 隐藏Modal
+                setTimeout('hideModal("editChannelModal")', 500);
                 
                 // 重新加载渠道码列表
                 setTimeout('getChannelList();', 500);
@@ -303,7 +371,7 @@ function editChannel(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('editChannel.php');
         }
     });
 }
@@ -314,11 +382,14 @@ function askDelChannel(e){
     // 获取channel_id
     var channel_id = e.id;
     
-    // 将群id添加到button的delChannel函数用于传参执行删除
-    $('#DelChannelHm .modal-footer').html('<button type="button" class="default-btn" onclick="delChannel('+channel_id+');">确定删除</button>')
+    // 将群id添加到button的
+    // delChannel函数用于传参执行删除
+    $('#DelChannelHm .modal-footer').html(
+        '<button type="button" class="default-btn" onclick="delChannel('+channel_id+');">确定删除</button>'
+    )
 }
 
-// 删除客服码
+// 删除渠道码
 function delChannel(channel_id){
     
     // 删除
@@ -330,12 +401,14 @@ function delChannel(channel_id){
             // 成功
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
-                // 隐藏modal
+                // 隐藏Modal
                 hideModal("DelChannelHm");
                 
                 // 重新加载群列表
                 setTimeout('getChannelList()', 500);
+                
+                // 显示删除结果
+                setTimeout('showNotification("'+res.msg+'")', 600);
             }else{
                 
                 // 操作反馈（操作失败）
@@ -345,7 +418,7 @@ function delChannel(channel_id){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('delChannel.php');
         }
     });
 }
@@ -356,7 +429,6 @@ function getChannelInfo(e){
     // 获取channel_id
     var channel_id = e.id;
     
-    // 根据channel_id获取渠道码详情
     $.ajax({
         type: "GET",
         url: "./getChannelInfo.php?channel_id="+channel_id,
@@ -364,168 +436,107 @@ function getChannelInfo(e){
 
             if(res.code == 200){
                 
-                // 操作反馈（操作成功）
+                // 操作成功
                 showSuccessResult(res.msg)
                 
-                // （1）标题
-                $('#channel_title_edit').val(res.channelInfo.channel_title);
+                // 标题
+                $('input[name="channel_title"]').val(res.channelInfo.channel_title);
                 
                 // 获取域名列表
                 getDomainNameList('edit')
                 
-                // （2）获取当前设置的域名
-                $("#channel_rkym_edit").append('<option value="'+res.channelInfo.channel_rkym+'">'+res.channelInfo.channel_rkym+'</option>');
-                $("#channel_ldym_edit").append('<option value="'+res.channelInfo.channel_ldym+'">'+res.channelInfo.channel_ldym+'</option>');
-                $("#channel_dlym_edit").append('<option value="'+res.channelInfo.channel_dlym+'">'+res.channelInfo.channel_dlym+'</option>');
+                // 获取当前设置的域名
+                $('select[name="channel_rkym"]').append(
+                    '<option value="'+res.channelInfo.channel_rkym+'">'+res.channelInfo.channel_rkym+'</option>'
+                );
                 
+                $('select[name="channel_ldym"]').append(
+                    '<option value="'+res.channelInfo.channel_ldym+'">'+res.channelInfo.channel_ldym+'</option>'
+                );
                 
-                // （3）渠道码状态
-                if(res.channelInfo.channel_status == '1'){
-                    
-                    // 正常
-                    $("#channel_status_edit").html('<option value="1">正常</option><option value="2">停用</option>');
-                }else{
-                    
-                    // 停用
-                    $("#channel_status_edit").html('<option value="2">停用</option><option value="1">正常</option>');
-                }
+                $('select[name="channel_dlym"]').append(
+                    '<option value="'+res.channelInfo.channel_dlym+'">'+res.channelInfo.channel_dlym+'</option>'
+                );
                 
-                // 推广链接（4）
-                $('#channel_url_edit').val(res.channelInfo.channel_url);
+                // 推广链接
+                $('input[name="channel_url"]').val(res.channelInfo.channel_url);
                 
                 // channel_id
-                $('#channel_id_edit').val(channel_id);
+                $('input[name="channel_id"]').val(channel_id);
                             
             }else{
                 
-                // 操作反馈（操作失败）
+                // 操作失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('getChannelInfo.php');
         }
     });
+}
+
+// 使用appendOptionsToSelect函数来为每个select元素处理选项的添加
+function appendOptionsToSelect(selectElement, dataList) {
+    
+    if (dataList.length > 0) {
+        
+        // 有域名
+        for (var i = 0; i < dataList.length; i++) {
+            
+            // 添加至指定的节点
+            selectElement.append(
+                '<option value="' + dataList[i].domain + '">' + dataList[i].domain + '</option>'
+            );
+        }
+    } else {
+        
+        // 暂无域名
+        selectElement.append('<option value="">暂无域名</option>');
+    }
 }
 
 // 获取域名列表
 function getDomainNameList(module){
     
-    // 判断是作用于哪个模块的
-    if(module == 'creat'){
-        
-        // 初始化
-        initialize_getDomainNameList(module);
-        
-        // 获取
-        $.ajax({
-            type: "GET",
-            url: "./getDomainNameList.php",
-            success: function(res){
+    // 初始化
+    initialize_getDomainNameList(module);
+
+    // 获取
+    $.ajax({
+        type: "GET",
+        url: "../public/getDomainNameList.php",
+        success: function (res) {
+            
+            // 成功
+            if (res.code == 200) {
                 
-                // 成功
-                if(res.code == 200){
-                    
-                    // 操作反馈（操作成功）
-                    // 判断rkymList是否有域名
-                    if(res.rkymList.length>0){;
-                        for (var i=0; i<res.rkymList.length; i++) {
-                            $("#channel_rkym").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#channel_rkym").append('<option value="">暂无入口域名</option>');
-                    }
-                    // 判断ldymList是否有域名
-                    if(res.ldymList.length>0){
-                        for (var i=0; i<res.ldymList.length; i++) {
-                            $("#channel_ldym").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#channel_ldym").append('<option value="">暂无落地域名</option>');
-                    }
-                    // 判断dlymList是否有域名
-                    if(res.dlymList.length>0){
-                        for (var i=0; i<res.dlymList.length; i++) {
-                            $("#channel_dlym").append('<option value="'+res.dlymList[i].domain+'">'+res.dlymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#channel_dlym").append('<option value="">暂无短链域名</option>');
-                    }
-                }else{
-                    
-                    // 操作反馈（操作失败）
-                    showErrorResult(res.msg)
-                }
-            },
-            error: function() {
+                // 将入口、落地、短链域名添加至选项中
+                appendOptionsToSelect($("select[name='channel_rkym']"), res.rkymList);
+                appendOptionsToSelect($("select[name='channel_ldym']"), res.ldymList);
+                appendOptionsToSelect($("select[name='channel_dlym']"), res.dlymList);
+            } else {
                 
-                // 服务器发生错误
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                // 操作失败
+                showErrorResult(res.msg);
             }
-        });
-    }else if(module == 'edit'){
-        
-        // 初始化
-        initialize_getDomainNameList(module);
-        
-        // 获取
-        $.ajax({
-            type: "GET",
-            url: "./getDomainNameList.php",
-            success: function(res){
-                
-                // 成功
-                if(res.code == 200){
-                    
-                    // 操作反馈（操作成功）
-                    // 判断rkymList是否有域名
-                    if(res.rkymList.length>0){;
-                        for (var i=0; i<res.rkymList.length; i++) {
-                            $("#channel_rkym_edit").append('<option value="'+res.rkymList[i].domain+'">'+res.rkymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#channel_rkym_edit").append('<option value="">暂无入口域名</option>');
-                    }
-                    // 判断ldymList是否有域名
-                    if(res.ldymList.length>0){
-                        for (var i=0; i<res.ldymList.length; i++) {
-                            $("#channel_ldym_edit").append('<option value="'+res.ldymList[i].domain+'">'+res.ldymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#channel_ldym_edit").append('<option value="">暂无落地域名</option>');
-                    }
-                    // 判断dlymList是否有域名
-                    if(res.dlymList.length>0){
-                        for (var i=0; i<res.dlymList.length; i++) {
-                            $("#channel_dlym_edit").append('<option value="'+res.dlymList[i].domain+'">'+res.dlymList[i].domain+'</option>');
-                        }
-                    }else{
-                        $("#channel_dlym_edit").append('<option value="">暂无短链域名</option>');
-                    }
-                }else{
-                    
-                    // 操作反馈（操作失败）
-                    showErrorResult(res.msg)
-                }
-            },
-            error: function() {
-                
-                // 服务器发生错误
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-            }
-        });
-    }
+        },
+        error: function () {
+            
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！');
+        }
+    });
 }
 
-// 分享客服码
+// 分享渠道码
 function shareChannel(channel_id){
     
     // 初始化二维码
     $("#shareQrcode").html('');
 
-    // 分享
     $.ajax({
         type: "GET",
         url: "./shareChannel.php?channel_id="+channel_id,
@@ -538,20 +549,74 @@ function shareChannel(channel_id){
                 $("#longUrl").text(res.longUrl);
                 
                 // 短链接
-                $("#shortUrl").text(res.shortUrl);
+                $("#shortUrl").html('<span id="channel_'+channel_id+'">'+res.shortUrl+'</span>');
                 
                 // 二维码
-                new QRCode(document.getElementById("shareQrcode"), res.longUrl);
+                new QRCode(document.getElementById("shareQrcode"), res.qrcodeUrl);
+                
+                // 复制按钮
+                $('#shareChannelHm .modal-footer').html(
+                    '<button class="default-btn" data-clipboard-action="copy" data-clipboard-target="#channel_'+channel_id+'">复制链接</button>'
+                );
+                
             }else{
                 
-                // 操作反馈（操作失败）
+                // 失败
                 showErrorResult(res.msg)
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            showErrorResultForphpfileName('shareChannel.php');
+        }
+    });
+}
+
+// 重置访问量
+function resetChannelPv(channel_id){
+    
+    $.ajax({
+        type: "POST",
+        url: "resetChannelPv.php?channel_id=" + channel_id,
+        success: function(res){
+            
+            // 成功
+            showNotification(res.msg);
+            setTimeout('getChannelList()',500);
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showNotification('服务器发生错误')
+        }
+    });
+}
+
+// 切换switch
+// changeChannelStatus
+function changeChannelStatus(e){
+    
+    $.ajax({
+        type: "POST",
+        url: "./changeChannelStatus.php?channel_id=" + e.id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 获取列表
+                getChannelList();
+            }else{
+                
+                // 非200状态码
+                showErrorResult(res.msg)
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showNotification('服务器发生错误');
         }
     });
 }
@@ -574,7 +639,7 @@ function exitLogin(){
         error: function() {
             
             // 服务器发生错误
-            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+            errorPage('data-list','exitLogin.php');
         }
     });
 }
@@ -588,185 +653,88 @@ function creatPageToken(length) {
     return result;
 }
 
-// 为了便于继续操作二维码列表
-// 编辑群二维码的编辑框关闭后
-// 点击右上角X会立即打开二维码列表
-function hideEditKfZm(){
-    hideModal('EditKfZm');
-    showModal('kfZima')
-}
-
-// 计算过去多长时间
-function getDateDiff(dateTimeStamp) {
-    var minute = 1000 * 60;
-    var hour = minute * 60;
-    var day = hour * 24;
-    var halfamonth = day * 15;
-    var month = day * 30;
-    var now = new Date().getTime();
-    var diffValue = now - dateTimeStamp;
-    var monthC = diffValue / month;
-    var weekC = diffValue / (7 * day);
-    var dayC = diffValue / day;
-    var hourC = diffValue / hour;
-    var minC = diffValue / minute;
-    if (monthC >= 1) {
-        passTime = parseInt(monthC) + "个月前";
-    } else if (weekC >= 1) {
-        passTime = parseInt(weekC) + "周前";
-    } else if (dayC >= 1) {
-        passTime = parseInt(dayC) + "天前";
-    } else if (hourC >= 1) {
-        passTime = parseInt(hourC) + "小时前";
-    } else if (minC >= 1) {
-        passTime = parseInt(minC) + "分钟前";
-    } else {
-        passTime = "刚刚";
-    }
-    return passTime;
-}
-
-// 时间字符串转换为时间戳
-function getDateTimeStamp(dateStr){
-    return Date.parse(dateStr.replace(/-/gi,"/"));
-}
-
-// 重新上传
-function newUpload(){
-    
-    // 将图片预览隐藏，将上传控件打开
-    $('#EditKfHm .modal-body .upload_file').css('display','block');
-    $('#EditKfHm .modal-body .qrcode_preview').css('display','none');
-    $('#channel_channel_edit').val('');
-    $('#EditKfZm .modal-body .upload_file').css('display','block');
-    $('#EditKfZm .modal-body .qrcode_preview').css('display','none');
-    $('#zm_qrcode_edit').val('');
-}
-
-// 显示客服二维码
-function showKfQrcode(channel_kf){
-    // 开关选项
-    $("#channel_channel_status_edit").html('<option value="1">显示客服二维码</option><option value="2">隐藏客服二维码</option>');
-    // 还没上传过客服二维码
-    if(channel_kf == ''){
-        // 图片预览隐藏，上传控件显示
-        $('#EditQunHm .modal-body .wxqrcode_preview').css('display','none');
-        $('#EditQunHm .modal-body .upload_kf').css('display','block');
-    }else{
-        // 上传过客服二维码
-        // 图片预览显示，上传控件隐藏
-        $('#EditQunHm .modal-body .wxqrcode_preview').css('display','block');
-        $('#EditQunHm .modal-body .upload_kf').css('display','none');
-        var $previewQrcode_HTML = $(
-            '<img src="'+channel_kf+'" class="wxqrcode" />' +
-            '<p class="newUpload" onclick="newUpload();">重新上传</p>'
-        );
-        $('#EditQunHm .modal-body .wxqrcode_preview').html($previewQrcode_HTML);
-    }
-}
-
-// 隐藏客服二维码
-function hideKfQrcode(channel_kf){
-    // 开关选项
-    $("#channel_channel_status_edit").html('<option value="2">隐藏客服二维码</option><option value="1">显示客服二维码</option>');
-    // 还没上传过客服二维码
-    if(channel_kf == ''){
-        // 图片预览隐藏，上传控件隐藏
-        $('#EditQunHm .modal-body .wxqrcode_preview').css('display','none');
-        $('#EditQunHm .modal-body .upload_kf').css('display','none');
-    }else{
-        // 上传过客服二维码
-        // 图片预览隐藏，上传控件隐藏
-        $('#EditQunHm .modal-body .wxqrcode_preview').css('display','none');
-        $('#EditQunHm .modal-body .upload_kf').css('display','none');
-        // 提前将图片预览加载出来便于切换的时候能显示预览
-        var $previewQrcode_HTML = $(
-            '<img src="'+channel_kf+'" class="wxqrcode" />' +
-            '<p class="newUpload" onclick="newUpload();">重新上传</p>'
-        );
-        $('#EditQunHm .modal-body .wxqrcode_preview').html($previewQrcode_HTML);
-    }
-}
-
-// 监听客服显示和隐藏的切换状态
-function getKfOptionSelectVal(){
-    
-    if($('#channel_channel_status_edit').val() == '1'){
-        // 还没上传过客服二维码
-        // 图片预览隐藏，上传控件显示
-        if($('#channel_channel_edit').val() == ''){
-            $('#EditQunHm .modal-body .upload_kf').css('display','block')
-            $('#EditQunHm .modal-body .wxqrcode_preview').css('display','none');
-        }else{
-            // 上传过客服二维码
-            // 图片预览显示，上传控件隐藏
-            $('#EditQunHm .modal-body .upload_kf').css('display','none')
-            $('#EditQunHm .modal-body .wxqrcode_preview').css('display','block');
-        }
-    }else{
-        // 图片预览隐藏，上传控件隐藏
-        $('#EditQunHm .modal-body .upload_kf').css('display','none')
-        $('#EditQunHm .modal-body .wxqrcode_preview').css('display','none');
-    }
-}
-
-// 计算几天后的日期
-function getDaysAfter(todatDate, days) {
-    const milliseconds = 1000 * 60 * 60 * 24 * days;
-    const afterTime = new Date(todatDate).getTime() + milliseconds;
-    let dateObj = new Date(afterTime);
-    let yearNum = dateObj.getYear()+1900;
-    let monthNum = dateObj.getMonth()+1;
-    let dayNum = dateObj.getDate();
-    return yearNum + '-' + monthNum + '-' + dayNum;
-}
-
 // 隐藏Modal（传入节点id决定隐藏哪个Modal）
 function hideModal(modal_Id){
     $('#'+modal_Id+'').modal('hide');
 }
+
 // 显示Modal（传入节点id决定隐藏哪个Modal）
 function showModal(modal_Id){
     $('#'+modal_Id+'').modal('show');
 }
 
-// 错误页面
-function errorPage(text){
+// 显示全局信息提示弹出提示
+function showNotification(message) {
+    
+    // 获取文案
+	$('#notification-text').text(message);
+	
+    // 计算文案长度并设置宽度
+	var textLength = message.length * 25;
+	$('#notification-text').css('width',textLength+'px');
+	
+    // 距离顶部的高度
+	$('#notification').css('top', '25px');
+	
+    // 延迟隐藏
+	setTimeout(function() {
+		hideNotification();
+	}, 3000);
+}
+
+// 隐藏全局信息提示弹出提示
+function hideNotification() {
+	var $notificationContainer = $('#notification');
+	$notificationContainer.css('top', '-100px');
+}
+
+// 排查提示1
+function showErrorResultForphpfileName(phpfileName){
+    $('#app .result').html('<div class="error">服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+phpfileName+'的返回信息进行排查！<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a></div>');
+    $('#app .result .error').css('display','block');
+    setTimeout('hideResult()', 3000);
+}
+
+// 排查提示2
+function errorPage(from,text){
+    
+    if(from == 'data-list'){
+        
+        $("#right .data-list").css('display','none');
+        $("#right .data-card .loading").html(
+            '<img src="../../static/img/errorIcon.png"/><br/>' +
+            '<p>服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+text+'的返回信息进行排查！</p>' +
+            '<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a>'
+        );
+        $("#right .data-card .loading").css('display','block');
+        
+    }else if(from == 'qrcode-list'){
+
+        $("#qunQrcodeListModal table").html(
+            '<img src="../../static/img/errorIcon.png"/><br/>' +
+            '<p>服务器发生错误！可按F12打开开发者工具点击Network或网络查看'+text+'的返回信息进行排查！</p>' +
+            '<a href="../../static/img/tiaoshi.jpg" target="blank">点击查看排查方法</a>'
+        );
+    }
+    
+}
+
+// 跳转到指定路径
+function jumpUrl(jumpUrl){
+    
+    // 1秒后跳转至jumpUrl
+    setTimeout('location.href="'+jumpUrl+'"',1000);
+}
+
+// 暂无数据
+function noData(text){
+    
     $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html('<img src="../../static/img/errorIcon.png"/><br/><p>'+text+'</p>');
+    $("#right .data-card .loading").html(
+    '<img src="../../static/img/noData.png" class="noData" /><br/>' +
+    '<p class="noDataText">'+text+'</p>'
+    );
     $("#right .data-card .loading").css('display','block');
-}
-
-// 提醒页面
-function warningPage(text){
-    $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html('<img src="../../static/img/warningIcon.png"/><br/><p>'+text+'</p>');
-    $("#right .data-card .loading").css('display','block');
-}
-
-// 没有获取到客服子码
-function noZmData(text){
-    $("#kfZima .loading").css('display','block');
-    $("#kfZima .loading").html('<img src="../../static/img/warningIcon.png"/><br/><p>'+text+'</p>');
-}
-
-// 初始化（获取客服子码列表）
-function initialize_kfzimaList(){
-    // 清空原加载的列表
-    $("#kfZima .modal-body .kfzima-list tbody").empty('');
-    // 隐藏loading
-    $("#kfZima .loading").css('display','none');
-    // 清空上传控件选择的文件
-    $("#uploadZmQrcode").val('');
-}
-
-// 初始化（编辑群活码上传控件）
-function initialize_uploadKf(){
-    $('#channel_channel_edit').val('');
-    $('#uploadKfQrcode').val('');
-    $('#EditQunHm .modal-body .upload_kf').css('display','block');
-    $('#EditQunHm .modal-body .wxqrcode_preview').css('display','none');
-    $('#EditQunHm .modal-body .wxqrcode_preview').html('');
 }
 
 // 初始化（getchannelList获取渠道码列表）
@@ -776,31 +744,17 @@ function initialize_getchannelList(){
     $("#right .data-list tbody").empty('');
 }
 
-// 初始化（获取域名列表）
+// 初始化
+// 获取域名列表
 function initialize_getDomainNameList(module){
     
-    if(module == 'creat'){
-        
-        // 将所有值清空
-        $("#channel_title").val('');
-        $("#channel_rkym").empty();
-        $("#channel_ldym").empty();
-        $("#channel_dlym").empty();
-        hideResult();
-        
-        // 设置默认值
-        $("#channel_rkym").append('<option value="">选择入口域名</option>');
-        $("#channel_ldym").append('<option value="">选择落地域名</option>');
-        $("#channel_dlym").append('<option value="">选择短链域名</option>');
-    }else if(module == 'edit'){
-        
-        // 将所有值清空
-        $("#channel_rkym_edit").empty();
-        $("#channel_ldym_edit").empty();
-        $("#channel_dlym_edit").empty();
-        hideResult();
-    }
-
+    // 默认值
+    $('#CreateChannelModal input[name="channel_title"]').val('');
+    $('#CreateChannelModal input[name="channel_url"]').val('');
+    $('select[name="channel_rkym"]').empty();
+    $('select[name="channel_ldym"]').empty();
+    $('select[name="channel_dlym"]').empty();
+    hideResult();
 }
 
 // 打开操作反馈（操作成功）

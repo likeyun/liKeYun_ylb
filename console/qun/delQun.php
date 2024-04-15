@@ -21,7 +21,7 @@
     	$qun_id = trim($_GET['qun_id']);
     	
         // 过滤参数
-        if(empty($qun_id) || $qun_id == '' || $qun_id == null || !isset($qun_id)){
+        if(empty($qun_id) || !isset($qun_id)){
             
             $result = array(
 			    'code' => 203,
@@ -41,9 +41,8 @@
         	// 数据库huoma_qun表
         	$huoma_qun = $db->set_table('huoma_qun');
         	
-            // 验证当前要删除的qun_id的发布者是否为当前登录的用户
-            $where_quninfo = ['qun_id'=>$qun_id];
-            $find_quninfo = $huoma_qun->find($where_quninfo);
+            // 验证发布者是否为当前登录的用户
+            $find_quninfo = $huoma_qun->find(['qun_id' => $qun_id]);
             $qun_creat_user = json_decode(json_encode($find_quninfo))->qun_creat_user;
             if($qun_creat_user == $LoginUser){
                 
