@@ -45,6 +45,10 @@ http://域名/install/
 5、将 console/Db.php 这个文件以及 console/upload/ 目录替换；<br/>
 6、访问install目录，选择你要升级的版本选项。<br/>
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=likeyun/liKeYun_Ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_Ylb&Date)
+
 # 卡密分发小程序源码
 请付费购买：https://afdian.net/item/270573e4f97d11eea18d5254001e7c00
 
