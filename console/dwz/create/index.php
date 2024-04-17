@@ -215,6 +215,7 @@
                     'dwz_url'=>$dwz_url,
                     'dwz_creat_user'=>$apikey_user,
                     'dwz_key' => $dwzKey,
+                    'dwz_today_pv' => '{"pv":"0","date":"'.date('Y-m-d').'"}',
                     'dwz_id'=>rand(100000,999999)
                 ];
                 
