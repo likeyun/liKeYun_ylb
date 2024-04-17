@@ -73,7 +73,7 @@ http://域名/console/index/
 
 # 功能
 
-![](https://img10.360buyimg.com/imgzone/jfs/t1/233199/35/5994/134735/656d5672F4ba6963b/db0916f3c068a009.png)
+![](https://img10.360buyimg.com/imgzone/jfs/t1/208894/5/41649/168432/661f99cdFe7276d89/a8ea2fc7db99aa40.png)
 
 # 截图
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/164167/30/43171/104800/661f9729Ff4dd4d0e/78ef16d0e86a6dc1.jpg)
