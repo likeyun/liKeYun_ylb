@@ -50,10 +50,13 @@
                     // 微信云托管
                     $longUrl = $jw_dxccym . '/index.html?jwid=' . $jw_id;
                     
+                }else if(strpos($jw_dxccym,'volces.com') == TRUE){ 
+                    
+                    // 抖音云
+                    $longUrl = $jw_dxccym . '/index.html?jwid=' . $jw_id;
                 }else {
                     
                     // 其他
-                    // 阿里云OSS、抖音云对象存储请上传名为index.html的文件
                     $longUrl = $jw_dxccym . '/?jwid=' . $jw_id;
                 }
                 
