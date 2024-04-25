@@ -14,8 +14,8 @@
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
 # 更新日志
-![](https://img.shields.io/badge/Version-2.4.0-brightgreen.svg)<br/>
-1. 2.4.0版本新特性：<br>
+![](https://img.shields.io/badge/Version-2.4.2-brightgreen.svg)<br/>
+1. 2.4.2版本新特性：<br>
 2. UI界面大量的优化<br>
 3. 新增群活码并流<br>
 4. 新增短网址轮询域名<br>
@@ -24,6 +24,8 @@
 7. 提供用户账号注册<br>
 8. 渠道码新增操作系统渠道数据记录<br>
 9. 新增卡密分发小程序管理<br>
+---------
+2.4.2是基于2.4.0修复了一些已知的小问题，例如适配jumpWX插件的抖音云，插件新增对非管理员使用权限的设置。<br>
 
 # 全新安装
 
