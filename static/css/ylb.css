@@ -1535,6 +1535,11 @@ table th,tr,td {
     display: block;
     margin: 10px auto 0;
 }
+.device_pv {
+    font-size: 14px;
+    color: #666;
+    line-height: 10px;
+}
 
 /*客服码、客服二维码*/
 #kfQrcodeListModal .modal-body .btn-view{
