@@ -114,11 +114,7 @@ function getChannelList(pageNum) {
                 '   <th>创建时间</th>' +
                 '   <th>总访问量</th>' +
                 '   <th>今天访问量</th>' +
-                '   <th>Android</th>' +
-                '   <th>iOS</th>' +
-                '   <th>Windows</th>' +
-                '   <th>Linux</th>' +
-                '   <th>MacOS</th>' +
+                '   <th>设备访问量</th>' +
                 '   <th>数据量</th>' +
                 '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
@@ -207,11 +203,10 @@ function getChannelList(pageNum) {
                         '   <td>'+channel_creat_time+'</td>' +
                         '   <td>'+channel_pv+'</td>' +
                         '   <td>'+channel_pv_today+'</td>' +
-                        '   <td>'+Android_Total+'</td>' +
-                        '   <td>'+iOS_Total+'</td>' +
-                        '   <td>'+Windows_Total+'</td>' +
-                        '   <td>'+Linux_Total+'</td>' +
-                        '   <td>'+MacOS_Total+'</td>' +
+                        '   <td>' +
+                        '        <p class="device_pv">Android:'+Android_Total+', iOS:'+iOS_Total+'</p>'+
+                        '        <p class="device_pv">Windows:'+Windows_Total+', Linux:'+Linux_Total+', MacOS:'+MacOS_Total+'</p>'+
+                        '   </td>' +
                         '   <td>'+channel_DataTotal+'</td>' +
                         '   <td>'+channel_status+'</td>' +
                         '   <td class="dropdown-td">' +
