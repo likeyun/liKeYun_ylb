@@ -1161,7 +1161,7 @@ table th,tr,td {
 /*添加并流表单*/
 #bingliuModal .addBingliuForm {
     display: flex;
-    width: 60%;
+    width: 80%;
     height: 40px;
     margin: 20px auto 25px;
 }
@@ -2143,6 +2143,22 @@ table th,tr,td {
 .add_usergroup {
     color: #3B5EE1;
     cursor: pointer;
+}
+
+/*域名检测结果*/
+.domain_ok {
+    padding: 4px 8px;
+    font-size: 10px;
+    border-radius: 10px;
+    color: rgb(43, 162, 69);
+    background: rgba(43, 162, 69, 0.2);
+}
+.domain_ban {
+    padding: 4px 8px;
+    font-size: 10px;
+    border-radius: 10px;
+    color: rgb(250, 81, 81);
+    background: rgba(250, 81, 81, 0.2);
 }
 
 /*首页*/
