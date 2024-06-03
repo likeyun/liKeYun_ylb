@@ -685,7 +685,7 @@
                         'db_pass' => $db_pass,
                         'db_prefix' => '',
                         'folderNum' => $install_folder,
-                        'version' => '2.4.0'
+                        'version' => '2.4.3'
                     ];
                     
                     // 生成Db.php文件内容
