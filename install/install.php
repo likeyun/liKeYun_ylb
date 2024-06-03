@@ -234,6 +234,7 @@
               `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
               `bingliu_id` int(10) DEFAULT NULL COMMENT '并流ID',
               `before_qun_id` int(10) DEFAULT NULL COMMENT '原活码ID',
+              `before_qun_key` varchar(10) DEFAULT NULL COMMENT '原活码Key',
               `later_qun_id` int(10) DEFAULT NULL COMMENT '并入活码ID',
               `bingliu_num` int(10) NOT NULL DEFAULT '0' COMMENT '并流次数',
               `bingliu_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态（1开 2关）',
@@ -684,7 +685,7 @@
                         'db_pass' => $db_pass,
                         'db_prefix' => '',
                         'folderNum' => $install_folder,
-                        'version' => '2.4.2'
+                        'version' => '2.4.0'
                     ];
                     
                     // 生成Db.php文件内容
@@ -725,7 +726,7 @@
                     // 安装失败
                     $result = array(
                         'code' => 202,
-                        'msg' => '安装失败，报错信息：（'.$conn->error.'）如果没有报错信息，请按F12打开控制台查看网络请求的报错进行调试！'
+                        'msg' => '安装失败，报错信息：（'.$conn->error.'）如没有报错信息，请按F12打开查看网络请求进行调试！或检查数据库服务器、账号、密码、数据库名称是否正确。'
                     );
                 }
             }
