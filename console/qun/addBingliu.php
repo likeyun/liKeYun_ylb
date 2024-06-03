@@ -18,19 +18,26 @@
         // 已登录
         $before_qun_id = trim($_POST['before_qun_id']);
         $later_qun_id = trim($_POST['later_qun_id']);
+        $before_qun_key = trim($_POST['before_qun_key']);
         
         // 过滤参数
         if(empty($before_qun_id) || !isset($before_qun_id)){
             
             $result = array(
                 'code' => 203,
-                'msg' => '请输入原活码ID'
+                'msg' => '请输入原活码id'
+            );
+        }else if(empty($before_qun_key) || !isset($before_qun_key)){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '请输入原活码短网址Key'
             );
         }else if(empty($later_qun_id) || !isset($later_qun_id)){
             
             $result = array(
                 'code' => 203,
-                'msg' => '请输入并入活码ID'
+                'msg' => '请输入并入活码id'
             );
         }else{
             
@@ -42,7 +49,7 @@
         
         	// 实例化类
         	$db = new DB_API($config);
-        	
+ 
         	// 验证原活码ID是否已经删除
             $check_before_qun_id_isDelete = $db->set_table('huoma_qun')->find(['qun_id' => $before_qun_id]);
             if($check_before_qun_id_isDelete) {
@@ -65,7 +72,7 @@
                 // 就不允许重复添加
                 $result = array(
                     'code' => 202,
-                    'msg' => '添加失败！该活码已经被并流至ID：' . $check_before_qun_id['later_qun_id']
+                    'msg' => '添加失败！该活码已经被并流至id：' . $check_before_qun_id['later_qun_id']
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -78,7 +85,7 @@
                 // 如果不存在
                 $result = array(
                     'code' => 202,
-                    'msg' => '并入的活码ID不存在'
+                    'msg' => '并入的活码id不存在'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -88,6 +95,7 @@
             $addParams = [
                 'bingliu_id' => $bingliu_id,
                 'before_qun_id' => $before_qun_id,
+                'before_qun_key' => $before_qun_key,
                 'later_qun_id' => $later_qun_id,
                 'createUser' => $_SESSION["yinliubao"]
             ];

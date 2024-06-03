@@ -1720,9 +1720,10 @@ function getBingliuList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
-                '   <th>原活码ID</th>' +
-                '   <th>并入活码ID</th>' +
+                // '   <th>序号</th>' +
+                '   <th>原活码id</th>' +
+                '   <th>原活码Key</th>' +
+                '   <th>并入活码id</th>' +
                 '   <th>并流次数</th>' +
                 '   <th>状态</th>' +
                 '   <th style="text-align: right;">操作</th>' +
@@ -1739,9 +1740,10 @@ function getBingliuList(pageNum) {
                 // 遍历数据
                 for (var i=0; i<res.bingliuList.length; i++) {
                     
-                    var xuhao = i+1;
+                    // var xuhao = i+1;
                     var bingliu_id = res.bingliuList[i].bingliu_id;
                     var before_qun_id = res.bingliuList[i].before_qun_id;
+                    var before_qun_key = res.bingliuList[i].before_qun_key;
                     var later_qun_id = res.bingliuList[i].later_qun_id;
                     var bingliu_num = res.bingliuList[i].bingliu_num;
                     
@@ -1765,8 +1767,9 @@ function getBingliuList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
+                        // '   <td>'+xuhao+'</td>' +
                         '   <td>'+before_qun_id+'</td>' +
+                        '   <td>'+before_qun_key+'</td>' +
                         '   <td>'+later_qun_id+'</td>' +
                         '   <td>'+bingliu_num+'</td>' +
                         '   <td>'+bingliu_status+'</td>' +
@@ -1925,6 +1928,7 @@ function addBingliu(){
                 
                 // 清空表单
                 $('#bingliuModal input[name="before_qun_id"]').val('');
+                $('#bingliuModal input[name="before_qun_key"]').val('');
                 $('#bingliuModal input[name="later_qun_id"]').val('');
             }else{
                 
