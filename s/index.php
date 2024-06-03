@@ -59,7 +59,7 @@
             $qun_id = json_decode(json_encode($getQunInfo))->qun_id;
             
             // 用入口域名跳转
-            redirectHmPage($folderNum,$qun_rkym,'qun','qid',$qun_id);
+            jumpTo($folderNum,$qun_rkym,'qun','qid',$qun_id);
             
         }else{
             
@@ -74,7 +74,7 @@
                 $kf_id = json_decode(json_encode($getKefuInfo))->kf_id;
               
                 // 用入口域名跳转
-                redirectHmPage($folderNum,$kf_rkym,'kf','kid',$kf_id);
+                jumpTo($folderNum,$kf_rkym,'kf','kid',$kf_id);
             
             }else{
                 
@@ -89,7 +89,7 @@
                     $channel_id = json_decode(json_encode($getChannelInfo))->channel_id;
                     
                     // 用入口域名跳转
-                    redirectHmPage($folderNum,$channel_rkym,'channel','cid',$channel_id);
+                    jumpTo($folderNum,$channel_rkym,'channel','cid',$channel_id);
                     
                 }else{
                     
@@ -104,7 +104,7 @@
                         $zjy_id = json_decode(json_encode($getZjyInfo))->zjy_id;
                         
                         // 用入口域名跳转
-                        redirectHmPage($folderNum,$zjy_rkym,'zjy','zid',$zjy_id);
+                        jumpTo($folderNum,$zjy_rkym,'zjy','zid',$zjy_id);
                         
                     }else{
                         
@@ -119,12 +119,50 @@
                             $multiSPA_id = json_decode(json_encode($getMultiSPAInfo))->multiSPA_id;
                             
                             // 用入口域名跳转
-                            redirectHmPage($folderNum,$multiSPA_rkym,'multiSPA','mid',$multiSPA_id);
+                            jumpTo($folderNum,$multiSPA_rkym,'multiSPA','mid',$multiSPA_id);
                             
                         }else{
                             
                             // 获取失败
-                            echo warnInfo('温馨提示','链接不存在或已被管理员删除');
+                            // 这里要判断这个Key是否进行了并流
+                            // 1. 根据这个Key去查询并流表
+                            $getbingliuForKey = $db->set_table('ylb_qun_bingliu')->find(['before_qun_key' => $key]);
+                            if($getbingliuForKey) {
+                                
+                                // 确定加入了并流
+                                // 获取并流的开启状态
+                                $bingliu_status = $getbingliuForKey['bingliu_status'];
+                                // 获取并入的活码id
+                                $later_qun_id = $getbingliuForKey['later_qun_id'];
+                                // 获取并流次数
+                                $bingliu_num = $getbingliuForKey['bingliu_num'];
+                                
+                                // 获取并入的活码的入口域名
+                                $getrkymForLaterQunId = $db->set_table('huoma_qun')->find(['qun_id' => $later_qun_id]);
+                                $laterQun_rkym = $getrkymForLaterQunId['qun_rkym'];
+                                
+                                if($bingliu_status == 1) {
+                                    
+                                    // 如果这个并流开启了
+                                    // 更新并流次数
+                                    $newNum = $bingliu_num + 1;
+                                    $db->set_table('ylb_qun_bingliu')->update(
+                                        ['before_qun_key' => $key],
+                                        ['bingliu_num' => $newNum]
+                                    );
+                                    
+                                    // 然后jumpTo
+                                    jumpTo($folderNum,$laterQun_rkym,'qun','qid',$later_qun_id);
+                                }else {
+                                    
+                                    // 不开启
+                                    echo warnInfo('温馨提示','链接不存在或已被管理员删除');
+                                }
+                            }else {
+                                
+                                // 不在
+                                echo warnInfo('温馨提示','链接不存在或已被管理员删除');
+                            }
                         }
                     }
                 }
@@ -138,7 +176,7 @@
     }
     
     // 跳转到落地页
-    function redirectHmPage($folderNum,$rkym,$hmType,$hmidName,$hmid){
+    function jumpTo($folderNum,$rkym,$hmType,$hmidName,$hmid){
         
         if($folderNum == 1){
                 
