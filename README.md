@@ -14,7 +14,7 @@
 ![ylb](https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg%40200w_200h_1e_1l)
 
 # 更新日志
-![](https://img.shields.io/badge/Version-2.4.2-brightgreen.svg)<br/>
+![](https://img.shields.io/badge/Version-2.4.3-brightgreen.svg)<br/>
 1. 2.4.3版本新特性：<br>
 2. UI界面大量的优化<br>
 3. 新增群活码并流<br>
@@ -28,7 +28,7 @@
 v2.4.3是基于v2.4.0修复了一些已知的小问题，只需替换代码，无需进入升级程序。<br/>
 1. 适配jumpWX插件的抖音云;<br/>
 2. 插件新增对非管理员使用权限的设置;<br/>
-3. 修复短链接无法启用群活码并流程序；(2.4.0如需升级到2.4.3版本这个需要自己前往数据库ylb_qun_bingliu这个表手动添加一个before_qun_key字段[varchar(10)]）
+3. 修复短链接无法启用群活码并流程序；(2.4.0如需升级到2.4.3版本这个需要自己前往数据库 `ylb_qun_bingliu` 这个表手动添加一个 `before_qun_key` 字段 `[varchar(10)]`）
 
 # 公众号
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/145303/24/42799/5773/662f19e0Fe49e9666/ca57d11bc2c9de54.jpg)
