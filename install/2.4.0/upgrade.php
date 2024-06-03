@@ -144,7 +144,7 @@
         $fileContents = file_get_contents('../../console/Db.php');
         
         // 新的版本号
-        $newVersion = '2.4.0';
+        $newVersion = '2.4.3';
         
         // 使用正则表达式替换旧版本号
         $updatedContents = preg_replace("/'version' => '[^']*'/", "'version' => '$newVersion'", $fileContents);
