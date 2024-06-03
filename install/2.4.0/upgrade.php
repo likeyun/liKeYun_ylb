@@ -16,6 +16,7 @@
       `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
       `bingliu_id` int(10) DEFAULT NULL COMMENT '并流ID',
       `before_qun_id` int(10) DEFAULT NULL COMMENT '原活码ID',
+      `before_qun_key` varchar(10) DEFAULT NULL COMMENT '原活码Key',
       `later_qun_id` int(10) DEFAULT NULL COMMENT '并入活码ID',
       `bingliu_num` int(10) NOT NULL DEFAULT '0' COMMENT '并流次数',
       `bingliu_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态（1开 2关）',
