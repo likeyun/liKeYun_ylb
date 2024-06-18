@@ -46,7 +46,7 @@ v2.4.3是基于v2.4.0修复了一些已知的小问题，具体如下：<br/>
 
 私域引流宝Pro正在开发中，该版本使用全新的技术栈，Vue3+Pinia+Javascript+Acro Design，专注于精细化多用户运营，敬请期待！
 
-![](https://kfgd.sina.com.cn/v2/messageBoard/2024-06-18%2022:54:29_CR-sPenm/2024/06/1406eaf3c9111e7737bc0930cf1cc08c.png)
+![](//img10.360buyimg.com/imgzone/jfs/t1/195291/18/46886/46491/6671a08bFb39178b7/758ccfd004478483.jpg)
 
 # 公众号
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/145303/24/42799/5773/662f19e0Fe49e9666/ca57d11bc2c9de54.jpg)
