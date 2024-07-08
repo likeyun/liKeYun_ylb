@@ -40,7 +40,8 @@
             }
         })
         .catch(error => {
-            alert(error)
+            const buttonView = document.querySelector('.success-text');
+            buttonView.innerHTML = '<p style="text-align:center;margin-top:30px;color:#f00;font-size:15px;">升级环境异常，请检查你建立的网站是否选择了php环境。</p><a href="../../static/img/errorIMG.png" target="_blank" style="display:block;text-align:center;text-decoration:underline;margin-top:10px;font-size:15px;">点击查看解决方法~</a>';
         });
         
         function upgrade() {
