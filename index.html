@@ -31,39 +31,24 @@
                 color: #666;
             }
             .button-group {
-                width: 200px;
+                width: 300px;
                 height: 40px;
                 margin: 30px auto 0;
+                display: flex;
             }
-            .button-group .left {
-                width: 100px;
-                height: 40px;
+            .button-group .btn {
+                padding: 7px 15px;
                 float: left;
                 border: none;
+                font-size: 16px;
+                border-radius: 10px;
+                outline: none;
+                margin-right: 15px;
+                cursor: pointer;
+            }
+            .button-group .dark-btn {
                 background: #385EE2;
                 color: #fff;
-                font-size: 16px;
-                border-radius: 10px;
-                outline: none;
-            }
-            .button-group .left:hover {
-                background: #2149d5;
-                cursor: pointer;
-            }
-            .button-group .right {
-                width: 80px;
-                height: 40px;
-                float: right;
-                border: none;
-                background: #F1F1F1;
-                color: #666;
-                font-size: 16px;
-                border-radius: 10px;
-                outline: none;
-            }
-            .button-group .right:hover {
-                background: #e6e3e3;
-                cursor: pointer;
             }
             .title2 {
                 text-align: center;
@@ -131,10 +116,13 @@
             <!--按钮组-->
             <div class="button-group">
                 <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="blank">
-                    <button class="left">快速上手</button>
+                    <button class="btn dark-btn">快速上手</button>
                 </a>
-                <a href="./install" target="blank">
-                    <button class="right">安装</button>
+                <a href="install" target="blank">
+                    <button class="btn">安装</button>
+                </a>
+                <a href="console/login" target="blank">
+                    <button class="btn">登录</button>
                 </a>
             </div>
             
@@ -155,6 +143,7 @@
                 <li>提供用户账号注册</li>
                 <li>渠道码新增操作系统渠道数据记录</li>
                 <li>新增卡密分发小程序管理</li>
+                <li>新增域名检测定时任务</li>
             </ul>
             <br>
             
