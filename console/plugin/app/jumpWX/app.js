@@ -261,12 +261,12 @@ function fenyeComponent(thisPage,allPage,nextPage,prePage){
         '<ul>' +
         '   <li>'+ 
         '       <button id="'+nextPage+'" onclick="getFenye(this);" title="下一页">'+ 
-        '           <img src="../../static/img/nextPage.png" />'+ 
+        '           <img src="../../../../static/img/nextPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '   <li>'+ 
         '       <button id="'+allPage+'" onclick="getFenye(this);" title="最后一页">'+ 
-        '           <img src="../../static/img/lastPage.png" />'+ 
+        '           <img src="../../../../static/img/lastPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '</ul>'
@@ -281,12 +281,12 @@ function fenyeComponent(thisPage,allPage,nextPage,prePage){
         '<ul>' +
         '   <li>'+ 
         '       <button id="1" onclick="getFenye(this);" title="第一页">'+ 
-        '           <img src="../../static/img/firstPage.png" />'+ 
+        '           <img src="../../../../static/img/firstPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '   <li>'+ 
         '   <button id="'+prePage+'" onclick="getFenye(this);" title="上一页">'+ 
-        '       <img src="../../static/img/prevPage.png" />'+ 
+        '       <img src="../../../../static/img/prevPage.png" />'+ 
         '   </button>'+ 
         '   </li>' +
         '</ul>'
@@ -299,22 +299,22 @@ function fenyeComponent(thisPage,allPage,nextPage,prePage){
         '<ul>' +
         '   <li>'+ 
         '       <button id="1" onclick="getFenye(this);" title="第一页">'+ 
-        '           <img src="../../static/img/firstPage.png" />'+ 
+        '           <img src="../../../../static/img/firstPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '   <li>'+ 
         '       <button id="'+prePage+'" onclick="getFenye(this);" title="上一页">'+ 
-        '           <img src="../../static/img/prevPage.png" />'+ 
+        '           <img src="../../../../static/img/prevPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '   <li>'+ 
         '       <button id="'+nextPage+'" onclick="getFenye(this);" title="下一页">'+ 
-        '           <img src="../../static/img/nextPage.png" />'+ 
+        '           <img src="../../../../static/img/nextPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '   <li>'+ 
         '       <button id="'+allPage+'" onclick="getFenye(this);" title="最后一页">'+ 
-        '           <img src="../../static/img/lastPage.png" />'+ 
+        '           <img src="../../../../static/img/lastPage.png" />'+ 
         '       </button>'+ 
         '   </li>' +
         '</ul>'
@@ -863,6 +863,15 @@ function getDomainNameList(module){
             showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！');
         }
     });
+}
+
+// 设置路由
+function setRouter(pageNum){
+    
+    // 当前页码不等于1的时候
+    if(pageNum !== 1){
+        window.history.pushState('', '', '?p='+pageNum);
+    }
 }
 
 // 显示全局信息提示弹出提示
