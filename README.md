@@ -72,6 +72,12 @@ http://域名/install/
 # 卡密分发小程序源码
 请付费购买：https://afdian.net/item/270573e4f97d11eea18d5254001e7c00
 
+# 外部跳微信小程序
+
+支持使用自建小程序、如果你没有自建小程序，我们提供借用第三方小程序跳转的方案，具体如下图：
+
+![](https://img10.360buyimg.com/imgzone/jfs/t1/159620/30/30600/39860/668e45f2Fc7a1b680/6316e17aadccf4c0.jpg)
+
 # 使用文档
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
 
