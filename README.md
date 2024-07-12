@@ -5,7 +5,7 @@
 
 <img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="320" style="display:block;margin:10px auto;" />
 
-![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery_3.6.0-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php_7.4.0-777bb3?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-Bootstrap_4.0-336c9f?logo=&logoColor=ffffff)
+![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery_3.6.0-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php_7.4.0-777bb3?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/前端-Bootstrap_4.0-336c9f?logo=&logoColor=ffffff)
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.4.3-brightgreen.svg)<br/>
