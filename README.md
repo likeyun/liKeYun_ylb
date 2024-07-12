@@ -3,7 +3,7 @@
 👋 私域引流宝致力于为个人、团队提供基于微信私域流量的推广、引流的效率工具。可减轻人力，有效降低资源损失、流量流失的几率。引流宝完全开源，免费，可商用、可任意二次开发。引流宝可以辅助你更好地开展营销活动推广！降低运营成本，提高工作效率，获取更多资源。
 <br/>
 
-<img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="320" style="display:block;margin:10px auto;" />
+<img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="350" style="display:block;margin:10px auto;" />
 
 ![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery_3.6.0-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php_7.4.0-777bb3?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/前端-Bootstrap_4.0-336c9f?logo=&logoColor=ffffff)
 
