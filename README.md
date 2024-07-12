@@ -4,6 +4,7 @@
 <br/>
 
 <img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="320" style="display:block;margin:10px auto;" />
+![](https://img.shields.io/badge/PHP-7.4.0-brightgreen.svg) ![](https://img.shields.io/badge/Bootstrap-4.0-brightgreen.svg) ![](https://img.shields.io/badge/jQuery-3.6.0-brightgreen.svg)
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.4.3-brightgreen.svg)<br/>
@@ -80,12 +81,6 @@ http://域名/install/
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
 
 就算你是个小白0基础，没有服务器、没有域名，不会搭建服务器，不会搭建网站，使用指南中有个针对0基础的教程，看完就会了。
-
-# 开发程序语言
-前端：Bootstrap+jQuery<br/>
-后端：php+mySql
-
-![](https://img.shields.io/badge/PHP-7.4.0-brightgreen.svg) ![](https://img.shields.io/badge/Bootstrap-4.0-brightgreen.svg) ![](https://img.shields.io/badge/jQuery-3.6.0-brightgreen.svg)
 
 # 使用
 管理后台路径：/console/index/<br/>
