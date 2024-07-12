@@ -86,6 +86,7 @@ function getPlugin(pageNum) {
                 // 遍历数据
                 var plugin_install_num = 0;
                 var plugin_allow_num = 0;
+                
                 for (var i=0; i<res.pluginArray.length; i++) {
 
                     // 插件名称
@@ -115,60 +116,58 @@ function getPlugin(pageNum) {
                     // 管理权限
                     var user_admin = res.user_admin;
                     
-                    // 未安装；管理员
+                    // 未安装
+                    // 管理员
                     if(plugin_install == 1 && user_admin == 1) {
-                        
+
                         var $plugin_HTML = $(
-                        '<div class="plugin-card">'+
-                        '    <div class="plugin-logo">'+
+                        '<div class="plugin_card">'+
+                        '    <div class="plugin_logo">'+
                         '        <img src="app/'+plugin_entry+'/'+plugin_logo+'" />'+
                         '    </div>'+
-                        '    <div class="plugin-info">'+
-                        '        <div class="plugin-name">'+plugin_name+'</div>'+
-                        '        <div class="plugin-desc">'+plugin_desc+'</div>'+
-                        '    </div>'+
-                        '    <div class="plugin-btn">'+
-                        '        <div class="btn-conf install-uninstall" data-toggle="modal" data-target="#anzhuangModal" id="'+plugin_entry+'" onclick="anzhuangPlugin(this);">安装插件</div>'+
-                        '    </div>'+
+                        '    <div class="plugin_name">'+plugin_name+'</div>'+
+                        '    <div class="plugin_desc">'+plugin_desc+'</div>'+
+                        '    <div class="plugin_btn">' +
+                        '       <div class="action_btn action_uninstall" data-toggle="modal" data-target="#anzhuangModal" id="'+plugin_entry+'" onclick="anzhuangPlugin(this);">安装插件</div>' +
+                        '    </div>' +
                         '</div>'
                         );
                     }else if(plugin_install == 2 && user_admin == 1) {
                         
-                        // 已安装；管理员；
+                        // 已安装
+                        // 管理员
                         var $plugin_HTML = $(
-                        '<div class="plugin-card">'+
-                        '    <div class="plugin-logo">'+
+                        '<div class="plugin_card">'+
+                        '    <div class="plugin_logo">'+
                         '        <img src="app/'+plugin_entry+'/'+plugin_logo+'" />'+
                         '    </div>'+
-                        '    <div class="plugin-info">'+
-                        '        <div class="plugin-name">'+plugin_name+'</div>'+
-                        '        <div class="plugin-desc">'+plugin_desc+'</div>'+
-                        '    </div>'+
-                        '    <div class="plugin-btn">'+
-                        '        <div class="btn-conf install-uninstall" data-toggle="modal" data-target="#xiezaiModal" id="'+plugin_entry+'" onclick="xiezaiPlugin(this);">卸载插件</div>'+
-                        '        <div class="btn-conf plugin_entry_data" id="'+plugin_entry+'" onclick="configAndUse(this);">使用插件</div>'+
-                        '    </div>'+
+                        '    <div class="plugin_name">'+plugin_name+'</div>'+
+                        '    <div class="plugin_desc">'+plugin_desc+'</div>'+
+                        '    <div class="plugin_btn">' +
+                        '       <div class="action_btn action_uninstall" data-toggle="modal" data-target="#xiezaiModal" id="'+plugin_entry+'" onclick="xiezaiPlugin(this);">卸载</div>' +
+                        '       <div class="action_btn" id="'+plugin_entry+'" onclick="configAndUse(this);">使用</div>' +
+                        '    </div>' +
                         '</div>'
                         );
                     }else if(plugin_install == 2 && user_admin == 2 && plugin_allow == true) {
                         
-                        // 已安装；非管理员；plugin_allow == true（允许非管理员使用）
+                        // 已安装
+                        // 非管理员
+                        // plugin_allow == true（允许非管理员使用）
                         var $plugin_HTML = $(
-                        '<div class="plugin-card">'+
-                        '    <div class="plugin-logo">'+
+                        '<div class="plugin_card">'+
+                        '    <div class="plugin_logo">'+
                         '        <img src="app/'+plugin_entry+'/'+plugin_logo+'" />'+
                         '    </div>'+
-                        '    <div class="plugin-info">'+
-                        '        <div class="plugin-name">'+plugin_name+'</div>'+
-                        '        <div class="plugin-desc">'+plugin_desc+'</div>'+
-                        '    </div>'+
-                        '    <div class="plugin-btn">'+
-                        '        <div class="btn-conf plugin_entry_data" id="'+plugin_entry+'" onclick="configAndUse(this);">使用插件</div>'+
-                        '    </div>'+
+                        '    <div class="plugin_name">'+plugin_name+'</div>'+
+                        '    <div class="plugin_desc">'+plugin_desc+'</div>'+
+                        '    <div class="plugin_btn">' +
+                        '       <div class="action_btn" id="'+plugin_entry+'" onclick="configAndUse(this);">使用插件</div>' +
+                        '    </div>' +
                         '</div>'
                         );
                     }
-                    $("#right .data-list").append($plugin_HTML);
+                    $("#right .data-list .plugin-list").append($plugin_HTML);
                 }
                 
                 // 非管理员；全部插件未安装
@@ -460,7 +459,7 @@ function noData(text){
 function initialize_getPlugin(){
     $("#right .data-list").css('display','block');
     $("#right .data-card .loading").css('display','none');
-    $("#right .data-list").empty('');
+    $("#right .data-list .plugin-list").empty('');
 }
 
 // 打开操作反馈（操作成功）
