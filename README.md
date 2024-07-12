@@ -7,7 +7,7 @@
 
 ![](https://img.shields.io/badge/PHP-7.4.0-brightgreen.svg) ![](https://img.shields.io/badge/Bootstrap-4.0-brightgreen.svg) ![](https://img.shields.io/badge/jQuery-3.6.0-brightgreen.svg)
 
-![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php-777bb3?logo=&logoColor=ffffff) ![]([https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php-777bb3?logo=&logoColor=ffffff](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-Bootstrap-336c9f?logo=&logoColor=ffffff))
+![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php-777bb3?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-Bootstrap-336c9f?logo=&logoColor=ffffff)
 
 # 更新日志
 ![](https://img.shields.io/badge/Version-2.4.3-brightgreen.svg)<br/>
