@@ -110,8 +110,8 @@
                 // 收费功能
                 $result = array(
                     'code' => 101,
-                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。购买地址：',
-                    'buy_link' => 'https://afdian.net/item/feeeef643d2b11ef9bf35254001e7c00'
+                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。收费168元，请联系微信号：',
+                    'buy_link' => 'sansure2016'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -122,8 +122,8 @@
                 // 收费功能
                 $result = array(
                     'code' => 101,
-                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。购买地址：',
-                    'buy_link' => 'https://afdian.net/item/feeeef643d2b11ef9bf35254001e7c00'
+                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。收费168元，请联系微信号：',
+                    'buy_link' => 'sansure2016'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -134,8 +134,8 @@
                 // 收费功能
                 $result = array(
                     'code' => 101,
-                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。购买地址：',
-                    'buy_link' => 'https://afdian.net/item/feeeef643d2b11ef9bf35254001e7c00'
+                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。收费168元，请联系微信号：',
+                    'buy_link' => 'sansure2016'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -146,8 +146,8 @@
                 // 收费功能
                 $result = array(
                     'code' => 101,
-                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。购买地址：',
-                    'buy_link' => 'https://afdian.net/item/feeeef643d2b11ef9bf35254001e7c00'
+                    'msg' => '该功能为收费功能，如需使用，请购买源码后使用。收费168元，请联系微信号：',
+                    'buy_link' => 'sansure2016'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
