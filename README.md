@@ -74,7 +74,7 @@ http://域名/install/
 [![Star History Chart](https://api.star-history.com/svg?repos=likeyun/liKeYun_Ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_Ylb&Date)
 
 ## 卡密分发小程序源码
-请付费购买：https://afdian.net/item/270573e4f97d11eea18d5254001e7c00
+收费89元，请联系微信购买，微信号：sansure2016
 
 ## 外部跳微信小程序插件，高度集成快速创建
 
