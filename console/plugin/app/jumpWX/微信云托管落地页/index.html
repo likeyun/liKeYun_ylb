@@ -1,5 +1,6 @@
 
 
+
 <html>
     <head>
         <title></title>
@@ -19,11 +20,85 @@
                 padding: 0;
                 margin: 0;
             }
-            .bg{
+            body {
+                width: 100%;
+                height: 100vh;
+                background: #fff;
+                overflow: hidden;
+            }
+            .ssl_tips_container {
+                display: flex;
+                justify-content: center;
+                padding: 15px 0;
+            }
+            .ssl_tips {
+                display: flex;
+                align-items: center;
+            }
+            .ssl_logo {
+                width: 20px;
+                margin-right: 3px;
+            }
+            .ssl_logo img {
+                width: 16px;
+                height: 16px;
+                margin: 2px 2px;
+            }
+            .ssl_text {
+                flex: 1;
+                font-size: 14px;
+                color: #999;
+            }
+            .jump_gif {
+                width: 50%;
+                margin: 50px auto 0;
+            }
+            .jump_gif img {
                 width: 100%;
             }
-            .bg img{
-                width: 100%;
+            .jump_text {
+                text-align: center;
+                font-size: 16px;
+                color: #666;
+                margin-top: 80px;
+            }
+            .jump_button_tips {
+                text-align: center;
+                color: #ccc;
+                margin-top: 10px;
+                font-size: 15px;
+            }
+            .jump_button {
+                width: 45%;
+                height: 45px;
+                line-height: 45px;
+                text-align: center;
+                color: #fff;
+                background: rgb(6, 201, 100);
+                border-radius: 10px;
+                margin: 20px auto 0;
+                font-size: 16px;
+            }
+            .a-jump {
+                text-decoration: none;
+                -webkit-tap-highlight-color:rgba(255,0,0,0);
+            }
+            .powerby {
+                position: fixed;
+                bottom: 20px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                color: #ccc;
+                font-size: 13px;
+                text-align: center;
+            }
+            .error {
+                width: 80%;
+                text-align: center;
+                font-size: 14px;
+                color: #666;
+                margin: 50px auto 0;
             }
         </style>
     </head>
@@ -35,31 +110,36 @@
         
         <script>
 
+            // 请求路径结构如下：
             // http://或https:// + 你的域名 + 引流宝安装目录
-            // -----------------------------------------------------------
+            // ----------------------------------------------
             // 假设你的域名是 www.baidu.com 引流宝安装在根目录
-            // 那么下面应该配置：https://www.baidu.com
-            // -----------------------------------------------------------
+            // 那么下面req_domain应该配置：https://www.baidu.com
+            // ----------------------------------------------
             // 假设你的域名是 www.baidu.com 引流宝安装在二级目录，目录名为 ylb
             // 那么下面应该配置：https://www.baidu.com/ylb
-            // -----------------------------------------------------------
-            var youDomain = 'https://域名/目录/';
+            // 请注意：无需 / 结尾
+            // ----------------------------------------------
+            var req_domain = '配置你的域名';
+            // ----------------------------------------------
+            // 以下不用动，只需要配置上面的域名即可
         
             // 获取当前页面的完整URL
             var currentURL = window.location.href;
-            
-            // 使用URL对象解析URL
             var url = new URL(currentURL);
             
             // 获取jwid参数的值
             var jwid = url.searchParams.get("jwid");
+            
+            // 获取type参数的值
+            var type = url.searchParams.get("type");
             
             // 检查是否成功获取jwid参数的值
             if (jwid) {
                 
                 // 通过jwid获取到详情
                 $.ajax({
-                    url: youDomain + "/console/plugin/app/jumpWX/server/getJwInfoCallback.php?jwid=" + jwid,
+                    url: req_domain + "/console/plugin/app/jumpWX/server/getJwInfoCallback.php?jwid=" + jwid,
                     dataType: "jsonp",
                     jsonpCallback: "handleJSONPResponse",
                     success: function(res) {
@@ -79,11 +159,55 @@
                             // 目标链接
                             const jw_url = res.jwInfo.jw_url;
                             
-                            // 渲染
+                            // 根据type参数显示gif
+                            if(type == 'douyin') {
+                                
+                                // 抖音
+                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/douyin-jumpwx.gif';
+                            }
+                            
+                            if(type == 'xhs') {
+                                
+                                // 小红书
+                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/xhs-jumpwx.gif';
+                            }
+                            
+                            if(type == 'weibo') {
+                                
+                                // 微博
+                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/weibo-jumpwx.gif';
+                            }
+                            
+                            if(type == 'zhihu') {
+                                
+                                // 微博
+                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/zhihu-jumpwx.gif';
+                            }
+                            
+                            if(!type) {
+                                
+                                // 如果不存在type参数就使用默认的
+                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/jumpwx.gif';
+                            }
+
+                            // SSL_LOGO
+                            var ssl_logo_img = req_domain + '/console/plugin/app/jumpWX/img/ssl_logo.png';
+                            
+                            // 渲染HTML
                             $('#app').html(
-                                '<a href="'+jw_url+'" id="'+jwid+'" onclick="clickNum(this)">' +
-                                '   <img src="'+jw_bgimg+'" class="bg" />' +
+                                '<div class="ssl_tips_container">'+
+                                '   <div class="ssl_tips">' +
+                                '       <span class="ssl_logo"><img src="'+ssl_logo_img+'" /></span>' +
+                                '       <span class="ssl_text">本页面已启用SSL安全加密</span>' +
+                                '   </div>'+
+                                '</div>' +
+                                '<div class="jump_gif"><img src="'+jump_gif+'" /></div>' +
+                                '<div class="jump_text">正在跳转至微信...</div>' +
+                                '<div class="jump_button_tips">如没有自动跳转请点击按钮跳转</div>' +
+                                '<a href="'+jw_url+'" id="'+jwid+'" onclick="clickNum(this)" class="a-jump">' +
+                                '    <div class="jump_button">点击跳转</div>' +
                                 '</a>' +
+                                '<div class="powerby">私域引流宝提供技术支持</div>' +
                                 '<iframe src="'+jw_url+'" style="opacity:0;"></iframe>'
                             );
                             
@@ -98,13 +222,13 @@
                         }else{
                             
                             // 获取失败
-                            $('#app').html('<p style="text-align:center;margin-top:50px;">获取失败，状态码：'+res.code+'</p>');
+                            $('#app').html('<p class="error">无法在服务器获取到数据<br>请检查当前jwid是否正确</p>');
                         }
                     },
                     error: function() {
                         
-                        // 网络请求失败
-                        $('#app').html('<p style="text-align:center;margin-top:50px;">网络请求失败</p>');
+                        // 连接服务器失败
+                        $('#app').html('<p class="error">连接服务器失败！<br>请检查index.html文件的域名配置是否正确</p>');
                     }
                 });
                 
@@ -112,7 +236,7 @@
                 function clickNum(e) {
                     
                     $.ajax({
-                        url: youDomain + "/console/plugin/app/jumpWX/server/clickNumCallback.php?jwid=" + e.id,
+                        url: req_domain + "/console/plugin/app/jumpWX/server/clickNumCallback.php?jwid=" + e.id,
                         dataType: "jsonp",
                         jsonpCallback: "handleJSONPResponse",
                         success: function(res) {
@@ -124,8 +248,13 @@
             }else {
                 
                 // 页面加载失败
-                $('#app').html('<p style="text-align:center;margin-top:50px;">页面加载失败，请检查index.html的配置</p>');
+                $('#app').html('<p class="error">页面加载失败！<br>链接中没有传递jwid参数</p>');
             }
+            
+            // 屏蔽分享
+            document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+                WeixinJSBridge.call('hideOptionMenu');
+            });
         </script>
     </body>
 </html>
