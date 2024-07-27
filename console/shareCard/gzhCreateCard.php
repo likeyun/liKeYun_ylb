@@ -1,7 +1,7 @@
 <?php
 
     // Token验证
-    $token = 'likeyun';
+    $token = 'xxxxxx';
     
     // 开始验证
     $signature = $_GET["signature"];
