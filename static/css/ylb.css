@@ -260,6 +260,7 @@ input[type=file]::-webkit-file-upload-button{
 }
 table th,tr,td {
     text-align: center;
+    vertical-align: middle!important;
 }
 
 #app .data-card .loading .noData{
@@ -3214,6 +3215,113 @@ table th,tr,td {
 #editShareCardModal .upload-shareCard-img .button-view .button_sucaiku{
     flex: 2;
 }
+
+/*分享卡片样式CSS*/
+/*2024-07-27新增*/
+.shareCard_preview {
+    width: 230px;
+    background: #f7f7f7;
+    margin: 0 auto;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+.shareCard_preview a {
+    text-decoration: none;
+}
+.shareCard_preview:hover {
+    box-shadow: 0 0 5px #ddd;
+    transition: 0.2s;
+}
+.shareCard_preview .shareCard_title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
+    color: #333;
+    line-height: 18px;
+    margin-bottom: 5px;
+}
+.shareCard_preview .shareCard_desc_img {
+    display: flex;
+}
+.shareCard_preview .shareCard_desc_img .shareCard_desc {
+    flex: 1;
+    color: #999;
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 16px;
+}
+.shareCard_preview .shareCard_desc_img .shareCard_img {
+    width: 43px;
+    margin-left: 10px;
+}
+.shareCard_preview .shareCard_desc_img .shareCard_img img {
+    width: 43px;
+}
+.test-model {
+    background: rgba(68, 181, 73, 0.1);
+    font-size: 13px;
+    padding: 5px 10px;
+    color: rgb(68, 181, 73);
+    border-radius: 100px;
+}
+.renzheng-model {
+    background: rgba(253, 119, 65, 0.1);
+    font-size: 13px;
+    padding: 5px 10px;
+    color: rgb(253, 119, 65);
+    border-radius: 100px;
+}
+.safari-model {
+    background: rgba(1, 97, 220, 0.1);
+    font-size: 13px;
+    padding: 5px 10px;
+    color: rgb(1, 97, 220);
+    border-radius: 100px;
+}
+.chakanShareCardQrcode {
+    cursor: pointer;
+}
+.chakanShareCardQrcode:hover {
+    cursor: pointer;
+    color: rgb(59,94,225);;
+}
+.editShareCardSPAN {
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    display: block;
+    padding: 3px 0;
+    border-radius: 10px;
+    background: #eee;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+.delShareCardSPAN {
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    display: block;
+    padding: 3px 0;
+    border-radius: 10px;
+    background: #eee;
+    text-align: center;
+    transition: 0.2s;
+}
+.editShareCardSPAN:hover,
+.delShareCardSPAN:hover {
+    background: #ddd;
+    transition: 0.2s;
+}
+
 
 /*素材管理*/
 .data-list {
