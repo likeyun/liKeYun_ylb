@@ -115,8 +115,9 @@ function getshareCardList(pageNum) {
             var $thead_HTML = $(
                 '<tr>' +
                 '   <th>序号</th>' +
-                '   <th>ID</th>' +
-                '   <th>标题</th>' +
+                '   <th>卡片id</th>' +
+                '   <th>卡片样式</th>' +
+                '   <th>二维码</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>访问次数</th>' +
                 '   <th>模式</th>' +
@@ -138,8 +139,17 @@ function getshareCardList(pageNum) {
                     // ID
                     var shareCard_id = res.shareCardList[i].shareCard_id;
                     
+                    // 图标
+                    var shareCard_img = res.shareCardList[i].shareCard_img;
+                    
                     // 标题
                     var shareCard_title = res.shareCardList[i].shareCard_title;
+                    
+                    // 摘要
+                    var shareCard_desc = res.shareCardList[i].shareCard_desc;
+                    
+                    // 目标链接
+                    var shareCard_url = res.shareCardList[i].shareCard_url;
                     
                     // 创建时间
                     var shareCard_create_time = res.shareCardList[i].shareCard_create_time;
@@ -168,42 +178,53 @@ function getshareCardList(pageNum) {
                     if(res.shareCardList[i].shareCard_model == '1'){
                         
                         // 测试号
-                        var shareCard_model = '测试号';
+                        var shareCard_model = '<span class="test-model">测试号</span>';
                     }else if(res.shareCardList[i].shareCard_model == '2'){
                         
                         // 认证号
-                        var shareCard_model = '认证号';
+                        var shareCard_model = '<span class="renzheng-model">认证号</span>';
                     }else if(res.shareCardList[i].shareCard_model == '3'){
                         
                         // Safari分享
-                        var shareCard_model = 'Safari分享';
+                        var shareCard_model = '<span class="safari-model">Safari</span>';
                     }
                     
+                    // 卡片样式
+                    var card_HTML = `
+                    <div class="shareCard_preview">
+                        <a href="${shareCard_url}" target="_blank">
+                        <div class="shareCard_title">${shareCard_title}</div>
+                        <div class="shareCard_desc_img">
+                            <div class="shareCard_desc">${shareCard_desc}</div>
+                            <div class="shareCard_img">
+                                <img src="${shareCard_img}" />
+                            </div>
+                        </div>
+                        </a>
+                    </div>`;
+
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+shareCard_id+'</td>' +
-                        '   <td>'+shareCard_title+'</td>' +
+                        '   <td style="text-align:left;">'+card_HTML+'</td>' +
+                        '   <td>' + 
+                        '       <span class="chakanShareCardQrcode" data-toggle="modal" data-target="#ShareCardModal" onclick="shareCard('+shareCard_id+')">👉 查看</span>' +
+                        '   </td>' +
                         '   <td>'+shareCard_create_time+'</td>' +
                         '   <td>'+shareCard_pv+'</td>' +
                         '   <td>'+shareCard_model+'</td>' +
                         '   <td>'+shareCard_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#ShareCardModal" onclick="shareCard('+shareCard_id+')">分享</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editShareCardModal" onclick="getshareCardInfo('+shareCard_id+')">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#DelshareCardModal" onclick="askDelshareCard('+shareCard_id+')">删除</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td style="text-align:right;">' +
+                        '       <span  class="editShareCardSPAN" data-toggle="modal" data-target="#editShareCardModal" onclick="getshareCardInfo('+shareCard_id+')">编辑</span>' +
+                        '       <span  class="delShareCardSPAN" data-toggle="modal" data-target="#DelshareCardModal" onclick="askDelshareCard('+shareCard_id+')">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
                     $("#right .data-list tbody").append($tbody_HTML);
                 }
-                
+                    
                 // 分页组件
                 fenyeComponent(res.page,res.allpage,res.nextpage,res.prepage);
                 

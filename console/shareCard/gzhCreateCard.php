@@ -1,6 +1,25 @@
 <?php
 
-    // 页面编码
+    // Token验证
+    $token = 'likeyun';
+    
+    // 开始验证
+    $signature = $_GET["signature"];
+    $timestamp = $_GET["timestamp"];
+    $nonce = $_GET["nonce"];
+    $echostr = $_GET["echostr"];
+    $tmpArr = array($token, $timestamp, $nonce);
+    sort($tmpArr, SORT_STRING);
+    $tmpStr = implode($tmpArr);
+    $tmpStr = sha1($tmpStr);
+    
+    // 验证通过
+    if ($tmpStr == $signature && $echostr) {
+        echo $echostr;
+        exit;
+    }
+
+    // 编码
     header("Content-type:text/html;charset=utf-8");
     
     // 接收用户发送过来的XML消息
@@ -56,34 +75,63 @@
 	// 实例化类
 	$db = new DB_API($config);
 	
-	// 查询当前输入的id时候存在
-    $checkCardId = ['shareCard_id' => $content];
-    $checkCardIdResult = $db->set_table('huoma_shareCard')->find($checkCardId);
-    
-    if($checkCardIdResult){
+    if (strpos($content, "分享卡片") !== false) {
         
-        // 存在
-        // 获取标题、缩略图、跳转链接、描述文字
-        $getshareCardInfo = $db->set_table('huoma_shareCard')->find(['shareCard_id' => $content]);
+        preg_match('/分享卡片\s*(\d{6})\b/', $content, $matches);
         
-        // 标题
-        $shareCard_title = json_decode(json_encode($getshareCardInfo))->shareCard_title;
+        if (isset($matches[1])) {
+            
+            // 去除参数前后的空格
+            $parameter = trim($matches[1]);
+            
+            // 验证参数是否是6位数的纯数字
+            if (strlen($parameter) === 6 && ctype_digit($parameter)) {
+                
+                // 查询当前输入的id是否存在
+                $checkCardIdResult = $db->set_table('huoma_shareCard')->find(['shareCard_id' => $parameter]);
+                if($checkCardIdResult){
+                    
+                    // 存在
+                    // 获取标题
+                    // 缩略图
+                    // 跳转链接
+                    // 摘要
+                    $getInfo = $db->set_table('huoma_shareCard')->find(['shareCard_id' => $parameter]);
+                    
+                    // 标题
+                    $shareCard_title = $getInfo['shareCard_title'];
+                    
+                    // 缩略图
+                    $shareCard_img = $getInfo['shareCard_img'];
+                    
+                    // 跳转链接
+                    $shareCard_url = $getInfo['shareCard_url'];
+                    
+                    // 摘要
+                    $shareCard_desc = $getInfo['shareCard_desc'];
+                    
+                    // 构造卡片消息
+                    // 并回复卡片
+                    echo sprintf($newsTpl,$fromUsername,$toUsername,$time,"news",$shareCard_title,$shareCard_desc,$shareCard_img,$shareCard_url);
+                }else{
+                    
+                    // 回复：该卡片id不存在
+                    echo sprintf($textTpl,$fromUsername,$toUsername,$time,"text","该卡片id不存在");
+                }
+            } else {
+                
+                // 回复：该卡片id有误
+                echo sprintf($textTpl,$fromUsername,$toUsername,$time,"text","该卡片id有误");
+            }
+        } else {
+            
+            // 回复：卡片id不正确
+            echo sprintf($textTpl,$fromUsername,$toUsername,$time,"text","卡片id不正确");
+        }
+    } else {
         
-        // 缩略图
-        $shareCard_img = json_decode(json_encode($getshareCardInfo))->shareCard_img;
-        
-        // 跳转链接
-        $shareCard_url = json_decode(json_encode($getshareCardInfo))->shareCard_url;
-        
-        // 描述文字
-        $shareCard_desc = json_decode(json_encode($getshareCardInfo))->shareCard_desc;
-        
-        // 构造卡片消息
-        echo sprintf($newsTpl,$fromUsername,$toUsername,$time,"news",$shareCard_title,$shareCard_desc,$shareCard_img,$shareCard_url);
-    }else{
-        
-        // ID不存在
-        echo sprintf($textTpl,$fromUsername,$toUsername,$time,"text","该卡片id不存在");
+        // 回复：该指令无法识别
+        echo sprintf($textTpl,$fromUsername,$toUsername,$time,"text","该指令无法识别");
     }
     
 ?>
