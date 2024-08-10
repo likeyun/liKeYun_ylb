@@ -1,6 +1,3 @@
-
-
-
 <html>
     <head>
         <title></title>
@@ -14,7 +11,7 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="referrer" content="origin-when-cross-origin">
         <meta name="referrer" content="strict-origin-when-cross-origin">
-        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://push.baidu.com/static/js/libs/jquery-2.0.3.js"></script>
         <style>
             *{
                 padding: 0;
@@ -118,11 +115,20 @@
             // ----------------------------------------------
             // 假设你的域名是 www.baidu.com 引流宝安装在二级目录，目录名为 ylb
             // 那么下面应该配置：https://www.baidu.com/ylb
+            // ----------------------------------------------
+            // 请注意：无需 / 结尾
+            // 请注意：无需 / 结尾
+            var req_domain = 'https://www.xxx.xxx'; // 请配置你的域名
+            // 请注意：无需 / 结尾
             // 请注意：无需 / 结尾
             // ----------------------------------------------
-            var req_domain = '配置你的域名';
-            // ----------------------------------------------
-            // 以下不用动，只需要配置上面的域名即可
+            // 下面都不需要配置
+            // 下面都不需要配置
+            // 下面都不需要配置
+            // 下面都不需要配置
+            // 下面都不需要配置
+            // 下面都不需要配置
+            // 下面都不需要配置
         
             // 获取当前页面的完整URL
             var currentURL = window.location.href;
@@ -138,10 +144,11 @@
             if (jwid) {
                 
                 // 通过jwid获取到详情
+                const ajax_path = req_domain + '/console/plugin/app/jumpWX/server/';
                 $.ajax({
-                    url: req_domain + "/console/plugin/app/jumpWX/server/getJwInfoCallback.php?jwid=" + jwid,
-                    dataType: "jsonp",
-                    jsonpCallback: "handleJSONPResponse",
+                    url: ajax_path + 'getJwInfoCallback.php?jwid=' + jwid,
+                    dataType: 'jsonp',
+                    jsonpCallback: 'handleJSONPResponse',
                     success: function(res) {
                         
                         if(res.code == 200) {
@@ -156,42 +163,37 @@
                             // 图标
                             const jw_icon = res.jwInfo.jw_icon;
                             
+                            // 摘要（备注）
+                            const jw_beizhu = res.jwInfo.jw_beizhu;
+                            
                             // 目标链接
                             const jw_url = res.jwInfo.jw_url;
                             
+                            // 资源路径
+                            const resource_path = req_domain + '/console/plugin/app/jumpWX/img/';
+                            
                             // 根据type参数显示gif
-                            if(type == 'douyin') {
-                                
-                                // 抖音
-                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/douyin-jumpwx.gif';
-                            }
-                            
-                            if(type == 'xhs') {
-                                
-                                // 小红书
-                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/xhs-jumpwx.gif';
-                            }
-                            
-                            if(type == 'weibo') {
-                                
-                                // 微博
-                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/weibo-jumpwx.gif';
-                            }
-                            
-                            if(type == 'zhihu') {
-                                
-                                // 微博
-                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/zhihu-jumpwx.gif';
-                            }
-                            
-                            if(!type) {
-                                
-                                // 如果不存在type参数就使用默认的
-                                var jump_gif = req_domain + '/console/plugin/app/jumpWX/img/jumpwx.gif';
+                            var jump_gif;
+                            switch (type) {
+                                case 'douyin':
+                                    jump_gif = resource_path + 'douyin-jumpwx.gif';
+                                    break;
+                                case 'xhs':
+                                    jump_gif = resource_path + 'xhs-jumpwx.gif';
+                                    break;
+                                case 'weibo':
+                                    jump_gif = resource_path + 'weibo-jumpwx.gif';
+                                    break;
+                                case 'zhihu':
+                                    jump_gif = resource_path + 'zhihu-jumpwx.gif';
+                                    break;
+                                default:
+                                    jump_gif = resource_path + 'jumpwx.gif';
+                                    break;
                             }
 
                             // SSL_LOGO
-                            var ssl_logo_img = req_domain + '/console/plugin/app/jumpWX/img/ssl_logo.png';
+                            var ssl_logo_img = resource_path + 'ssl_logo.png';
                             
                             // 渲染HTML
                             $('#app').html(
@@ -211,13 +213,19 @@
                                 '<iframe src="'+jw_url+'" style="opacity:0;"></iframe>'
                             );
                             
-                            // 添加图标
+                            // 图标
                             var shortcutIconLink = $("<link>");
                             shortcutIconLink.attr("rel", "shortcut icon");
                             shortcutIconLink.attr("href", jw_icon);
                             $("head").append(shortcutIconLink);
+                            
+                            // 摘要
+                            var metaDescLink = $('<meta>');
+                            metaDescLink.attr('name', 'description');
+                            metaDescLink.attr('content', jw_beizhu);
+                            $('head').append(metaDescLink);
 
-                            // 设置标题
+                            // 标题
                             $("title").text(jw_title);
                         }else{
                             
@@ -235,10 +243,11 @@
                 // 点击次数记录
                 function clickNum(e) {
                     
+                    const ajax_path = req_domain + '/console/plugin/app/jumpWX/server/';
                     $.ajax({
-                        url: req_domain + "/console/plugin/app/jumpWX/server/clickNumCallback.php?jwid=" + e.id,
-                        dataType: "jsonp",
-                        jsonpCallback: "handleJSONPResponse",
+                        url: ajax_path + 'clickNumCallback.php?jwid=' + e.id,
+                        dataType: 'jsonp',
+                        jsonpCallback: 'handleJSONPResponse',
                         success: function(res) {
                             
                             console.log(res.msg);
