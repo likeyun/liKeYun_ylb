@@ -100,7 +100,7 @@ http://域名/console/index/
 <img src="https://img10.360buyimg.com/imgzone/jfs/t1/208894/5/41649/168432/661f99cdFe7276d89/a8ea2fc7db99aa40.png" width="600" />
 
 # 截图
-![](https://img10.360buyimg.com/imgzone/jfs/t1/164167/30/43171/104800/661f9729Ff4dd4d0e/78ef16d0e86a6dc1.jpg)
+![](https://img10.360buyimg.com/imgzone/jfs/t1/76614/2/26773/219673/66bb53d5F37bfedb5/d044ff9bcd4853d0.png)
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/191563/24/44191/58534/661a9ddbF5cfc547c/17ad9f196524cf63.jpg)
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/200610/12/41550/56663/661a9ddbFbd1bed37/c61186595872aa02.jpg)
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/228263/40/15024/53748/661a9ddaF22c7697d/972690898e4532fa.jpg)
