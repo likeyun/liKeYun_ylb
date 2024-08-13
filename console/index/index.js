@@ -8,28 +8,6 @@ window.onload = function (){
     
     // 加载项目说明
     projectInfo();
-    
-    // 自动刷新状态
-    var freshen = queryURLParams(window.location.href).f;
-    if(freshen !== 'undefined'){
-        
-        // 开启
-        if(freshen == 1){
-            
-            // 关闭自动刷新
-            $('#right .data-card .chart-pannel .autofreshen').html('<a href="./">关闭自动刷新</a>');
-            
-            // 刷新（1分钟刷新一次）
-            setInterval('getPvTotal("群活码","qun")',60000);
-        }else{
-            
-            // 开启自动刷新
-            $('#right .data-card .chart-pannel .autofreshen').html(
-                '<a href="?f=1" title="每分钟刷新一次首页数据">开启自动刷新</a>'
-            );
-        }
-        
-    }
 }
 
 // 获取登录状态
@@ -53,6 +31,13 @@ function getLoginStatus(){
                 $("#right .data-card .data-content").css('display','block');
                 $("#right .data-card .loading").css('display','none');
                 
+                // 设置data-card里面的用户名
+                $('.data-card-1 .card-left .userinfoCard .username').text(res.user_name);
+                if(res.user_admin == 1) {
+                    $('.data-card-1 .card-left .userinfoCard .userlimit').text('超级管理员');
+                }else {
+                    $('.data-card-1 .card-left .userinfoCard .userlimit').text('团队成员');
+                }
             }else{
                 
                 // 未登录
@@ -64,6 +49,9 @@ function getLoginStatus(){
                 $("#right .data-card .data-content").css('display','none');
                 $("#right .data-card .loading").css('display','block');
                 noData('未登录');
+                
+                // 设置data-card里面的用户名
+                $('.data-card-1 .card-left .userinfoCard .username').text('未登录');
             }
         },
         error: function() {
@@ -99,117 +87,101 @@ function exitLogin(){
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 数据卡HTML模板
-    $swiper_wrapper = 
-    `<div class="swiper-wrapper" title="点击切换图表">
-        <div class="swiper-slide swiper-slide-selected" data-type="qun">
-            <div class="card-title">
+    // data-card-1 HTML模板
+    $data_card_1 = `
+    <div class="card-left">
+        <div class="total-num">
+            <div class="data-logo"></div>
+            <div class="total-num-today">
+                <div class="total-num-today-title">今天总访问量</div>
+                <div class="total-num-today-num"> - </div>
+            </div>
+            <div class="userCard">
+                <div class="userinfoCard">
+                    <div class="avatar">
+                        <img src="../../static/img/avatar.png" />
+                    </div>
+                    <div class="userinfo">
+                        <div class="username"> - </div>
+                        <div class="userlimit"> - </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="huoma-num">
+            <div class="num-card" data-type="qun" data-title="群活码">
                 <div class="num-title">群活码</div>
-                <div class="card-num qunNum"> - </div>
+                <div class="pv-num qun-pv" title="PV数据">-</div>
+                <div class="uv-num qun-uv" title="UV数据">
+                    今天 <span class="today-uv">-</span>
+                    昨天 <span class="yesterday-uv">-</span>
+                </div>
             </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv <span class="td-qunIP"> - </span></span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv <span class="ipNum yt-qunIP"> - </span></span>
-                </span>
-            </div>
-        </div>
-        
-        <div class="swiper-slide" data-type="kf">
-            <div class="card-title">
+            <div class="num-card" data-type="kf" data-title="客服码">
                 <div class="num-title">客服码</div>
-                <div class="card-num kfNum"> - </div>
+                <div class="pv-num kf-pv" title="PV数据">-</div>
+                <div class="uv-num kf-uv" title="UV数据">
+                    今天 <span class="today-uv">-</span>
+                    昨天 <span class="yesterday-uv">-</span>
+                </div>
             </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv <span class="ipNum td-kfIP"> - </span></span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv <span class="ipNum yt-kfIP"> - </span></span>
-                </span>
-            </div>
-        </div>
-        
-        <div class="swiper-slide" data-type="channel">
-            <div class="card-title">
+            <div class="num-card" data-type="channel" data-title="渠道码">
                 <div class="num-title">渠道码</div>
-                <div class="card-num channelNum"> - </div>
-            </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv <span class="ipNum td-channelIP"> - </span></span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv <span class="ipNum yt-channelIP"> - </span></span>
-                </span>
+                <div class="pv-num channel-pv" title="PV数据">-</div>
+                <div class="uv-num channel-uv" title="UV数据">
+                    今天 <span class="today-uv">-</span>
+                    昨天 <span class="yesterday-uv">-</span>
+                </div>
             </div>
         </div>
-        
-        <div class="swiper-slide" data-type="dwz">
-            <div class="card-title">
-                <div class="num-title">短网址</div>
-                <div class="card-num dwzNum"> - </div>
+    </div>
+    <div class="card-right">
+        <div class="card-container">
+            <div class="numcard" data-type="dwz" data-title="短网址">
+                <div class="cardview">
+                    <div class="numcard-title">短网址</div>
+                    <div class="numcard-num dwz-pv" title="PV数据">-</div>
+                    <div class="numcard-uvnum dwz-uv" title="UV数据">
+                        <span class="uvnum uvnum-left">今天 <span class="today-uv">-</span></span>
+                        <span class="uvnum uvnum-right">昨天 <span class="yesterday-uv">-</span></span>
+                    </div>
+                </div>
             </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv <span class="ipNum td-dwzIP"> - </span></span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv <span class="ipNum yt-dwzIP"> - </span></span>
-                </span>
+            <div class="numcard" data-type="shareCard" data-title="分享卡片">
+                <div class="cardview">
+                    <div class="numcard-title">分享卡片</div>
+                    <div class="numcard-num shareCard-pv" title="PV数据">-</div>
+                    <div class="numcard-uvnum shareCard-uv" title="UV数据">
+                        <span class="uvnum uvnum-left">今天 <span class="today-uv">-</span></span>
+                        <span class="uvnum uvnum-right">昨天 <span class="yesterday-uv">-</span></span>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="swiper-slide" data-type="zjy">
-            <div class="card-title">
-                <div class="num-title">淘宝客</div>
-                <div class="card-num zjyNum"> - </div>
+            <div class="numcard" data-type="zjy" data-title="中间页">
+                <div class="cardview">
+                    <div class="numcard-title">中间页</div>
+                    <div class="numcard-num zjy-pv" title="PV数据">-</div>
+                    <div class="numcard-uvnum zjy-uv" title="UV数据">
+                        <span class="uvnum uvnum-left">今天 <span class="today-uv">-</span></span>
+                        <span class="uvnum uvnum-right">昨天 <span class="yesterday-uv">-</span></span>
+                    </div>
+                </div>
             </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv </span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv </span>
-                </span>
-            </div>
-        </div>
-        
-        <div class="swiper-slide" data-type="shareCard">
-            <div class="card-title">
-                <div class="num-title">分享卡片</div>
-                <div class="card-num shareCardNum"> - </div>
-            </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv <span class="ipNum td-shareCardIP"> - </span></span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv <span class="ipNum yt-shareCardIP"> - </span></span>
-                </span>
-            </div>
-        </div>
-        
-        <div class="swiper-slide" data-type="multiSPA">
-            <div class="card-title">
-                <div class="num-title">多项单页</div>
-                <div class="card-num multiNum"> - </div>
-            </div>
-            <div class="ip-num">
-                <span class="ip-today">
-                    <span class="num-title">今日uv <span class="ipNum td-multiIP"> - </span></span>
-                </span>
-                <span class="ip-yesterday">
-                    <span class="num-title">昨日uv <span class="ipNum yt-multiIP"> - </span></span>
-                </span>
+            <div class="numcard" data-type="multiSPA" data-title="多项单页">
+                <div class="cardview">
+                    <div class="numcard-title">多项单页</div>
+                    <div class="numcard-num multiSPA-pv" title="PV数据">-</div>
+                    <div class="numcard-uvnum multiSPA-uv" title="UV数据">
+                        <span class="uvnum uvnum-left">今天 <span class="today-uv">-</span></span>
+                        <span class="uvnum uvnum-right">昨天 <span class="yesterday-uv">-</span></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>`;
     
-    // 将这个模板渲染到#right .data-card .data-chart .data-pannel .swiper
-    $('#right .data-card .data-chart .data-pannel .swiper').html($swiper_wrapper);
+    // 将这个模板渲染到
+    $('#right .data-card .data-card-1').html($data_card_1);
     
     // 加载函数
     getPvTotal('群活码','qun');
@@ -225,33 +197,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 200状态码
                 if(res.code == 200){
                     
-                    // if(res.user_admin == 2) {
-                        
-                    //     $('.data-chart').html('<div class="no_limit">非管理员无法查看数据</div>');
-                    // }
-                    
-                    // 当日访问量
-                    const dataMapping = {
-                        qunNum: 'qun_pvTotal',
-                        kfNum: 'kf_pvTotal',
-                        channelNum: 'channel_pvTotal',
-                        dwzNum: 'dwz_pvTotal',
-                        zjyNum: 'zjy_pvTotal',
-                        shareCardNum: 'shareCard_pvTotal',
-                        multiNum: 'multiSPA_pvTotal',
+                    // 将pv数据渲染到HTML模板中
+                    const pv_mapping = {
+                        '.qun-pv': 'qun_pvTotal',
+                        '.kf-pv': 'kf_pvTotal',
+                        '.channel-pv': 'channel_pvTotal',
+                        '.dwz-pv': 'dwz_pvTotal',
+                        '.shareCard-pv': 'shareCard_pvTotal',
+                        '.zjy-pv': 'zjy_pvTotal',
+                        '.multiSPA-pv': 'multiSPA_pvTotal'
                     };
-                    
-                    Object.entries(dataMapping).forEach(([elementClass, dataKey]) => {
-                        const selector = `#right .data-card .data-chart .data-pannel .swiper .swiper-slide .${elementClass}`;
-                        $(selector).text(res.pvTotals[dataKey]);
+                    $.each(pv_mapping, function(selector, key) {
+                        $('.data-card-1').find(selector).text(res.pvTotals[key]);
                     });
+                    
+                    // 今天总访问量
+                    $('.total-num-today-num').text(res.todayTotalPV)
 
                     // 销毁Canvas图表
                     $('#eachHourPvChart').remove();
                     
-                    // 渲染Canvas
-                    $('#right .data-card .data-chart .chart-pannel .chart-view').append(
-                        '<canvas id="eachHourPvChart" width="350" height="130"></canvas>'
+                    // 如果是非管理员
+                    if(res.user_admin == 2) {
+                        
+                        $('.data-card-2 .chart-view-container .chart-view').html('<div class="nolimit">无查看数据权限</div>');
+                        $('.data-card-3 .container-view .uvdata-view').html('<div class="nolimit">无查看数据权限</div>');
+                        return;
+                    }
+                    
+                    $('#right .data-card-2 .chart-view').append(
+                        '<canvas id="eachHourPvChart"></canvas>'
                     );
                     
                     // 获取图表Canvas
@@ -266,9 +241,31 @@ document.addEventListener('DOMContentLoaded', function() {
                         data: {
                             labels: labelsArray, // 横坐标数据
                             datasets: res.chartData // 表配置、折线图数据（从后端获取）
-                        }
+                        },
+                        options: {
+                            plugins: {
+                              title: {
+                                display: true,
+                                text: '今天各时段访问量'
+                              },
+                            },
+                            scales: {
+                              x: {
+                                display: true,
+                                title: {
+                                  display: true
+                                }
+                              },
+                              y: {
+                                display: true,
+                                title: {
+                                  display: true,
+                                  text: '访问量'
+                                }
+                              }
+                            }
+                        },
                     });
-
                 }else{
                     
                     // 未登录
@@ -291,59 +288,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 获取元素
-    const swiperWrapper = document.querySelector('.swiper-wrapper');
-    const slides = document.querySelectorAll('.swiper-slide');
-    const pagination = document.querySelector('.swiper-pagination');
-    
-    // 设置初始索引和宽度
-    let currentIndex = 0;
-    
-    // 显示多少个卡片
-    const slideWidth = slides[0].offsetWidth * 4;
-    
-    // 设置初始位置
-    swiperWrapper.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-    
-    $('#right .pre-swiper').css('display','none');
-    
-    // 向左切换
-    $('#right .pre-swiper').click(function(){
-        if(currentIndex > 0){
-            currentIndex--;
-            swiperWrapper.style.transform=`translateX(-${currentIndex*slideWidth}px)`;
-            $('#right .pre-swiper').css('display','none');
-            $('#right .next-swiper').css('display','block');
+    // 自动刷新状态
+    // 在首页URL后面拼接?=1才开启
+    var freshen = queryURLParams(window.location.href).f;
+    if(typeof(freshen) !== 'undefined'){
+        
+        // 开启
+        if(freshen == 1){
+            
+            // 刷新
+            setInterval(function(){
+                getPvTotal("群活码","qun")
+            },60000);
         }
+    }
+    
+    // 活码图表切换
+    $('#right .data-card .huoma-num .num-card').click(function() {
+        
+        var dataType = $(this).data('type');   // 获取 data-type 的值
+        var dataTitle = $(this).data('title'); // 获取 data-title 的值
+        getPvTotal(dataTitle,dataType);
     });
     
-    // 向右切换
-    $('#right .next-swiper').click(function(){
-        if(currentIndex<slides.length/3-1){      
-            currentIndex++;
-            swiperWrapper.style.transform=`translateX(-${currentIndex*slideWidth}px)`;
-        }
-        $('#right .next-swiper').css('display','none');
-        $('#right .pre-swiper').css('display','block');
+    // 其他图表
+    $('#right .card-right .card-container .numcard').click(function() {
+        
+        var dataType = $(this).data('type');   // 获取 data-type 的值
+        var dataTitle = $(this).data('title'); // 获取 data-title 的值
+        getPvTotal(dataTitle,dataType);
     });
-    
-    // 图表切换
-    $('#right .data-card .data-pannel .swiper .swiper-slide').click(function(){
-        
-        // 修改样式
-        $(this).siblings().removeClass('swiper-slide-selected');
-        $(this).addClass('swiper-slide-selected');
-        
-        // 修改图表数据
-        var label = $(this)[0].innerText;
-        var type = $(this)[0].dataset.type;
-        
-        // 获取访问量
-        getPvTotal(label,type);
-        
-        // 设置URL
-        window.history.pushState('', '', '#'+type);
-    })
+
 })
 
 // 获取IP
@@ -357,31 +332,22 @@ function getIPTotal() {
             // 200状态码
             if(res.code == 200){
                 
-                // 当日访问量
-                const todayIP = res.todayIP[0];
-                const yesterdayIP = res.yesterdayIP[0];
-                
-                // 选择器缓存
-                const $swiperSlide = $('#right .data-card .swiper .swiper-slide');
-                const $ipNum = $swiperSlide.find('.ip-num');
-                
-                // 设置今天的IP
-                $ipNum.find('.td-qunIP').text(todayIP.qun_ip);
-                $ipNum.find('.td-kfIP').text(todayIP.kf_ip);
-                $ipNum.find('.td-channelIP').text(todayIP.channel_ip);
-                $ipNum.find('.td-dwzIP').text(todayIP.dwz_ip);
-                $ipNum.find('.td-zjyIP').text(todayIP.zjy_ip);
-                $ipNum.find('.td-shareCardIP').text(todayIP.shareCard_ip);
-                $ipNum.find('.td-multiIP').text(todayIP.multiSPA_ip);
-                
-                // 设置昨天的IP
-                $ipNum.find('.yt-qunIP').text(yesterdayIP.qun_ip);
-                $ipNum.find('.yt-kfIP').text(yesterdayIP.kf_ip);
-                $ipNum.find('.yt-channelIP').text(yesterdayIP.channel_ip);
-                $ipNum.find('.yt-dwzIP').text(yesterdayIP.dwz_ip);
-                $ipNum.find('.yt-zjyIP').text(yesterdayIP.zjy_ip);
-                $ipNum.find('.yt-shareCardIP').text(yesterdayIP.shareCard_ip);
-                $ipNum.find('.yt-multiIP').text(yesterdayIP.multiSPA_ip);
+                // 将今天和昨天的UV数据渲染到HTML模板
+                const uvMapping = {
+                    '.qun-uv': 'qun_ip',
+                    '.kf-uv': 'kf_ip',
+                    '.channel-uv': 'channel_ip',
+                    '.dwz-uv': 'dwz_ip',
+                    '.shareCard-uv': 'shareCard_ip',
+                    '.zjy-uv': 'zjy_ip',
+                    '.multiSPA-uv': 'multiSPA_ip'
+                };
+                $.each(uvMapping, function(selector, key) {
+                    const todayValue = res.todayIP[0][key];
+                    const yesterdayValue = res.yesterdayIP[0][key];
+                    $('.data-card-1').find(selector + ' .today-uv').text(todayValue);
+                    $('.data-card-1').find(selector + ' .yesterday-uv').text(yesterdayValue);
+                });
                 
                 // 获取7天的IP数据
                 get7DaysIpData();
@@ -409,68 +375,75 @@ function getIPTotal() {
 
 // 项目说明
 function projectInfo(){
-    const projectInfoElement = document.querySelector("#right .project-info");
     
-    const links = [
-    {
-        title: "开源地址 >>",
-        desc: "获取作者的正版源码及更新动态。",
-        url: "https://github.com/likeyun/liKeYun_Ylb",
-    },
-    {
-        title: "使用文档 >>",
-        desc: "快速学习和了解正确的使用姿势。",
-        url: "https://docs.qq.com/doc/DREdWVGJxeFFOSFhI",
-    },
-    {
-        title: "开发文档 >>",
-        desc: "阅读以进行二次开发和个性化修改。",
-        url: "https://docs.qq.com/doc/DRE9aWlRqZUdFRWl1",
-    },
-    {
-        title: "用户交流群 >>",
-        desc: "加群讨论部署安装、使用、开发等话题。",
-        url: "../../static/img/jiaQun.jpg",
-    },
-    {
-        title: "反馈建议 >>",
-        desc: "对本开源作品的反馈及开发建议。",
-        url: "https://support.qq.com/product/453822",
-    },
-    {
-        title: "作者博客 >>",
-        desc: "关注作者的博客学习开发编程基础。",
-        url: "https://segmentfault.com/u/tanking",
-    },
-    {
-        title: "赞赏作者 >>",
-        desc: "没有任何盈利，全靠赞赏支持继续维护。",
-        url: "../../static/img/zansangma.jpg",
-    },
-    ];
+    // HTML模板
+    $openResourceInfo_HTML = `
+    <a href="https://github.com/likeyun/liKeYun_Ylb" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="../../static/img/github-icon.png" /></div>
+        <div class="info">
+            <span class="title">源码下载</span>
+            <span class="desc">前往github下载免费源码</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>
     
-    links.forEach((link) => {
-        const linkElement = document.createElement("a");
-        linkElement.href = link.url;
-        linkElement.target = "_blank";
+    <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="../../static/img/usedoc-icon.png" /></div>
+        <div class="info">
+            <span class="title">使用文档</span>
+            <span class="desc">助你正确使用使用文档</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>
     
-        const linkCardElement = document.createElement("div");
-        linkCardElement.className = "link-card";
+    <a href="https://docs.qq.com/doc/DRE9aWlRqZUdFRWl1" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="../../static/img/devdoc-icon.png" /></div>
+        <div class="info">
+            <span class="title">开发文档</span>
+            <span class="desc">二次开发，拓展更多能力</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>
     
-        const linkTitleElement = document.createElement("div");
-        linkTitleElement.className = "link-title";
-        linkTitleElement.textContent = link.title;
+    <a href="https://segmentfault.com/u/tanking" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="../../static/img/sf-icon.png" /></div>
+        <div class="info">
+            <span class="title">作者博客</span>
+            <span class="desc">作者日常发文的地方</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>
     
-        const linkDescElement = document.createElement("div");
-        linkDescElement.className = "link-desc";
-        linkDescElement.textContent = link.desc;
+    <a href="../../static/img/zansangma.jpg" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="../../static/img/zanshang-icon.png" /></div>
+        <div class="info">
+            <span class="title">赞赏作者</span>
+            <span class="desc">给作者打赏支持作者</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>
     
-        linkCardElement.appendChild(linkTitleElement);
-        linkCardElement.appendChild(linkDescElement);
-    
-        linkElement.appendChild(linkCardElement);
-        projectInfoElement.appendChild(linkElement);
-    });
+    <a href="../../static/img/jiaQun.jpg" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="../../static/img/chatroom-icon.png" /></div>
+        <div class="info">
+            <span class="title">加入群聊</span>
+            <span class="desc">加入用户交流群</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>`;
+    $('#right .data-card .data-card-2 .openResourceInfo').html($openResourceInfo_HTML);
 }
 
 // 获取7天的IP数据
@@ -497,7 +470,7 @@ function get7DaysIpData() {
                     '    <th>多项单页</th>' +
                     '</tr>'
                 );
-                $("#right .ipDataList thead").html($thead_HTML);
+                $("#right .data-card-3 .uvdata-view .table thead").html($thead_HTML);
                 
                 for (var i=0; i<res.sevenDaysIpData.length; i++) {
                     
@@ -513,7 +486,7 @@ function get7DaysIpData() {
                         '   <td>'+res.sevenDaysIpData[i].multiSPA_ip+'</td>' +
                         '</tr>'
                     );
-                    $("#right .ipDataList tbody").append($tbody_HTML);
+                    $("#right .data-card-3 .uvdata-view .table tbody").append($tbody_HTML);
                 }
             }else{
                 
@@ -575,7 +548,7 @@ function jumpUrl(jumpUrl){
     setTimeout('location.href="'+jumpUrl+'"',1000);
 }
 
-console.log('%c 欢迎使用引流宝','color:#3B5EE1;font-size:30px;font-family:"微软雅黑"');
-console.log('%c 作者：TANKING','color:#3B5EE1;font-size:30px;font-family:"微软雅黑"');
-console.log('%c 作者博客：https://segmentfault.com/u/tanking','color:#3B5EE1;font-size:30px;font-family:"微软雅黑"');
-console.log('%c 开源地址：https://github.com/likeyun/liKeYun_Ylb','color:#3B5EE1;font-size:30px;font-family:"微软雅黑"');
+console.log('%c 欢迎使用引流宝','color:#3B5EE1;font-size:20px;font-family:"微软雅黑"');
+console.log('%c 作者：TANKING','color:#3B5EE1;font-size:20px;font-family:"微软雅黑"');
+console.log('%c 作者博客：https://segmentfault.com/u/tanking','color:#3B5EE1;font-size:20px;font-family:"微软雅黑"');
+console.log('%c 开源地址：https://github.com/likeyun/liKeYun_Ylb','color:#3B5EE1;font-size:20px;font-family:"微软雅黑"');

@@ -122,13 +122,15 @@
     			    array(
                         'label' => $label, // 当前展示的数据所属的渠道
                         'data' => $hourNumArray, // 各时段的数据
-                        'backgroundColor' => ['rgba(59,94,225,1)'], // 背景颜色
+                        'backgroundColor' => ['#f8f8f8'], // 背景颜色
                         'borderColor' => ['rgba(59,94,225,0.5)'], // 线条颜色
                         'borderWidth' => 2, // 线条宽度
                         'cubicInterpolationMode' => 'monotone',
-                        'tension' => 1
+                        'fill' => true,
+                        'tension' => 0.5
     			    )
     			), // 折线图配置
+    			'todayTotalPV' => array_sum($pvTotals),
             );
         }else {
             
@@ -154,11 +156,12 @@
     			    array(
                         'label' => $label, // 当前展示的数据所属的渠道
                         'data' => $hourNumArray_, // 各时段的数据
-                        'backgroundColor' => ['rgba(59,94,225,1)'], // 背景颜色
+                        'backgroundColor' => ['#f8f8f8'], // 背景颜色
                         'borderColor' => ['rgba(59,94,225,0.5)'], // 线条颜色
                         'borderWidth' => 2, // 线条宽度
                         'cubicInterpolationMode' => 'monotone',
-                        'tension' => 1
+                        'fill' => true,
+                        'tension' => 0.5
     			    )
     			), // 折线图配置
             );
@@ -172,7 +175,7 @@
         );
     }
     
-    // // 输出JSON
+    // 输出JSON
     echo json_encode($result,JSON_UNESCAPED_UNICODE);
     
 ?>

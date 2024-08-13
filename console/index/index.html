@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="../../static/css/ylb.css">
 	<link rel="shortcut icon" href="../../static/img/favicon.png">
 	<script type="text/javascript" src="./index.js"></script>
+	<link rel="stylesheet" href="../../static/css/index.css">
 </head>
 <body>
 
@@ -112,45 +113,32 @@
 	    <h3>数据</h3>
 		<div class="data-card" style="background:none;padding:0;">
 		    
-		    <!--数据、图表容器-->
-		    <div class="data-chart">
-		        
-		        <!--数据面板-->
-		        <div class="data-pannel">
-		            
-		            <!--左右切换-->
-		            <div class="pre-swiper"></div>
-		            <div class="next-swiper"></div>
-		            
-		            <!--访问量卡片-->
-                    <div class="swiper"></div>
-                    
-		        </div><!--data-pannel-->
-		        
-		        <!--图表面板-->
-		        <div class="chart-pannel">
-		            
-		            <p class="chart-pannel-title">📈 24小时 PV 图表 <span class="autofreshen"></span></p>
-                    
-                    <!--图表-->
-                    <div class="chart-view">
-                        <canvas id="eachHourPvChart" width="350" height="130" style="width:100%;height:100px;"></canvas>
-                    </div><!--chart-view-->
-		        </div><!--chart-pannel-->
-		        
-		        <!--7天IP数据-->
-		        <div class="ipDataList">
-		            <p style="font-size:20px;">🌐 近7天 UV 数据</p>
-		            <table class="table" style="text-align: center;font-size:15px;">
-    				    <thead></thead>
-    				    <tbody></tbody>
-    				</table>
-		        </div>
-		    </div><!--data-chart-->
+		    <!--数据卡片-->
+		    <div class="data-card-1"></div>
 		    
-		    <!--项目说明-->
-		    <div class="project-info"></div>
-			
+		    <!--图表-->
+	        <div class="data-card-2">
+	            <div class="chart-view-container">
+	                <div class="chart-view">
+                        <canvas id="eachHourPvChart" style="width:100%;"></canvas>
+                    </div>
+                    
+                    <view class="openResourceInfo"></view>
+	            </div>
+	        </div>
+	        
+	        <div class="data-card-3">
+                <div class="container-view">
+                    <div class="uvdata-view">
+                        <p class="table-title">近7天UV数据</p>
+                        <table class="table" style="text-align: center;font-size:15px;">
+        				    <thead></thead>
+        				    <tbody></tbody>
+        				</table>
+                    </div>
+                </div>
+            </div>
+	        
 		</div><!-- data-card -->
 	</div><!-- right -->
 </div><!-- app -->
