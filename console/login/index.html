@@ -9,6 +9,12 @@
 	<link rel="shortcut icon" href="../../static/img/logo.png">
 	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<style>
+	    body {
+            background: url('../../static/img/login-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+	</style>
 </head>
 <body>
 
@@ -60,6 +66,7 @@
                     
                     // 操作反馈（200状态码）
                     showSuccessResult(res.msg)
+                    
                     // 0.5秒后跳转到首页
                     redirectPage('../index/',500);
                     
