@@ -49,10 +49,9 @@
 
     /**
      * 标题：客服码公共页面
-     * 维护：2023年8月1日
+     * 维护：2024-08-19
      * 作者：TANKING
      * 博客：https://segmentfault.com/u/tanking
-     * 摘要：优化代码结构、新增通知渠道、新增IP记录、UI样式优化
      */
      
     // 页面编码
@@ -211,11 +210,10 @@
                         // 随机模式
                         
                         // 将当前kf_id里面的所有微信二维码的数组成员进行随机打乱
-                        // 然后取第一个数组成员作为展示
                         shuffle($QrcodeList);
-
+                        
                         // 遍历数组
-                        foreach ($QrcodeList as $k => $v){
+                        foreach ($QrcodeList as $k => $v) {
                             
                             // 解析所需字段
                             $zm_id = $QrcodeList[$k]['zm_id']; // 微信二维码id
@@ -223,46 +221,45 @@
                             $zm_pv = $QrcodeList[$k]['zm_pv']; // 微信二维码访问量
                             $zm_qrcode = $QrcodeList[$k]['zm_qrcode']; // 微信二维码图片地址
                             $zm_num = $QrcodeList[$k]['zm_num']; // 微信二维码的微信号
-
-                            // 顶部三件套（标题、扫码安全验证提示状态、备注）
-                            topMsg($kf_title,$kf_safety,$kf_beizhu);
-                            
-                            // 展示遍历的第一个二维码
-                            echo '
-                            <p id="scanTips">请长按识别二维码添加微信</p>
-                            <div id="kfzm_qrcode">
-                                <img src="'.$zm_qrcode.'" />
-                            </div>';
-                            
-                            // 如果微信号非空
-                            if(!empty($zm_num)){
+                            $zm_status = $QrcodeList[$k]['zm_status']; // 状态
+                        
+                            // 如果状态为1，才继续执行
+                            if ($zm_status == 1) {
+                        
+                                // 顶部三件套（标题、扫码安全验证提示状态、备注）
+                                topMsg($kf_title, $kf_safety, $kf_beizhu);
                                 
-                                // 微信号
-                                echo 
-                                '<p id="wxnum">
-                                    <span class="num">微信号 : '.$zm_num.'</span>
-                                    <span class="copy" data-wxnum="'.$zm_num.'" onclick="copyWeChatNum(this)">复制</span>
-                                </p>';
-                            }
-                            
-                            // 在线状态
-                            if($kf_online == 1){
+                                echo '
+                                <p id="scanTips">请长按识别二维码添加微信</p>
+                                <div id="kfzm_qrcode">
+                                    <img src="'.$zm_qrcode.'" />
+                                </div>';
                                 
-                                // 开启
-                                // 传JSON配置
-                                showOnlineStatus($kf_onlinetimes);
+                                // 如果微信号非空
+                                if (!empty($zm_num)) {
+                                    // 微信号
+                                    echo 
+                                    '<p id="wxnum">
+                                        <span class="num">微信号 : '.$zm_num.'</span>
+                                        <span class="copy" data-wxnum="'.$zm_num.'" onclick="copyWeChatNum(this)">复制</span>
+                                    </p>';
+                                }
+                                
+                                // 在线状态
+                                if ($kf_online == 1) {
+                                    // 开启
+                                    // 传JSON配置
+                                    showOnlineStatus($kf_onlinetimes);
+                                }
+                        
+                                // 更新当前二维码的访问量（仅更新符合当前阈值条件的二维码的访问量）
+                                updateKfQrcodePv($db, $zm_id, $zm_pv);
+                                
+                                // 只输出第一个符合状态为1的二维码，立即跳出循环
+                                break;
                             }
-
-                            // 更新当前二维码的访问量（仅更新符合当前阈值条件的二维码的访问量）
-                            updateKfQrcodePv($db,$zm_id,$zm_pv);
-                            
-                            // 只需要遍历的第一个微信二维码
-                            // 所以循环一次就得跳出
-                            // 所以这里用了exit
-                            exit;
-                        } // foreach ($QrcodeList as $k => $v)
+                        }
                     }
-                    
                 }else{
                     
                     // 获取不到二维码
