@@ -20,10 +20,8 @@
         $kmConf_status = trim($_POST['kmConf_status']);
         $kmConf_adShow = trim($_POST['kmConf_adShow']);
         $kmConf_adType = trim($_POST['kmConf_adType']);
-        $kmConf_bannerID = trim($_POST['kmConf_bannerID']);
-        $kmConf_videoID = trim($_POST['kmConf_videoID']);
         $kmConf_jiliStatus = trim($_POST['kmConf_jiliStatus']);
-        $kmConf_jiliID = trim($_POST['kmConf_jiliID']);
+        $kmConf_btntext = trim($_POST['kmConf_btntext']);
         $kmConf_kfQrcode = trim($_POST['kmConf_kfQrcode']);
         $kmConf_xcx_title = trim($_POST['kmConf_xcx_title']);
         $kmConf_notification_text = trim($_POST['kmConf_notification_text']);
@@ -65,29 +63,17 @@
                 'code' => 203,
                 'msg' => '提取页广告类型未选择'
             );
-        }else if($kmConf_adType == 1 && empty($kmConf_bannerID)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => 'Banner广告ID未填写'
-            );
-        }else if($kmConf_adType == 2 && empty($kmConf_videoID)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '视频广告ID未填写'
-            );
         }else if(empty($kmConf_jiliStatus) || !isset($kmConf_jiliStatus)){
             
             $result = array(
                 'code' => 203,
                 'msg' => '激励视频广告开关未设置'
             );
-        }else if($kmConf_jiliStatus == 1 && empty($kmConf_jiliID)){
+        }else if(empty($kmConf_btntext) || !isset($kmConf_btntext)){
             
             $result = array(
                 'code' => 203,
-                'msg' => '激励视频广告ID未填写'
+                'msg' => '请设置提取按钮文字'
             );
         }else if(empty($kmConf_appid) || !isset($kmConf_appid)){
             
@@ -126,12 +112,10 @@
                 'kmConf_status' => $kmConf_status,
                 'kmConf_adShow' => $kmConf_adShow,
                 'kmConf_adType' => $kmConf_adType,
-                'kmConf_bannerID' => $kmConf_bannerID,
-                'kmConf_videoID' => $kmConf_videoID,
                 'kmConf_jiliStatus' => $kmConf_jiliStatus,
-                'kmConf_jiliID' => $kmConf_jiliID,
                 'kmConf_kfQrcode' => $kmConf_kfQrcode,
                 'kmConf_xcx_title' => $kmConf_xcx_title,
+                'kmConf_btntext' => $kmConf_btntext,
                 'kmConf_notification_text' => $kmConf_notification_text,
                 'kmConf_appid' => $kmConf_appid,
                 'kmConf_appsecret' => $kmConf_appsecret,

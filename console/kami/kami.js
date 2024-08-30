@@ -113,16 +113,16 @@ function getKamiProjectList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
                 '   <th>项目标题</th>' +
                 '   <th>项目类型</th>' +
                 '   <th>卡密总数</th>' +
-                '   <th>已被提取</th>' +
-                '   <th>未被提取</th>' +
+                '   <th>已提取</th>' +
+                '   <th>未提取</th>' +
                 '   <th>重复提取</th>' +
                 '   <th>间隔时间</th>' +
+                '   <th>看广告</th>' +
                 '   <th>创建时间</th>' +
-                '   <th>上/下架状态</th>' +
+                '   <th>上/下架</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
             );
@@ -134,7 +134,6 @@ function getKamiProjectList(pageNum) {
                 // 遍历数据
                 for (var i=0; i<res.projectList.length; i++) {
                     
-                    var xuhao = i+1;
                     var kami_id = res.projectList[i].kami_id;
                     var kami_title = res.projectList[i].kami_title;
                     var kami_type = res.projectList[i].kami_type;
@@ -144,6 +143,7 @@ function getKamiProjectList(pageNum) {
                     var kami_repeat_tiqu = res.projectList[i].kami_repeat_tiqu; // 重复提取
                     var kami_create_time = res.projectList[i].kami_create_time;
                     var kami_status = res.projectList[i].kami_status;
+                    var kami_adStatus = res.projectList[i].kami_adStatus;
                     
                     // 上下架状态
                     if(kami_status == 1){
@@ -170,10 +170,15 @@ function getKamiProjectList(pageNum) {
                         var kami_repeat_tiqu_interval = ' - ';
                     }
                     
+                    if(kami_adStatus == 1) {
+                        var kami_adStatus_text = '<span style="color:rgb(59,94,225);">需要</span>';
+                    }else {
+                        var kami_adStatus_text = '<span style="color:#666;">无需</span>';
+                    }
+                    
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
                         '   <td>'+kami_title+'</td>' +
                         '   <td>'+kami_type+'</td>' +
                         '   <td>'+km_total+'</td>' +
@@ -181,6 +186,7 @@ function getKamiProjectList(pageNum) {
                         '   <td>'+km_unExtracted+'</td>' +
                         '   <td>'+kami_repeat_tiqu_html+'</td>' +
                         '   <td>'+kami_repeat_tiqu_interval+'</td>' +
+                        '   <td>'+kami_adStatus_text+'</td>' +
                         '   <td>'+kami_create_time+'</td>' +
                         '   <td>'+kami_status_html+'</td>' +
                         '   <td class="dropdown-td">' +
@@ -365,6 +371,7 @@ function getKamiProjectInfo(kami_id){
     // 初始化
     $('#editKamiProjectModal select[name="kami_type"]').empty('');
     $('#editKamiProjectModal select[name="kami_status"]').empty('');
+    $('#editKamiProjectModal select[name="kami_adStatus"]').empty('');
     $('#editKamiProjectModal select[name="kami_repeat_tiqu"]').empty('');
     
     // 获取
@@ -377,6 +384,23 @@ function getKamiProjectInfo(kami_id){
                 
                 // 项目标题
                 $('#editKamiProjectModal input[name="kami_title"]').val(res.kamiInfo.kami_title);
+                
+                // 是否要看广告
+                if(res.kamiInfo.kami_adStatus == 1) {
+                    
+                    // 需要看广告
+                    $('#editKamiProjectModal select[name="kami_adStatus"]').append(
+                        '<option value="1">需要看广告</option>' +
+                        '<option value="2">无需看广告</option>'
+                    );
+                }else {
+                    
+                    // 无需看广告
+                    $('#editKamiProjectModal select[name="kami_adStatus"]').append(
+                        '<option value="2">无需看广告</option>' +
+                        '<option value="1">需要看广告</option>'
+                    );
+                }
                 
                 // 已选的项目类型
                 $('#editKamiProjectModal select[name="kami_type"]').append(
@@ -600,11 +624,8 @@ function getXcxConfig(){
                     );
                 }
                 
-                // Banner广告ID
-                $('#xcxConfigModal input[name="kmConf_bannerID"]').val(res.xcxConfig.kmConf_bannerID);
-                
-                // 视频广告ID
-                $('#xcxConfigModal input[name="kmConf_videoID"]').val(res.xcxConfig.kmConf_videoID);
+                // 提取按钮文字
+                $('#xcxConfigModal input[name="kmConf_btntext"]').val(res.xcxConfig.kmConf_btntext);
                 
                 // 激励视频广告开关
                 if(res.xcxConfig.kmConf_jiliStatus == 1) {
@@ -622,9 +643,6 @@ function getXcxConfig(){
                         '<option value="1">开启</option>'
                     );
                 }
-                
-                // 激励视频广告ID
-                $('#xcxConfigModal input[name="kmConf_jiliID"]').val(res.xcxConfig.kmConf_jiliID);
                 
                 // 客服二维码
                 $('#xcxConfigModal input[name="kmConf_kfQrcode"]').val(res.xcxConfig.kmConf_kfQrcode);

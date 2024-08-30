@@ -17,6 +17,7 @@
         
         // 已登录
         $kami_title = trim($_POST['kami_title']);
+        $kami_adStatus = trim($_POST['kami_adStatus']);
         $kami_type = trim($_POST['kami_type']);
         $kami_create_user = trim($_SESSION["yinliubao"]);
         
@@ -26,6 +27,12 @@
             $result = array(
                 'code' => 203,
                 'msg' => '项目标题未填写'
+            );
+        }else if(empty($kami_adStatus) || !isset($kami_adStatus)){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '是否需要看广告？请选择'
             );
         }else if(empty($kami_type) || !isset($kami_type)){
             
@@ -55,7 +62,8 @@
         	// 参数
             $creatKamiProjectParams = [
                 'kami_id' => $kami_id,
-                'kami_title' =>$kami_title,
+                'kami_title' => $kami_title,
+                'kami_adStatus' => $kami_adStatus,
                 'kami_type' => $kami_type,
                 'kami_create_user' => $kami_create_user,
                 'kami_key' => creatKey(4)

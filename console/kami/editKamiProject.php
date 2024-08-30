@@ -20,6 +20,7 @@
         $kami_title = trim($_POST['kami_title']);
         $kami_type = trim($_POST['kami_type']);
         $kami_status = trim($_POST['kami_status']);
+        $kami_adStatus = trim($_POST['kami_adStatus']);
         $kami_repeat_tiqu = trim($_POST['kami_repeat_tiqu']);
         $kami_repeat_tiqu_interval = trim($_POST['kami_repeat_tiqu_interval']);
         $kami_id = trim($_POST['kami_id']);
@@ -49,7 +50,7 @@
                 'code' => 203,
                 'msg' => '是否允许重复提取？'
             );
-        }else if(empty($kami_repeat_tiqu) || !isset($kami_repeat_tiqu_interval)){
+        }else if($kami_repeat_tiqu == 1 && empty($kami_repeat_tiqu_interval)){
             
             $result = array(
                 'code' => 203,
@@ -83,6 +84,7 @@
                 $updateData = [
                     'kami_title' => $kami_title,
                     'kami_type' => $kami_type,
+                    'kami_adStatus' => $kami_adStatus,
                     'kami_repeat_tiqu' => $kami_repeat_tiqu,
                     'kami_repeat_tiqu_interval' => $kami_repeat_tiqu_interval,
                     'kami_status' => $kami_status

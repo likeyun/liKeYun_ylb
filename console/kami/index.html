@@ -171,6 +171,12 @@
                     <span class="text">项目标题</span>
                     <input type="text" name="kami_title" class="form-control" autocomplete="off" placeholder="项目标题">
                     
+                    <span class="text">是否要看广告</span>
+                    <select name="kami_adStatus" class="form-control">
+                        <option value="1">需要看广告才可提取</option>
+                        <option value="2">无需看广告直接提取</option>
+                    </select>
+                    
                     <span class="text">项目类型</span>
                     <select name="kami_type" class="form-control">
                         <option value="卡密">卡密</option>
@@ -229,8 +235,16 @@
                 <!-- 表单 -->
                 <div class="modal-body">
                     <form id="editKamiProject">
-                    <span class="text">项目标题</span>
-                    <input type="text" name="kami_title" class="form-control" autocomplete="off" placeholder="项目标题">
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;">
+                            <span class="text">项目标题</span>
+                            <input type="text" name="kami_title" class="form-control" autocomplete="off" placeholder="项目标题">
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">是否要看广告</span>
+                            <select name="kami_adStatus" class="form-control"></select>
+                        </div>
+                    </div>
                     
                     <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
                         <div style="flex:1;margin-right:7px;">
@@ -265,7 +279,7 @@
                             <span class="faq"><a href="../faq.php?faq=kami" target="_blank">?</a></span>
                         </div>
                         <div class="click-right">
-                            <button type="button" class="default-btn" onclick="editKamiProject();">提交编辑</button>
+                            <button type="button" class="default-btn" onclick="editKamiProject();">保存</button>
                         </div>
                     </div>
                 </div><!-- modal-footer -->
@@ -344,23 +358,12 @@
                     
                     <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
                         <div style="width:48%;height:70px;float:left;">
-                            <span class="text">Banner广告ID</span>
-                            <input type="text" name="kmConf_bannerID" class="form-control" autocomplete="off" placeholder="Banner广告ID">
-                        </div>
-                        <div style="width:48%;height:70px;float:right;">
-                            <span class="text">视频广告ID</span>
-                            <input type="text" name="kmConf_videoID" class="form-control" autocomplete="off" placeholder="视频广告ID">
-                        </div>
-                    </div>
-                    
-                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
-                        <div style="width:48%;height:70px;float:left;">
                             <span class="text">激励视频广告开关</span>
                             <select name="kmConf_jiliStatus" class="form-control"></select>
                         </div>
                         <div style="width:48%;height:70px;float:right;">
-                            <span class="text">激励视频广告ID</span>
-                            <input type="text" name="kmConf_jiliID" class="form-control" autocomplete="off" placeholder="激励视频广告ID">
+                            <span class="text">提取按钮文字</span>
+                            <input type="text" name="kmConf_btntext" class="form-control" autocomplete="off" placeholder="需看广告时的按钮文字">
                         </div>
                     </div>
                     
@@ -371,7 +374,7 @@
                         </div>
                         <div style="width:48%;height:70px;float:right;">
                             <span class="text">小程序AppSecret</span>
-                            <input type="password" name="kmConf_appsecret" class="form-control" autocomplete="off" placeholder="小程序AppSecret">
+                            <input type="text" name="kmConf_appsecret" class="form-control" autocomplete="off" placeholder="小程序AppSecret">
                         </div>
                     </div>
                    
