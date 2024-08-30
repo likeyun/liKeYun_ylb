@@ -554,6 +554,7 @@
               `kami_repeat_tiqu_interval` int(10) DEFAULT NULL COMMENT '重复提取间隔时间（单位：秒）',
               `kami_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
               `kami_status` int(1) NOT NULL DEFAULT '1' COMMENT '状态',
+              `kami_adStatus` int(1) NOT NULL DEFAULT '2' COMMENT '是否需看广告1是 2否',
               `kami_key` varchar(32) DEFAULT NULL COMMENT 'Key',
               `kami_create_user` varchar(32) DEFAULT NULL COMMENT '创建者'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
@@ -579,10 +580,8 @@
               `kmConf_xcx_title` varchar(64) DEFAULT NULL COMMENT '提取页顶部标题',
               `kmConf_adShow` int(1) NOT NULL DEFAULT '2' COMMENT '提取页广告开关',
               `kmConf_adType` int(1) NOT NULL DEFAULT '1' COMMENT '提取页广告类型',
-              `kmConf_bannerID` varchar(32) DEFAULT NULL COMMENT 'Banner广告ID',
-              `kmConf_videoID` varchar(32) DEFAULT NULL COMMENT 'video广告ID',
+              `kmConf_btntext` varchar(32) DEFAULT '看广告免费提取' COMMENT '提取按钮文字',
               `kmConf_jiliStatus` int(1) DEFAULT '2' COMMENT '激励视频广告开关',
-              `kmConf_jiliID` varchar(32) DEFAULT NULL COMMENT '激励视频广告ID',
               `kmConf_kfQrcode` text COMMENT '客服二维码',
               `kmConf_notification_text` text COMMENT '公告内容',
               `kmConf_appid` varchar(32) DEFAULT NULL COMMENT '小程序AppId',
