@@ -45,11 +45,11 @@ http://域名/install/
 
 **升级步骤如下：** <br/>
 1、升级前请备份好数据；<br/>
-2、备份 console/Db.php 这个文件；<br/>
-3、备份 console/upload/ 目录； <br/>
+2、备份 `console/Db.php` 这个文件；<br/>
+3、备份 `console/upload/` 目录； <br/>
 4、下载新版本代码；<br/>
-5、将 console/Db.php 这个文件以及 console/upload/ 目录替换；<br/>
-6、访问install目录，选择你要升级的版本选项。<br/>
+5、将 `console/Db.php` 这个文件以及 `console/upload/` 目录替换；<br/>
+6、访问 `install` 目录，选择你要升级的版本选项。<br/>
 
 ## Star History
 
