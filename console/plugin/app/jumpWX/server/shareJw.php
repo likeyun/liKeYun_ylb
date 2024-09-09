@@ -54,6 +54,34 @@
                     
                     // 抖音云
                     $longUrl = $jw_dxccym . '/index.html?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'sinacloud.net') == TRUE){ 
+                    
+                    // 新浪云
+                    $longUrl = $jw_dxccym . '/index.html?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'bcebos.com') == TRUE){ 
+                    
+                    // 百度云
+                    $longUrl = $jw_dxccym . '?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'addlink.cn') == TRUE){ 
+                    
+                    // 西部数码
+                    $longUrl = $jw_dxccym . '?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'wenjuan.pub') == TRUE){ 
+                    
+                    // 问卷网
+                    $longUrl = $jw_dxccym . '?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'mi.com') == TRUE){ 
+                    
+                    // 小米
+                    $longUrl = $jw_dxccym . '?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'myhuaweicloud.com') == TRUE){ 
+                    
+                    // 华为云
+                    $longUrl = $jw_dxccym . '?jwid=' . $jw_id;
+                }else if(strpos($jw_dxccym,'jinshujufiles.com') == TRUE){ 
+                    
+                    // 金数据
+                    $longUrl = $jw_dxccym . '?jwid=' . $jw_id;
                 }else {
                     
                     // 其他
@@ -63,17 +91,20 @@
                 // token
                 $jw_token = json_decode(json_encode($getJwInfo))->jw_token;
                 
+                // 投放平台
+                $jw_platform = json_decode(json_encode($getJwInfo))->jw_platform;
+                
                 // 时间戳
-                $timeNum = time();
+                $current_time = time();
                 
                 // 有结果
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
-        		    'longUrl' => $longUrl . '&t=' . $timeNum . '&f=url',
+        		    'longUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=click_url&type='.$jw_platform,
         		    'jw_token' => $jw_token,
-        		    'qrcodeUrl' => $longUrl . '&t=' . $timeNum . '&f=qr',
-        		    't' => $timeNum
+        		    'qrcodeUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=scan_qrcode&type='.$jw_platform,
+        		    't' => $current_time
     		    );
             }else{
                 

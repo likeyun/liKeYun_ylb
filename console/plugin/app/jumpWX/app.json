@@ -1,1 +1,13 @@
-{"name":"外部跳微信小程序2.0","desc":"创建一个外部跳转到微信小程序的链接","logo":"img\/logo.png","entry":"jumpWX","version":"2.0.0","author":"TANKING","website":"https:\/\/segmentfault.com\/u\/tanking","install":1,"allow":false}
+{
+    "name": "微信外链2.1.0",
+    "desc": "创建一个外部跳转到微信App的链接",
+    "logo": "img/logo.png",
+    "entry": "jumpWX",
+    "version": "2.1.0",
+    "author": "likeyunkeji",
+    "website": "https://github.com/likeyun/liKeYun_ylb",
+    "install": 1,
+    "install_time": "",
+    "current_status": "未安装",
+    "allow": false
+}

@@ -105,3 +105,57 @@
     height: 15px;
     margin-right: 5px;
 }
+
+
+/*投放平台*/
+.toufang_Platform {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.toufang_Platform .not-select {
+    background: #eee;
+    color: #999;
+}
+.toufang_Platform .is-selected {
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+}
+
+.toufang_Platform_tag {
+    padding: 10px;
+    background: #ccc;
+    border-radius: 10px;
+    margin-right: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.toufang_Platform_tag img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.params-tips {
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    line-height: 20px;
+    display: block;
+}
+
+.URLScheme_input {
+    max-width: 200px;
+    border: none;
+    padding: 3px 10px;
+    outline: none;
+    background: #eee!important;
+    border: 1px solid #ccc;
+    color: #999;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+#chooseIMG {
+    cursor: pointer;
+}

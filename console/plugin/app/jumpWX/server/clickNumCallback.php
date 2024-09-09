@@ -25,7 +25,7 @@
     }else{
         
         // 数据库配置
-        include '../../../Db.php';
+        include '../../../../Db.php';
     
         // 实例化类
         $db = new DB_API($config);

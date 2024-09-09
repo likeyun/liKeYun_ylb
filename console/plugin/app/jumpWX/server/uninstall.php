@@ -4,7 +4,7 @@
      * 状态码说明
      * 状态码：200 操作成功
      * 其它状态码自己定义就行
-     * 源码用途：卸载程序，修改app.json的install=1就是卸载成功
+     * 源码用途：卸载程序，修改 app.json 的 install=1 就是卸载成功
      * 作者：TANKING
      */
 
@@ -50,14 +50,19 @@
         if($status == 2) {
             
             // 已安装
-            // 删除ylb_jumpWX表
+            // 删除 ylb_jumpWX 表
             mysqli_query($conn,"DROP TABLE ylb_jumpWX");
             
             // 设置为未安装
             $data['install'] = 1;
+            $data['install_time'] = "";
+            $data['current_status'] = "未安装";
             
             // 编码为JSON格式
-            $appJsonData = json_encode($data, JSON_UNESCAPED_UNICODE);
+            // JSON_PRETTY_PRINT：格式化JSON
+            // JSON_UNESCAPED_UNICODE：不对中文编码
+            // JSON_UNESCAPED_SLASHES：不对斜杠进行反斜杠编码
+            $appJsonData = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             
             // 写回JSON文件
             file_put_contents($jsonFile, $appJsonData);
@@ -65,7 +70,7 @@
             // 安装成功
             $result = array(
     			'code' => 200,
-                'msg' => '卸载成功'
+                'msg' => '已卸载'
     		);
             
         }else {

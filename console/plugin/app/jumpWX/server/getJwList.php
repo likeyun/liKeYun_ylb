@@ -29,6 +29,29 @@
         // 实例化类
     	$db = new DB_API($config);
     	
+        // 2.1.0版本检查（自动升级）
+        // 检查表 ylb_jumpWX 是否存在 jw_platform 这个字段
+        $mysqli_Db = new mysqli($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
+        $check_jw_platform = $mysqli_Db->query("SHOW COLUMNS FROM `ylb_jumpWX` LIKE 'jw_platform'");
+        
+        // 如果不存在
+        if ($check_jw_platform && $check_jw_platform->num_rows == 0) {
+        
+            // 添加 jw_platform 这个字段
+            $addColumn_jw_platform = "ALTER TABLE `ylb_jumpWX` 
+                     ADD COLUMN `jw_platform` VARCHAR(10) DEFAULT NULL COMMENT '投放平台' 
+                     AFTER `jw_clickNum`";
+                     
+            // 添加 jw_original_content 这个字段
+            $addColumn_jw_original_content = "ALTER TABLE `ylb_jumpWX` 
+                     ADD COLUMN `jw_original_content` TEXT DEFAULT NULL COMMENT '目标链接原始内容' 
+                     AFTER `jw_clickNum`";
+            
+            // 执行
+            $mysqli_Db->query($addColumn_jw_platform);
+            $mysqli_Db->query($addColumn_jw_original_content);
+        }
+    	
     	// 获取当前登录用户
         // 创建的总数
     	$jwNum = $db->set_table('ylb_jumpWX')->getCount(['jw_create_user'=>$LoginUser]);

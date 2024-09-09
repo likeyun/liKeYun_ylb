@@ -23,6 +23,7 @@
         $jw_bgimg = trim($_POST['jw_bgimg']);
         $jw_url = trim($_POST['jw_url']);
         $jw_beizhu = trim($_POST['jw_beizhu']);
+        $jw_platform = trim($_POST['jw_platform']);
         $jw_id = trim($_POST['jw_id']);
         
         // 过滤参数
@@ -42,13 +43,13 @@
             
             $result = array(
                 'code' => 203,
-                'msg' => '图标未上传'
+                'msg' => '分享图未上传'
             );
-        }else if(empty($jw_bgimg) || !isset($jw_bgimg)){
+        }else if(empty($jw_platform) || !isset($jw_platform)){
             
             $result = array(
                 'code' => 203,
-                'msg' => '背景图片未上传'
+                'msg' => '请选择一个投放平台'
             );
         }else if(empty($jw_url) || !isset($jw_url)){
             
@@ -88,9 +89,9 @@
                     'jw_title'=>$jw_title,
                     'jw_dxccym'=>$jw_dxccym,
                     'jw_icon'=>$jw_icon,
-                    'jw_bgimg'=>$jw_bgimg,
                     'jw_url'=>$jw_url,
                     'jw_beizhu'=>$jw_beizhu,
+                    'jw_platform'=>$jw_platform,
                     'jw_create_user'=>$jw_create_user,
                     'jw_token'=>$jw_token
                 ];
