@@ -196,6 +196,7 @@ function getJwList(pageNum) {
                     var jw_platform = res.jwList[i].jw_platform;
                     var platformMap = {
                         'douyin': '<img src="img/jw_platform_icon_douyin.png" width="20" /> 抖音',
+                        'kuaishou': '<img src="img/jw_platform_icon_kuaishou.png" width="20" /> 快手',
                         'xhs': '<img src="img/jw_platform_icon_xhs.png" width="20" /> 小红书',
                         'weibo': '<img src="img/jw_platform_icon_weibo.png" width="20" /> 微博',
                         'zhihu': '<img src="img/jw_platform_icon_zhihu.png" width="20" /> 知乎',
