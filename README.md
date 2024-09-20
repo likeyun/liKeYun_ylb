@@ -61,11 +61,11 @@ http://域名/install/
 ## 卡密分发小程序源码
 收费89元，请联系微信购买，微信号：sansure2016
 
-## 外部跳微信小程序插件，高度集成快速创建
+## 微信外链插件，高度集成快速创建
 
 支持使用自建小程序、如果你没有自建小程序，我们提供借用第三方小程序跳转的方案，具体如下图：
 
-![](https://img10.360buyimg.com/imgzone/jfs/t1/159620/30/30600/39860/668e45f2Fc7a1b680/6316e17aadccf4c0.jpg)
+![](https://kfgd.sina.com.cn/v2/messageBoard/2024-09-20%2015:31:10_CR-jvw2y/2024/09/5ae4e7b78f7a2777ca727a0920c3ac90.png)
 
 ## 使用文档
 https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
