@@ -1,0 +1,269 @@
+<html>
+    <head>
+        <title></title>
+        <meta name="wechat-enable-text-zoom-em" content="true">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="color-scheme" content="light dark">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="referrer" content="origin-when-cross-origin">
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+        <script src="https://push.baidu.com/static/js/libs/jquery-2.0.3.js"></script>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            /*PHONE*/
+            @media (max-width: 768px) {
+                body {
+                    width: 100%;
+                    height: 100vh;
+                    background: #fff;
+                    overflow: hidden;
+                }
+            }
+            /*PC*/
+            @media (min-width: 1000px) {
+                body {
+                    width: 40%;
+                    height: 100vh;
+                    background: #fff;
+                    overflow: hidden;
+                    margin: 0 auto;
+                }
+            }
+            .ssl_tips_container {
+                display: flex;
+                justify-content: center;
+                padding: 15px 0;
+            }
+            .ssl_tips {
+                display: flex;
+                align-items: center;
+            }
+            .ssl_logo {
+                width: 20px;
+                margin-right: 3px;
+            }
+            .ssl_logo img {
+                width: 16px;
+                height: 16px;
+                margin: 2px 2px;
+            }
+            .ssl_text {
+                flex: 1;
+                font-size: 14px;
+                color: #999;
+            }
+            .jump_gif {
+                width: 50%;
+                margin: 50px auto 0;
+            }
+            .jump_gif img {
+                width: 100%;
+            }
+            .jump_text {
+                text-align: center;
+                font-size: 16px;
+                color: #666;
+                margin-top: 80px;
+            }
+            .jump_button_tips {
+                text-align: center;
+                color: #ccc;
+                margin-top: 10px;
+                font-size: 15px;
+            }
+            .jump_button {
+                width: 45%;
+                height: 45px;
+                line-height: 45px;
+                text-align: center;
+                color: #fff;
+                background: rgb(6, 201, 100);
+                border-radius: 10px;
+                margin: 20px auto 0;
+                font-size: 16px;
+            }
+            .a-jump {
+                text-decoration: none;
+                -webkit-tap-highlight-color:rgba(255,0,0,0);
+            }
+            .powerby {
+                position: fixed;
+                bottom: 20px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                color: #ccc;
+                font-size: 13px;
+                text-align: center;
+            }
+            .error {
+                width: 80%;
+                padding: 15px 0;
+                background: #eee;
+                text-align: center;
+                font-size: 14px;
+                color: #f00;
+                margin: 50px auto 0;
+                border-radius: 10px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+        <!--app根节点-->
+        <div id="app"></div>
+        
+        <script>
+
+            // 请求路径结构如下：
+            // https:// + 你的域名 + 引流宝安装目录
+            // ----------------------------------------------
+            // 假设你的域名是 www.baidu.com 引流宝安装在根目录
+            // 那么下面req_domain应该配置：https://www.baidu.com
+            // ----------------------------------------------
+            // 假设你的域名是 www.baidu.com 引流宝安装在二级目录，目录名为 ylb
+            // 那么下面应该配置：https://www.baidu.com/ylb
+            // ----------------------------------------------
+            // 请注意：无需 / 结尾
+            // 请注意：无需 / 结尾
+            
+            var req_domain = '这里配置你的域名，要求https';
+            
+            // 请注意：无需 / 结尾
+            // 请注意：无需 / 结尾
+            // ----------------------------------------------
+            // 以下无需配置，不懂勿动下面的代码
+        
+            var currentURL = window.location.href;
+            var url = new URL(currentURL);
+            var jwid = url.searchParams.get("jwid");
+            var type = url.searchParams.get("type");
+            
+            // if ok
+            if (jwid) {
+                
+                // ajax
+                const ajax_path = req_domain + '/console/plugin/app/jumpWX/server/';
+                $.ajax({
+                    url: ajax_path + 'getJwInfoCallback.php?jwid=' + jwid,
+                    dataType: 'jsonp',
+                    jsonpCallback: 'handleJSONPResponse',
+                    success: function(res) {
+                        
+                        if(res.code == 200) {
+                            
+                            // datas
+                            const jw_bgimg = res.jwInfo.jw_bgimg;
+                            const jw_title = res.jwInfo.jw_title;
+                            const jw_icon = res.jwInfo.jw_icon;
+                            const jw_beizhu = res.jwInfo.jw_beizhu;
+                            const jw_url = res.jwInfo.jw_url;
+                            const resource_path = req_domain + '/console/plugin/app/jumpWX/img/';
+                            
+                            // platform_logo_gif
+                            var jump_gif;
+                            switch (type) {
+                                case 'douyin':
+                                    jump_gif = resource_path + 'douyin-jumpwx.gif';
+                                    break;
+                                case 'xhs':
+                                    jump_gif = resource_path + 'xhs-jumpwx.gif';
+                                    break;
+                                case 'weibo':
+                                    jump_gif = resource_path + 'weibo-jumpwx.gif';
+                                    break;
+                                case 'zhihu':
+                                    jump_gif = resource_path + 'zhihu-jumpwx.gif';
+                                    break;
+                                default:
+                                    jump_gif = resource_path + 'jumpwx.gif';
+                                    break;
+                            }
+                            
+                            // top_ssl_logo
+                            var ssl_logo_img = resource_path + 'ssl_logo.png';
+                            
+                            // rander_html
+                            $('#app').html(
+                                '<div class="ssl_tips_container">'+
+                                '   <div class="ssl_tips">' +
+                                '       <span class="ssl_logo"><img src="'+ssl_logo_img+'" /></span>' +
+                                '       <span class="ssl_text">&#26412;&#39029;&#38754;&#24050;&#21551;&#29992;&#83;&#83;&#76;&#23433;&#20840;&#21152;&#23494;</span>' +
+                                '   </div>'+
+                                '</div>' +
+                                '<div class="jump_gif"><img src="'+jump_gif+'" /></div>' +
+                                '<div class="jump_text">&#27491;&#22312;&#33258;&#21160;&#36339;&#36716;&#46;&#46;&#46;</div>' +
+                                '<div class="jump_button_tips">&#22914;&#27809;&#26377;&#33258;&#21160;&#36339;&#36716;&#35831;&#28857;&#20987;&#25353;&#38062;</div>' +
+                                '<a href="'+jw_url+'" id="'+jwid+'" onclick="clickNum(this)" class="a-jump">' +
+                                '    <div class="jump_button">&#28857;&#20987;&#36339;&#36716;</div>' +
+                                '</a>' +
+                                '<div class="powerby">&#31169;&#22495;&#24341;&#27969;&#23453;&#25552;&#20379;&#25216;&#26415;&#25903;&#25345;</div>' +
+                                '<iframe src="'+jw_url+'" style="opacity:0;"></iframe>'
+                            );
+                            
+                            // icon
+                            var shortcutIconLink = $("<link>");
+                            shortcutIconLink.attr("rel", "shortcut icon");
+                            shortcutIconLink.attr("href", jw_icon);
+                            $("head").append(shortcutIconLink);
+                            
+                            // desc
+                            var metaDescLink = $('<meta>');
+                            metaDescLink.attr('name', 'description');
+                            metaDescLink.attr('content', jw_beizhu);
+                            $('head').append(metaDescLink);
+                            
+                            // title
+                            $("title").text(jw_title);
+                        }else{
+                            
+                            // Fail
+                            $('#app').html(
+                                '<p class="error">&#24403;&#21069;&#38142;&#25509;&#27491;&#24120;&#65292;&#20294;&#33719;&#21462;&#39029;&#38754;&#22833;&#36133;&#65292;&#21487;&#33021;&#26159;&#21442;&#25968;&#26377;&#35823;&#65281;</p>'
+                            );
+                        }
+                    },
+                    error: function() {
+                        
+                        // Error
+                        $('#app').html('<p class="error" title="&#24314;&#35758;&#26816;&#26597;&#33853;&#22320;&#39029;&#37324;&#37197;&#32622;&#30340;&#22495;&#21517;&#26159;&#21542;&#24320;&#21551;&#20102;&#104;&#116;&#116;&#112;&#115;&#20197;&#21450;&#26381;&#21153;&#22120;&#26159;&#21542;&#27491;&#24120;&#35775;&#38382;">&#36830;&#25509;&#26381;&#21153;&#22120;&#22833;&#36133;&#65281;&#21487;&#33021;&#26159;&#22495;&#21517;&#37197;&#32622;&#38382;&#39064;&#65281;</p>');
+                    }
+                });
+                
+                // ClickNum
+                function clickNum(e) {
+                    
+                    // ajax
+                    const ajax_path = req_domain + '/console/plugin/app/jumpWX/server/';
+                    $.ajax({
+                        url: ajax_path + 'clickNumCallback.php?jwid=' + e.id,
+                        dataType: 'jsonp',
+                        jsonpCallback: 'handleJSONPResponse',
+                        success: function(res) {
+                            
+                            // success and console
+                            console.log(res.msg);
+                        }
+                    });
+                }
+            }else {
+                
+                // Error
+                $('#app').html('<p class="error">&#24403;&#21069;&#38142;&#25509;&#32570;&#23569;&#24517;&#35201;&#30340;&#21442;&#25968;&#65281;&#26080;&#27861;&#21152;&#36733;&#39029;&#38754;&#65281;</p>');
+            }
+            
+            // banShare
+            document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+                WeixinJSBridge.call('hideOptionMenu');
+            });
+        </script>
+    </body>
+</html>
