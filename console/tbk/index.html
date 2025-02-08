@@ -121,6 +121,7 @@
     			    <div class="button-daohang">
     			        <button class="default-btn" style="margin-left:5px;">中间页</button>
     			        <a href="multiple.html"><button class="tint-btn" style="margin-left:5px;">多项单页</button></a>
+    			        <a href="Carousel.html"><button class="tint-btn" style="margin-left:5px;">轮播单页</button></a>
     			        <button class="tint-btn" style="margin-left:5px;" 
         				data-toggle="modal" 
         				data-target="#configZjyModal" 
@@ -411,22 +412,23 @@
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="configZjy">
-                        <span class="text">appkey</span>
-                        <input type="text" name="zjy_config_appkey" class="form-control" id="zjy_config_appkey" autocomplete="off" placeholder="折淘客开放平台Appkey">
+                            
+                        <span class="text">APP_KEY</span>
+                        <input type="text" name="zjy_app_key" class="form-control" autocomplete="off" placeholder="大淘客APP_KEY">
                         
-                        <span class="text">sid</span>
-                        <input type="text" name="zjy_config_sid" class="form-control" id="zjy_config_sid" autocomplete="off" placeholder="折淘客开放平台sid">
+                        <span class="text">APP_SECRET</span>
+                        <input type="text" name="zjy_app_scret" class="form-control" autocomplete="off" placeholder="大淘客APP_SECRET">
                         
                         <span class="text">PID</span>
-                        <input type="text" name="zjy_config_pid" class="form-control" id="zjy_config_pid" autocomplete="off" placeholder="你的PID">
+                        <input type="text" name="zjy_pid" class="form-control" autocomplete="off" placeholder="淘宝联盟推广渠道PID">
                         
                         <span class="text">淘宝账号</span>
-                        <input type="text" name="zjy_config_tbname" class="form-control" id="zjy_config_tbname" autocomplete="off" placeholder="你的淘宝账号">
+                        <input type="text" name="zjy_tbname" class="form-control" autocomplete="off" placeholder="淘宝联盟APP登录的那个账号">
                         
                         </form>
                         
                         <!--提醒文字-->
-                        <p style="color:#999;font-size:14px;margin:15px 0;">中间页使用的是折淘客开放平台提供的接口进行解析淘口令，可前往<a href="http://www.zhetaoke.com/user/shouquan.html" target="_blank"> 折淘客开放平台 </a>获取以上配置信息或阅读<a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank"> 使用说明 </a>了解获取步骤。</p>
+                        <p style="color:#999;font-size:14px;margin:15px 0;">中间页使用的是大淘客开放平台提供的接口进行解析淘口令，可前往<a href="https://www.dataoke.com/kfpt/apply-l.html" target="_blank"> 大淘客开放平台 </a>获取以上配置信息或阅读<a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank"> 使用说明 </a>了解获取步骤。</p>
                     </div><!-- modal-body -->
                     
                     <!-- 底部操作 -->
@@ -436,7 +438,7 @@
                             <span class="faq"><a href="../faq.php?faq=tbk" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
-                            <button type="button" class="default-btn" onclick="configZjy();">提交配置</button>
+                            <button type="button" class="default-btn" onclick="configZjy();">保存配置</button>
                         </div>
                     </div>
                     
