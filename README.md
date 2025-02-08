@@ -15,8 +15,8 @@ https://www.rainyun.com/TANKING_
 ![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery_3.6.0-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php_7.4.0-777bb3?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/前端-Bootstrap_4.0-336c9f?logo=&logoColor=ffffff)
 
 ## 更新日志
-![](https://img.shields.io/badge/Version-2.4.3-brightgreen.svg)<br/>
-1. 2.4.3版本新特性：<br>
+![](https://img.shields.io/badge/Version-2.4.4-brightgreen.svg)<br/>
+1. 2.4.4版本新特性：<br>
 2. UI界面大量的优化<br>
 3. 新增群活码并流<br>
 4. 新增短网址轮询域名<br>
@@ -25,6 +25,7 @@ https://www.rainyun.com/TANKING_
 7. 提供用户账号注册<br>
 8. 渠道码新增操作系统渠道数据记录<br>
 9. 新增卡密分发小程序管理<br>
+10. 新增淘宝客轮播单页<br>
 
 v2.4.3是基于v2.4.0修复了一些已知的小问题，具体如下：<br/>
 1. 适配jumpWX插件的抖音云;（只需替换代码，无需执行升级程序）<br/>
