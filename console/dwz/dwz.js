@@ -23,6 +23,46 @@ window.onload = function (){
         // 复制成功
         showNotification('已复制');
     });
+    
+    // 2025-02-12新增
+    const style = document.createElement("style");
+    style.innerHTML = `
+        .cz-click {
+            padding: 4px 8px;
+            width: 43px;
+            text-align: center;
+            background: #eee;
+            color: #666;
+            font-size: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 3px;
+        }
+        .span-tag-1 {
+            padding: 4px 8px;
+            width: 43px;
+            text-align: center;
+            background: #eee;
+            color: #666;
+            font-size: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 3px;
+        }
+        .span-tag-2 {
+            padding: 4px 8px;
+            width: 43px;
+            text-align: center;
+            color: rgb(59,94,225);
+            background: rgba(59,94,225,0.1);
+            font-size: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 3px;
+        }
+    `;
+    document.head.appendChild(style);
+
 }
 
 // 获取登录状态
@@ -117,7 +157,7 @@ function getDwzList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
+                '   <th style="text-align:left;">ID</th>' +
                 '   <th>标题</th>' +
                 '   <th>短网址</th>' +
                 '   <th>访问限制</th>' +
@@ -139,9 +179,6 @@ function getDwzList(pageNum) {
                     // 数据判断并处理
                     // ID
                     var dwz_id = res.dwzList[i].dwz_id;
-                    
-                    // （1）序号
-                    var xuhao = i+1;
                     
                     // （2）标题
                     var dwz_title = res.dwzList[i].dwz_title;
@@ -180,22 +217,22 @@ function getDwzList(pageNum) {
                     
                     if(dwz_type == 1){
                         
-                        var dwz_type = '不限制';
+                        var dwz_type = '<span class="span-tag-1">不限制</span>';
                     }else if(dwz_type == 2){
                         
-                        var dwz_type = '仅限微信内访问';
+                        var dwz_type = '<span class="span-tag-2">仅限微信内访问</span>';
                     }else if(dwz_type == 3){
                         
-                        var dwz_type = '仅限iOS设备访问';
+                        var dwz_type = '<span class="span-tag-2">仅限iOS设备访问</span>';
                     }else if(dwz_type == 4){
                         
-                        var dwz_type = '仅限Android设备访问';
+                        var dwz_type = '<span class="span-tag-2">仅限Android设备访问</span>';
                     }else if(dwz_type == 5){
                         
-                        var dwz_type = '仅限手机浏览器访问';
+                        var dwz_type = '<span class="span-tag-2">仅限手机浏览器访问</span>';
                     }else if(dwz_type == 6){
                         
-                        var dwz_type = '仅限PC浏览器访问';
+                        var dwz_type = '<span class="span-tag-2">仅限PC浏览器访问</span>';
                     }
                     
                     // 今天访问量
@@ -224,7 +261,7 @@ function getDwzList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
+                        '   <td style="text-align:left;">'+dwz_id+'</td>' +
                         '   <td>'+dwz_title+'</td>' +
                         '   <td>' +
                         '       <span id="dwz_'+dwz_id+'">'+dwz_dlym+'/'+dwz_key+'</span>' +
@@ -237,15 +274,10 @@ function getDwzList(pageNum) {
                         '   <td>'+dwz_pv+'</td>' +
                         '   <td>'+dwz_pv_today+'</td>' +
                         '   <td>'+dwz_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" onclick="resetDwzPv('+dwz_id+')" title="重置访问量">重置</span>' +
-                        '               <span class="dropdown-item" id="'+dwz_id+'" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz(this)">删除</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td style="text-align:right;">' + 
+                        '       <span class="cz-click" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</span>' +
+                        '   <span class="cz-click" onclick="resetDwzPv('+dwz_id+')" title="重置访问量">重置</span>' +
+                        '       <span class="cz-click" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz(this)">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );

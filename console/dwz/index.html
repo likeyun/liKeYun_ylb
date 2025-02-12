@@ -12,6 +12,13 @@
 	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
 	<script type="text/javascript" src="../../static/js/clipboard.min.js"></script>
 	<script type="text/javascript" src="./dwz.js"></script>
+	<script type="text/javascript">
+        var timestamp = new Date().getTime();
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = './dwz.js?v=' + timestamp;
+        document.head.appendChild(script);
+    </script>
 </head>
 <body>
 
@@ -138,7 +145,7 @@
         				onclick="getDomainNameList('batchcreat')">批量创建</button>
         				
         				<div class="searchDwzForm">
-        				    <input type="text" name="dwz_keyword" class="form-control" placeholder="短网址标题关键词或Key" />
+        				    <input type="search" name="dwz_keyword" class="form-control" placeholder="短网址标题关键词或Key" />
         				    <button class="tint-btn checkDwz" onclick="checkDwz()">查询</button>
         				</div>
     			    </div>
@@ -164,7 +171,7 @@
 	<!-- 创建短网址 -->
     <div class="modal fade" id="createDwzModal">
         <div class="modal-dialog">
-            <div class="modal-content" style="width:650px;">
+            <div class="modal-content" style="width:700px;">
             
                 <!-- 头部 -->
                 <div class="modal-header">
@@ -225,7 +232,7 @@
 
                     <span class="text">目标链接</span>
                     <input type="text" name="dwz_url" class="form-control" autocomplete="off" placeholder="点击短网址后最终跳转到的链接">
-                    <p style="color:#999;font-size:0.1rem;">需配置伪静态规则才可正常使用，否则404报错，具体阅读使用说明。</p>
+                    <p style="color:#999;font-size:0.2rem;">需配置伪静态规则才可正常使用，否则404报错，具体阅读使用说明。</p>
                     </form>
 
                 </div><!-- modal-body -->
@@ -253,7 +260,7 @@
     <!-- 批量创建短网址 -->
     <div class="modal fade" id="createBatchDwzModal">
         <div class="modal-dialog">
-            <div class="modal-content" style="width:650px;">
+            <div class="modal-content" style="width:700px;">
             
                 <!-- 头部 -->
                 <div class="modal-header">
@@ -340,7 +347,7 @@
   	<!-- 编辑短网址 -->
     <div class="modal fade" id="EditDwzModal">
         <div class="modal-dialog">
-            <div class="modal-content" style="width:650px;">
+            <div class="modal-content" style="width:700px;">
                 
                 <!-- 头部 -->
                 <div class="modal-header">
@@ -401,7 +408,7 @@
                     	</div>
                     	
                     	<div class="btnnav">
-                    	    <button type="button" class="default-btn" onclick="editDwz();">提交更新</button>
+                    	    <button type="button" class="default-btn" onclick="editDwz();">立即保存</button>
                     	</div>
                     </div>
                 </div><!-- modal-footer -->
@@ -426,7 +433,7 @@
                 
                 <!-- 内容 -->
                 <div class="modal-body">
-                    将会删除该短网址！删除后如需恢复请阅读使用指南提供的方法。
+                    将会删除该短网址！删除后将无法恢复！
                 </div><!-- modal-body -->
                 
                 <!-- 底部操作 -->
