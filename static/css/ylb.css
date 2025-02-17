@@ -36,8 +36,6 @@ input[type=file]::-webkit-file-upload-button{
 #right .mbx {
     color: #999;
 }
-
-/*错误信息*/
 #right .error_text {
     text-align: center;
     color: #f00;
@@ -49,6 +47,20 @@ input[type=file]::-webkit-file-upload-button{
     color: #f00;
     margin-bottom: 0;
     font-size: 14px;
+}
+#right .light-tag {
+    padding: 5px 10px;
+    font-size: 13px;
+    background: #eee;
+    color: #666;
+    border-radius: 10px;
+}
+#right .dark-tag {
+    padding: 5px 10px;
+    font-size: 13px;
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+    border-radius: 10px;
 }
 
 
