@@ -10,7 +10,13 @@
 	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
 	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
-	<script type="text/javascript" src="./config.js"></script>
+	<script type="text/javascript">
+        var timestamp = new Date().getTime();
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = './config.js?v=' + timestamp;
+        document.head.appendChild(script);
+    </script>
 	<style>
 	
     /* 选中样式 */
@@ -38,6 +44,7 @@
         margin-bottom: 10px;
         float: left;
     }
+    
   </style>
 </head>
 <body>
@@ -147,13 +154,12 @@
     			    <!--导航-->
     			    <div class="button-daohang">
     			        <button class="default-btn">域名库</button>
+    	
     			        <button class="tint-btn" 
-				            data-toggle="modal" 
-				            data-target="#domainNameCheckConfigModal" 
-				            style="margin-left: 5px;"
-				            onclick="getDomainNameCheckConfigInfo();">域名检测
-				        </button>
-				        <a href="notification.html"><button class="tint-btn" style="margin-left: 5px;">通知渠道</button></a>
+    			        data-toggle="modal" 
+    			        data-target="#notiConfigModal"
+    			        onclick="getNotificationConfig()"
+    			        style="margin-left: 5px;">通知渠道</button>
     			    </div>
     			    
     			    <!--功能-->
@@ -195,7 +201,7 @@
                     <div class="modal-header">
                         <h4 class="modal-title">添加域名</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div><!-- modal-header -->
+                    </div>
                     
                     <!-- 表单 -->
                     <div class="modal-body">
@@ -209,17 +215,17 @@
                             <option value="1">入口域名</option>
                             <option value="2">落地域名</option>
                             <option value="3">短链域名</option>
-                            <option value="4" title="应用场景：域名被封就启用备用域名">备用域名</option>
+                            <!--<option value="4" title="应用场景：域名被封就启用备用域名">备用域名</option>-->
                             <option value="5" title="例如阿里云OSS，腾讯云COS">对象存储域名</option>
                             <option value="6">轮询域名</option>
                         </select>
                         </form>
-                    </div><!-- modal-body -->
+                    </div>
                     
                     <!-- 底部操作 -->
                     <div class="modal-footer">
                         <div class="footer-btn">
-                        <div class="faqnav" title="阅读使用指南">
+                        <div class="faqnav" title="阅读使用文档">
                             <span class="faq"><a href="../faq.php?faq=config" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
@@ -238,7 +244,7 @@
     
     <!-- 添加授权用户组 -->
     <div class="modal fade" id="addUsergroupModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="max-width:700px;">
             <div class="modal-content">
                 
                     <div class="modal-header">
@@ -268,58 +274,10 @@
             </div>
         </div>
     </div><!-- addDomainNameModal -->
-    
-    <!-- 域名检测 -->
-    <div class="modal fade" id="domainNameCheckConfigModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                
-                    <!-- 头部 -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">域名检测</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div><!-- modal-header -->
-                    
-                    <!-- 表单 -->
-                    <div class="modal-body">
-                        <form id="editDomainNameCheckConfig">
-                            
-                            <p style="color:#f00;">因域名检测接口失效，域名检测功能已经不能正常使用了，请保持关闭状态！如果你有接口，可以找我付费更新这个功能自用。<br/><a href="../../static/img/jiaQun.jpg">👉 联系我</a></p>
-                            
-                            <span class="text">开启状态</span>
-                            <select name="domainCheck_status" class="form-control" id="domainCheck_status"></select>
-                            
-                            <span class="text">通知渠道</span>
-                            <select name="domainCheck_channel" class="form-control" id="domainCheck_channel" title="检测到落地域名被拦截将给你发送通知"></select>
-                            
-                            <span class="text">备用域名</span>
-                            <select name="domainCheck_byym" class="form-control" id="domainCheck_byym" title="检测到落地域名被拦截将会跳转到此域名">
-                            </select>
-                        </form>
-                    </div><!-- modal-body -->
-                    
-                    <!-- 底部操作 -->
-                    <div class="modal-footer">
-                        <div class="footer-btn">
-                        <div class="faqnav" title="阅读使用指南">
-                            <span class="faq"><a href="../faq.php?faq=config" target="_blank">?</a></span>
-                        </div>
-                        <div class="btnnav">
-                            <button type="button" class="default-btn" onclick="editDomainNameCheckConfig();">提交设置</button>
-                        </div>
-                    </div>
-                </div><!-- modal-footer -->
-                
-                <!-- 操作反馈 -->
-                <div class="result"></div>
-                
-            </div><!-- modal-content -->
-        </div><!-- modal-dialog -->
-    </div><!-- defaultDomainNameModal -->
   	
   	<!-- 确定删除域名 -->
     <div class="modal fade" id="DelDomainModal">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 
                 <!-- 头部 -->
@@ -330,7 +288,7 @@
                 
                 <!-- 内容 -->
                 <div class="modal-body">
-                    已创建的活码只要不删除域名解释不影响使用！
+                    删除提示：在任何地方使用了该域名，只要不删除域名的解析，本次删除不会影响之前创建的活码、链接等的使用！
                 </div><!-- modal-body -->
                 
                 <!-- 底部操作 -->
@@ -342,6 +300,120 @@
             </div><!-- modal-content -->
         </div><!-- modal-dialog -->
     </div><!-- DelDomainModal -->
+    
+    <!-- 通知渠道配置 -->
+    <div class="modal fade" id="notiConfigModal">
+        <div class="modal-dialog" style="max-width: 800px;">
+            <div class="modal-content">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">通知渠道配置</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="notiConfig">
+                            
+                            <span class="text" style="width:96%;color:#333;font-size:19px;">
+                                企业微信
+                                <button type="button" class="tint-btn" style="padding:3px 10px;float:right;" onclick="testQywx()">测试一下</button>
+                            </span>
+                            <div style="width:96%;height:70px;margin:-5px auto 10px;display:flex;">
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">corpid</span>
+                                    <input type="text" name="corpid" class="form-control" placeholder="企业微信appid">
+                                </div>
+                                <div style="flex:1;">
+                                    <span class="text">corpsecret</span>
+                                    <input type="text" name="corpsecret" class="form-control" placeholder="应用appsecret">
+                                </div>
+                            </div>
+                            <div style="width:96%;height:70px;margin:0 auto 30px;display:flex;">
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">接收者id</span>
+                                    <input type="text" name="touser" class="form-control" placeholder="即touser">
+                                </div>
+                                <div style="flex:1;">
+                                    <span class="text">应用id</span>
+                                    <input type="text" name="agentid" class="form-control" placeholder="即agentid">
+                                </div>
+                            </div>
+                            
+                            <p style="width:96%;height:1px;background:#ddd;margin:0 auto;"></p>
+                            
+                            <span class="text" style="width:96%;color:#333;font-size:19px;">
+                                电子邮件
+                                <button type="button" class="tint-btn" style="padding:3px 10px;float:right;" onclick="testEmail()">测试一下</button>
+                            </span>
+                            <div style="width:96%;height:70px;margin:-5px auto 10px;display:flex;">
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">发送端邮箱账号</span>
+                                    <input type="text" name="email_acount" class="form-control" placeholder="用于发送电子邮件的邮箱">
+                                </div>
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">发送端邮箱密码</span>
+                                    <input type="text" name="email_pwd" class="form-control" placeholder="登录授权码">
+                                </div>
+                            </div>
+                            <div style="width:96%;height:70px;margin:0 auto 30px;display:flex;">
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">SMTP邮件服务器</span>
+                                    <input type="text" name="email_smtp" class="form-control" placeholder="发送端的邮件服务器">
+                                </div>
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">邮件服务器端口</span>
+                                    <input type="text" name="email_port" class="form-control" placeholder="发送端的邮件服务器端口">
+                                </div>
+                                <div style="flex:1;">
+                                    <span class="text">接收通知邮箱</span>
+                                    <input type="text" name="email_receive" class="form-control" placeholder="用于接收通知的电子邮箱">
+                                </div>
+                            </div>
+                            
+                            <p style="width:96%;height:1px;background:#ddd;margin:0 auto;"></p>
+                            
+                            <span class="text" style="width:96%;color:#333;font-size:19px;">Bark、Server酱、HTTP</span>
+                            <div style="width:96%;height:70px;margin:-5px auto 20px;display:flex;">
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">Bark：URL</span>
+                                    <input type="text" name="bark_url" class="form-control" placeholder="粘贴Bark APP复制过来的URL">
+                                </div>
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">Server酱：SendKey</span>
+                                    <input type="text" name="SendKey" class="form-control" placeholder="SendKey">
+                                </div>
+                                <div style="flex:1;">
+                                    <span class="text">HTTP：接收POST的URL</span>
+                                    <input type="text" name="http_url" class="form-control" placeholder="https://">
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <p style="margin-top:30px;font-size:15px;text-align:center;color:#999">
+                            👉 <a href="../faq.php?faq=config" target="_blank">以上参数如何获取？</a>
+                        </p>
+                    </div>
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用文档">
+                            <span class="faq"><a href="../faq.php?faq=config" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="notiConfig()">保存配置</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- notiConfigModal -->
 
     <!-- 全局信息提示框 -->
     <div id="notification">
@@ -349,147 +421,6 @@
     </div>
     
 </div><!-- app -->
-
-
-<script type="text/javascript">
-
-// 上传客服二维码
-$("#uploadKfQrcode").change(function(e){
-    
-    // 获取选择的文件
-    var fileSelect = e.target.files;
-    if(fileSelect.length>0){
-        
-        // file表单数据
-        var imageData = new FormData(document.getElementById("editQun"));
-        
-        // 异步上传
-        $.ajax({
-            url:"../upload.php",
-            type:"POST",
-            data:imageData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function(res) {
-                
-                if(res.code == 200){
-                    
-                    // 上传成功
-                    $('#qun_kf_edit').val(res.url);
-                    $('#EditQunHm .modal-body .upload_kf').css('display','none');
-                    $('#EditQunHm .modal-body .wxqrcode_preview').css('display','block');
-                    $('#EditQunHm .modal-body .wxqrcode_preview').html('<img src="'+res.url+'" class="wxqrcode" /><p class="uploadSuccess">上传成功</p>');
-                }else{
-                    
-                    // 上传失败
-                    $('#uploadKfQrcode').val('');
-                    showErrorResult(res.msg)
-                }
-                
-            },
-            error: function() {
-                
-                // 上传失败
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-            }
-        })
-    }
-})
-
-// 上传群二维码（上传子码）
-$("#uploadZmQrcode").change(function(e){
-    
-    // 获取选择的文件
-    var fileSelect = e.target.files;
-    if(fileSelect.length>0){
-        
-        // file表单数据
-        var imageData = new FormData(document.getElementById("uploadZmQrcodeForm"));
-        // qun_id
-        var qun_id = $("#uploadZmQrcode_qun_id").val();
-        
-        // 异步上传
-        $.ajax({
-            url:"./uploadZmQrcode.php",
-            type:"POST",
-            data:imageData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function(res) {
-                
-                if(res.code == 200){
-                    
-                    // 上传成功
-                    // 刷新子码列表
-                    freshenQunZmList(qun_id)
-                }else{
-                    
-                    // 上传失败
-                    showErrorResult(res.msg)
-                }
-                
-            },
-            error: function() {
-                
-                // 上传失败
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-            }
-        })
-    }
-})
-
-// 上传群二维码（更换子码）
-$("#updateZmQrcode").change(function(e){
-    
-    // 获取选择的文件
-    var fileSelect = e.target.files;
-    if(fileSelect.length>0){
-        
-        // file表单数据
-        var imageData = new FormData(document.getElementById("editQunzm"));
-        
-        // 异步上传
-        $.ajax({
-            url:"../upload.php",
-            type:"POST",
-            data:imageData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function(res) {
-                
-                if(res.code == 200){
-                    
-                    // 上传成功
-                    $('#zm_qrcode_edit').val(res.url);
-                    $('#EditQunZm .modal-body .upload_qun').css('display','none');
-                    $('#EditQunZm .modal-body .qunqrcode_preview').css('display','block');
-                    $('#EditQunZm .modal-body .qunqrcode_preview').html('<img src="'+res.url+'" class="qunqrcode" /><p class="uploadSuccess">上传成功</p>');
-                    
-                }else{
-                    
-                    // 上传失败
-                    showErrorResult(res.msg)
-                    // 清空file选择的文件以重试
-                    $("#updateZmQrcode").val('');
-                }
-                
-            },
-            error: function() {
-                
-                // 上传失败
-                showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
-                // 清空file选择的文件以重试
-                $("#updateZmQrcode").val('');
-            }
-        })
-    }
-})
-
-</script>
-
 
 </body>
 </html>

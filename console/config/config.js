@@ -2,6 +2,8 @@
 // 进入就加载
 window.onload = function (){
     
+    init1();
+    
     // 获取登录状态
     getLoginStatus();
     
@@ -84,6 +86,12 @@ function initialize_Login(loginStatus,user_admin){
     }
 }
 
+// 检查当前版本的代码与数据库是否搭配
+// 如果不搭配，需要通过初始化操作数据库
+function init1() {
+    $.ajax({type: "POST",url: "init1.php",});
+}
+
 // 获取默认域名
 function getDefaultDomainName(){
     
@@ -131,10 +139,9 @@ function getDomainNameList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
-                '   <th>ID</th>' +
+                '   <th style="text-align:left;">ID</th>' +
                 '   <th>类型</th>' +
-                '   <th>域名</th>' +
+                '   <th style="width: 500px;">域名</th>' +
                 '   <th>授权用户组</th>' +
                 '   <th style="text-align: right;">操作</th>' +
                 '</tr>'
@@ -213,12 +220,11 @@ function getDomainNameList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
-                        '   <td>'+domain_id+'</td>' +
-                        '   <td>'+domain_type+'</td>' +
-                        '   <td>'+domain+'</td>' +
-                        '   <td>'+domain_usergroup_data+'</td>' +
-                        '   <td style="text-align:right;color:#999;cursor:pointer;" data-toggle="modal" id="'+domain_id+'" data-target="#DelDomainModal" onclick="askDelDomainName(this);">删除</td>' +
+                        '   <td style="text-align:left;width:100px;">'+domain_id+'</td>' +
+                        '   <td style="width:300px;"><span class="span_tag_for_config">'+domain_type+'</span></td>' +
+                        '   <td style="width:400px;word-break: break-word;">'+domain+'</td>' +
+                        '   <td style="width:300px;">'+domain_usergroup_data+'</td>' +
+                        '   <td style="width:100px;text-align:right;color:#999;cursor:pointer;" data-toggle="modal" id="'+domain_id+'" data-target="#DelDomainModal" onclick="askDelDomainName(this);"><span class="cz_click_for_config">删除</span></td>' +
                         '</tr>'
                     );
                     $("#right .data-list tbody").append($tbody_HTML);
@@ -287,6 +293,9 @@ function getDomainNameList(pageNum) {
                     
                     // 无管理权限
                     noLimit(res.msg);
+                    $('.data-list').remove();
+                    $('.button-view').remove();
+                    $('.fenye').remove();
                 }else{
                     
                     // 无数据
@@ -306,81 +315,50 @@ function getDomainNameList(pageNum) {
     });
 }
 
-// 获取域名检测配置信息
-function getDomainNameCheckConfigInfo(){
-    
-    // 初始化
-    initialize_getDomainNameCheckConfigInfo();
+// 首次使用初始化
+function init2() {
     
     $.ajax({
         type: "POST",
-        url: "./getDomainNameCheckConfigInfo.php",
+        url: "init2.php",
         success: function(res){
             
-            // 备用域名
-            const byym = res.domainNameCheckConfig.domainCheck_byym;
-            
-            // 通知渠道
-            const domainCheck_channel = res.domainNameCheckConfig.domainCheck_channel;
-            
-            // 状态
-            const domainCheck_status = res.domainNameCheckConfig.domainCheck_status;
-            
-            // 获取状态
-            if(domainCheck_status == 1){
+            // 成功
+            if(res.code == 200){
                 
-                // 开启
-                $("#domainCheck_status").append('<option value="1">开启</option><option value="2">关闭</option>');
-            }else{
-                
-                // 关闭
-                $("#domainCheck_status").append('<option value="2">关闭</option><option value="1">开启</option>');
-            }
-            
-            // 获取通知渠道
-            if(domainCheck_channel == '未设置'){
-                
-                // 选择通知渠道
-                $("#domainCheck_channel").append(
-                    '<option value="">选择通知渠道</option>'+ 
-                    '<option value="企业微信">企业微信</option>'+ 
-                    '<option value="邮件">邮件</option>'+ 
-                    '<option value="Bark">Bark</option>'+ 
-                    '<option value="Server酱">Server酱</option>'+ 
-                    '<option value="HTTP">HTTP</option>'
+                // 初始化完成
+                $("#domainCheckTasksModal .modal-body").html(
+                    '<p class="init-text">'+res.msg+'</p>' +
+                    '<button class="tint-btn center-btn" onclick="location.reload();">点击这里刷新后使用</button>'
                 );
+                return;
             }else{
                 
-                // 先将已设置的渠道添加到第一行
-                $("#domainCheck_channel").append(
-                    '<option value="'+domainCheck_channel+'">'+domainCheck_channel+'</option>' +
-                    '<option value="企业微信">企业微信</option>'+ 
-                    '<option value="邮件">邮件</option>'+ 
-                    '<option value="Bark">Bark</option>'+ 
-                    '<option value="Server酱">Server酱</option>'+ 
-                    '<option value="HTTP">HTTP</option>'
+                // 失败
+                $("#domainCheckTasksModal .modal-body").html(
+                    '<p class="init-text">'+res.msg+'</p>' +
+                    '<button class="tint-btn center-btn" onclick="init2()">点击这里初始化</button>'
                 );
-            }
-            
-            // 获取备用域名
-            if(byym == '未设置'){
-                
-                // 获取域名列表
-                $("#domainCheck_byym").append('<option value="">选择备用域名</option>');
-                getByDomainNameList();
-                
-            }else{
-                
-                // 将已配置的域名添加至选项中
-                $("#domainCheck_byym").append('<option value="'+byym+'">'+byym+'</option>');
-                getByDomainNameList();
+                return;
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResultForphpfileName('getDomainNameCheckConfigInfo.php');
-        }
+            $("#domainCheckTasksModal .modal-body").html(
+                '<p class="init-text">服务器发生错误</p>' +
+                '<button class="tint-btn center-btn" onclick="init2()">点击这里初始化</button>'
+            );
+            return;
+        },
+        beforeSend: function() {
+            
+            $("#domainCheckTasksModal .modal-body").html(
+                '<p class="init-text">请稍等...</p>' +
+                '<button class="tint-btn center-btn" onclick="location.reload();">正在初始化...</button>'
+            );
+            return;
+        },
     });
 }
 
@@ -507,64 +485,68 @@ function setUsergroup() {
     });
 }
 
-// 获取备用域名列表
-function getByDomainNameList(){
+// 获取通知渠道配置
+function getNotificationConfig(){
     
     $.ajax({
         type: "POST",
-        url: "./getByDomainNameList.php",
+        url: "./getNotificationConfig.php",
         success: function(res){
             
-            // 获取成功
             if(res.code == 200){
-               
-               for (var i = 0; i < res.domainList.length; i++) {
                 
-                    // 将获取到的备用域名添加到选项中
-                    $("#domainCheck_byym").append(
-                        '<option value="'+res.domainList[i].domain+'">'+res.domainList[i].domain+'</option>'
-                    );
-                }
-            }else{
-                
-                // 暂无备用域名
-                $("#domainCheck_byym").append('<option value="">暂无备用域名</option>');
+                // 将配置信息填写至表单
+                $('#notiConfigModal input[name="corpid"]').val(res.notificationConfig.corpid);
+                $('#notiConfigModal input[name="corpsecret"]').val(res.notificationConfig.corpsecret);
+                $('#notiConfigModal input[name="touser"]').val(res.notificationConfig.touser);
+                $('#notiConfigModal input[name="agentid"]').val(res.notificationConfig.agentid);
+                $('#notiConfigModal input[name="bark_url').val(res.notificationConfig.bark_url);
+                $('#notiConfigModal input[name="email_acount"]').val(res.notificationConfig.email_acount);
+                $('#notiConfigModal input[name="email_pwd"]').val(res.notificationConfig.email_pwd);
+                $('#notiConfigModal input[name="email_receive').val(res.notificationConfig.email_receive);
+                $('#notiConfigModal input[name="email_smtp"]').val(res.notificationConfig.email_smtp);
+                $('#notiConfigModal input[name="email_port"]').val(res.notificationConfig.email_port);
+                $('#notiConfigModal input[name="SendKey"]').val(res.notificationConfig.SendKey);
+                $('#notiConfigModal input[name="http_url"]').val(res.notificationConfig.http_url);
             }
         },
         error: function() {
             
-            // 获取失败
-            showErrorResultForphpfileName('getDomainNameCheckConfigInfo.php');
+            // 服务器发生错误
+            showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看getNotificationConfig.php的返回信息进行排查！')
         }
     });
 }
 
-// 提交域名检测设置
-function editDomainNameCheckConfig(){
+// 保存通知渠道配置
+function notiConfig() {
     
     $.ajax({
         type: "POST",
-        url: "./editDomainNameCheckConfig.php",
-        data: $('#editDomainNameCheckConfig').serialize(),
+        url: "./notiConfig.php",
+        data: $('#notiConfig').serialize(),
         success: function(res){
             
             // 成功
             if(res.code == 200){
                 
                 showSuccessResult(res.msg);
-                setTimeout("hideModal('domainNameCheckConfigModal')",800);
+                setTimeout("hideModal('notiConfigModal')",600);
+                setTimeout("showNotification('"+res.msg+"')",800);
             }else{
                 
+                // 保存失败
                 showErrorResult(res.msg);
             }
         },
         error: function() {
             
             // 服务器发生错误
-            showErrorResultForphpfileName('editDomainNameCheckConfig.php');
+            showNotification('服务器发生错误！可按F12打开开发者工具点击Network或网络查看editNotificationConfig.php的返回信息进行排查！');
         }
     });
 }
+
 
 // 分页
 function getFenye(e){
@@ -574,6 +556,89 @@ function getFenye(e){
     
     // 获取该页列表
     getDomainNameList(pageNum);
+}
+
+// 测试一下（企业微信）
+function testQywx(){
+    
+    // 获取表单参数
+    const corpid = $('#notiConfigModal input[name="corpid"]').val();
+    const corpsecret = $('#notiConfigModal input[name="corpsecret"]').val();
+    const touser = $('#notiConfigModal input[name="touser"]').val();
+    const agentid = $('#notiConfigModal input[name="agentid"]').val();
+    
+    if(corpid && corpsecret && touser && agentid) {
+        
+        // 发送测试
+        $.ajax({
+            type: "GET",
+            url: "../public/qywx.php?noti_text=企业微信通知测试",
+            success: function(res){
+                
+                // 成功
+                if(res.errcode == 0 && res.errmsg == "ok"){
+                    
+                    alert('已发送测试消息，请自行前往手机查看企业微信通知。')
+                }else{
+                    
+                    // 失败
+                    alert(res.errcode)
+                }
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                alert('服务器发生错误')
+            }
+        });
+    }
+}
+
+
+// 测试一下（电子邮件）
+function testEmail(){
+    
+    // 获取表单参数
+    const email_acount = $('#notiConfigModal input[name="email_acount"]').val();
+    const email_pwd = $('#notiConfigModal input[name="email_pwd"]').val();
+    const email_smtp = $('#notiConfigModal input[name="email_smtp"]').val();
+    const email_port = $('#notiConfigModal input[name="email_port"]').val();
+    const email_receive = $('#notiConfigModal input[name="email_receive"]').val();
+    
+    if(email_acount && email_pwd && email_smtp && email_port && email_receive) {
+        
+        // 发送测试
+        $.ajax({
+            type: "GET",
+            url: "../public/emailSend/?noti_text=电子邮件通知测试&aqm=123456",
+            success: function(res){
+                
+                // 成功
+                alert('已发送测试消息到你的电子邮箱，请注意查收。');
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                alert('服务器发生错误')
+            }
+        });
+    }
+}
+
+// 复制定时任务URL
+function copyURL(element) {
+
+    var url = element.getAttribute('data-url');
+    var tempInput = document.createElement('input');
+    tempInput.value = url;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    element.textContent = "已复制";
+    setTimeout(function() {
+        element.textContent = "复制URL";
+    }, 2000);
 }
 
 // 跳转到指定路径
@@ -591,7 +656,6 @@ function creatPageToken(length) {
         result += str[Math.floor(Math.random() * str.length)];
     return result;
 }
-
 
 // 添加域名
 function addDomainName(){
@@ -636,7 +700,7 @@ function askDelDomainName(e){
     // 将群id添加到button的
     // delDomainName函数用于传参执行删除
     $('#DelDomainModal .modal-footer').html(
-        '<button type="button" class="default-btn" onclick="delDomainName('+domain_id+');">确定删除</button>'
+        '<button type="button" class="default-btn center-btn" onclick="delDomainName('+domain_id+');">确定删除</button>'
     )
 }
 
@@ -730,12 +794,12 @@ function errorPage(from,text){
 // 暂无数据
 function noData(text){
     
-    $("#right .data-list").css('display','none');
-    $("#right .data-card .loading").html(
-    '<img src="../../static/img/noData.png" class="noData" /><br/>' +
-    '<p class="noDataText">'+text+'</p>'
+    $("#domainCheckTasksModal .tasks-list").css('display','none');
+    $("#domainCheckTasksModal .noData").html(
+        '<img src="../../static/img/noData.png" class="noDataIMG" /><br/>' +
+        '<p class="noDataText">'+text+'</p>'
     );
-    $("#right .data-card .loading").css('display','block');
+    $("#domainCheckTasksModal .noData").css('display','block');
 }
 
 // 无管理权限
@@ -760,14 +824,6 @@ function initialize_getDomainNameList(){
 function initialize_addDomainName(){
     $("#domain").val('');
     $("#domain_type").val('');
-    hideResult();
-}
-
-// 初始化（获取域名检测配置信息）
-function initialize_getDomainNameCheckConfigInfo(){
-    $("#domainCheck_status").empty('');
-    $("#domainCheck_channel").empty('');
-    $("#domainCheck_byym").empty('');
     hideResult();
 }
 
