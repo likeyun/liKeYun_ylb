@@ -122,10 +122,10 @@
     			        <button class="default-btn" style="margin-left:5px;">中间页</button>
     			        <a href="multiple.html"><button class="tint-btn" style="margin-left:5px;">多项单页</button></a>
     			        <a href="Carousel.html"><button class="tint-btn" style="margin-left:5px;">轮播单页</button></a>
-    			        <button class="tint-btn" style="margin-left:5px;" 
-        				data-toggle="modal" 
-        				data-target="#configZjyModal" 
-        				onclick="getZjyConfig();">接口配置</button>
+    			     <!--   <button class="tint-btn" style="margin-left:5px;" -->
+        				<!--data-toggle="modal" -->
+        				<!--data-target="#configZjyModal" -->
+        				<!--onclick="getZjyConfig();">接口配置</button>-->
     			    </div>
     			    
     			    <!--功能-->
@@ -166,58 +166,61 @@
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="createZjy" enctype="multipart/form-data">
-                        <span class="text">淘口令</span>
-                        <input type="text" name="taokouling" style="height:50px;" class="form-control" autocomplete="off" title="粘贴后会解析商品信息并自动填写" placeholder="粘贴淘口令或包含淘口令的文案">
+                        <span class="text">淘宝联盟APP [分享好友] 的文案</span>
+                        <textarea name="tblm_wenan" class="form-control" rows="4" autocomplete="off" placeholder="粘贴淘宝联盟APP的文案" title="通过文案自动解析关键信息到表单中"></textarea>
                         
-                        <span class="text">长标题</span>
-                        <input type="text" name="zjy_long_title" class="form-control" id="zjy_long_title" autocomplete="off" placeholder="商品的长标题">
-                        
-                        <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
-                            <div style="width:48%;height:70px;float:left;">
-                                <span class="text">短标题</span>
-                                <input type="text" name="zjy_short_title" class="form-control" autocomplete="off" placeholder="商品的短标题">
+                        <!--解析结果-->
+                        <div class="explain_result" style="display:none;">
+                            <span class="text">长标题</span>
+                            <input type="text" name="zjy_long_title" class="form-control" id="zjy_long_title" autocomplete="off" placeholder="商品的长标题">
+                            
+                            <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                                <div style="width:48%;height:70px;float:left;">
+                                    <span class="text">短标题</span>
+                                    <input type="text" name="zjy_short_title" class="form-control" autocomplete="off" placeholder="商品的短标题">
+                                </div>
+                                <div style="width:48%;height:70px;float:right;">
+                                    <span class="text">转链后的淘口令</span>
+                                    <input type="text" name="zjy_tkl" title="使用了你的PID生成的淘口令" class="form-control" autocomplete="off" placeholder="你的PID生成的淘口令">
+                                </div>
                             </div>
-                            <div style="width:48%;height:70px;float:right;">
-                                <span class="text">转链后的淘口令</span>
-                                <input type="text" name="zjy_tkl" title="使用了你的PID生成的淘口令" class="form-control" autocomplete="off" placeholder="你的PID生成的淘口令">
+                            
+                            <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                                <div style="width:48%;height:70px;float:left;">
+                                    <span class="text">原价</span>
+                                    <input type="text" name="zjy_original_cost" class="form-control" autocomplete="off" placeholder="领券前的价格">
+                                </div>
+                                <div style="width:48%;height:70px;float:right;">
+                                    <span class="text">券后价</span>
+                                    <input type="text" name="zjy_discounted_price" title="领券后的价格" class="form-control" autocomplete="off" placeholder="领券后的价格">
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
-                            <div style="width:48%;height:70px;float:left;">
-                                <span class="text">原价</span>
-                                <input type="text" name="zjy_original_cost" class="form-control" autocomplete="off" placeholder="领券前的价格">
+                            
+                            <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">短链域名</span>
+                                    <select name="zjy_dlym" class="form-control" title="短网址所使用的域名"></select>
+                                </div>
+                                <div style="flex:1;margin-right:7px;">
+                                    <span class="text">入口域名</span>
+                                    <select name="zjy_rkym" class="form-control" title="扫码或点击链接后先跳转到这个域名"></select>
+                                </div>
+                                <div style="flex:1;">
+                                    <span class="text">落地域名</span>
+                                    <select name="zjy_ldym" class="form-control" title="最终展示中间页使用的域名"></select>
+                                </div>
                             </div>
-                            <div style="width:48%;height:70px;float:right;">
-                                <span class="text">券后价</span>
-                                <input type="text" name="zjy_discounted_price" title="领券后的价格" class="form-control" autocomplete="off" placeholder="领券后的价格">
-                            </div>
-                        </div>
-                        
-                        <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
-                            <div style="flex:1;margin-right:7px;">
-                                <span class="text">短链域名</span>
-                                <select name="zjy_dlym" class="form-control" title="短网址所使用的域名"></select>
-                            </div>
-                            <div style="flex:1;margin-right:7px;">
-                                <span class="text">入口域名</span>
-                                <select name="zjy_rkym" class="form-control" title="扫码或点击链接后先跳转到这个域名"></select>
-                            </div>
-                            <div style="flex:1;">
-                                <span class="text">落地域名</span>
-                                <select name="zjy_ldym" class="form-control" title="最终展示中间页使用的域名"></select>
-                            </div>
-                        </div>
-                        
-                        <span class="text">商品主图</span>
-                        <div class="input-group mb-3" style="display:flex;">
-                            <input type="text" name="zjy_goods_img" class="form-control goodIMG_url" placeholder="粘贴图片链接或上传">
-                            <div class="upload_goodIMG_btn">
-                                <input type="file" name="file" accept="image/*" id="chooseIMG_create" />
-                                <span class="uploadText">上传图片</span>
-                            </div>
-                            <div class="upload_goodIMG_btn" onclick="getSuCai('1','createZjyModal');">
-                                <span class="selectText">从素材库选择</span>
+                            
+                            <span class="text">商品主图</span>
+                            <div class="input-group mb-3" style="display:flex;">
+                                <input type="text" name="zjy_goods_img" class="form-control goodIMG_url" placeholder="粘贴图片链接或上传">
+                                <div class="upload_goodIMG_btn">
+                                    <input type="file" name="file" accept="image/*" id="chooseIMG_create" />
+                                    <span class="uploadText">上传图片</span>
+                                </div>
+                                <div class="upload_goodIMG_btn" onclick="getSuCai('1','createZjyModal');">
+                                    <span class="selectText">从素材库选择</span>
+                                </div>
                             </div>
                         </div>
                         
@@ -233,7 +236,7 @@
                             </span>
                         </div>
                         <div class="btnnav">
-                            <button type="button" class="default-btn" onclick="createZjy();">立即创建</button>
+                            <button type="button" class="default-btn action-btn"></button>
                         </div>
                     </div>
                     

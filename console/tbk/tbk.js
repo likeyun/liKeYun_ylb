@@ -328,6 +328,92 @@ function getFenye(e){
     getZjyList(pageNum);
 }
 
+// 解析文案
+function jiexiWenan() {
+    
+    let text = $('#createZjyModal textarea[name="tblm_wenan"]').val();
+    if(!text) {
+        showErrorResult('请粘贴文案...')
+        return;
+    }
+    if(!text.includes("到手价") && !text.includes("券面额")) {
+        showErrorResult('文案不符合规则')
+        return;
+    }
+    
+    $('#createZjyModal .action-btn').text('正在解析...');
+    $('#createZjyModal .action-btn').attr('onclick', '');
+    text = text.replace(/\s+/g, ' ').trim();
+    text = removeEmojis(text);
+    const parseText = (text) => {
+        
+        const titleMatch = text.match(/^(.*?)【推荐理由】/);
+        const quanhoujiaMatch = text.match(/【到手价】\s*(\d+\.?\d*)\s*元/);
+        const quanmianjiaMatch = text.match(/【券面额】\s*(\d+\.?\d*)\s*元/);
+        if (titleMatch && quanhoujiaMatch && quanmianjiaMatch) {
+            const title = titleMatch[1].trim();
+            const quanhoujia = parseFloat(quanhoujiaMatch[1]);
+            const quanmianjia = parseFloat(quanmianjiaMatch[1]);
+            const yuanjia = quanhoujia + quanmianjia;
+            const short_title = safeSubstring(title, 0, 18);
+            let target = "【下单链接】";
+            let startIndex = text.indexOf(target) + target.length;
+            let result = text.substring(startIndex);
+            const taokouling = result.replace(/https?:\/\/[^\s]+/g, '');
+
+            // 填写到表单
+            $('#createZjyModal input[name="zjy_long_title"]').val(title);
+            $('#createZjyModal input[name="zjy_short_title"]').val(short_title);
+            $('#createZjyModal input[name="zjy_original_cost"]').val(yuanjia);
+            $('#createZjyModal input[name="zjy_discounted_price"]').val(quanhoujia);
+            $('#createZjyModal input[name="zjy_tkl"]').val(taokouling);
+            
+            return { title, quanhoujia, quanmianjia, yuanjia, taokouling };
+        } else {
+            return "解析失败";
+            showErrorResult('解析失败，建议手动输入');
+            $('#createZjyModal .action-btn').html('<span>重试</span>');
+        }
+    };
+    
+    const getParsedResult = (inputText) => {
+        return parseText(inputText);
+    };
+    
+    if(getParsedResult(text) !== "解析失败") {
+        setTimeout(function(){
+            $('#createZjyModal .explain_result').css('display','block');
+            showSuccessResult('解析成功');
+            $('#createZjyModal .action-btn').text('立即创建');
+            $('#createZjyModal .action-btn').attr('onclick', 'createZjy()');
+        },1500)
+    }
+        
+    console.log(getParsedResult(text));
+}
+
+// 截取字符
+function safeSubstring(str, start, length) {
+    let result = '';
+    let count = 0;
+    for (let i = start; i < str.length; i++) {
+        let char = str.charAt(i);
+        if (char.match(/[\u4e00-\u9fa5]/)) {
+            count += 2;
+        } else {
+            count += 1;
+        }
+        if (count > length) break;
+        result += char;
+    }
+    return result;
+}
+
+// 使用正则表达式匹配所有emoji字符
+function removeEmojis(str) {
+  return str.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g, ' ');
+}
+
 // 创建中间页
 function createZjy(){
     
@@ -554,18 +640,10 @@ function getZjyConfig(){
 
             if(res.code == 200){
                 
-                // （1）zjy_config_appkey
-                $('#zjy_config_appkey').val(res.zjyConfigInfo.zjy_config_appkey);
-                
-                // （2）zjy_config_sid
-                $('#zjy_config_sid').val(res.zjyConfigInfo.zjy_config_sid);
-                
-                // （3）zjy_config_pid
-                $('#zjy_config_pid').val(res.zjyConfigInfo.zjy_config_pid);
-                
-                // （4）zjy_config_tbname
-                $('#zjy_config_tbname').val(res.zjyConfigInfo.zjy_config_tbname);
-                            
+                $('#configZjy input[name="zjy_app_key"]').val(res.zjyConfigInfo.zjy_config_appkey);
+                $('#configZjy input[name="zjy_app_scret"]').val(res.zjyConfigInfo.zjy_config_sid);
+                $('#configZjy input[name="zjy_pid"]').val(res.zjyConfigInfo.zjy_config_pid);
+                $('#configZjy input[name="zjy_tbname"]').val(res.zjyConfigInfo.zjy_config_tbname);
             }
         },
         error: function() {
@@ -1310,7 +1388,10 @@ function initialize_getZjyList(){
 function initialize_getDomainNameList(module){
     
     if(module == 'create'){
-        $('#createZjyModal input[name="taokouling"]').val('');
+        $('#createZjyModal textarea[name="tblm_wenan"]').val('');
+        $('#createZjyModal .action-btn').text('解析文案');
+        $('#createZjyModal .action-btn').attr('onclick', 'jiexiWenan()');
+        $('#createZjyModal .explain_result').css('display','none');
         $('#createZjyModal input[name="zjy_long_title"]').val('');
         $('#createZjyModal input[name="zjy_short_title"]').val('');
         $('#createZjyModal input[name="zjy_tkl"]').val('');
