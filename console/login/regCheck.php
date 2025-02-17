@@ -14,7 +14,7 @@
 	
 	$result = array(
 	    'code' => 204,
-        'msg' => '该功能为收费功能，价格19.90元，请联系微信sansure2016'
+        'msg' => '注册功能为收费功能，网站管理员未购买注册功能的相关代码，请购买，价格19.90元，购买地址：https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g'
     );
 
 	// 输出JSON
