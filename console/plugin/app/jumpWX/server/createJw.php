@@ -254,7 +254,7 @@
                 // 腾讯文档
                 $result = array(
                     'code' => 201,
-                    'msg' => '该渠道需付费购买，请点击 <a href="https://likeyunkeji.likeyunba.com/shop/?key=wailian" target="_blank">https://likeyunkeji.likeyunba.com/shop/?key=wailian</a> 前往付费插件购买页面。'
+                    'msg' => '该渠道需付费购买，请点击 <a href="https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g" target="_blank">https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g</a> 前往付费插件购买页面。'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -265,7 +265,7 @@
                 // 企业微盘
                 $result = array(
                     'code' => 201,
-                    'msg' => '该渠道需付费购买，请点击 <a href="https://likeyunkeji.likeyunba.com/shop/?key=wailian" target="_blank">https://likeyunkeji.likeyunba.com/shop/?key=wailian</a> 前往付费插件购买页面。'
+                    'msg' => '该渠道需付费购买，请点击 <a href="https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g" target="_blank">https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g</a> 前往付费插件购买页面。'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
@@ -276,7 +276,7 @@
                 // CSDN小程序
                 $result = array(
                     'code' => 201,
-                    'msg' => '该渠道需付费购买，请点击 <a href="https://likeyunkeji.likeyunba.com/shop/?key=wailian" target="_blank">https://likeyunkeji.likeyunba.com/shop/?key=wailian</a> 前往付费插件购买页面。'
+                    'msg' => '该渠道需付费购买，请点击 <a href="https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g" target="_blank">https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g</a> 前往付费插件购买页面。'
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
