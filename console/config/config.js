@@ -166,27 +166,27 @@ function getDomainNameList(pageNum) {
                     if(res.domainList[i].domain_type == 1){
                         
                         // 入口域名
-                        var domain_type = '<span>入口域名</span>';
+                        var domain_type = '<span class = "light-tag">入口域名</span>';
                     }else if(res.domainList[i].domain_type == 2){
                         
                         // 落地域名
-                        var domain_type = '<span>落地域名</span>';
+                        var domain_type = '<span class = "light-tag">落地域名</span>';
                     }else if(res.domainList[i].domain_type == 3){
                         
                         // 短链域名
-                        var domain_type = '<span>短链域名</span>';
+                        var domain_type = '<span class = "light-tag">短链域名</span>';
                     }else if(res.domainList[i].domain_type == 4){
                         
                         // 备用域名
-                        var domain_type = '<span>备用域名</span>';
+                        var domain_type = '<span class = "light-tag">备用域名</span>';
                     }else if(res.domainList[i].domain_type == 5){
                         
                         // 对象存储域名
-                        var domain_type = '<span>对象存储域名</span>';
+                        var domain_type = '<span class = "light-tag">对象存储域名</span>';
                     }else if(res.domainList[i].domain_type == 6){
                         
                         // 轮询域名
-                        var domain_type = '<span>轮询域名</span>';
+                        var domain_type = '<span class = "light-tag">轮询域名</span>';
                     }
                     
                     // 域名
