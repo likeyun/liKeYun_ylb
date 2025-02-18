@@ -1,87 +1,114 @@
-## 私域引流宝
+# 🚀 私域引流宝
 
 👋 私域引流宝致力于为个人、团队提供基于微信私域流量的推广、引流的效率工具。可减轻人力，有效降低资源损失、流量流失的几率。引流宝完全开源，免费，可商用、可任意二次开发。引流宝可以辅助你更好地开展营销活动推广！降低运营成本，提高工作效率，获取更多资源。
-<br/>
 
-## 免备案服务器推荐
+<br>
+
+# 🌐 免备案服务器推荐
+
 https://www.rainyun.com/TANKING_
 
-## 特色功能
+<br>
 
-群活码、客服码、渠道码、短网址、淘宝客中间页、微信外链、抖音卡片、微信分享卡片。
+# 🌟 特色功能
 
-<img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="350" style="display:block;margin:10px auto;" />
+- 🏷️ 群活码
+- 💬 客服码
+- 🔗 渠道码
+- 📱 短网址
+- 🛒 淘宝客中间页
+- 🌍 微信外链
+- 🎥 抖音卡片
+- 📤 微信分享卡片
+
+<br>
+
+# 🛠️ 技术栈
+
+<img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="400" style="display:block;margin:10px auto;" />
 
 ![](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-JQuery_3.6.0-f4db0b?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/%E5%90%8E%E7%AB%AF-php_7.4.0-777bb3?logo=&logoColor=ffffff) ![](https://img.shields.io/badge/前端-Bootstrap_4.0-336c9f?logo=&logoColor=ffffff)
 
-## 更新日志
-![](https://img.shields.io/badge/Version-2.4.4-brightgreen.svg)<br/>
-2.4.4版本新特性：<br>
-UI界面大量的优化<br>
-新增群活码并流<br>
-新增短网址轮询域名<br>
-外部跳微信抽离出来作为插件<br>
-群活码、客服码、渠道码整合到活码一栏<br>
-提供用户账号注册<br>
-渠道码新增操作系统渠道数据记录<br>
-新增卡密分发小程序管理<br>
-新增淘宝客轮播单页<br>
-优化淘宝客中间页的创建，抛弃接口自动解析，改为文案解析<br>
+<br>
 
-## 公众号
-![](https://img10.360buyimg.com/imgzone/jfs/t1/145303/24/42799/5773/662f19e0Fe49e9666/ca57d11bc2c9de54.jpg)
+# 📅 更新日志
 
-## 全新安装
+![Version Badge](https://img.shields.io/badge/Version-2.4.4-brightgreen.svg)
 
-访问 install 目录即可进入安装流程。<br/>
+**2.4.4版本新特性：**
+- UI界面大量优化
+- 新增群活码并流
+- 新增短网址轮询域名
+- 外部跳微信抽离为插件
+- 群活码、客服码、渠道码整合到活码一栏
+- 用户账号注册功能
+- 渠道码新增操作系统渠道数据记录
+- 新增卡密分发小程序管理
+- 新增淘宝客轮播单页
+- 优化淘宝客中间页创建，抛弃接口自动解析，改为文案解析
+
+<br>
+
+# 📱 公众号
+
+![公众号](https://img10.360buyimg.com/imgzone/jfs/t1/145303/24/42799/5773/662f19e0Fe49e9666/ca57d11bc2c9de54.jpg)
+
+<br>
+
+# ⚙️ 全新安装
+
+访问 `install` 目录即可进入安装流程。
 
 示例：
 ```
 http://域名/install/
 ```
-安装成功后请删除 /install/ 目录。
+安装成功后请删除 `/install/` 目录。
 
-## 版本升级
+<br>
 
-**升级步骤如下：** <br/>
-1、升级前请备份好数据；<br/>
-2、备份 `console/Db.php` 这个文件；<br/>
-3、备份 `console/upload/` 目录； <br/>
-4、下载新版本代码；<br/>
-5、将 `console/Db.php` 这个文件以及 `console/upload/` 目录替换；<br/>
-6、访问 `install` 目录，选择你要升级的版本选项。<br/>
+# 🔄 版本升级
 
-## Star History
+**升级步骤：**
+1. 备份数据；
+2. 备份 `console/Db.php` 文件；
+3. 备份 `console/upload/` 目录；
+4. 下载新版本代码；
+5. 替换 `console/Db.php` 和 `console/upload/` 目录；
+6. 访问 `install` 目录，选择升级版本选项。
 
-[![Star History Chart](https://api.star-history.com/svg?repos=likeyun/liKeYun_ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_ylb&Date)
+<br>
 
-## 卡密分发小程序源码
-收费89元，请联系微信购买，微信号：sansure2016
+# ⭐️ Star History
 
-## 微信外链插件，高度集成快速创建
+[![Star History](https://api.star-history.com/svg?repos=likeyun/liKeYun_ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_ylb&Date)
 
-支持使用自建小程序、如果你没有自建小程序，我们提供借用第三方小程序跳转的方案，具体如下图：
+<br>
 
-![](https://kfgd.sina.com.cn/v2/messageBoard/2024-09-20%2015:31:10_CR-jvw2y/2024/09/5ae4e7b78f7a2777ca727a0920c3ac90.png)
+# 📑 使用文档
 
-## 使用文档
-https://docs.qq.com/doc/DREdWVGJxeFFOSFhI <br/><br/>
+[https://docs.qq.com/doc/DREdWVGJxeFFOSFhI](https://docs.qq.com/doc/DREdWVGJxeFFOSFhI)
 
-就算你是个小白0基础，没有服务器、没有域名，不会搭建服务器，不会搭建网站，使用指南中有个针对0基础的教程，看完就会了。
+即使你是小白，使用指南中也有0基础教程，按教程走就能轻松上手。
 
-## 使用
-管理后台路径：/console/index/<br/>
+<br>
 
-示例：
-```
-http://域名/console/index/
-```
+# 🛠️ 管理后台
 
-## 功能一览表
+管理后台路径： `/console/index/`
+
+> 示例：`https://域名/console/index/`
+
+<br>
+
+# 🧩 功能一览表
 
 <img src="https://img10.360buyimg.com/imgzone/jfs/t1/208894/5/41649/168432/661f99cdFe7276d89/a8ea2fc7db99aa40.png" width="600" />
 
-# 截图
+<br>
+
+# 📸 后台截图
+
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/76614/2/26773/219673/66bb53d5F37bfedb5/d044ff9bcd4853d0.png)
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/191563/24/44191/58534/661a9ddbF5cfc547c/17ad9f196524cf63.jpg)
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/200610/12/41550/56663/661a9ddbFbd1bed37/c61186595872aa02.jpg)
@@ -92,27 +119,25 @@ http://域名/console/index/
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/234089/31/15393/69706/661a9ddfF29f026cd/a9cc2eb6038304dc.jpg?1713020536505)
 ![](https://img20.360buyimg.com/imgzone/jfs/t1/131277/30/41020/114973/661a9ddcF7f73a838/b4bad634ee39499d.jpg?1713020550421)
 
-<br>微信外链2.2.0（可制作抖音跳转卡片、快手跳转到微信的短链接）<br>
+<br>
 
-![](https://img10.360buyimg.com/imgzone/jfs/t1/87538/20/49128/135012/66e10812F8f224408/17c32968a7142bc8.jpg)
-![](http://p17.qhimg.com/t11a4d74fff5da209a8abf5fbde.png)
-
-## 域名定时检测
+# ⏳ 域名定时检测
 
 免费开源版不带定时域名检测，这款的配置中心自带一个域名检测任务，你可以对指定的域名创建一个域名检测任务，通过宝塔面板的定时任务实现自动检测域名是否被微信拦截、封禁的情况，检测到被封可以收到通知。<br/><br/>
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/195926/10/46451/89427/666027a6Fa155b77c/cb560f8a85240bb2.jpg)
 ![](https://img10.360buyimg.com/imgzone/jfs/t1/189615/4/45168/88627/666027a5F81d75fc4/c318b110eae48c37.jpg)
 
-**私域引流宝2.4.3定制版 - 带域名检测任务模块需要单独购买，价格是99元，请联系微信号购买：sansure2016**  <br/><br/>
-购买后，你可以选择全新安装，也可以选择版本升级。如果你是基于 `2.3.0` 版本升级，需要查看使用文档中版本升级的方法完成升级，如果你是基于 `2.4.0` 版本。那么只需要替换代码（请备份 `Db.php` 和 `upload` 目录）后登录即可使用。
-<br/>
-或进入爱发电平台购买：https://afdian.com/item/9e620960231811efa2f65254001e7c00 （如果无法进入则联系微信sansure2016购买）
+<br>
 
-## 赞赏
-赞赏作者，支持长期维护开源项目。<br/><br/>
+# 💸 赞赏支持
+
+感谢对开源项目的支持！
+
 <img src="http://p18.qhimg.com/t014667134b2634568a.jpg" width="400" />
 
-**最新赞赏记录**
+<br>
+
+**最新赞赏记录：**
 
 | 用户昵称 | 赞赏渠道 | 赞赏金额 |
 | ----- | ----- | ----- |
@@ -146,29 +171,44 @@ http://域名/console/index/
 | 李来信 | 微信 | 20.00 |
 | 筱炯 | 微信 | 30.00 |
 
-## 交流群
+<br>
+
+# 💬 交流群
+
 目前有10个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
 微信号：sansure2016 <br/><br/>
 <img src="http://p17.qhimg.com/t01c5795ee4423dba85.jpg" width="300" /><br/><br/>
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
-## 作者
+<br>
+
+# 👨‍💻 作者
+
 Name：TANKING<br/>
 WeChat：sansure2016<br/>
 Blog：https://segmentfault.com/u/tanking<br/>
 From：Guangdong Canton<br/><br/>
 <img src="http://p18.qhimg.com/t01fa8997c05a7243cd.jpg" width="200" />
 
-## 旧版
+<br>
+
+# 📂 旧版下载
+
 1.3.0：https://likeyun.lanzout.com/i4doR0jhtw8b <br/>
 2.0.0：https://likeyun.lanzout.com/imKAq143yfkd <br/>
 2.1.0：https://likeyun.lanzout.com/iyh7l1gm5iyh <br/>
 2.2.0：https://likeyun.lanzout.com/igRQG1iw53xi <br/>
 2.3.0：https://likeyun.lanzout.com/iRwGW1uzuqtc <br/>
 
-## 开源协议
-![](https://img.shields.io/badge/开源协议-MIT-brightgreen.svg) 该软件遵循MIT开源协议。
+<br>
 
-## 提醒
+# 📜 开源协议
+
+![](https://img.shields.io/badge/开源协议-MIT-brightgreen.svg) 
+
+<br>
+
+# ⚠️ 提醒
+
 该软件仅适用于辅助日常工作，提高工作效率，减轻人力。请勿用于诈骗、黑灰产业，如有此类行为，后果自负。
