@@ -53,7 +53,7 @@ http://域名/install/
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=likeyun/liKeYun_Ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_Ylb&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=likeyun/liKeYun_ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_ylb&Date)
 
 ## 卡密分发小程序源码
 收费89元，请联系微信购买，微信号：sansure2016
