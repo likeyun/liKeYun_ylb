@@ -109,8 +109,7 @@ function getChannelList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
-                '   <th>标题</th>' +
+                '   <th style="text-align:left;">标题</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>总访问量</th>' +
                 '   <th>今天访问量</th>' +
@@ -131,7 +130,7 @@ function getChannelList(pageNum) {
                     
                     // 数据判断并处理
                     // （1）序号
-                    var xuhao = i+1;
+                    // var xuhao = i+1;
                     
                     // （2）标题
                     var channel_title = res.channelList[i].channel_title;
@@ -195,18 +194,39 @@ function getChannelList(pageNum) {
                         var channel_pv_today = 0;
                     }
                     
+                    // 各渠道设备访问量tag
+                    var channel_device_pv_tags = `
+                        <div class="container">
+                            <span class="light-tag" title="Android设备访问量">
+                                <span class="icon-view android-icon"></span>
+                                <span class="tag-text">${Android_Total}</span>
+                            </span>
+                            <span class="light-tag" title="iOS设备访问量">
+                                <span class="icon-view ios-icon"></span>
+                                <span class="tag-text">${iOS_Total}</span>
+                            </span>
+                            <span class="light-tag" title="Windows设备访问量">
+                                <span class="icon-view windows-icon"></span>
+                                <span class="tag-text">${Windows_Total}</span>
+                            </span>
+                            <span class="light-tag" title="Linux设备访问量">
+                                <span class="icon-view linux-icon"></span>
+                                <span class="tag-text">${Linux_Total}</span>
+                            </span>
+                            <span class="light-tag" title="MacOS设备访问量">
+                                <span class="icon-view macos-icon"></span>
+                                <span class="tag-text">${MacOS_Total}</span>
+                            </span>
+                        </div>`;
+                    
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
-                        '   <td>'+channel_title+'</td>' +
+                        '   <td style="text-align:left;">'+channel_title+'</td>' +
                         '   <td>'+channel_creat_time+'</td>' +
                         '   <td>'+channel_pv+'</td>' +
                         '   <td>'+channel_pv_today+'</td>' +
-                        '   <td>' +
-                        '        <p class="device_pv">Android:'+Android_Total+', iOS:'+iOS_Total+'</p>'+
-                        '        <p class="device_pv">Windows:'+Windows_Total+', Linux:'+Linux_Total+', MacOS:'+MacOS_Total+'</p>'+
-                        '   </td>' +
+                        '   <td>'+channel_device_pv_tags+'</td>' +
                         '   <td>'+channel_DataTotal+'</td>' +
                         '   <td>'+channel_status+'</td>' +
                         '   <td class="dropdown-td">' +

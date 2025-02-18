@@ -100,10 +100,9 @@ function getChannelDataList(channelid,pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
-                '   <th>来源渠道</th>' +
-                '   <th>来源IP</th>' +
+                '   <th style="text-align:left;">来源渠道</th>' +
                 '   <th>来源设备</th>' +
+                '   <th>来源IP</th>' +
                 '   <th>来源时间</th>' +
                 '   <th>访问量</th>' +
                 '   <th style="text-align:right;">操作</th>' +
@@ -122,7 +121,7 @@ function getChannelDataList(channelid,pageNum) {
                 for (var i=0; i<res.channelDataList.length; i++) {
                     
                     // 将清空数据按钮显示出来
-                    $('#CleanAllChannelDataBtn').html('<button class="default-btn">数据列表</button><button class="tint-btn" data-toggle="modal" data-target="#CleanAllChannelData" onclick="askCleanAllChannelData('+channelid+');" style="margin-left:10px;">清空数据</button>');
+                    $('#CleanAllChannelDataBtn').html('<button class="default-btn">数据列表</button><button class="tint-btn" data-toggle="modal" data-target="#CleanAllChannelData" onclick="askCleanAllChannelData('+channelid+');" style="margin-left:10px;float:right;">清空数据</button>');
                     
                     // （1）序号
                     var xuhao = i+1;
@@ -223,7 +222,7 @@ function getChannelDataList(channelid,pageNum) {
                     }else if(data_device.includes('Mac') === true) {
                         
                         // Mac
-                        var data_deviceIcon = 'ios.png';
+                        var data_deviceIcon = 'macos.png';
                     }else if(data_device.includes('Linux') === true) {
                         
                         // Linux
@@ -241,20 +240,12 @@ function getChannelDataList(channelid,pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
-                        '   <td><img src="../../static/img/app_logo/'+data_referer_icon+'" style="width:15px;height:15px;margin-right:10px;" />'+data_referer+'</td>' +
+                        '   <td style="text-align:left;"><span class="light-tag"><img src="../../static/img/app_logo/'+data_referer_icon+'" style="width:15px;height:15px;margin-right:10px;" />'+data_referer+'</span></td>' +
+                        '   <td><span class="light-tag"><img src="../../static/img/'+data_deviceIcon+'" style="width:15px;height:15px;margin-right:10px;" />'+data_device+'</span></td>' +
                         '   <td>'+data_ip+'</td>' +
-                        '   <td><img src="../../static/img/'+data_deviceIcon+'" style="width:15px;height:15px;margin-right:10px;" />'+data_device+'</td>' +
                         '   <td>'+data_creat_time+'</td>' +
                         '   <td>'+data_pv+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" title="将ip加入黑名单" id="'+data_ip+'" onclick="AccessDenied(this)">封禁IP</span>' +
-                        '           </div>' +
-                        '       </div>' +
-                        '   </td>' +
+                        '   <td style="text-align:right;cursor:pointer;"><span class="light-tag" title="将ip加入黑名单" id="'+data_ip+'" onclick="AccessDenied(this)">封禁这个IP</span></td>' +
                         '</tr>' +
                         '</tr>'
                     );
