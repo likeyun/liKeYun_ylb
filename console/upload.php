@@ -1,16 +1,9 @@
 <?php
 
     /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
      * 程序用途：上传图片到素材库
-     * 最后维护日期：2023-06-03
-     * 作者：TANKING
-     * 博客：https://segmentfault.com/u/tanking
+     * 最后维护日期：2025-02-19
+     * 作者：私域引流宝 - TANKING
      */
      
     // 字符编码
@@ -27,7 +20,7 @@
     $extension = end($tempFile);
     
     // 获取到文件名（不含后缀名）
-    $wenJianMing = substr($selectedFile, 0, strrpos($selectedFile, "."));
+    $fileName = substr($selectedFile, 0, strrpos($selectedFile, "."));
     
     // 判断文件类型
     if ((($_FILES["file"]["type"] == "image/gif")
@@ -56,13 +49,9 @@
                 // 当前登录的用户
                 $loginUser = $_SESSION["yinliubao"];
                 
-                // 文件指纹
-                // 以区分多次上传同一文件时
-                // 上传后均为独立的文件
-                $fingerPrint = rand(1000,9999);
-                
-                // 新的文件（文件名+_文件指纹+后缀名）
-                $newFile = $wenJianMing.'_'.$fingerPrint.'.'.$extension;
+                // 新的文件
+                $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                $newFile = substr(str_shuffle($chars), 0, 9).'.'.$extension;
                 
                 // 上传文件
                 move_uploaded_file($_FILES["file"]["tmp_name"], "upload/".$newFile);
@@ -83,24 +72,20 @@
                 $db = new DB_API($config);
                 
                 // 素材ID
-                $sucai_id = rand(100000,999999);
+                $sucai_id = '10' . mt_rand(123456,989898);
                 
                 // 需向数据库插入的参数
                 $uploadSuCaiParams = [
-                    'sucai_id'=>$sucai_id,
-                    'sucai_filename'=>$newFile,
-                    'sucai_beizhu'=>$wenJianMing,
-                    'sucai_upload_user'=>$loginUser,
-                    'sucai_type'=>1,
-                    'sucai_size'=>$_FILES["file"]["size"]
+                    'sucai_id' => $sucai_id,
+                    'sucai_filename' => $newFile,
+                    'sucai_beizhu' => $fileName,
+                    'sucai_upload_user' => $loginUser,
+                    'sucai_type' => 1,
+                    'sucai_size' => $_FILES["file"]["size"]
                 ];
         
                 // 执行SQL
                 $uploadSuCai = $db->set_table('huoma_sucai')->add($uploadSuCaiParams);
-                
-                // 自定义图片地址
-                // 将http://www.youdomain.com换成你的
-                $imgUrlPath = 'http://www.youdomain.com/console';
                 
                 // 执行结果
                 if($uploadSuCai){
@@ -109,7 +94,7 @@
                     $result = array(
                         "code" => 200,
                         "msg" => "上传成功",
-                        "url" => $imgFileFolder."/upload/".$newFile
+                        "url" => $imgFileFolder . "/upload/" . $newFile . "?imageView/w/500/q/h/Expires/" . strtotime("+1 hour", time())
                     );
                 }else{
                     
@@ -122,7 +107,6 @@
                     // 删除文件
                     unlink('./upload/'.$newFile);
                 }
-                
             }else{
                 
                 // 上传失败
@@ -137,7 +121,7 @@
         // 上传失败
         $result = array(
             'code' => 202,
-            'msg' => '此类文件不能上传'
+            'msg' => '文件类型不符合规则！只能上传jpg、jpeg、png、gif'
         );
     }
     
