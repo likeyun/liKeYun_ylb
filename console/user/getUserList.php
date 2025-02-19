@@ -1,14 +1,5 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
-
 	// 页面编码
 	header("Content-type:application/json");
 	
@@ -27,23 +18,33 @@
     
     	// 实例化类
     	$db = new DB_API($config);
-    
-    	// 数据库huoma_user表
-    	$huoma_user = $db->set_table('huoma_user');
+    	
+        // 检查是否存在【user_expire_time】这个字段
+        // 该检查是为了自动完成更新
+        // 2024年12月22日加入
+        // 检查是否存在这个字段
+        $checkExitsSQL = "SHOW COLUMNS FROM huoma_user LIKE 'user_expire_time'";
+        $checkExits = $db->set_table('huoma_user')->findSql($checkExitsSQL);
+        if(!$checkExits) {
+            
+            // 不存在这个字段
+            // 新增字段
+            $Add_user_expire_time = "ALTER TABLE huoma_user ADD user_expire_time timestamp DEFAULT '2035-12-31 23:59:59' COMMENT '到期时间' AFTER user_creat_time";
+            $db->set_table('huoma_user')->findSql($Add_user_expire_time);
+        }
     	
         // 获取当前登录用户的账号权限
-        $getuserAdmin = ['user_name'=>$LoginUser];
-        $getuserAdminResult = $huoma_user->find($getuserAdmin);
+        $getCurrentAdmin = $db->set_table('huoma_user')->find(['user_name' => $LoginUser]);
         
-        // 权限 1管理 2非管理
-        $user_admin = json_decode(json_encode($getuserAdminResult))->user_admin;
+        // 权限:1管理 2非管理
+        $user_admin = $getCurrentAdmin['user_admin'];
         
         // 根据权限选择返回用户列表
         if($user_admin == 1){
             
             // 管理员
             // 获取所有用户列表
-            $getAllUser = $huoma_user->findAll();
+            $getAllUser = $db->set_table('huoma_user')->findAll();
             
             // 所有用户的总数（对返回的用户列表进行计算数组对象个数）
             $userNum = count($getAllUser);
@@ -51,14 +52,14 @@
             
             // 非管理员
             // 获取当前用户列表
-            $getThisUser = $huoma_user->find(['user_name'=>$LoginUser]);
+            $getThisUser = $db->set_table('huoma_user')->find(['user_name'=>$LoginUser]);
             
             // 当前用户的总数（只有1个用户）
             $userNum = 1;
         }
 
     	// 每页数量
-    	$lenght = 10;
+    	$lenght = 12;
     
     	// 每页第一行
     	$offset = ($page-1)*$lenght;
@@ -91,10 +92,10 @@
         }
         
         // 获取用户列表（根据管理员和非管理员的查询条件去获取列表）
-        $getuserList = $huoma_user->findAll(
+        $getuserList = $db->set_table('huoma_user')->findAll(
     	    $conditions = $condition,
     	    $order = 'ID ASC',
-    	    $fields = 'user_id,user_name,user_email,user_creat_time,user_admin,user_status,user_manager,user_beizhu,user_group',
+    	    $fields = 'user_id,user_name,user_email,user_creat_time,user_expire_time,user_admin,user_status,user_manager,user_beizhu,user_group',
     	    $limit = ''.$offset.','.$lenght.''
     	);
     	
