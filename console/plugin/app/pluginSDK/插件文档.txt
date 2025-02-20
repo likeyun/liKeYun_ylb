@@ -1,0 +1,37 @@
+将 pluginSDK.zip 插件压缩包解压后，获得一个文件夹 pluginSDK，将这个文件夹上传至 /console/plugin/app/ 目录内：
+
+然后按照下方步骤完成配置：
+
+1. 将 sdkdatadwz.php 上传至 /s/ 目录
+
+2. 将 sdkdata 整个文件夹上传至 /common/ 目录内
+
+3. 在你原有的伪静态最上方加上一条新的伪静态
+
+伪静态内容：rewrite ^/sdk/(.*)$ /s/sdkdatadwz.php?key=$1 last;
+
+开发说明：
+
+pluginSDK 是插件管理后台的核心代码，包括创建、编辑、删除、分享等一系列的功能就在这里开发。
+-----app.js 是插件管理后台的js部分的代码，用于管理后台的创建、编辑、删除、分享等操作。
+-----app.json 是插件的配置文件，其中 entry 这个参数是需要与插件的目录名一致，因为这个是管理后台的入口。
+-----app.css 是插件管理后台的css文件。
+-----index.html 是插件管理后台的首页文件，里面包含了创建、编辑的表单，分享、素材库、删除提醒等一些列的前端结构。
+-----server 是插件管理后台的后端代码，包含创建、编辑、删除、分享一系列的后端操作数据库的功能就在这里开发。
+-----server/createData.php 创建数据
+-----server/editData.php 编辑数据
+-----server/delData.php 删除数据
+-----server/shareData.php 分享数据
+-----server/getDataList.php 获取数据列表
+-----server/setup.php 安装插件
+-----server/uninstall.php 卸载插件
+-----server/setup.php 安装插件
+-----server/selectSucaiToForm.php 通过素材id查询到素材并且返回素材完整URL
+-----server/getSetupStatu.php 获取安装状态
+-----server/changeDataStatus.php 改变数据状态
+
+数据库操作类文档：https://segmentfault.com/a/1190000040517153
+
+sdkdata 整个文件夹是落地页代码包，所有对外提供服务的落地页，跳转页均在这里开发。
+
+sdkdatadwz.php 是短网址调度器，用于完成短网址的跳转校验。
