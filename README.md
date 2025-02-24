@@ -23,6 +23,32 @@ https://www.rainyun.com/TANKING_
 
 <br>
 
+# 💰 付费插件&功能&服务
+
+- liKeYun微信赞赏码支付系统：
+https://afdian.com/item/df9b9590a8ab11ef952152540025c377
+
+- liKeYun付费进群插件：
+https://afdian.com/item/ae376a2a44ff11ef9b1f52540025c377
+
+- 微信外链（抖音卡片）插件：
+https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
+
+- 域名检测任务插件：
+https://afdian.com/item/6e6c8d08cb3211efb12052540025c377
+
+- 私域引流宝账号有效期功能：
+https://afdian.com/item/38402d64c20b11efb0515254001e7c00
+
+- 卡密分发小程序源码：
+https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
+
+- **付费定制服务：**
+  - 付费定制插件；
+  - 付费基于引流宝新增功能或修改功能；
+  - 付费代安装引流宝（适合一点也不会的人）；
+  - 请联系作者微信：sansure2016（备注：付费定制）
+
 # 🛠️ 技术栈
 
 <img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="400" style="display:block;margin:10px auto;" />
