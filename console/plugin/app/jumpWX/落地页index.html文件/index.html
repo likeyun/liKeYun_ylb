@@ -124,7 +124,7 @@
         <script>
 
             // 请求路径结构如下：
-            // https:// + 你的域名 + 引流宝安装目录
+            // http://或https:// + 你的域名 + 引流宝安装目录
             // ----------------------------------------------
             // 假设你的域名是 www.baidu.com 引流宝安装在根目录
             // 那么下面req_domain应该配置：https://www.baidu.com
@@ -135,7 +135,7 @@
             // 请注意：无需 / 结尾
             // 请注意：无需 / 结尾
             
-            var req_domain = '这里配置你的域名，要求https';
+            var req_domain = 'https://修改你的域名';
             
             // 请注意：无需 / 结尾
             // 请注意：无需 / 结尾
@@ -167,10 +167,11 @@
                             const jw_beizhu = res.jwInfo.jw_beizhu;
                             const jw_url = res.jwInfo.jw_url;
                             const resource_path = req_domain + '/console/plugin/app/jumpWX/img/';
+                            const jw_platform = res.jwInfo.jw_platform;
                             
                             // platform_logo_gif
                             var jump_gif;
-                            switch (type) {
+                            switch (jw_platform) {
                                 case 'douyin':
                                     jump_gif = resource_path + 'douyin-jumpwx.gif';
                                     break;
@@ -208,6 +209,13 @@
                                 '<div class="powerby">&#31169;&#22495;&#24341;&#27969;&#23453;&#25552;&#20379;&#25216;&#26415;&#25903;&#25345;</div>' +
                                 '<iframe src="'+jw_url+'" style="opacity:0;"></iframe>'
                             );
+                            
+                            
+                            // Safari?
+                            if(isSafari()) {
+                                // Safari Auto Jump
+                                window.location.href=jw_url;
+                            }
                             
                             // icon
                             var shortcutIconLink = $("<link>");
@@ -264,6 +272,11 @@
             document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
                 WeixinJSBridge.call('hideOptionMenu');
             });
+            // CheckSafari
+            function isSafari() {
+                var userAgent = navigator.userAgent.toLowerCase();
+                return userAgent.indexOf('safari') !== -1 && userAgent.indexOf('chrome') === -1;
+            }
         </script>
     </body>
 </html>
