@@ -223,7 +223,7 @@ http://域名/install/
 目前有12个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
 微信号：sansure2016 <br/><br/>
-<img src="https://dimg04.c-ctrip.com/images/0Z86h12000iwnjqctFEF0.jpg" width="320" /><br/><br/>
+<img src="https://img.alicdn.com/imgextra/i3/724156739/O1CN01vCJ0E31zeW7quL3yr_!!724156739-0-chatting.jpg" width="320" /><br/><br/>
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
 <br>
@@ -234,7 +234,6 @@ Name：TANKING<br/>
 WeChat：sansure2016<br/>
 Blog：https://segmentfault.com/u/tanking<br/>
 From：Guangdong Canton<br/><br/>
-<img src="https://img.alicdn.com/imgextra/i3/724156739/O1CN01vCJ0E31zeW7quL3yr_!!724156739-0-chatting.jpg" width="200" />
 
 <br>
 
