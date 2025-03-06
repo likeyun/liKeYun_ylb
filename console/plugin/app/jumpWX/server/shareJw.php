@@ -101,9 +101,9 @@
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
-        		    'longUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=click&type='.$jw_platform,
+        		    'longUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=click&type='.$jw_platform,  // 腾讯优码，你是不是借鉴了我这里？？
         		    'jw_token' => $jw_token,
-        		    'qrcodeUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=scan&type='.$jw_platform,
+        		    'qrcodeUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=scan&type='.$jw_platform, // 腾讯优码，你是不是借鉴了我这里？？
         		    't' => $current_time
     		    );
             }else{
