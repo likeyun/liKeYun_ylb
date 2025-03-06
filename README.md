@@ -234,7 +234,7 @@ Name：TANKING<br/>
 WeChat：sansure2016<br/>
 Blog：https://segmentfault.com/u/tanking<br/>
 From：Guangdong Canton<br/><br/>
-<img src="http://p18.qhimg.com/t01fa8997c05a7243cd.jpg" width="200" />
+<img src="https://img.alicdn.com/imgextra/i3/724156739/O1CN01vCJ0E31zeW7quL3yr_!!724156739-0-chatting.jpg" width="200" />
 
 <br>
 
