@@ -101,9 +101,9 @@
                 $result = array(
         		    'code' => 200,
         		    'msg' => '获取成功',
-        		    'longUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=click_url&type='.$jw_platform,
+        		    'longUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=click&type='.$jw_platform,
         		    'jw_token' => $jw_token,
-        		    'qrcodeUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=scan_qrcode&type='.$jw_platform,
+        		    'qrcodeUrl' => $longUrl . '&token=' . MD5($current_time) . '&from=scan&type='.$jw_platform,
         		    't' => $current_time
     		    );
             }else{
