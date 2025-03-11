@@ -1,0 +1,227 @@
+#createDataModal .upload-input {
+    display: flex;
+}
+
+#createDataModal input[name="jw_icon"] {
+    flex:1;
+}
+#createDataModal input[name="jw_bgimg"] {
+    flex:1;
+}
+
+#createDataModal .input-group-text {
+    /*width: 120px;*/
+    height: 38px;
+    margin-left: 10px;
+    position: relative;
+    border: none;
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+    text-align: center;
+    border-radius: 10px;
+}
+
+#createDataModal .input-group-text span {
+    width: 100%;
+}
+
+#createDataModal .input-group-text input {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    opacity: 0;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+#editDataModal .upload-input {
+    display: flex;
+}
+
+#editDataModal input[name="jw_icon"] {
+    flex:1;
+}
+#editDataModal input[name="jw_bgimg"] {
+    flex:1;
+}
+
+#editDataModal .input-group-text {
+    /*width: 120px;*/
+    height: 38px;
+    margin-left: 10px;
+    position: relative;
+    border: none;
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+    text-align: center;
+    border-radius: 10px;
+}
+
+#editDataModal .input-group-text span {
+    width: 100%;
+}
+
+#editDataModal .input-group-text input {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    opacity: 0;
+}
+
+.how-to-get {
+    color: #ccc;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.jumpPlatform {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.jumpPlatform .not-selecte {
+    background: #eee;
+    color: #999;
+}
+.jumpPlatform .is-selected {
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+}
+
+.jumpMiniPro {
+    padding: 10px;
+    background: #ccc;
+    border-radius: 10px;
+    margin-right: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.jumpMiniPro img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+
+/*投放平台*/
+.toufang_Platform {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.toufang_Platform .not-select {
+    background: #eee;
+    color: #999;
+}
+.toufang_Platform .is-selected {
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+}
+
+.toufang_Platform_tag {
+    padding: 10px;
+    background: #ccc;
+    border-radius: 10px;
+    margin-right: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.toufang_Platform_tag img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.params-tips {
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    line-height: 20px;
+    display: block;
+}
+
+.URLScheme_input {
+    max-width: 200px;
+    border: none;
+    padding: 3px 10px;
+    outline: none;
+    background: #eee!important;
+    border: 1px solid #ccc;
+    color: #999;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+#chooseIMG {
+    cursor: pointer;
+}
+
+.cz-click {
+    padding: 4px 8px;
+    width: 43px;
+    text-align: center;
+    background: #eee;
+    color: #666;
+    font-size: 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 3px;
+}
+
+/*分享*/
+#shareDataModal .modal-body .box{
+    width: 95%;
+    margin:0 auto;
+}
+#shareDataModal .modal-body .box .longUrl{
+    width: 100%;
+    margin:0 auto;
+    padding:15px 15px;
+    font-size: 15px;
+    color: #333;
+    overflow: hidden;
+    word-wrap: break-word;
+    background: #f6f6f6;
+    border-radius: 10px;
+}
+#shareDataModal .modal-body .box .longUrl .text{
+    display: block;
+    height:20px;
+    margin:0 0 0 0;
+}
+#shareDataModal .modal-body .box .shortUrl{
+    width: 100%;
+    margin:0 auto;
+    padding:15px 15px;
+    font-size: 15px;
+    color: #333;
+    overflow: hidden;
+    word-wrap: break-word;
+    background: #f6f6f6;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+#shareDataModal .modal-body .box .shortUrl .text{
+    display: block;
+    height:20px;
+    margin:0 0 0 0;
+}
+#shareDataModal .modal-body .box .Qrcode{
+    width: 200px;
+    height: 200px;
+    margin:20px auto 10px;
+}
+#shareDataModal .modal-body .box .Qrcode img{
+    width: 200px;
+    height: 200px;
+}
+#shareDataModal .modal-footer button{
+    display: block;
+    margin: 10px auto 0;
+}

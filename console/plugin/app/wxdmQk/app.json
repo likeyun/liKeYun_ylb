@@ -1,0 +1,13 @@
+{
+    "name": "微信红域名强开",
+    "desc": "强行打开已经在微信被封的域名",
+    "logo": "img/logo.png",
+    "entry": "wxdmQk",
+    "version": "1.0.0",
+    "author": "里客云科技",
+    "website": "",
+    "install": 1,
+    "install_time": "",
+    "current_status": "未安装",
+    "allow": false
+}
