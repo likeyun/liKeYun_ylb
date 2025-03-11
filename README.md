@@ -76,6 +76,7 @@ https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
 - 新增卡密分发小程序管理
 - 新增淘宝客轮播单页
 - 优化淘宝客中间页创建，抛弃接口自动解析，改为文案解析
+- 发布一个免费的插件（微信红域名强开插件），下载地址：https://likeyun.lanzout.com/icSWK2qa3jwd
 
 <br>
 
