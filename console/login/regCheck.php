@@ -14,7 +14,7 @@
 	
 	$result = array(
 	    'code' => 204,
-        'msg' => '注册功能为收费功能，网站管理员未购买注册功能的相关代码，请购买，价格19.90元，购买地址：https://viusosibp88.feishu.cn/docx/Tot8dTJJIoDw4Px1nlsc6oH9n5g'
+        'msg' => '网站管理员未开通注册功能，如果你是管理员，请获得相关代码进行开通：https://afdian.com/item/38402d64c20b11efb0515254001e7c00'
     );
 
 	// 输出JSON
