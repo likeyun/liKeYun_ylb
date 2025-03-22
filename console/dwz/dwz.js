@@ -277,7 +277,7 @@ function getDwzList(pageNum) {
                         '   <td style="text-align:right;">' + 
                         '       <span class="cz-click" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</span>' +
                         '   <span class="cz-click" onclick="resetDwzPv('+dwz_id+')" title="重置访问量">重置</span>' +
-                        '       <span class="cz-click" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz(this)">删除</span>' +
+                        '       <span class="cz-click" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz('+dwz_id+')">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -559,13 +559,9 @@ function editDwz(){
 }
 
 // 询问是否要删除短网址
-function askDelDwz(e){
+function askDelDwz(dwz_id){
     
     // 获取dwz_id
-    var dwz_id = e.id;
-    
-    // 将群id添加到button的
-    // delDwz函数用于传参执行删除
     $('#DelDwzModal .modal-footer').html(
         '<button type="button" class="default-btn" onclick="delDwz('+dwz_id+');">确定删除</button>'
     )
