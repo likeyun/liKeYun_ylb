@@ -8,6 +8,9 @@
 
 https://www.rainyun.com/TANKING_
 
+# Chatgpt镜像一键生成爆款文案标题
+https://ad.ch-at.pw/
+
 <br>
 
 # 🌟 特色功能
