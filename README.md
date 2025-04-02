@@ -45,8 +45,8 @@ https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
 - 域名检测任务插件：
 https://afdian.com/item/6e6c8d08cb3211efb12052540025c377
 
-- 私域引流宝账号有效期功能：
-https://afdian.com/item/38402d64c20b11efb0515254001e7c00
+- 私域引流宝账号有效期及用户注册兑换码功能：
+https://ifdian.net/item/38402d64c20b11efb0515254001e7c00
 
 - 卡密分发小程序源码：
 https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
