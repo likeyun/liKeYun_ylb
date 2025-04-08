@@ -1,5 +1,7 @@
 <?php
 
+    // 上次维护：2025-04-08
+
 	// 页面编码
 	header("Content-type:application/json");
 	ini_set("display_errors", "Off");
@@ -268,46 +270,27 @@
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客服码下的微信二维码'";
             
             // 域名
-            // 2025-04-08维护
-            // 新增一个字段：domain_beizhu
             $huoma_domain = "CREATE TABLE `huoma_domain` (
               `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
               `domain_id` int(10) DEFAULT NULL COMMENT '域名ID',
-              `domain_type` int(2) DEFAULT NULL COMMENT '域名类型1入口2落地3短链4备用5对象存储）',
+              `domain_type` int(2) DEFAULT NULL COMMENT '域名类型（1入口 2落地 3短链 4备用 5对象存储）',
               `domain` text COMMENT '域名',
               `domain_beizhu` varchar(32) DEFAULT NULL COMMENT '备注',
-              `domain_wxban` int(1) NOT NULL DEFAULT '3' COMMENT '微信检测1正常2被封3未检测4检测失败5非官方6检测接口失效',
               `domain_usergroup` varchar(255) DEFAULT NULL COMMENT '授权用户组'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='域名库'";
-            
-            // 域名检测任务
-            // 2024-06-05维护
-            // 新增一个表：ylb_domainCheckTasks
-            $ylb_domainCheckTasks = "CREATE TABLE `ylb_domainCheckTasks` (
-              `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
-              `domainCheckTasks_id` int(10) DEFAULT NULL COMMENT '任务id',
-              `domainCheckTasks_domain` text COMMENT '检测的域名',
-              `domainCheckTasks_wxban` int(1) NOT NULL DEFAULT '3' COMMENT '微信检测结果1正常2被封3未检测4检测失败5非官方6检测接口失效',
-              `domainCheckTasks_qqban` int(1) NOT NULL DEFAULT '3' COMMENT 'QQ检测结果1正常2被封3未检测4检测失败5非官方6检测接口失效',
-              `domainCheckTasks_num` int(10) NOT NULL DEFAULT '0' COMMENT '检测次数',
-              `domainCheckTasks_status` int(1) NOT NULL DEFAULT '1' COMMENT '任务状态',
-              `domainCheckTasks_niotification` varchar(32) DEFAULT NULL COMMENT '通知渠道',
-              `domainCheckTasks_check_time` varchar(64) DEFAULT NULL COMMENT '检测时间',
-              `domainCheckTasks_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-              `domainCheckTasks_createUser` varchar(32) DEFAULT NULL COMMENT '创建者'
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='域名检测任务'";
             
             // 获取http协议类型
             $HTTP_TYPE = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
             
-            // 添加默认的域名
+            $domain = $HTTP_TYPE . $_SERVER['HTTP_HOST'];
+            $domain = addslashes($domain);
             $huoma_domain_Data = "INSERT INTO `huoma_domain` (`domain_id`, `domain_type`, `domain_beizhu`, `domain`, `domain_usergroup`) VALUES
-            (100000, 1, '入口', ".$HTTP_TYPE.$_SERVER['HTTP_HOST']."', '[\"默认\"]'),
-            (100001, 2, '落地', ".$HTTP_TYPE.$_SERVER['HTTP_HOST']."', '[\"默认\"]'),
-            (100002, 3, '生成短网址', ".$HTTP_TYPE.$_SERVER['HTTP_HOST']."', '[\"默认\"]'),
-            (100003, 4, '备用', ".$HTTP_TYPE.$_SERVER['HTTP_HOST']."', '[\"默认\"]'),
-            (100004, 5, '微信外链插件专用', ".$HTTP_TYPE.$_SERVER['HTTP_HOST']."', '[\"默认\"]'),
-            (100005, 6, '短网址专用', ".$HTTP_TYPE.$_SERVER['HTTP_HOST']."', '[\"默认\"]')";
+            (100000, 1, '入口', '{$domain}', '[\"默认\"]'),
+            (100001, 2, '落地', '{$domain}', '[\"默认\"]'),
+            (100002, 3, '生成短网址', '{$domain}', '[\"默认\"]'),
+            (100003, 4, '备用', '{$domain}', '[\"默认\"]'),
+            (100004, 5, '微信外链插件专用', '{$domain}', '[\"默认\"]'),
+            (100005, 6, '短网址专用', '{$domain}', '[\"默认\"]')";
             
             // 渠道码
             $huoma_channel = "CREATE TABLE `huoma_channel` (
@@ -449,17 +432,15 @@
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分享卡片配置'";
             
             // 域名检测
-            // 2.4.3版本正式去掉这个
-            // 不再创建这个表
-            // $huoma_domainCheck = "CREATE TABLE `huoma_domainCheck` (
-            //   `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
-            //   `domainCheck_status` int(1) NOT NULL DEFAULT '2' COMMENT '状态',
-            //   `domainCheck_channel` varchar(32) DEFAULT NULL COMMENT '通知渠道',
-            //   `domainCheck_byym` text COMMENT '备用域名'
-            // ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='域名检测'";
+            $huoma_domainCheck = "CREATE TABLE `huoma_domainCheck` (
+              `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
+              `domainCheck_status` int(1) NOT NULL DEFAULT '2' COMMENT '状态',
+              `domainCheck_channel` varchar(32) DEFAULT NULL COMMENT '通知渠道',
+              `domainCheck_byym` text COMMENT '备用域名'
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='域名检测'";
             
             // 添加默认域名检测配置
-            // $huoma_domainCheck_Data = "INSERT INTO `huoma_domainCheck` (`domainCheck_status`,`domainCheck_channel`,`domainCheck_byym`) VALUES (2,'企业微信','".$HTTP_TYPE.$_SERVER['HTTP_HOST']."')";
+            $huoma_domainCheck_Data = "INSERT INTO `huoma_domainCheck` (`domainCheck_status`,`domainCheck_channel`,`domainCheck_byym`) VALUES (2,'企业微信','".$HTTP_TYPE.$_SERVER['HTTP_HOST']."')";
             
             // 24小时访问量统计
             $huoma_hourNum = "CREATE TABLE `huoma_hourNum` (
@@ -550,7 +531,7 @@
             $ylb_usergroup = "CREATE TABLE `ylb_usergroup` (
               `id` int(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '自增ID',
               `usergroup_id` int(10) DEFAULT NULL COMMENT '用户组ID',
-              `usergroup_name` varchar(32) DEFAULT NULL COMMENT '用户组名称',
+              `usergroup_name` varchar(32) DEFAULT NULL COMMENT '用户组名称'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组'";
             
             // 添加一个默认用户组
@@ -569,6 +550,7 @@
               `kami_repeat_tiqu_interval` int(10) DEFAULT NULL COMMENT '重复提取间隔时间（单位：秒）',
               `kami_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
               `kami_status` int(1) NOT NULL DEFAULT '1' COMMENT '状态',
+              `kami_adStatus` int(1) NOT NULL DEFAULT '2' COMMENT '是否需看广告1是 2否',
               `kami_key` varchar(32) DEFAULT NULL COMMENT 'Key',
               `kami_create_user` varchar(32) DEFAULT NULL COMMENT '创建者'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
@@ -594,10 +576,8 @@
               `kmConf_xcx_title` varchar(64) DEFAULT NULL COMMENT '提取页顶部标题',
               `kmConf_adShow` int(1) NOT NULL DEFAULT '2' COMMENT '提取页广告开关',
               `kmConf_adType` int(1) NOT NULL DEFAULT '1' COMMENT '提取页广告类型',
-              `kmConf_bannerID` varchar(32) DEFAULT NULL COMMENT 'Banner广告ID',
-              `kmConf_videoID` varchar(32) DEFAULT NULL COMMENT 'video广告ID',
+              `kmConf_btntext` varchar(32) DEFAULT '看广告免费提取' COMMENT '提取按钮文字',
               `kmConf_jiliStatus` int(1) DEFAULT '2' COMMENT '激励视频广告开关',
-              `kmConf_jiliID` varchar(32) DEFAULT NULL COMMENT '激励视频广告ID',
               `kmConf_kfQrcode` text COMMENT '客服二维码',
               `kmConf_notification_text` text COMMENT '公告内容',
               `kmConf_appid` varchar(32) DEFAULT NULL COMMENT '小程序AppId',
@@ -656,7 +636,6 @@
                     $conn->query($huoma_kf_zima) === TRUE &&
                     $conn->query($huoma_domain) === TRUE &&
                     $conn->query($huoma_domain_Data) === TRUE &&
-                    $conn->query($ylb_domainCheckTasks) === TRUE &&
                     $conn->query($huoma_channel) === TRUE &&
                     $conn->query($huoma_channel_data) === TRUE &&
                     $conn->query($huoma_channel_accessdenied) === TRUE &&
@@ -666,6 +645,8 @@
                     $conn->query($huoma_tbk_config) === TRUE &&
                     $conn->query($huoma_shareCard) === TRUE &&
                     $conn->query($huoma_shareCardConfig) === TRUE &&
+                    $conn->query($huoma_domainCheck) === TRUE &&
+                    $conn->query($huoma_domainCheck_Data) === TRUE &&
                     $conn->query($huoma_hourNum) === TRUE &&
                     $conn->query($huoma_ip) === TRUE &&
                     $conn->query($huoma_ip_temp) === TRUE &&
@@ -699,7 +680,7 @@
                         'db_pass' => $db_pass,
                         'db_prefix' => '',
                         'folderNum' => $install_folder,
-                        'version' => '2.4.3'
+                        'version' => '2.4.4'
                     ];
                     
                     // 生成Db.php文件内容
@@ -715,7 +696,7 @@
                     file_put_contents($filePath, $fileContent);
                     
                     // 创建安装锁
-                    file_put_contents('./install.lock','安装锁2.4.3');
+                    file_put_contents('./install.lock','安装锁');
                     
                     // 安装成功
                     $result = array(
@@ -740,7 +721,7 @@
                     // 安装失败
                     $result = array(
                         'code' => 202,
-                        'msg' => '安装失败，报错信息：（'.$conn->error.'）如没有报错信息，请按F12打开查看网络请求进行调试！或检查数据库服务器、账号、密码、数据库名称是否正确。'
+                        'msg' => '安装失败，报错信息：（'.$conn->error.'）如没有报错信息，请按 F12 打开查看网络请求进行调试！或检查数据库服务器、账号、密码、数据库名称是否正确。'
                     );
                 }
             }
