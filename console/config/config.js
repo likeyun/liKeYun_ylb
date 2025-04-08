@@ -139,11 +139,12 @@ function getDomainNameList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th style="text-align:left;">ID</th>' +
+                '   <th>ID</th>' +
                 '   <th>类型</th>' +
-                '   <th style="width: 500px;">域名</th>' +
+                '   <th>备注</th>' +
+                '   <th>域名/落地页</th>' +
                 '   <th>授权用户组</th>' +
-                '   <th style="text-align: right;">操作</th>' +
+                '   <th>操作</th>' +
                 '</tr>'
             );
             $("#right .data-list thead").html($thead_HTML);
@@ -155,11 +156,7 @@ function getDomainNameList(pageNum) {
                 // 遍历数据
                 for (var i=0; i<res.domainList.length; i++) {
                     
-                    // 数据判断并处理
-                    // 序号
                     var xuhao = i+1;
-                    
-                    // ID
                     var domain_id = res.domainList[i].domain_id;
                     
                     // 类型
@@ -192,6 +189,9 @@ function getDomainNameList(pageNum) {
                     // 域名
                     var domain = res.domainList[i].domain;
                     
+                    // 备注
+                    var domain_beizhu = res.domainList[i].domain_beizhu ? res.domainList[i].domain_beizhu : ' - ';
+                    
                     // 授权用户组
                     var domain_usergroup = res.domainList[i].domain_usergroup;
                     if(domain_usergroup) {
@@ -220,11 +220,12 @@ function getDomainNameList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td style="text-align:left;width:100px;">'+domain_id+'</td>' +
-                        '   <td style="width:300px;"><span class="span_tag_for_config">'+domain_type+'</span></td>' +
-                        '   <td style="width:400px;word-break: break-word;">'+domain+'</td>' +
-                        '   <td style="width:300px;">'+domain_usergroup_data+'</td>' +
-                        '   <td style="width:100px;text-align:right;color:#999;cursor:pointer;" data-toggle="modal" id="'+domain_id+'" data-target="#DelDomainModal" onclick="askDelDomainName(this);"><span class="cz_click_for_config">删除</span></td>' +
+                        '   <td>'+domain_id+'</td>' +
+                        '   <td>'+domain_type+'</td>' +
+                        '   <td>'+domain_beizhu+'</td>' +
+                        '   <td style="max-width:400px;word-break: break-word;">'+domain+'</td>' +
+                        '   <td>'+domain_usergroup_data+'</td>' +
+                        '   <td data-toggle="modal" id="'+domain_id+'" data-target="#DelDomainModal" onclick="askDelDomainName(this);"><span class="light-tag">删除</span></td>' +
                         '</tr>'
                     );
                     $("#right .data-list tbody").append($tbody_HTML);
@@ -247,6 +248,7 @@ function getDomainNameList(pageNum) {
                     '</ul>'
                     );
                     $("#right .data-card .fenye").css("display","block");
+                    $('.fenye').css('width','80px');
                 }else if(res.page == res.allpage){
                     
                     // 当前页码=总页码
@@ -258,6 +260,7 @@ function getDomainNameList(pageNum) {
                     '</ul>'
                     );
                     $("#right .data-card .fenye").css("display","block");
+                    $('.fenye').css('width','80px');
                 }else{
                     
                     var $domainNameFenye_HTML = $(
@@ -269,6 +272,7 @@ function getDomainNameList(pageNum) {
                     '</ul>'
                     );
                     $("#right .data-card .fenye").css("display","block");
+                    $('.fenye').css('width','150px');
                 }
                 
                 // 渲染分页控件
@@ -823,6 +827,7 @@ function initialize_getDomainNameList(){
 // 初始化（添加域名）
 function initialize_addDomainName(){
     $("#domain").val('');
+    $("#domain_beizhu").val('');
     $("#domain_type").val('');
     hideResult();
 }

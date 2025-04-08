@@ -1,15 +1,5 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     * 205 无权限
-     */
-
 	// 页面编码
 	header("Content-type:application/json");
 	
@@ -28,6 +18,19 @@
     
     	// 实例化类
     	$db = new DB_API($config);
+    	
+        // 2025-04-08加入的自动更新
+        // 该操作是为了新增字段
+        // 新增：domain_beizhu
+        $checkExitsSQL = "SHOW COLUMNS FROM huoma_domain LIKE 'domain_beizhu'";
+        $checkExits = $db->set_table('huoma_domain')->findSql($checkExitsSQL);
+        if(!$checkExits) {
+            
+            // 不存在这个字段
+            // 新增字段
+            $Add_domain_beizhu = "ALTER TABLE huoma_domain ADD domain_beizhu VARCHAR(32) DEFAULT NULL COMMENT '域名备注'";
+            $db->set_table('huoma_domain')->findSql($Add_domain_beizhu);
+        }
     	
     	// 获取总数
     	$domainNum = count($db->set_table('huoma_domain')->findAll());

@@ -1,12 +1,4 @@
 <?php
-    
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     */
 
 	// 页面编码
 	header("Content-type:application/json");
@@ -17,14 +9,15 @@
         
         // 已登录
         $domain = trim($_POST['domain']);
+        $domain_beizhu = trim($_POST['domain_beizhu']);
         $domain_type = trim($_POST['domain_type']);
         
         // 验证域名的合法性
         function is_url($url){
-            $r = "/http[s]?:\/\/[\w.]+[\w\/]*[\w.]*\??[\w=&\+\%]*/is";
-            if(preg_match($r,$url)){
+            $r = "/http[s]?:\/\/(\*|[\w.]+)[\w\/]*[\w.]*\??[\w=&\+\%]*/is";
+            if(preg_match($r, $url)){
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -57,8 +50,23 @@
             );
         }else{
             
+            // 如果当前是泛解析域名
+            if(count(explode('*.',$domain)) > 1) {
+                
+                // 只允许添加落地域名类型
+                if($domain_type !== '2') {
+                    
+                    $result = array(
+                        'code' => 203,
+                        'msg' => '仅支持落地域名使用泛解析~'
+                    );
+                    echo json_encode($result,JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
+            }
+            
             // 域名ID生成
-            $domain_id = rand(100000,999999);
+            $domain_id = '10' . mt_rand(1000,9999);
             
             // 数据库配置
         	include '../Db.php';
@@ -92,6 +100,7 @@
             	// 插入参数
                 $addDomainName_Sql = [
                     'domain'=>$domain,
+                    'domain_beizhu'=>$domain_beizhu,
                     'domain_type'=>$domain_type,
                     'domain_id'=>$domain_id,
                     'domain_usergroup'=>'["默认"]',
