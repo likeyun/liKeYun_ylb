@@ -178,9 +178,10 @@ http://域名/install/
 
 <img src="https://g.fp.ps.netease.com/cg-image/file/67b439f35aa4a4f342213c63qJ7aKLeD06" width="500" />
 
-此为收费插件，价格200元，可以进入这个页面购买（点击->登录->再次点击这个链接->购买）：https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
+此为收费插件，价格238元，可以进入这个页面购买（点击->登录->再次点击这个链接->购买）：https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
 
-<img src="https://g.fp.ps.netease.com/cg-image/file/67b43a711e5b81411e13d004NGJzqIbz06" width="800" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/c74cac3a19ac67898cce7f078ed4a380_w1139_h1028_s381.jpeg?imageView2/2/w/1500" width="800" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/0d71cd0de4282c17710e7aa20f606c83_w1830_h880_s491.jpeg?imageView2/2/w/1500" width="800" />
 
 <br>
 
