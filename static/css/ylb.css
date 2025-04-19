@@ -48,12 +48,19 @@ input[type=file]::-webkit-file-upload-button{
     margin-bottom: 0;
     font-size: 14px;
 }
+#right .cz-tags {
+    white-space: nowrap;
+    cursor: pointer;
+}
 #right .light-tag {
     padding: 5px 10px;
     font-size: 13px;
     background: #eee;
     color: #666;
     border-radius: 10px;
+}
+#right .light-tag:hover {
+    background: #e4e4e4;
 }
 #right .dark-tag {
     padding: 5px 10px;
@@ -62,7 +69,6 @@ input[type=file]::-webkit-file-upload-button{
     background: rgba(59,94,225,0.1);
     border-radius: 10px;
 }
-
 
 /*返回上一页*/
 #app .back-lastpage {
@@ -273,6 +279,9 @@ input[type=file]::-webkit-file-upload-button{
 table th,tr,td {
     text-align: center;
     vertical-align: middle!important;
+}
+table tr:hover {
+    background: #f8f8f8;
 }
 
 #app .data-card .loading .noData{
