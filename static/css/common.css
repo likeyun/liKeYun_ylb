@@ -138,11 +138,11 @@ html body{
 #kf_beizhu{
     text-align: justify;
     color: #666;
-    padding: 15px 15px;
+    padding:15px 15px;
     margin: 15px auto 0;
-    background: #fff;
+    background: #f6f6f6;
     border-radius: 10px;
-    width: 90%;
+    width: 80%;
     font-size: 15px;
 }
 #kfzm_qrcode{
