@@ -11,30 +11,6 @@
         <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
         <link rel="stylesheet" href="../../static/css/common.css">
         <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-        <style>
-            body {
-                background: #fff!important;
-            }
-            #kf_safety_view{
-                width: 100%;
-                height: 45px;
-                background: #eafff6;
-                position: fixed;
-                top: 0;
-            }
-            .aqimg {
-                width: 180px;
-                display: block;
-                margin: 10px auto;
-            }
-            .qrcode-view {
-                width: 85%!important;
-                background: #fff;
-                box-shadow: 0 0 15px #ddd;
-                padding: 15px;
-                border-radius: 15px;
-            }
-        </style>
     </head>
 <body>
 <script type="text/javascript">
@@ -513,7 +489,7 @@
         if($kf_safety == 1){
             
             // 开启
-            echo '<div id="kf_safety_view"><img src="http://p18.qhimg.com/t11a4d74fff63e2691b302b642a.png" class="aqimg" /></div>';
+            echo '<div id="qun_safety_new"><img src="../../static/img/aqtips.png" class="aqimg" /></div>';
         }
         
         // 备注
