@@ -111,7 +111,7 @@ function getKfList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
+                '   <th>ID</th>' +
                 '   <th>标题</th>' +
                 '   <th>在线状态</th>' +
                 '   <th>循环模式</th>' +
@@ -119,8 +119,9 @@ function getKfList(pageNum) {
                 '   <th>创建时间</th>' +
                 '   <th>总访问量</th>' +
                 '   <th>今天访问量</th>' +
+                '   <th>去重</th>' +
                 '   <th>状态</th>' +
-                '   <th style="text-align: right;">操作</th>' +
+                '   <th>操作</th>' +
                 '</tr>'
             );
             $("#right .data-list thead").html($thead_HTML);
@@ -131,9 +132,6 @@ function getKfList(pageNum) {
                 // 如果有数据
                 // 遍历数据
                 for (var i=0; i<res.kfList.length; i++) {
-                    
-                    // （1）序号
-                    var xuhao = i+1;
                     
                     // 客服ID
                     var kf_id = res.kfList[i].kf_id;
@@ -154,6 +152,23 @@ function getKfList(pageNum) {
                         // 关闭
                         var kf_status = 
                         '<span class="switch-off" id="'+kf_id+'" onclick="changeKfStatus(this);">'+
+                        '   <span class="press"></span>'+
+                        '</span>';
+                    }
+                    
+                    // 去重
+                    if(res.kfList[i].kf_qc == '1'){
+                        
+                        // 开
+                        var kf_qc = 
+                        '<span class="switch-on" id="'+kf_id+'" onclick="changeKfQc(this);">'+
+                        '   <span class="press"></span>'+
+                        '</span>';
+                    }else{
+                        
+                        // 关
+                        var kf_qc = 
+                        '<span class="switch-off" id="'+kf_id+'" onclick="changeKfQc(this);">'+
                         '   <span class="press"></span>'+
                         '</span>';
                     }
@@ -223,7 +238,7 @@ function getKfList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
+                        '   <td>'+kf_id+'</td>' +
                         '   <td>'+kf_title+'</td>' +
                         '   <td>'+kf_online+'</td>' +
                         '   <td>'+kf_model+'</td>' +
@@ -231,18 +246,14 @@ function getKfList(pageNum) {
                         '   <td>'+kf_creat_time+'</td>' +
                         '   <td>'+kf_pv+'</td>' +
                         '   <td>'+kf_pv_today+'</td>' +
+                        '   <td title="开了之后，扫过码的人以后只能看到第一次扫的码。">'+kf_qc+'</td>' +
                         '   <td>'+kf_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#shareKf" onclick="shareKf('+kf_id+')">分享</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#EditKfModal" onclick="getKfInfo(this)" id="'+kf_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" id="'+kf_id+'" title="上传客服二维码" data-toggle="modal" data-target="#kfQrcodeListModal" onclick="getKfQrcodeList(this);">上传</span>' +
-                        '               <span class="dropdown-item" onclick="resetKfPv('+kf_id+')" title="重置总访问量和今日访问量">重置</span>' +
-                        '               <span class="dropdown-item" id="'+kf_id+'" data-toggle="modal" data-target="#delKfModal" onclick="askDelKf(this)">删除</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#shareKf" onclick="shareKf('+kf_id+')">分享</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#EditKfModal" onclick="getKfInfo(this)" id="'+kf_id+'">编辑</span>' +
+                        '       <span class="light-tag" id="'+kf_id+'" data-toggle="modal" data-toggle="modal" data-target="#kfQrcodeListModal" onclick="getKfQrcodeList(this);">上传</span>' +
+                        '       <span class="light-tag" onclick="resetKfPv('+kf_id+')" title="重置总访问量和今日访问量">重置</span>' +
+                        '       <span class="light-tag" id="'+kf_id+'" data-toggle="modal" data-target="#delKfModal" onclick="askDelKf(this)">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -394,6 +405,37 @@ function changeKfStatus(e){
             
             // 服务器发生错误
             showNotification('changeKfStatus.php发生错误！');
+        }
+    });
+}
+
+// 去重开关切换
+function changeKfQc(e){
+
+    // 修改
+    $.ajax({
+        type: "POST",
+        url: "./changeKfQc.php?kf_id="+e.id,
+        success: function(res){
+            
+            // 成功
+            if(res.code == 200){
+                
+                // 刷新
+                getKfList();
+                
+                // 显示全局信息提示弹出提示
+                showNotification(res.msg);
+            }else{
+                
+                // 显示全局信息提示弹出提示
+                showNotification(res.msg);
+            }
+        },
+        error: function() {
+            
+            // 服务器发生错误
+            showNotification('changeKfQc.php发生错误！');
         }
     });
 }
@@ -1121,29 +1163,33 @@ function resetKfQrcode(e){
     // zm_id
     var zm_id = e.id;
     
-    // 执行重置
-    $.ajax({
-        type: "GET",
-        url: "./resetKfQrcode.php?zm_id="+zm_id,
-        success: function(res){
-            
-            // 成功
-            if(res.code == 200){
-
-                // 刷新客服二维码列表
-                refreshKfQrcodeList(res.kf_id)
-            }else{
+    if(confirm("确定要重置？")) {
+        
+        // 执行重置
+        $.ajax({
+            type: "GET",
+            url: "./resetKfQrcode.php?zm_id="+zm_id,
+            success: function(res){
                 
-                // 操作失败
-                showErrorResult(res.msg)
+                // 成功
+                if(res.code == 200){
+    
+                    // 刷新客服二维码列表
+                    refreshKfQrcodeList(res.kf_id)
+                }else{
+                    
+                    // 操作失败
+                    showErrorResult(res.msg)
+                }
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                showErrorResultForphpfileName('resetKfQrcode.php');
             }
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            showErrorResultForphpfileName('resetKfQrcode.php');
-        }
-    });
+        });
+    }
+    
 }
 
 // 分享客服码
@@ -1509,21 +1555,23 @@ function getSuCaiFenyeData(e){
 // 重置客服访问量
 function resetKfPv(kf_id){
     
-    $.ajax({
-        type: "POST",
-        url: "resetKfPv.php?kf_id=" + kf_id,
-        success: function(res){
-            
-            // 成功
-            showNotification(res.msg);
-            setTimeout('getKfList()',500);
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            showNotification('服务器发生错误');
-        }
-    });
+    if(confirm("确定要重置？")) {
+        $.ajax({
+            type: "POST",
+            url: "resetKfPv.php?kf_id=" + kf_id,
+            success: function(res){
+                
+                // 成功
+                showNotification(res.msg);
+                setTimeout('getKfList()',500);
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                showNotification('服务器发生错误');
+            }
+        });
+    }
 }
 
 // 注销登录
