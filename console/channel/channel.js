@@ -109,14 +109,15 @@ function getChannelList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th style="text-align:left;">标题</th>' +
+                '   <th>ID</th>' +
+                '   <th>标题</th>' +
                 '   <th>创建时间</th>' +
                 '   <th>总访问量</th>' +
                 '   <th>今天访问量</th>' +
                 '   <th>设备访问量</th>' +
                 '   <th>数据量</th>' +
                 '   <th>状态</th>' +
-                '   <th style="text-align: right;">操作</th>' +
+                '   <th>操作</th>' +
                 '</tr>'
             );
             $("#right .data-list thead").html($thead_HTML);
@@ -133,6 +134,7 @@ function getChannelList(pageNum) {
                     // var xuhao = i+1;
                     
                     // （2）标题
+                    var channel_id = res.channelList[i].channel_id;
                     var channel_title = res.channelList[i].channel_title;
                     
                     // 状态
@@ -222,24 +224,20 @@ function getChannelList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td style="text-align:left;">'+channel_title+'</td>' +
+                        '   <td>'+channel_id+'</td>' +
+                        '   <td>'+channel_title+'</td>' +
                         '   <td>'+channel_creat_time+'</td>' +
                         '   <td>'+channel_pv+'</td>' +
                         '   <td>'+channel_pv_today+'</td>' +
                         '   <td>'+channel_device_pv_tags+'</td>' +
                         '   <td>'+channel_DataTotal+'</td>' +
                         '   <td>'+channel_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#shareChannelHm" onclick="shareChannel('+channel_id+')">分享</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editChannelModal" onclick="getChannelInfo(this)" id="'+channel_id+'">编辑</span>' +
-                        '               <a class="dropdown-item" href="./channelData.html?channelid='+channel_id+'" title="查看当前渠道的数据">数据</a>' +
-                        '               <span class="dropdown-item" onclick="resetChannelPv('+channel_id+')" title="重置总访问量和今日访问量">重置</span>' +
-                        '               <span class="dropdown-item" id="'+channel_id+'" data-toggle="modal" data-target="#DelChannelHm" onclick="askDelChannel(this)">删除</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#shareChannelHm" onclick="shareChannel('+channel_id+')">分享</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#editChannelModal" onclick="getChannelInfo(this)" id="'+channel_id+'">编辑</span>' +
+                        '       <a class="light-tag" href="./channelData.html?channelid='+channel_id+'" title="查看当前渠道的数据">数据</a>' +
+                        '       <span class="light-tag" onclick="resetChannelPv('+channel_id+')" title="重置总访问量和今日访问量">重置</span>' +
+                        '       <span class="light-tag" id="'+channel_id+'" data-toggle="modal" data-target="#DelChannelHm" onclick="askDelChannel(this)">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -591,21 +589,24 @@ function shareChannel(channel_id){
 // 重置访问量
 function resetChannelPv(channel_id){
     
-    $.ajax({
-        type: "POST",
-        url: "resetChannelPv.php?channel_id=" + channel_id,
-        success: function(res){
-            
-            // 成功
-            showNotification(res.msg);
-            setTimeout('getChannelList()',500);
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            showNotification('服务器发生错误')
-        }
-    });
+    if(confirm("确定要重置？")) {
+        
+        $.ajax({
+            type: "POST",
+            url: "resetChannelPv.php?channel_id=" + channel_id,
+            success: function(res){
+                
+                // 成功
+                showNotification(res.msg);
+                setTimeout('getChannelList()',500);
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                showNotification('服务器发生错误')
+            }
+        });
+    }
 }
 
 // 切换switch
