@@ -16,15 +16,7 @@
     
 <?php
 
-    /**
-     * 标题：群活码公共页面
-     * 维护：2024年1月3日
-     * 作者：TANKING
-     * 博客：https://segmentfault.com/u/tanking
-     * 该软件遵循MIT开源协议。
-     */
-     
-    // 页面编码
+    // 编码
     header("Content-type:text/html;charset=utf-8");
     
     // 获取参数
@@ -171,7 +163,7 @@
                             if($qun_kf_status == 1){
                                 
                                 // 显示一个超链接
-                                echo '<div id="qun_kf"><a href="'.$qun_kf.'">联系客服</a></div>';
+                                echo '<div id="qun_kf"><a href="'.$qun_kf.'">👉 联系客服</a></div>';
                                 echo '<div style="width:100%;height:50px;"></div>';
                             }
                             
@@ -411,11 +403,7 @@
         if($qun_safety == 1){
             
             // 开启
-            echo '
-            <div id="qun_safety">
-                <div class="icon"></div>
-                <div class="text">二维码已通过安全验证</div>
-            </div>';
+            echo '<div id="qun_safety_new"><img src="../../static/img/aqtips.png" /></div>';
         }
         
         // 备注
