@@ -158,21 +158,33 @@
                                 // 去重
                                 if($kf_qc == 1) {
                                     
-                                    // 读取cookie
-                                    // 渲染当前设备第一次扫码展示的存储到cookie的子码
+                                    // 读取Cookie
+                                    // 渲染当前设备第一次扫码展示的存储到Cookie的子码
                                     if ($_COOKIE[$kid] && !empty($_COOKIE[$kid])) {
                                         
+                                        // 读取到Cookie
                                         echo '
                                         <p id="scanTips">请长按下方二维码添加微信</p>
                                         <div id="zm_qrcode" class="qrcode-view">
                                             <img src="'.$_COOKIE[$kid].'" />
                                         </div>';
+                                        
+                                        // 强行退出，不再执行下方代码
                                         exit;
+                                    }else {
+                                        
+                                        // 未读取到Cookie
+                                        // 渲染当前随机的子码
+                                        echo '
+                                        <p id="scanTips">请长按识别二维码添加微信</p>
+                                        <div id="zm_qrcode" class="qrcode-view">
+                                            <img src="'.$zm_qrcode.'" />
+                                        </div>';
                                     }
                                 }else {
                                     
                                     // 未开启去重
-                                    // 渲染当前随机的子码
+                                    // 渲染当前符合阈值条件的子码
                                     echo '
                                     <p id="scanTips">请长按识别二维码添加微信</p>
                                     <div id="zm_qrcode" class="qrcode-view">
@@ -258,16 +270,28 @@
                                 // 去重
                                 if($kf_qc == 1) {
                                     
-                                    // 读取cookie
-                                    // 渲染当前设备第一次扫码展示的存储到cookie的子码
+                                    // 读取 Cookie
+                                    // 渲染当前设备第一次扫码展示的存储到 Cookie 的子码
                                     if ($_COOKIE[$kid] && !empty($_COOKIE[$kid])) {
                                         
+                                        // 读取到 Cookie
                                         echo '
                                         <p id="scanTips">请长按下方二维码添加微信</p>
                                         <div id="zm_qrcode" class="qrcode-view">
                                             <img src="'.$_COOKIE[$kid].'" />
                                         </div>';
+                                        
+                                        // 强行退出，不再执行下方代码
                                         exit;
+                                    }else {
+                                        
+                                        // 未读取到 Cookie
+                                        // 渲染当前随机的子码
+                                        echo '
+                                        <p id="scanTips">请长按识别二维码添加微信</p>
+                                        <div id="zm_qrcode" class="qrcode-view">
+                                            <img src="'.$zm_qrcode.'" />
+                                        </div>';
                                     }
                                 }else {
                                     
