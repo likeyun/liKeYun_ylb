@@ -727,6 +727,10 @@ table th,tr,td {
 	width: 96%;
 	margin:18px auto 0;
 	font-size: 15px;
+	overflow: auto; /*2025新增优化*/
+}
+#right .data-card .data-list thead{
+	white-space: nowrap; /*2025新增优化，确保所有的th文字保持不换行*/
 }
 #right .data-list tbody{
     color: #555;
