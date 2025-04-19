@@ -1,6 +1,6 @@
 <?php
 
-    // 上次维护：2025-04-08
+    // 上次维护：2025-04-19
 
 	// 页面编码
 	header("Content-type:application/json");
@@ -243,6 +243,7 @@
               `kf_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态（1正常 2停用）',
               `kf_creat_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
               `kf_pv` int(10) NOT NULL DEFAULT '0' COMMENT '访问量',
+              `kf_qc` int(1) NOT NULL DEFAULT '2' COMMENT '去重1开 2关',
               `kf_today_pv` varchar(64) DEFAULT NULL COMMENT '今天的访问量',
               `kf_rkym` text COMMENT '入口域名',
               `kf_ldym` text COMMENT '落地域名',
