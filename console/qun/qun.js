@@ -111,8 +111,7 @@ function getQunList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th>序号</th>' +
-                '   <th>活码ID</th>' +
+                '   <th>ID</th>' +
                 '   <th>标题</th>' +
                 '   <th>客服</th>' +
                 '   <th>去重</th>' +
@@ -121,7 +120,7 @@ function getQunList(pageNum) {
                 '   <th>总访问量</th>' +
                 '   <th>今天访问量</th>' +
                 '   <th>状态</th>' +
-                '   <th style="text-align: right;">操作</th>' +
+                '   <th>操作</th>' +
                 '</tr>'
             );
             $("#right .data-list thead").html($thead_HTML);
@@ -220,7 +219,6 @@ function getQunList(pageNum) {
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td>'+xuhao+'</td>' +
                         '   <td>'+qun_id+'</td>' +
                         '   <td>'+res.qunList[i].qun_title+'</td>' +
                         '   <td>'+qun_kf_status+'</td>' +
@@ -230,17 +228,12 @@ function getQunList(pageNum) {
                         '   <td>'+res.qunList[i].qun_pv+'</td>' +
                         '   <td>'+qun_pv_today+'</td>' +
                         '   <td>'+qun_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#shareQunModal" onclick="shareQun('+qun_id+')">分享</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editQunModal" onclick="getQunInfo(this)" id="'+qun_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#qunQrcodeListModal" onclick="getQunQrcodeList('+qun_id+');">上传</span>' +
-                        '               <span class="dropdown-item" onclick="resetQunPv('+qun_id+')" title="重置总访问量和今日访问量">重置</span>' +
-                        '               <span class="dropdown-item" id="'+qun_id+'" data-toggle="modal" data-target="#delQunModal" onclick="askDelQun(this)">删除</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#shareQunModal" onclick="shareQun('+qun_id+')">分享</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#editQunModal" onclick="getQunInfo(this)" id="'+qun_id+'">编辑</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#qunQrcodeListModal" onclick="getQunQrcodeList('+qun_id+');">上传</span>' +
+                        '       <span class="light-tag" onclick="resetQunPv('+qun_id+')" title="重置总访问量和今日访问量">重置</span>' +
+                        '       <span class="light-tag" id="'+qun_id+'" data-toggle="modal" data-target="#delQunModal" onclick="askDelQun(this)">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -1107,29 +1100,32 @@ function resetQunQrcode(e){
     // zm_id
     var zm_id = e.id;
     
-    // 执行重置
-    $.ajax({
-        type: "GET",
-        url: "./resetQunQrcode.php?zm_id="+zm_id,
-        success: function(res){
-            
-            // 成功
-            if(res.code == 200){
-
-                // 刷新二维码列表
-                freshenQunQrcodeList(res.qun_id)
-            }else{
+    if(confirm("确定要重置？")) {
+       
+        // 执行重置
+        $.ajax({
+            type: "GET",
+            url: "./resetQunQrcode.php?zm_id="+zm_id,
+            success: function(res){
                 
-                // 操作反馈（操作失败）
-                showErrorResult(res.msg)
+                // 成功
+                if(res.code == 200){
+    
+                    // 刷新二维码列表
+                    freshenQunQrcodeList(res.qun_id)
+                }else{
+                    
+                    // 操作反馈（操作失败）
+                    showErrorResult(res.msg)
+                }
+            },
+            error: function() {
+                
+                // 服务器发生错误
+                showErrorResultForphpfileName('resetQunQrcode.php');
             }
-        },
-        error: function() {
-            
-            // 服务器发生错误
-            showErrorResultForphpfileName('resetQunQrcode.php');
-        }
-    });
+        }); 
+    }
 }
 
 // 分享群活码
@@ -1561,20 +1557,22 @@ function getSuCaiFenyeData(e){
 // 重置群活码总访问量以及今日访问量
 function resetQunPv(qun_id){
     
-    $.ajax({
-        type: "POST",
-        url: "resetQunPv.php?qun_id=" + qun_id,
-        success: function(res){
-            
-            // 成功
-            showNotification(res.msg);
-            setTimeout('getQunList()',500);
-        },
-        error: function() {
-            
-            showNotification('服务器发生错误');
-        }
-    });
+    if(confirm("确定要重置？")) {
+        $.ajax({
+            type: "POST",
+            url: "resetQunPv.php?qun_id=" + qun_id,
+            success: function(res){
+                
+                // 成功
+                showNotification(res.msg);
+                setTimeout('getQunList()',500);
+            },
+            error: function() {
+                
+                showNotification('服务器发生错误');
+            }
+        });
+    }
 }
 
 // 注销登录
