@@ -11,6 +11,30 @@
         <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
         <link rel="stylesheet" href="../../static/css/common.css">
         <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+        <style>
+            body {
+                background: #fff!important;
+            }
+            #kf_safety_view{
+                width: 100%;
+                height: 45px;
+                background: #eafff6;
+                position: fixed;
+                top: 0;
+            }
+            .aqimg {
+                width: 180px;
+                display: block;
+                margin: 10px auto;
+            }
+            .qrcode-view {
+                width: 85%!important;
+                background: #fff;
+                box-shadow: 0 0 15px #ddd;
+                padding: 15px;
+                border-radius: 15px;
+            }
+        </style>
     </head>
 <body>
 <script type="text/javascript">
@@ -85,6 +109,7 @@
             $kf_safety = getSqlData($getKfInfoResult,'kf_safety'); // 顶部安全提示 1显示 2隐藏
             $kf_beizhu = getSqlData($getKfInfoResult,'kf_beizhu'); // 文案
             $kf_onlinetimes = getSqlData($getKfInfoResult,'kf_onlinetimes'); // 在线时间配置
+            $kf_qc = getSqlData($getKfInfoResult,'kf_qc'); // 定制功能，去重
             
             // 客服活码的状态
             if($kf_status == 1){
@@ -154,12 +179,30 @@
                                 // 顶部三件套（标题、扫码安全验证提示显隐状态、备注）
                                 topMsg($kf_title,$kf_safety,$kf_beizhu);
                                 
-                                // 展示微信二维码
-                                echo '
-                                <p id="scanTips">请长按下方二维码联系客服</p>
-                                <div id="kfzm_qrcode">
-                                    <img src="'.$zm_qrcode.'" />
-                                </div>';
+                                // 去重
+                                if($kf_qc == 1) {
+                                    
+                                    // 读取cookie
+                                    // 渲染当前设备第一次扫码展示的存储到cookie的子码
+                                    if ($_COOKIE[$kid] && !empty($_COOKIE[$kid])) {
+                                        
+                                        echo '
+                                        <p id="scanTips">请长按下方二维码添加微信</p>
+                                        <div id="zm_qrcode" class="qrcode-view">
+                                            <img src="'.$_COOKIE[$kid].'" />
+                                        </div>';
+                                        exit;
+                                    }
+                                }else {
+                                    
+                                    // 未开启去重
+                                    // 渲染当前随机的子码
+                                    echo '
+                                    <p id="scanTips">请长按识别二维码添加微信</p>
+                                    <div id="zm_qrcode" class="qrcode-view">
+                                        <img src="'.$zm_qrcode.'" />
+                                    </div>';
+                                }
                                 
                                 // 微信号
                                 echo 
@@ -178,6 +221,13 @@
                                 // 更新当前微信二维码的访问量
                                 // 仅更新符合当前阈值条件的zm_id的微信二维码的访问量
                                 updateKfQrcodePv($db,$zm_id,$zm_pv);
+                                
+                                // 将当前子码存储到cookie
+                                if ($_COOKIE[$kid] == null) {
+
+                                    $cookie_expire = time() + (30 * 24 * 60 * 60); // 30天
+                                    setcookie($kid, $zm_qrcode, $cookie_expire);
+                                }
                                 
                                 // 只需要获取符合当前阈值条件的第一个结果
                                 // 所以循环一次就得跳出去
@@ -225,18 +275,38 @@
                         
                             // 如果状态为1，才继续执行
                             if ($zm_status == 1) {
-                        
-                                // 顶部三件套（标题、扫码安全验证提示状态、备注）
+                                
+                                // 顶部三件套
                                 topMsg($kf_title, $kf_safety, $kf_beizhu);
                                 
-                                echo '
-                                <p id="scanTips">请长按识别二维码添加微信</p>
-                                <div id="kfzm_qrcode">
-                                    <img src="'.$zm_qrcode.'" />
-                                </div>';
+                                // 去重
+                                if($kf_qc == 1) {
+                                    
+                                    // 读取cookie
+                                    // 渲染当前设备第一次扫码展示的存储到cookie的子码
+                                    if ($_COOKIE[$kid] && !empty($_COOKIE[$kid])) {
+                                        
+                                        echo '
+                                        <p id="scanTips">请长按下方二维码添加微信</p>
+                                        <div id="zm_qrcode" class="qrcode-view">
+                                            <img src="'.$_COOKIE[$kid].'" />
+                                        </div>';
+                                        exit;
+                                    }
+                                }else {
+                                    
+                                    // 未开启去重
+                                    // 渲染当前随机的子码
+                                    echo '
+                                    <p id="scanTips">请长按识别二维码添加微信</p>
+                                    <div id="zm_qrcode" class="qrcode-view">
+                                        <img src="'.$zm_qrcode.'" />
+                                    </div>';
+                                }
                                 
                                 // 如果微信号非空
                                 if (!empty($zm_num)) {
+                                    
                                     // 微信号
                                     echo 
                                     '<p id="wxnum">
@@ -247,6 +317,7 @@
                                 
                                 // 在线状态
                                 if ($kf_online == 1) {
+                                    
                                     // 开启
                                     // 传JSON配置
                                     showOnlineStatus($kf_onlinetimes);
@@ -254,6 +325,13 @@
                         
                                 // 更新当前二维码的访问量（仅更新符合当前阈值条件的二维码的访问量）
                                 updateKfQrcodePv($db, $zm_id, $zm_pv);
+                                
+                                // 将当前子码存储到cookie
+                                if ($_COOKIE[$kid] == null) {
+
+                                    $cookie_expire = time() + (30 * 24 * 60 * 60); // 30天
+                                    setcookie($kid, $zm_qrcode, $cookie_expire);
+                                }
                                 
                                 // 只输出第一个符合状态为1的二维码，立即跳出循环
                                 break;
@@ -435,10 +513,7 @@
         if($kf_safety == 1){
             
             // 开启
-            echo '<div id="kf_safety">
-            <div class="icon"></div>
-                <div class="text">二维码已通过安全验证</div>
-            </div>';
+            echo '<div id="kf_safety_view"><img src="http://p18.qhimg.com/t11a4d74fff63e2691b302b642a.png" class="aqimg" /></div>';
         }
         
         // 备注
