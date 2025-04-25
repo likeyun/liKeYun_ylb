@@ -3563,72 +3563,71 @@ input[type=file]::-webkit-file-upload-button {
     margin-top: 20px;
 }
 
-/*插件中心*/
-#right .data-list .plugin-card {
-    width: 100%;
-    height: 80px;
-    background: #fff;
-    display: flex;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-}
+/*插件卡片旧样式*/
+/*#right .data-list .plugin-card {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));*/
+/*    gap: 12px;*/
+/*    margin-top: 20px;*/
+/*    padding: 0 8px;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-logo {*/
+/*    width: 80px;*/
+/*    height: 80px;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-logo img {*/
+/*    width: 45px;*/
+/*    height: 45px;*/
+/*    margin: 17.5px auto;*/
+/*    border-radius: 100px;*/
+/*    display: block;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-info {*/
+/*    flex: 2;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-info .plugin-name {*/
+/*   width: 100%;*/
+/*   height: 45px;*/
+/*   line-height: 55px;*/
+/*   font-size: 18px;*/
+/*   color: #333;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-info .plugin-desc {*/
+/*   width: 100%;*/
+/*   height: 35px;*/
+/*   line-height: 20px;*/
+/*   font-size: 15px;*/
+/*   color: #999;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-btn {*/
+/*    width: 230px;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-btn .btn-conf{*/
+/*    width: 90px;*/
+/*    height: 35px;*/
+/*    border-radius: 10px;*/
+/*    float: right;*/
+/*    background: #3B5EE1;*/
+/*    margin: 22.5px 15px 0 0;*/
+/*    line-height: 35px;*/
+/*    font-size: 14px;*/
+/*    color: #fff;*/
+/*    text-align: center;*/
+/*    cursor: pointer;*/
+/*}*/
+/*#right .data-list .plugin-card .plugin-btn .install-uninstall {*/
+/*    color: rgb(59,94,225);*/
+/*    background: rgba(59,94,225,0.1);*/
+/*}*/
 
-#right .data-list .plugin-card .plugin-logo {
-    width: 80px;
-    height: 80px;
-}
-#right .data-list .plugin-card .plugin-logo img {
-    width: 45px;
-    height: 45px;
-    margin: 17.5px auto;
-    border-radius: 100px;
-    display: block;
-}
-#right .data-list .plugin-card .plugin-info {
-    flex: 2;
-}
-#right .data-list .plugin-card .plugin-info .plugin-name {
-   width: 100%;
-   height: 45px;
-   line-height: 55px;
-   font-size: 18px;
-   color: #333;
-}
-#right .data-list .plugin-card .plugin-info .plugin-desc {
-   width: 100%;
-   height: 35px;
-   line-height: 20px;
-   font-size: 15px;
-   color: #999;
-}
-#right .data-list .plugin-card .plugin-btn {
-    width: 230px;
-}
-#right .data-list .plugin-card .plugin-btn .btn-conf{
-    width: 90px;
-    height: 35px;
-    border-radius: 10px;
-    float: right;
-    background: #3B5EE1;
-    margin: 22.5px 15px 0 0;
-    line-height: 35px;
-    font-size: 14px;
-    color: #fff;
-    text-align: center;
-    cursor: pointer;
-}
-#right .data-list .plugin-card .plugin-btn .install-uninstall {
-    color: rgb(59,94,225);
-    background: rgba(59,94,225,0.1);
-}
 
 /*插件卡片新样式*/
 #right .data-list .plugin-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-    margin-top: 25px;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 0 8px 5px;
 }
 
 #right .data-list .plugin_card {
@@ -3637,6 +3636,11 @@ input[type=file]::-webkit-file-upload-button {
     border-radius: 15px;
     position: relative;
     background: #f6f6f6;
+}
+
+#right .data-list .plugin_card:hover {
+    box-shadow: 0 0 0 1px #ddd;
+    cursor: pointer;
 }
 
 #right .data-list .plugin_card .plugin_logo {
@@ -3668,7 +3672,7 @@ input[type=file]::-webkit-file-upload-button {
     text-align: center;
     margin: 10px auto 0;
     font-size: 14px;
-    color: #999;
+    color: #888;
     text-overflow: -o-ellipsis-lastline;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3679,30 +3683,33 @@ input[type=file]::-webkit-file-upload-button {
 }
 
 #right .data-list .plugin_card .plugin_btn {
-    width: 80%;
-    margin: 0 auto;
     display: flex;
-    position: absolute;
-    bottom: 15px;
-    left: 0;
-    right: 0;
+    gap: 8px;
+    width: 80%;
+    margin: 12px auto;
 }
 #right .data-list .plugin_card .plugin_btn .action_btn {
     flex: 1;
     font-size: 14px;
     text-align: center;
-    padding: 3px 0;
-    border-radius: 6px;
+    padding: 4px 0;
+    border-radius: 8px;
     background: #3B5EE1;
     color: #fff;
     cursor: pointer;
 }
 #right .data-list .plugin_card .plugin_btn .action_uninstall {
-    margin-right: 10px;
     color: rgb(59,94,225);
     background: rgba(59,94,225,0.1);
 }
-
+#button-view .right-btn{
+    float:right;
+    margin-left:10px;
+}
+#button-view .right-btn:hover{
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.15);
+}
 
 /*卡密分发*/
 #right .data-list .sj-span {
