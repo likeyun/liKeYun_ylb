@@ -206,21 +206,21 @@ input[type=file]::-webkit-file-upload-button{
 
 /*faq样式*/
 #app .faq{
-	width: 22px;
-	height: 22px;
+	width: 20px;
+	height: 20px;
 	border-radius: 100px;
-	background: #3b5ee1;
-	font-size: 12px;
+	background: rgba(59,94,225,0.1);
+	font-size: 10px;
 	font-weight: bold;
-	line-height: 22px;
+	line-height: 20px;
 	text-align: center;
 	display: block;
-	color: #fff;
+	color: rgb(59,94,225);
 	float: left;
 	margin-top: 10px;
 }
 #app .faq a{
-	color: #fff;
+	color: rgb(59,94,225);
 	text-decoration: none;
 	display: block;
 }
@@ -237,21 +237,23 @@ input[type=file]::-webkit-file-upload-button{
 }
 #app .result{
 	width: 94%;
-	margin:0 auto 15px;
+	margin: 0 auto 15px;
 }
 #app .result .success{
-	border-radius: 5px;
-	padding:10px 10px;
+	border-radius: 8px;
+	padding: 10px 15px;
 	background: rgba(0,11,172,0.1);
 	color: rgb(0,11,172);
 	display: none;
+	font-size: 15px;
 }
 #app .result .error{
-	border-radius: 5px;
-	padding:10px 10px;
-	background: rgba(244,97,92,0.1);
+	border-radius: 8px;
+	padding: 10px 15px;
+	background: rgba(244,97,92,0.08);
 	color: rgb(244,97,92);
 	display: none;
+	font-size: 15px;
 }
 #app .data-card .loading{
 	text-align: center;
@@ -267,7 +269,6 @@ input[type=file]::-webkit-file-upload-button{
 
 #qunQrcodeListModal table{
 	text-align: center;
-	margin-top: 50px;
 	font-size: 14px;
 	color: #999;
 }
@@ -367,7 +368,7 @@ table tr:hover {
 	margin:0 auto;
 }
 #app .left{
-	width: 272px;
+	width: 250px;
 	height: 100%;
 	background: #fff;
 	position: fixed;
@@ -376,11 +377,11 @@ table tr:hover {
 	box-shadow: 0px 3px 8px #eee;
 }
 #app .left .dhview{
-	width: 224px;
+	width: 214px;
 	margin: 30px auto;
 }
 #app .left .dhview .logo{
-	width: 224px;
+	width: 214px;
 	height: 55px;
 	margin-bottom: 30px;
 	background-image: url('../img/index_logo.png');
@@ -389,7 +390,7 @@ table tr:hover {
 	background-repeat: no-repeat;
 }
 #app .left .dhview ul li{
-	width: 224px;
+	width: 214px;
 	height: 43px;
 	line-height: 43px;
 	list-style: none;
@@ -552,16 +553,16 @@ table tr:hover {
 
 /*左侧导航已选样式-旧*/
 #app .left .dhview .selected{
-    font-weight: bold;
-    border-radius: 10px;
+    /*font-weight: bold;*/
+    border-radius: 8px;
     color: rgb(59,94,225);
-    background: rgba(59,94,225,0.1);
+    background: rgba(59,94,225,0.08);
     display: block;
     text-decoration: none;
 }
 
 #app .left .account{
-	width: 224px;
+	width: 214px;
 	margin: 0 auto;
 	background: #f7f7f7;
 	border-radius: 10px;
@@ -599,7 +600,7 @@ table tr:hover {
 /*右侧布局*/
 #right{
     height: 100%;
-    margin-left: 330px;
+    margin-left: 300px;
     margin-bottom: 100px;
 }
 #right h4{
@@ -608,12 +609,13 @@ table tr:hover {
 }
 #right h3{
 	color: #333;
+	font-size: 23px;
 	margin-top: 40px;
 }
 #right .data-card{
 	width: calc(100% - 60px);
 	background: #fff;
-	border-radius: 15px;
+	border-radius: 12px;
 	padding:20px 0;
 	margin:15px 0 0 0;
 	box-shadow: 0px 3px 8px #eee;
@@ -689,16 +691,15 @@ table tr:hover {
 	margin-left: 10px;
 }
 
-
 /*默认按钮样式*/
 #app .default-btn{
 	border: none;
     color: #fff;
     background: rgb(59,94,225);
-	padding: 7px 15px;
+	padding: 6px 15px;
 	outline: none;
 	border-radius: 8px;
-	font-size: 15px;
+	font-size: 14px;
 }
 /*鼠标移动到默认按钮样式*/
 #app .default-btn:hover{
@@ -707,12 +708,12 @@ table tr:hover {
 /*浅色按钮样式*/
 #app .tint-btn{
 	border: none;
-	color: rgb(59,94,225);
-    background: rgba(59,94,225,0.1);
-	padding: 7px 15px;
+	color: rgb(102,102,102);
+    background: rgba(238, 238, 238,0.7);
+	padding: 6px 15px;
 	outline: none;
 	border-radius: 10px;
-	font-size: 15px;
+	font-size: 14px;
 	transition: 0.1s;
 }
 /*鼠标移动到浅色按钮样式*/
@@ -1061,8 +1062,8 @@ table tr:hover {
     margin:0 auto;
 }
 #qunQrcodeListModal .modal-body .btn-view .upload-Btn-Group{
-    width: 260px;
-    height: 50px;
+    width: 285px;
+    height: 40px;
     display: block;
     margin: 10px auto 20px;
 }
@@ -1071,7 +1072,7 @@ table tr:hover {
     float: left;
 }
 #qunQrcodeListModal .modal-body .btn-view .upload-Btn-Group .sucaiku{
-    width: 120px;
+    width: 150px;
     float: right;
 }
 #qunQrcodeListModal .modal-body .sucaiku{
@@ -2563,22 +2564,22 @@ table tr:hover {
 }
 #right .data-card .tint-btn{
     border: none;
-	color: rgb(59,94,225);
-    background: rgba(59,94,225,0.1);
-	padding: 7px 15px;
+	color: rgb(102,102,102);
+    background: rgba(238, 238, 238,0.7);
+	padding: 6px 15px;
 	outline: none;
-	border-radius: 10px;
-	font-size: 15px;
+	border-radius: 8px;
+	font-size: 14px;
 	transition: 0.1s;
 }
 #right .data-card .default-btn{
     border: none;
 	color: #fff;
     background: rgba(59,94,225);
-	padding: 7px 15px;
+	padding: 6px 15px;
 	outline: none;
-	border-radius: 10px;
-	font-size: 15px;
+	border-radius: 8px;
+	font-size: 14px;
 	transition: 0.1s;
 }
 
@@ -3707,8 +3708,8 @@ input[type=file]::-webkit-file-upload-button {
     margin-left:10px;
 }
 #button-view .right-btn:hover{
-    color: rgb(59,94,225);
-    background: rgba(59,94,225,0.15);
+    color: #666;
+    background: rgba(238, 238, 238,1);
 }
 
 /*卡密分发*/
