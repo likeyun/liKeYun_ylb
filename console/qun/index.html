@@ -159,7 +159,7 @@
 
 	<!-- 创建群活码 -->
     <div class="modal fade" id="createQunModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="max-width: 650px;">
             <div class="modal-content">
                 
                 <!-- 头部 -->
@@ -174,21 +174,29 @@
                         <span class="text">标题</span>
                         <input type="text" name="qun_title" class="form-control" autocomplete="off" placeholder="标题或群名称">
                         
-                        <span class="text">短链域名</span>
-                        <select name="qun_dlym" class="form-control" title="短链域名"></select>
-                        
-                        <span class="text">入口域名</span>
-                        <select name="qun_rkym" class="form-control" title="入口域名"></select>
-                        
-                        <span class="text">落地域名</span>
-                        <select name="qun_ldym" class="form-control" title="落地域名"></select>
+                        <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">短链域名</span>
+                                <select name="qun_dlym" class="form-control" title="短链域名"></select>
+                            </div>
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">入口域名</span>
+                                <select name="qun_rkym" class="form-control" title="入口域名"></select>
+                            </div>
+                            <div style="flex:1;">
+                                <span class="text">落地域名</span>
+                                <select name="qun_ldym" class="form-control" title="落地域名"></select>
+                            </div>
+                        </div>
                     </form>
+                    <span style="color:#bbbbbb;font-size:14px;display:block;">* 生成的短链接需配置好伪静态才可正常跳转，否则跳404页面。</span>
+                    <span style="color:#bbbbbb;font-size:14px;display:block;">* 在您未了解去重功能的原理之前请勿开启去重。</span>
                 </div>
                 
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    <div class="faqnav" title="阅读使用指南">
+                    <div class="faqnav" title="阅读使用文档">
                         <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
                     </div>
                     <div class="btnnav">
@@ -275,7 +283,7 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
@@ -362,14 +370,14 @@
                         
                         <div class="upload-Btn-Group">
                             <button type="button" class="default-btn local">
-                                <span>上传二维码</span>
+                                <span>+ 上传二维码</span>
                                 <form id="uploadQunQrcodeForm" enctype="multipart/form-data">
                                     <input type="file" name="file" class="fileSelectBtn" accept="image/*" id="uploadQunQrcode" />
                                     <input text="text" name="qun_id" id="uploadQunQrcode_qunid" style="display:none;" />
                                 </form>
                             </button>
                             <button type="button" class="default-btn sucaiku" onclick="getSuCai('1','qunQrcodeListModal')">
-                                <span>从素材库选择</span>
+                                <span>+ 从素材库选择</span>
                             </button>
                         </div>
                         
@@ -392,7 +400,7 @@
                 <!-- 模态框底部 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
@@ -422,11 +430,16 @@
                 <!-- 表单 -->
                 <div class="modal-body">
                 <form id="editQunQrcode" enctype="multipart/form-data" title="读音：阈（yù）值，不是fá值。点右上角&times;可返回二维码列表">
-                    <span class="text">阈值</span>
-                    <input type="text" name="zm_yz" class="form-control" autocomplete="off" id="zm_yz_edit" placeholder="设置阈值">
-                    
-                    <span class="text">群主微信号</span>
-                    <input type="text" name="zm_leader" class="form-control" autocomplete="off" id="zm_leader_edit" placeholder="群主微信号（可空）">
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:10px;">
+                            <span class="text">阈（yù）值</span>
+                            <input type="text" name="zm_yz" class="form-control" autocomplete="off" id="zm_yz_edit" placeholder="设置阈值">
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">群主微信号</span>
+                            <input type="text" name="zm_leader" class="form-control" autocomplete="off" id="zm_leader_edit" placeholder="群主微信号（可空）">
+                        </div>
+                    </div>
                     
                     <!--上传控件-->
                     <span class="upload_file">
@@ -447,7 +460,7 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
@@ -478,7 +491,7 @@
                 <div class="modal-body">
                     <div class="sucai-upload">
                         <button type="button" class="default-btn upload_sucai_button">
-                            <span>上传素材</span>
+                            <span>+ 上传素材</span>
                             <form id="uploadSuCaiTosuCaiKuForm" enctype="multipart/form-data">
                                 <input type="file" name="file" class="upload_sucai" accept="image/*" id="uploadSuCaiTosuCaiKu" />
                                 <input text="text" name="upload_sucai_qunid" style="display:none;" />
@@ -497,7 +510,7 @@
                 <!-- 模态框底部 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
