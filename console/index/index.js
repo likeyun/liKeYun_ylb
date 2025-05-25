@@ -378,6 +378,17 @@ function projectInfo(){
     
     // HTML模板
     $openResourceInfo_HTML = `
+    <a href="https://ad.ch-at.pw" class="openResourceCard-a" target="_blank">
+    <div class="openResourceCard">
+        <div class="icon"><img src="https://img.19yxw.com/ongame/202311/d806b188d4c3ba1ebe37a4d8f060da96.png" /></div>
+        <div class="info">
+            <span class="title">Chatgpt镜像，一键生成爆款文案标题</span>
+            <span class="desc">使用Chatgpt/Claude/Grok/DeepSeek热门镜像</span>
+        </div>
+        <div class="go"></div>
+    </div>
+    </a>
+    
     <a href="https://github.com/likeyun/liKeYun_Ylb" class="openResourceCard-a" target="_blank">
     <div class="openResourceCard">
         <div class="icon"><img src="../../static/img/github-icon.png" /></div>
@@ -417,17 +428,6 @@ function projectInfo(){
         <div class="info">
             <span class="title">作者博客</span>
             <span class="desc">作者日常发文的地方</span>
-        </div>
-        <div class="go"></div>
-    </div>
-    </a>
-    
-    <a href="../../static/img/zansangma.jpg" class="openResourceCard-a" target="_blank">
-    <div class="openResourceCard">
-        <div class="icon"><img src="../../static/img/zanshang-icon.png" /></div>
-        <div class="info">
-            <span class="title">赞赏作者</span>
-            <span class="desc">给作者打赏支持作者</span>
         </div>
         <div class="go"></div>
     </div>
