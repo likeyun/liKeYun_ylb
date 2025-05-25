@@ -7,15 +7,6 @@
 # 🌐 免备案服务器推荐
 
 👉 https://www.rainyun.com/TANKING_
-
-<br>
-
-# 🌏 Chatgpt镜像
-- ✅ 一键生成爆款文案标题；
-- ✅ 一键使用Chatgpt/Claude/Grok/DeepSeek四大热门ai镜像；
-- ✅ 不会出现网络繁忙等情况，无需等待。
-- 👉 https://ad.ch-at.pw
-
 <br>
 
 # 🌟 特色功能
