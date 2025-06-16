@@ -68,7 +68,7 @@ https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
 
 # 📅 更新日志
 
-![Version Badge](https://img.shields.io/badge/Version-2.4.4-brightgreen.svg)
+![Version Badge](https://img.shields.io/badge/Version-2.4.6-brightgreen.svg)
 
 **2.4.6版本新特性：**
 - UI界面大量优化
