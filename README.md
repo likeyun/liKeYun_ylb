@@ -70,7 +70,7 @@ https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
 
 ![Version Badge](https://img.shields.io/badge/Version-2.4.4-brightgreen.svg)
 
-**2.4.4版本新特性：**
+**2.4.6版本新特性：**
 - UI界面大量优化
 - 新增群活码并流
 - 新增短网址轮询域名
@@ -82,6 +82,7 @@ https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
 - 新增淘宝客轮播单页
 - 优化淘宝客中间页创建，抛弃接口自动解析，改为文案解析
 - 发布一个免费的插件（微信红域名强开插件），下载地址：https://likeyun.lanzout.com/icSWK2qa3jwd
+- 2.4.6版本开启，可自定义活码落地页的目录名，默认是common，可改其它的
 
 <br>
 
