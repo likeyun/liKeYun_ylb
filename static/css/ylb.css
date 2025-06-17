@@ -368,7 +368,7 @@ table tr:hover {
 	margin:0 auto;
 }
 #app .left{
-	width: 250px;
+	width: 230px;
 	height: 100%;
 	background: #fff;
 	position: fixed;
@@ -377,11 +377,11 @@ table tr:hover {
 	box-shadow: 0px 3px 8px #eee;
 }
 #app .left .dhview{
-	width: 214px;
+	width: 190px;
 	margin: 30px auto;
 }
 #app .left .dhview .logo{
-	width: 214px;
+	width: 190px;
 	height: 55px;
 	margin-bottom: 30px;
 	background-image: url('../img/index_logo.png');
@@ -390,13 +390,13 @@ table tr:hover {
 	background-repeat: no-repeat;
 }
 #app .left .dhview ul li{
-	width: 214px;
-	height: 43px;
-	line-height: 43px;
+	width: 190px;
+	height: 40px;
+	line-height: 40px;
 	list-style: none;
 	text-indent: 8px;
 	font-size: 16px;
-	margin-bottom: 5px;
+	margin-bottom: 6px;
 }
 #app .left .dhview ul li:hover{
 	cursor: pointer;
@@ -562,7 +562,7 @@ table tr:hover {
 }
 
 #app .left .account{
-	width: 214px;
+	width: 190px;
 	margin: 0 auto;
 	background: #f7f7f7;
 	border-radius: 10px;
@@ -600,7 +600,7 @@ table tr:hover {
 /*右侧布局*/
 #right{
     height: 100%;
-    margin-left: 300px;
+    margin-left: 280px;
     margin-bottom: 100px;
 }
 #right h4{
@@ -616,8 +616,8 @@ table tr:hover {
 	width: calc(100% - 60px);
 	background: #fff;
 	border-radius: 12px;
-	padding:20px 0;
-	margin:15px 0 0 0;
+	padding: 20px 0;
+	margin: 15px 0 0 0;
 	box-shadow: 0px 3px 8px #eee;
 }
 
