@@ -176,10 +176,11 @@ http://域名/install/
 
 <img src="https://g.fp.ps.netease.com/cg-image/file/67b439f35aa4a4f342213c63qJ7aKLeD06" width="500" />
 
-此为收费插件，价格238元，可以进入这个页面购买（点击->登录->再次点击这个链接->购买）：https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
+此为收费插件，可以进入这个页面购买（点击->登录->再次点击这个链接->购买）：https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
 
-<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/c74cac3a19ac67898cce7f078ed4a380_w1139_h1028_s381.jpeg?imageView2/2/w/1500" width="800" />
-<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/0d71cd0de4282c17710e7aa20f606c83_w1830_h880_s491.jpeg?imageView2/2/w/1500" width="800" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/c2592f9f6a42135c219fe2151d192021_w1626_h792_s457.jpeg?imageView2/2/w/2000" width="800" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/a26bfd9124ffca58fbc0f9edafa3e7dd_w1085_h954_s356.jpeg?imageView2/2/w/2000" width="800" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/bf5e2f70dab90b04080b4b4f0f557172_w1085_h954_s382.jpeg?imageView2/2/w/2000" width="800" />
 
 <br>
 
