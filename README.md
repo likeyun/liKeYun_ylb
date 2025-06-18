@@ -180,7 +180,7 @@ http://域名/install/
 
 <img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/c2592f9f6a42135c219fe2151d192021_w1626_h792_s457.jpeg?imageView2/2/w/2000" width="800" />
 <img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/a26bfd9124ffca58fbc0f9edafa3e7dd_w1085_h954_s356.jpeg?imageView2/2/w/2000" width="800" />
-<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/bf5e2f70dab90b04080b4b4f0f557172_w1085_h954_s382.jpeg?imageView2/2/w/2000" width="800" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/062c4dbeb5f3d10d8b1092b1102c7011_w1037_h879_s315.jpeg?imageView2/2/w/2000" width="800" />
 
 <br>
 
