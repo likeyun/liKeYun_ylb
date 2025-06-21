@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引流宝 - 私域流量获取与监控工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#385EE2',
+                        secondary: '#666666',
+                        accent: '#4CAF50',
+                        neutral: '#F5F5F5',
+                        dark: '#333333',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .btn-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .feature-card {
+                @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-2;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter text-secondary">
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300" id="navbar">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="#" class="flex items-center">
+                            <div>
+                                <img src="./static/img/index_logo.png" style="width:180px;" />
+                            </div>
+                        </a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#features" class="text-secondary hover:text-primary transition-colors">功能</a>
+                        <a href="#changelog" class="text-secondary hover:text-primary transition-colors">更新日志</a>
+                        <a href="#support" class="text-secondary hover:text-primary transition-colors">支持作者</a>
+                        <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank" class="btn-hover bg-primary text-white px-5 py-2 rounded-lg">快速上手</a>
+                    </div>
+                    <div class="md:hidden flex items-center">
+                        <button id="menu-toggle" class="text-secondary hover:text-primary">
+                            <i class="fa fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+                <div class="container mx-auto px-4 py-3 space-y-3">
+                    <a href="#features" class="block text-secondary hover:text-primary py-2">功能</a>
+                    <a href="#changelog" class="block text-secondary hover:text-primary py-2">更新日志</a>
+                    <a href="#support" class="block text-secondary hover:text-primary py-2">支持作者</a>
+                    <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank" class="block btn-hover bg-primary text-white px-5 py-2 rounded-lg text-center">快速上手</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 英雄区 -->
+        <header class="relative bg-gradient-to-br from-primary/90 to-primary py-16 md:py-24 overflow-hidden">
+            <div class="absolute inset-0 overflow-hidden opacity-10">
+                <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-white blur-3xl"></div>
+                <div class="absolute -left-20 bottom-0 w-80 h-80 rounded-full bg-white blur-3xl"></div>
+            </div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="flex justify-center mb-6">
+                        <div>
+                            <img src="https://p5.ssl.qhimg.com/t11b673bcd69e72572966980097.png" width="150" />
+                        </div>
+                    </div>
+                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-white mb-6 leading-tight text-shadow">
+                        私域流量获取与监控工具
+                    </h1>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-10 max-w-2xl mx-auto">
+                        多平台引流增效，全方位数据监控，助力企业私域流量增长
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank" class="btn-hover bg-white text-primary px-8 py-3 rounded-lg font-medium shadow-lg">
+                            快速上手 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="install/?from=index.html" target="_blank" class="btn-hover bg-white/20 text-white px-8 py-3 rounded-lg font-medium backdrop-blur-sm border border-white/30">
+                            立即安装 <i class="fa fa-download ml-2"></i>
+                        </a>
+                        <a href="console/login/?from=index.html" target="_blank" class="btn-hover bg-white/20 text-white px-8 py-3 rounded-lg font-medium backdrop-blur-sm border border-white/30">
+                            登录后台 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                    <path fill="#F9FAFB" fill-opacity="1" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+                </svg>
+            </div>
+        </header>
+
+        <!-- 主要内容 -->
+        <main class="flex-grow">
+            <!-- 功能特性 -->
+            <section id="features" class="py-16 bg-white">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">强大功能</h2>
+                        <p class="text-secondary max-w-2xl mx-auto">引流宝提供全方位的私域流量运营解决方案，帮助企业高效获取、管理和转化私域流量</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- 功能卡片1 -->
+                        <div class="feature-card">
+                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                                <i class="fa fa-bullhorn text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-dark mb-3">多平台引流</h3>
+                            <p class="text-gray-600">支持微信、抖音、快手等多平台引流，提供多种引流方式和策略，提高引流效率。</p>
+                        </div>
+
+                        <!-- 功能卡片2 -->
+                        <div class="feature-card">
+                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                                <i class="fa fa-bar-chart text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-dark mb-3">数据监控</h3>
+                            <p class="text-gray-600">实时监控引流数据和用户行为，提供详细数据分析和报表，帮助优化引流效果。</p>
+                        </div>
+
+                        <!-- 功能卡片3 -->
+                        <div class="feature-card">
+                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                                <i class="fa fa-qrcode text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-dark mb-3">活码系统</h3>
+                            <p class="text-gray-600">提供群活码、客服码、渠道码等多种活码类型，支持自动切换和数据统计。</p>
+                        </div>
+
+                        <!-- 功能卡片4 -->
+                        <div class="feature-card">
+                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                                <i class="fa fa-link text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-dark mb-3">短网址工具</h3>
+                            <p class="text-gray-600">生成短网址并支持轮询域名，提高链接转化率，同时支持数据统计和分析。</p>
+                        </div>
+
+                        <!-- 功能卡片5 -->
+                        <div class="feature-card">
+                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                                <i class="fa fa-plug text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-dark mb-3">插件扩展</h3>
+                            <p class="text-gray-600">支持插件扩展，如外部跳微信插件等，满足多样化的业务需求和场景。</p>
+                        </div>
+
+                        <!-- 功能卡片6 -->
+                        <div class="feature-card">
+                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                                <i class="fa fa-users text-2xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-dark mb-3">用户管理</h3>
+                            <p class="text-gray-600">提供完善的用户账号注册和管理系统，支持多角色权限控制和数据安全保护。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 更新日志 -->
+            <section id="changelog" class="py-16 bg-neutral">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">更新日志</h2>
+                        <p class="text-secondary max-w-2xl mx-auto">查看引流宝的最新功能更新和改进</p>
+                    </div>
+
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                            <div class="bg-primary text-white p-6">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-xl font-semibold">版本 2.4.5</h3>
+                                    <span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">最新版本</span>
+                                </div>
+                                <p class="mt-2 opacity-90">发布日期: 2025年6月15日</p>
+                            </div>
+                            <div class="p-6">
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>UI界面大量的优化，提升用户体验</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>新增群活码并流功能，提高引流效率</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>新增短网址轮询域名，增强链接可用性</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>外部跳微信抽离出来作为插件，方便扩展</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>群活码、客服码、渠道码整合到活码一栏，简化操作</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>提供用户账号注册功能，完善用户管理</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>渠道码新增操作系统渠道数据记录，细化数据分析</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>新增卡密分发小程序管理，拓展业务场景</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>客服码新增去重功能，提升服务质量</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-check-circle text-accent mt-1 mr-3"></i>
+                                        <span>优化操作列表操作体验，提高工作效率</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 bg-white rounded-xl shadow-md overflow-hidden">
+                            <div class="bg-gray-800 text-white p-6">
+                                <h3 class="text-xl font-semibold">历史版本</h3>
+                            </div>
+                            <div class="divide-y divide-gray-100">
+                                <div class="p-6">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-semibold">版本 2.4.4</h4>
+                                        <span class="text-sm text-gray-500">2025年5月20日</span>
+                                    </div>
+                                    <p class="text-gray-600">修复了一些已知问题，优化了性能和稳定性</p>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-semibold">版本 2.4.3</h4>
+                                        <span class="text-sm text-gray-500">2025年4月15日</span>
+                                    </div>
+                                    <p class="text-gray-600">新增数据导出功能，优化了部分界面显示</p>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-semibold">版本 2.4.2</h4>
+                                        <span class="text-sm text-gray-500">2025年3月10日</span>
+                                    </div>
+                                    <p class="text-gray-600">修复了部分兼容性问题，增强了系统稳定性</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 支持作者 -->
+            <section id="support" class="py-16 bg-white">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4">支持作者</h2>
+                        <p class="text-secondary max-w-2xl mx-auto">视个人能力适当支持作者，帮助项目持续更新和维护</p>
+                    </div>
+
+                    <div class="max-w-3xl mx-auto">
+                        <div class="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-8 shadow-sm">
+                            <div class="text-center mb-8">
+                                <p class="text-lg text-secondary mb-2">您的支持是项目持续发展的动力</p>
+                                <p class="text-dark font-medium">感谢每一位支持者的慷慨捐赠</p>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl shadow-sm p-6 text-center">
+                                    <div class="p-2 rounded-lg inline-block mb-3">
+                                        <img src="./static/img/zhichi.jpg" alt="微信支付二维码" class="w-48 h-88">
+                                    </div>
+                                    <p class="text-sm text-gray-500">微信扫码支持作者</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="bg-dark text-white py-12">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <div>
+                                <img src="https://p5.ssl.qhimg.com/t11b673bcd69e72572966980097.png" width="40" />
+                            </div>
+                            <span class="ml-3 text-xl font-semibold text-white">私域引流宝</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">致力于获取私域流量，多平台引流增效，数据监控工具</p>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/likeyun/liKeYun_Ylb" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fa fa-github text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fa fa-weibo text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fa fa-wechat text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+                        <ul class="space-y-2">
+                            <li><a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank" class="text-gray-400 hover:text-white transition-colors">快速上手</a></li>
+                            <li><a href="install" target="_blank" class="text-gray-400 hover:text-white transition-colors">安装指南</a></li>
+                            <li><a href="console/login" target="_blank" class="text-gray-400 hover:text-white transition-colors">管理后台</a></li>
+                            <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">功能介绍</a></li>
+                            <li><a href="#changelog" class="text-gray-400 hover:text-white transition-colors">更新日志</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">关于我们</h3>
+                        <ul class="space-y-2">
+                            <li><a href="https://segmentfault.com/u/tanking" target="_blank" class="text-gray-400 hover:text-white transition-colors">作者博客</a></li>
+                            <li><a href="https://github.com/likeyun/liKeYun_Ylb" target="_blank" class="text-gray-400 hover:text-white transition-colors">开源仓库</a></li>
+                            <li><a href="https://beian.miit.gov.cn/" target="_blank" class="text-gray-400 hover:text-white transition-colors">粤ICP备XXXXXXXX号</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+                    <p>© 2025 引流宝. 本软件遵循 MIT 开源协议</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md', 'bg-white/95', 'backdrop-blur-sm');
+                navbar.classList.remove('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-md', 'bg-white/95', 'backdrop-blur-sm');
+                navbar.classList.add('shadow-sm');
+            }
+        });
+
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+    
