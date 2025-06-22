@@ -1,0 +1,117 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+@media (max-width: 768px) {
+    body {
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        overflow: hidden;
+    }
+}
+@media screen and (max-width: 3000px) and (min-width: 768px) {
+    body {
+        background: #fff;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    #app {
+        padding-top: 40px;
+        width: 350px;
+        height: 100vh;
+        background: url('http://p16.qhimg.com/t11a4d74fff75a29313b9a791c0.png') no-repeat;
+        background-size: 100%;
+        margin: 50px auto 0;
+    }
+}
+.ssl_tips_container {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+}
+.ssl_tips {
+    display: flex;
+    align-items: center;
+}
+.ssl_logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    background: url('http://p19.qhimg.com/t11a4d74fffce4080f2538787d7.png') no-repeat;
+    background-position: center;
+    background-size: 80%;
+}
+.ssl_text {
+    flex: 1;
+    font-size: 14px;
+    color: #999;
+}
+.jump_gif {
+    width: 50%;
+    margin: 50px auto 0;
+}
+.jump_gif img {
+    width: 100%;
+}
+.jump_text {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 80px;
+}
+.jump_button_tips {
+    text-align: center;
+    color: #ccc;
+    margin-top: 10px;
+    font-size: 15px;
+}
+.jump_button {
+    width: 50%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    background: #0ccf67;
+    border-radius: 15px;
+    margin: 20px auto 0;
+    font-size: 16px;
+    animation: breathe 1s ease-in-out infinite;
+    transform-origin: center;
+}
+.a-jump {
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(255,0,0,0);
+}
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+.powerby {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    color: #ccc;
+    font-size: 13px;
+    text-align: center;
+}
+.icon {
+    width: 50px;
+    height: 50px;
+    background: url('http://p19.qhimg.com/t11a4d74fffd16151e145e4e374.png') no-repeat;
+    margin: 100px auto 10px;
+    background-position: center;
+    background-size: 100%;
+}
+.error {
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    padding: 15px 0;
+}
