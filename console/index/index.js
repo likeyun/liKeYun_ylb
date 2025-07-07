@@ -380,10 +380,10 @@ function projectInfo(){
     $openResourceInfo_HTML = `
     <a href="https://ad.ch-at.pw" class="openResourceCard-a" target="_blank">
     <div class="openResourceCard">
-        <div class="icon"><img src="https://img.19yxw.com/ongame/202311/d806b188d4c3ba1ebe37a4d8f060da96.png" /></div>
+        <div class="icon"><img src="../../static/img/zanshang-icon.png" /></div>
         <div class="info">
-            <span class="title">Chatgpt镜像，一键生成爆款文案标题</span>
-            <span class="desc">使用Chatgpt/Claude/Grok/DeepSeek热门镜像</span>
+            <span class="title">赞赏打赏开发作者</span>
+            <span class="desc">如果你觉得好用，可适度打赏支持作者</span>
         </div>
         <div class="go"></div>
     </div>
