@@ -153,7 +153,7 @@
     			    
     			    <!--导航-->
     			    <div class="button-daohang">
-    			        <button class="default-btn">域名库</button>
+    			        <button class="default-btn">域名/落地页</button>
     	
     			        <button class="tint-btn" 
     			        data-toggle="modal" 
@@ -168,7 +168,7 @@
 				            data-toggle="modal" 
 				            data-target="#addDomainNameModal" 
 				            style="margin-left: 5px;"
-				            onclick="initialize_addDomainName();">添加域名
+				            onclick="initialize_addDomainName();">添加域名/落地页
 				        </button>
     			    </div>
     			</div>
@@ -192,29 +192,29 @@
 		</div><!-- data-card -->
 	</div><!-- right -->
 
-	<!-- 添加域名 -->
+	<!-- 添加域名/落地页 -->
     <div class="modal fade" id="addDomainNameModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="max-width:650px;">
             <div class="modal-content">
                 
                     <!-- 头部 -->
                     <div class="modal-header">
-                        <h4 class="modal-title">添加域名</h4>
+                        <h4 class="modal-title">添加域名/落地页</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="addDomainName">
-                        <span class="text">域名</span>
-                        <input type="text" name="domain" class="form-control" id="domain" autocomplete="off" placeholder="填写域名（ http:// 或 https:// 开头）">
+                        <span class="text">域名/落地页</span>
+                        <input type="text" name="domain" class="form-control" id="domain" autocomplete="off" placeholder="http:// 或 https:// 开头">
                         
                         <span class="text">备注</span>
-                        <input type="text" name="domain_beizhu" class="form-control" id="domain_beizhu" autocomplete="off" placeholder="备注信息，只给自己看，可不填">
+                        <input type="text" name="domain_beizhu" class="form-control" id="domain_beizhu" autocomplete="off" placeholder="备注信息，可留空">
                         
-                        <span class="text">域名类型</span>
+                        <span class="text">[域名/落地页]类型</span>
                         <select name="domain_type" class="form-control" id="domain_type">
-                            <option value="">选择域名类型</option>
+                            <option value="">选择类型</option>
                             <option value="1">入口域名</option>
                             <option value="2">落地域名</option>
                             <option value="3">短链域名</option>

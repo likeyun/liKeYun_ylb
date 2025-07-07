@@ -154,6 +154,7 @@ function getDomainNameList(pageNum) {
                 
                 // 如果有数据
                 // 遍历数据
+                let domain_beizhu;
                 for (var i=0; i<res.domainList.length; i++) {
                     
                     var xuhao = i+1;
@@ -190,7 +191,15 @@ function getDomainNameList(pageNum) {
                     var domain = res.domainList[i].domain;
                     
                     // 备注
-                    var domain_beizhu = res.domainList[i].domain_beizhu ? res.domainList[i].domain_beizhu : ' - ';
+                    if(res.domainList[i].domain_beizhu || res.domainList[i].domain_beizhu !== null) {
+                        
+                        // 有备注信息
+                        domain_beizhu = res.domainList[i].domain_beizhu + ' 🖌';
+                    }else {
+                        
+                        // 没有
+                        domain_beizhu = '🖌';
+                    }
                     
                     // 授权用户组
                     var domain_usergroup = res.domainList[i].domain_usergroup;
@@ -222,10 +231,10 @@ function getDomainNameList(pageNum) {
                         '<tr>' +
                         '   <td>'+domain_id+'</td>' +
                         '   <td>'+domain_type+'</td>' +
-                        '   <td>'+domain_beizhu+'</td>' +
+                        '   <td onclick="update_beizhu('+domain_id+')" style="cursor:pointer;" title="点击修改备注">'+domain_beizhu+'</td>' +
                         '   <td style="max-width:400px;word-break: break-word;">'+domain+'</td>' +
                         '   <td>'+domain_usergroup_data+'</td>' +
-                        '   <td data-toggle="modal" id="'+domain_id+'" data-target="#DelDomainModal" onclick="askDelDomainName(this);"><span class="light-tag">删除</span></td>' +
+                        '   <td data-toggle="modal" id="'+domain_id+'" data-target="#DelDomainModal" onclick="askDelDomainName(this);"><span class="light-tag" style="cursor:pointer;">删除</span></td>' +
                         '</tr>'
                     );
                     $("#right .data-list tbody").append($tbody_HTML);
@@ -487,6 +496,35 @@ function setUsergroup() {
             showErrorResultForphpfileName('setUsergroup.php');
         }
     });
+}
+
+// 修改备注
+function update_beizhu(domain_id) {
+
+    if(domain_id) {
+        var beizhu = prompt("输入备注信息", "");
+        if (beizhu !== null) {
+            
+            $.ajax({
+                type: "GET",
+                url: "./update_beizhu.php?beizhu=" + beizhu + "&domain_id=" + domain_id,
+                success: function(res){
+                    
+                    // 成功
+                    if(res.code == 200){
+                        
+                        getDomainNameList();
+                    }else{
+                        
+                        alert(res.msg);
+                    }
+                },
+                error: function() {
+                    alert('update_beizhu.php服务器发生错误')
+                }
+            });
+        }
+    }
 }
 
 // 获取通知渠道配置
