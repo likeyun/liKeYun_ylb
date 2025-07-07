@@ -1,6 +1,6 @@
 <?php
 
-    // 上次维护：2025-04-19
+    // 上次维护：2025-07-07
 
 	// 页面编码
 	header("Content-type:application/json");
@@ -278,7 +278,7 @@
               `domain` text COMMENT '域名',
               `domain_beizhu` varchar(32) DEFAULT NULL COMMENT '备注',
               `domain_usergroup` varchar(255) DEFAULT NULL COMMENT '授权用户组'
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='域名库'";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='域名/落地页'";
             
             // 获取http协议类型
             $HTTP_TYPE = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
@@ -286,12 +286,9 @@
             $domain = $HTTP_TYPE . $_SERVER['HTTP_HOST'];
             $domain = addslashes($domain);
             $huoma_domain_Data = "INSERT INTO `huoma_domain` (`domain_id`, `domain_type`, `domain_beizhu`, `domain`, `domain_usergroup`) VALUES
-            (100000, 1, '入口', '{$domain}', '[\"默认\"]'),
-            (100001, 2, '落地', '{$domain}', '[\"默认\"]'),
-            (100002, 3, '生成短网址', '{$domain}', '[\"默认\"]'),
-            (100003, 4, '备用', '{$domain}', '[\"默认\"]'),
-            (100004, 5, '微信外链插件专用', '{$domain}', '[\"默认\"]'),
-            (100005, 6, '短网址专用', '{$domain}', '[\"默认\"]')";
+            (100000, 1, '入口专用', '{$domain}', '[\"默认\"]'),
+            (100001, 2, '落地专用', '{$domain}', '[\"默认\"]'),
+            (100002, 3, '短网址专用', '{$domain}', '[\"默认\"]')";
             
             // 渠道码
             $huoma_channel = "CREATE TABLE `huoma_channel` (

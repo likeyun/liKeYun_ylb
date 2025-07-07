@@ -120,7 +120,8 @@
                     // 成功
                     if(res.code == 200){
                         
-                        yinliubao_install_record(res.current_time,res.client_ip,res.server_ip,res.user_name,res.user_email);
+                        // 统计安装量
+                        ylb_install_record(res.current_time,res.client_ip,res.server_ip,res.user_name,res.user_email);
                         
                         // 成功
                         const updateProgressBar = () => {
@@ -176,10 +177,11 @@
             input.setAttribute('autocomplete', 'off');
         });
         
-        function yinliubao_install_record(current_time,client_ip,server_ip,user_name,user_email) {
+        // 统计安装量
+        function ylb_install_record(current_time,client_ip,server_ip,user_name,user_email) {
             $.ajax({
                 type: "POST",
-                url: 'https://likeyunkeji.likeyunba.com/yinliubao-install-record/?time=' + current_time + '&type=安装&client_ip=' + client_ip + '&server_ip=' + server_ip + '&user_name=' + user_name + '&user_email=' + user_email,
+                url: 'https://page.likeyunba.com/ylb_install_record/?time=' + current_time + '&type=安装&client_ip=' + client_ip + '&server_ip=' + server_ip + '&user_name=' + user_name + '&user_email=' + user_email,
                 success: function(res){
                     console.log(res)
                 }
