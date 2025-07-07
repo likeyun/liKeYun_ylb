@@ -378,7 +378,7 @@ function projectInfo(){
     
     // HTML模板
     $openResourceInfo_HTML = `
-    <a href="https://ad.ch-at.pw" class="openResourceCard-a" target="_blank">
+    <a href="../../static/img/zansangma.jpg" class="openResourceCard-a" target="_blank">
     <div class="openResourceCard">
         <div class="icon"><img src="../../static/img/zanshang-icon.png" /></div>
         <div class="info">
