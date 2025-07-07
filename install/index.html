@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>引流宝 - 安装环境检测</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../static/img/favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            background: url('../../static/img/login-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        #app {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            margin: 80px auto 0;
+        }
+
+        .h2-title {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            background: url('../../static/img/favicon.png') no-repeat center;
+            background-size: contain;
+            height: 80px;
+            margin: 0 auto 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .table td {
+            color: #333;
+        }
+
+        .status-pass {
+            color: #28a745;
+        }
+
+        .status-fail {
+            color: #dc3545;
+        }
+
+        .button-view {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            min-height: 40px;
+        }
+
+        .install-button {
+            background-color: #385fe2;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .install-button:hover {
+            background-color: #0056b3;
+        }
+
+        .update {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .table a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .table a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #dc3545;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .error-message a {
+            display: block;
+            color: #007bff;
+            text-decoration: underline;
+            margin-top: 8px;
+        }
+
+        .loader {
+            width: 30px;
+            height: 30px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #385fe2;
+            border-radius: 50%;
+            animation: spin 0.3s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .h2-title {
+                font-size: 24px;
+                padding: 15px 0;
+            }
+
+            .table th, .table td {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            .install-button {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+
+            .update {
+                font-size: 18px;
+            }
+
+            .loader {
+                width: 24px;
+                height: 24px;
+                border: 3px solid #f3f3f3;
+                border-top: 3px solid #385fe2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2 class="h2-title">安装环境检测</h2>
+        <div class="container">
+            <div class="logo"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>安装环境</th>
+                        <th>环境要求</th>
+                        <th>当前情况</th>
+                        <th>检测结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PHP版本</td>
+                        <td>PHP 7.0 - 7.4</td>
+                        <td class="current-php">-</td>
+                        <td class="php-result">-</td>
+                    </tr>
+                    <tr>
+                        <td>上传权限</td>
+                        <td>允许上传文件</td>
+                        <td class="current-upload">-</td>
+                        <td class="upload-result">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="button-view">
+                <div class="loader"></div>
+            </div>
+        </div>
+        <div class="container update-container" style="display: none;">
+            <p class="update">版本升级</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>最低版本要求</th>
+                        <th>升级版本</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2.3.0</td>
+                        <td>2.4.0</td>
+                        <td><a href="2.4.0">立即升级</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function checkEnvironment() {
+            const buttonView = document.querySelector('.button-view');
+            const minDelay = 1500;
+
+            const startTime = Date.now();
+            try {
+                const response = await fetch('installCheck.php');
+                const data = await response.json();
+
+                const elapsedTime = Date.now() - startTime;
+                const remainingDelay = Math.max(0, minDelay - elapsedTime);
+
+                await new Promise(resolve => setTimeout(resolve, remainingDelay));
+
+                if (data.code === 200) {
+                    
+                    document.querySelector('.current-php').textContent = data.php_version;
+                    document.querySelector('.php-result').innerHTML = data.php_version_result_text;
+                    document.querySelector('.current-upload').textContent = data.upload_result;
+                    document.querySelector('.upload-result').innerHTML = data.upload_result_text;
+
+                    document.querySelector('.php-result').classList.add(data.php_version_result_text.includes('失败') ? 'status-fail' : 'status-pass');
+                    document.querySelector('.upload-result').classList.add(data.upload_result_text.includes('失败') ? 'status-fail' : 'status-pass');
+
+                    if (data.php_version >= '7.0' && data.php_version <= '7.5' && data.upload_result === '获得上传权限') {
+                        buttonView.innerHTML = '<button class="install-button" onclick="window.location.href=\'install.html\'">全新安装</button>';
+                    } else {
+                        
+                        if((data.php_version < '7.0' || data.php_version > '7.5') && (data.upload_result === '没有上传权限')) {
+                            
+                            buttonView.innerHTML = '<p style="color:#013eed;">解决办法：</p><p style="color:#013eed;">1、修改PHP版本为7.0 - 7.5之间；</p><p style="color:#013eed;">2、修改 /console 目录及其子目录的服务器权限为777，<a href="jietu.png" target="blank">点击查看截图</a></p>';
+                        }else if(data.php_version < '7.0' || data.php_version > '7.5') {
+                        
+                            // 不符合
+                            buttonView.innerHTML = '<p style="color:#013eed;">解决办法：修改PHP版本为7.0 - 7.5之间即可，<a href="jietu2.png" target="blank">点击查看截图</a></p>';
+                        }else if(data.upload_result === '没有上传权限') {
+                        
+                            // 不符合
+                            buttonView.innerHTML = '<p style="color:#013eed;">解决办法：修改 /console 目录及其子目录的服务器权限为777即可，<a href="jietu.png" target="blank">点击查看截图</a></p>';
+                        }
+                    }
+                }
+            } catch (error) {
+                // Ensure 2-second delay even on error
+                const elapsedTime = Date.now() - startTime;
+                const remainingDelay = Math.max(0, minDelay - elapsedTime);
+                await new Promise(resolve => setTimeout(resolve, remainingDelay));
+
+                buttonView.innerHTML = `
+                    <p class="error-message">
+                        安装环境异常，请检查你建立的网站是否选择了PHP环境。
+                        <a href="../static/img/errorIMG.png" target="_blank">点击查看解决方法</a>
+                    </p>`;
+            }
+        }
+
+        checkEnvironment();
+    </script>
+</body>
+</html>
