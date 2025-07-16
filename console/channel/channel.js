@@ -111,11 +111,11 @@ function getChannelList(pageNum) {
                 '<tr>' +
                 '   <th>ID</th>' +
                 '   <th>标题</th>' +
-                '   <th>创建时间</th>' +
-                '   <th>总访问量</th>' +
-                '   <th>今天访问量</th>' +
+                '   <th>备注</th>' +
+                '   <th>访问限制</th>' +
                 '   <th>设备访问量</th>' +
-                '   <th>数据量</th>' +
+                '   <th>访问数据</th>' +
+                '   <th>创建时间</th>' +
                 '   <th>状态</th>' +
                 '   <th>操作</th>' +
                 '</tr>'
@@ -198,7 +198,7 @@ function getChannelList(pageNum) {
                     
                     // 各渠道设备访问量tag
                     var channel_device_pv_tags = `
-                        <div class="container">
+                        <div>
                             <span class="light-tag" title="Android设备访问量">
                                 <span class="icon-view android-icon"></span>
                                 <span class="tag-text">${Android_Total}</span>
@@ -221,16 +221,45 @@ function getChannelList(pageNum) {
                             </span>
                         </div>`;
                     
+                    const limitMap = {
+                        1: '不限制',
+                        2: '仅限微信内打开',
+                        3: '仅限QQ内打开',
+                        4: '仅限手机打开',
+                        5: '仅限微信外的手机浏览器打开',
+                        6: '仅限QQ外的手机浏览器打开',
+                        7: '仅限电脑打开',
+                        8: '仅限Android设备打开',
+                        9: '仅限iOS设备打开'
+                    };
+                    let channel_limit = limitMap[res.channelList[i].channel_limit] || '未知';
+                    
+                    // 仅限后台可见的备注信息
+                    let channel_beizhu_ht;
+                    if(res.channelList[i].channel_beizhu_ht){
+                        
+                        // 有数据
+                        channel_beizhu_ht = res.channelList[i].channel_beizhu_ht;
+                    }else{
+                        
+                        // 无数据
+                        channel_beizhu_ht = '-';
+                    }
+                    
                     // 列表
                     var $tbody_HTML = $(
-                        '<tr>' +
+                        '<tr style="white-space: nowrap;">' +
                         '   <td>'+channel_id+'</td>' +
                         '   <td>'+channel_title+'</td>' +
-                        '   <td>'+channel_creat_time+'</td>' +
-                        '   <td>'+channel_pv+'</td>' +
-                        '   <td>'+channel_pv_today+'</td>' +
+                        '   <td>'+channel_beizhu_ht+'</td>' +
+                        '   <td>'+channel_limit+'</td>' +
                         '   <td>'+channel_device_pv_tags+'</td>' +
-                        '   <td>'+channel_DataTotal+'</td>' +
+                        '   <td>' +
+                        '       <div>总访问量：'+channel_pv+'</div>' + 
+                        '       <div>今天访问：'+channel_pv_today+'</div>' + 
+                        '       <div>访问记录：'+channel_DataTotal+'</div>' + 
+                        '   </td>' +
+                        '   <td>'+channel_creat_time+'</td>' +
                         '   <td>'+channel_status+'</td>' +
                         '   <td class="cz-tags">' +
                         '       <span class="light-tag" data-toggle="modal" data-target="#shareChannelHm" onclick="shareChannel('+channel_id+')">分享</span>' +
@@ -455,28 +484,47 @@ function getChannelInfo(e){
                 // 标题
                 $('input[name="channel_title"]').val(res.channelInfo.channel_title);
                 
+                // 后台备注
+                $('input[name="channel_beizhu_ht"]').val(res.channelInfo.channel_beizhu_ht);
+                
                 // 获取域名列表
                 getDomainNameList('edit')
                 
-                // 获取当前设置的域名
-                $('select[name="channel_rkym"]').append(
-                    '<option value="'+res.channelInfo.channel_rkym+'">'+res.channelInfo.channel_rkym+'</option>'
-                );
-                
-                $('select[name="channel_ldym"]').append(
-                    '<option value="'+res.channelInfo.channel_ldym+'">'+res.channelInfo.channel_ldym+'</option>'
-                );
-                
-                $('select[name="channel_dlym"]').append(
-                    '<option value="'+res.channelInfo.channel_dlym+'">'+res.channelInfo.channel_dlym+'</option>'
-                );
-                
                 // 推广链接
-                $('input[name="channel_url"]').val(res.channelInfo.channel_url);
+                $('textarea[name="channel_url"]').val(res.channelInfo.channel_url);
                 
                 // channel_id
                 $('input[name="channel_id"]').val(channel_id);
-                            
+
+                // 定制的
+                $('select[name="channel_limit"]').val(res.channelInfo.channel_limit);
+                $('select[name="is_mzfwxz"]').val(res.channelInfo.is_mzfwxz);
+                $('input[name="mzfwxz_url"]').val(res.channelInfo.mzfwxz_url);
+                
+                if(res.channelInfo.channel_limit > 1) {
+                    
+                    // 显示
+                    $('.is_mzfwxz').css('display','block');
+                }else {
+                    
+                    // 隐藏
+                    $('.is_mzfwxz').css('display','none');
+                }
+                
+                if(res.channelInfo.is_mzfwxz == '2' && res.channelInfo.channel_limit > 1) {
+                    
+                    // 显示
+                    $('.mzfwxz_url').css('display','block');
+                }else {
+                    
+                    // 隐藏
+                    $('.mzfwxz_url').css('display','none');
+                }
+                
+                // 获取当前设置的域名
+                $('select[name="channel_rkym"]').val(res.channelInfo.channel_rkym);
+                $('select[name="channel_ldym"]').val(res.channelInfo.channel_ldym);
+                $('select[name="channel_dlym"]').val(res.channelInfo.channel_dlym);
             }else{
                 
                 // 操作失败
@@ -490,6 +538,40 @@ function getChannelInfo(e){
         }
     });
 }
+
+// 监听访问限制的切换
+$(document).on('change', '#editChannelModal select[name="channel_limit"]', function () {
+    const selectedValue = $(this).val();
+
+    // 这里写你的业务逻辑
+    if(selectedValue == '1') {
+        
+        // 全部隐藏
+        $('.is_mzfwxz').css('display','none');
+        $('.mzfwxz_url').css('display','none');
+    }else {
+        
+        // 全部显示
+        $('.is_mzfwxz').css('display','block');
+        $('.mzfwxz_url').css('display','block');
+    }
+});
+
+// 监听命中跳转URL的切换
+$(document).on('change', '#editChannelModal select[name="is_mzfwxz"]', function () {
+    const selectedValue = $(this).val();
+
+    // 这里写你的业务逻辑
+    if(selectedValue == '1') {
+        
+        // 隐藏mzfwxz_url
+        $('.mzfwxz_url').css('display','none');
+    }else {
+        
+        // 显示mzfwxz_url
+        $('.mzfwxz_url').css('display','block');
+    }
+});
 
 // 使用appendOptionsToSelect函数来为每个select元素处理选项的添加
 function appendOptionsToSelect(selectElement, dataList) {
@@ -766,10 +848,18 @@ function initialize_getDomainNameList(module){
     
     // 默认值
     $('#CreateChannelModal input[name="channel_title"]').val('');
-    $('#CreateChannelModal input[name="channel_url"]').val('');
+    $('#CreateChannelModal textarea[name="channel_url"]').val(''); // 定制优化
     $('select[name="channel_rkym"]').empty();
     $('select[name="channel_ldym"]').empty();
     $('select[name="channel_dlym"]').empty();
+    
+    // 定制新增
+    $('select[name="channel_limit"]').val('1');
+    $('.is_mzfwxz').css('display','none');
+    $('select[name="is_mzfwxz"]').val('1');
+    $('.mzfwxz_url').css('display','none');
+    $('input[name="mzfwxz_url"]').val('');
+    
     hideResult();
 }
 

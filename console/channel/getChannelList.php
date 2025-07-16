@@ -28,7 +28,26 @@
     
     	// 实例化类
     	$db = new DB_API($config);
-    
+    	
+        // 2025-07-16
+        // 新增字段
+    	$checkExitsSQL = "SHOW COLUMNS FROM huoma_channel LIKE 'channel_limit'";
+        $checkExits = $db->set_table('huoma_channel')->findSql($checkExitsSQL);
+        if(!$checkExits) {
+            
+            $Add_channel_limit = "ALTER TABLE huoma_channel ADD channel_limit int(1) DEFAULT '1' COMMENT '访问限制'";
+            $db->set_table('huoma_channel')->findSql($Add_channel_limit);
+            
+            $Add_is_mzfwxz = "ALTER TABLE huoma_channel ADD is_mzfwxz int(1) DEFAULT '1' COMMENT '命中访问限制规则的时候'";
+            $db->set_table('huoma_channel')->findSql($Add_is_mzfwxz);
+            
+            $Add_mzfwxz_url = "ALTER TABLE huoma_channel ADD mzfwxz_url text DEFAULT NULL COMMENT '命中跳转url'";
+            $db->set_table('huoma_channel')->findSql($Add_mzfwxz_url);
+            
+            $Add_channel_beizhu_ht = "ALTER TABLE huoma_channel ADD channel_beizhu_ht varchar(32) DEFAULT NULL COMMENT '后台备注'";
+            $db->set_table('huoma_channel')->findSql($Add_channel_beizhu_ht);
+        }
+    	
     	// 数据库huoma_channel表
     	$huoma_channel = $db->set_table('huoma_channel');
     

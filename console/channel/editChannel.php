@@ -23,6 +23,22 @@
     	$channel_dlym = trim($_POST['channel_dlym']);
     	$channel_url = trim($_POST['channel_url']);
     	$channel_id = trim($_POST['channel_id']);
+    	$channel_beizhu_ht = trim($_POST['channel_beizhu_ht']);
+        $channel_limit = trim($_POST['channel_limit']);
+        $is_mzfwxz = trim($_POST['is_mzfwxz']);
+        $mzfwxz_url = trim($_POST['mzfwxz_url']);
+        
+        // 验证URL合法性
+        function is_url($url){
+            $r = "/http[s]?:\/\/[\w.]+[\w\/]*[\w.]*\??[\w=&\+\%]*/is";
+            if(preg_match($r,$url)){
+                
+                return TRUE;
+            }else{
+                
+                return FALSE;
+            }
+        }
     	
         // 过滤参数
         if(empty($channel_title) || !isset($channel_title)){
@@ -31,6 +47,18 @@
 			    'code' => 203,
                 'msg' => '标题未填写'
 		    );
+        }if($is_mzfwxz == '2' && !$mzfwxz_url){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '命中访问限制规则的时候，跳转的链接未填写'
+            );
+        }else if($mzfwxz_url && is_url($mzfwxz_url) === FALSE && $is_mzfwxz == '2'){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '命中规则的跳转链接不符合URL规范'
+            );
         }else if(empty($channel_rkym) || !isset($channel_rkym)){
             
             $result = array(
@@ -85,7 +113,11 @@
                     'channel_rkym' => $channel_rkym,
                     'channel_ldym' => $channel_ldym,
                     'channel_dlym' => $channel_dlym,
-                    'channel_url' => $channel_url
+                    'channel_url' => $channel_url,
+                    'channel_limit' => $channel_limit,
+                    'is_mzfwxz' => $is_mzfwxz,
+                    'mzfwxz_url' => $mzfwxz_url,
+                    'channel_beizhu_ht' => $channel_beizhu_ht
                 ];
                 
                 // 更新条件

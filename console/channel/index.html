@@ -172,8 +172,39 @@
                     <!-- 表单 -->
                     <div class="modal-body">
                         <form id="creatChannel">
-                        <span class="text">标题</span>
-                        <input type="text" name="channel_title" class="form-control" autocomplete="off" placeholder="标题或渠道名称">
+                        <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">标题</span>
+                                <input type="text" name="channel_title" class="form-control" autocomplete="off" placeholder="标题或渠道名称">
+                            </div>
+                            <div style="flex:1;">
+                                <span class="text">访问限制</span>
+                                <select name="channel_limit" class="form-control">
+                                    <option value="1">不限制</option>
+                                    <option value="2">仅限微信内打开</option>
+                                    <option value="3">仅限QQ内打开</option>
+                                    <option value="4">仅限手机打开</option>
+                                    <option value="5">仅限微信之外的浏览器打开</option>
+                                    <option value="6">仅限QQ之外的浏览器打开</option>
+                                    <option value="7">仅限电脑打开</option>
+                                    <option value="8">仅限Android设备打开</option>
+                                    <option value="9">仅限iOS设备打开</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="is_mzfwxz" style="display:none;">
+                            <span class="text">命中访问限制规则的时候</span>
+                            <select name="is_mzfwxz" class="form-control">
+                                <option value="1">显示文字引导</option>
+                                <option value="2">跳转到以下链接</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mzfwxz_url" style="display:none;">
+                            <span class="text">命中访问限制规则的时候，跳转到以下链接</span>
+                            <input type="text" name="mzfwxz_url" class="form-control" autocomplete="off" placeholder="跳转到这个链接">
+                        </div>
                         
                         <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
                             <div style="flex:1;margin-right:7px;">
@@ -191,7 +222,7 @@
                         </div>
                         
                         <span class="text">推广链接</span>
-                        <input type="text" name="channel_url" class="form-control" autocomplete="off" placeholder="你所推广的链接链接">
+                        <textarea type="text" rows="3" name="channel_url" class="form-control" autocomplete="off" placeholder="你所推广的链接"></textarea>
                         
                         </form>
                     </div><!-- modal-body -->
@@ -231,26 +262,60 @@
                 <!-- 表单 -->
                 <div class="modal-body">
                 <form id="editChannel" enctype="multipart/form-data">
-                    <span class="text">标题</span>
-                    <input type="text" name="channel_title" class="form-control" autocomplete="off" placeholder="标题或渠道名称">
-                    
                     <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
-                        <div style="flex:1;margin-right:7px;">
-                            <span class="text">短链域名</span>
-                            <select name="channel_dlym" class="form-control" title="短链域名"></select>
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">标题</span>
+                                <input type="text" name="channel_title" class="form-control" autocomplete="off" placeholder="标题或渠道名称">
+                            </div>
+                            <div style="flex:1;">
+                                <span class="text">访问限制</span>
+                                <select name="channel_limit" class="form-control">
+                                    <option value="1">不限制</option>
+                                    <option value="2">仅限微信内打开</option>
+                                    <option value="3">仅限QQ内打开</option>
+                                    <option value="4">仅限手机打开</option>
+                                    <option value="5">仅限微信之外的浏览器打开</option>
+                                    <option value="6">仅限QQ之外的浏览器打开</option>
+                                    <option value="7">仅限电脑打开</option>
+                                    <option value="8">仅限Android设备打开</option>
+                                    <option value="9">仅限iOS设备打开</option>
+                                </select>
+                            </div>
                         </div>
-                        <div style="flex:1;margin-right:7px;">
-                            <span class="text">入口域名</span>
-                            <select name="channel_rkym" class="form-control" title="入口域名"></select>
+                        
+                        <div class="is_mzfwxz" style="display:none;">
+                            <span class="text">命中访问限制规则的时候</span>
+                            <select name="is_mzfwxz" class="form-control">
+                                <option value="1">显示文字引导</option>
+                                <option value="2">跳转到以下链接</option>
+                            </select>
                         </div>
-                        <div style="flex:1;">
-                            <span class="text">落地域名</span>
-                            <select name="channel_ldym" class="form-control" title="落地域名"></select>
+                        
+                        <div class="mzfwxz_url" style="display:none;">
+                            <span class="text">命中访问限制规则的时候，跳转到以下链接</span>
+                            <input type="text" name="mzfwxz_url" class="form-control" autocomplete="off" placeholder="跳转到这个链接">
                         </div>
-                    </div>
-                    
-                    <span class="text">推广链接</span>
-                    <input type="text" name="channel_url" class="form-control" autocomplete="off" placeholder="你所推广的链接">
+                        
+                        <span class="text">后台备注</span>
+                        <input type="text" name="channel_beizhu_ht" class="form-control" autocomplete="off" placeholder="仅限后台可见的备注">
+                        
+                        <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">短链域名</span>
+                                <select name="channel_dlym" class="form-control" title="短链域名"></select>
+                            </div>
+                            <div style="flex:1;margin-right:7px;">
+                                <span class="text">入口域名</span>
+                                <select name="channel_rkym" class="form-control" title="入口域名"></select>
+                            </div>
+                            <div style="flex:1;">
+                                <span class="text">落地域名</span>
+                                <select name="channel_ldym" class="form-control" title="落地域名"></select>
+                            </div>
+                        </div>
+                        
+                        <span class="text">推广链接</span>
+                        <textarea type="text" rows="3" name="channel_url" class="form-control" autocomplete="off" placeholder="你所推广的链接"></textarea>
                     
                     <input type="hidden" name="channel_id">
                 </form>
@@ -343,6 +408,41 @@
 
 
 <script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function () {
+    const channelLimit = document.querySelector('select[name="channel_limit"]');
+    const channelMzLimit = document.querySelector('select[name="is_mzfwxz"]');
+    const isMzfwxz = document.querySelector('.is_mzfwxz');
+    const mzfwxzUrl = document.querySelector('.mzfwxz_url');
+    const mzfwxzUrl_input = document.querySelector('input[name="mzfwxz_url"]');
+
+    function updateVisibility() {
+        const limitVal = parseInt(channelLimit.value, 10);
+        const mzLimitVal = parseInt(channelMzLimit.value, 10);
+
+        if (limitVal === 1) {
+            
+            // 不限制，全部隐藏
+            isMzfwxz.style.display = 'none';
+            mzfwxzUrl.style.display = 'none';
+            
+            // 清空mzfwxzUrl
+            mzfwxzUrl_input.value = '';
+        } else {
+            
+            // 2~9 时，根据第二个下拉框判断
+            isMzfwxz.style.display = 'block';
+            mzfwxzUrl.style.display = (mzLimitVal === 2) ? 'block' : 'none';
+        }
+    }
+
+    // 初始化
+    updateVisibility();
+
+    // 监听两个下拉框的变化
+    channelLimit.addEventListener('change', updateVisibility);
+    channelMzLimit.addEventListener('change', updateVisibility);
+});
 
 // 上传客服二维码（上传客服子码）
 $("#uploadZmQrcode").change(function(e){

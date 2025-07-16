@@ -1,12 +1,4 @@
 <?php
-    
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     */
 
 	// 页面编码
 	header("Content-type:application/json");
@@ -23,6 +15,9 @@
         $channel_dlym = trim($_POST['channel_dlym']);
         $channel_url = trim($_POST['channel_url']);
         $channel_creat_user = trim($_SESSION["yinliubao"]);
+        $channel_limit = trim($_POST['channel_limit']);
+        $is_mzfwxz = trim($_POST['is_mzfwxz']);
+        $mzfwxz_url = trim($_POST['mzfwxz_url']);
         
         // 验证URL合法性
         function is_url($url){
@@ -42,6 +37,18 @@
             $result = array(
                 'code' => 203,
                 'msg' => '渠道标题未设置'
+            );
+        }if($is_mzfwxz == '2' && !$mzfwxz_url){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '命中访问限制规则的时候，跳转的链接未填写'
+            );
+        }else if($mzfwxz_url && is_url($mzfwxz_url) === FALSE && $is_mzfwxz == '2'){
+            
+            $result = array(
+                'code' => 203,
+                'msg' => '命中规则的跳转链接不符合URL规范'
             );
         }else if(empty($channel_rkym) || $channel_rkym == '' || $channel_rkym == null || !isset($channel_rkym)){
             
@@ -105,7 +112,10 @@
                 'channel_url'=>$channel_url,
                 'channel_creat_user'=>$channel_creat_user,
                 'channel_key' => creatKey(5),
-                'channel_id'=>$channel_id
+                'channel_id'=>$channel_id,
+                'channel_limit' => $channel_limit,
+                'is_mzfwxz' => $is_mzfwxz,
+                'mzfwxz_url' => $mzfwxz_url,
             ];
             
             // 执行SQL
