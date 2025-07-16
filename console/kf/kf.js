@@ -113,13 +113,12 @@ function getKfList(pageNum) {
                 '<tr>' +
                 '   <th>ID</th>' +
                 '   <th>标题</th>' +
-                '   <th>在线状态</th>' +
+                '   <th>备注</th>' +
                 '   <th>循环模式</th>' +
-                '   <th>安全提示</th>' +
                 '   <th>创建时间</th>' +
-                '   <th>总访问量</th>' +
-                '   <th>今天访问量</th>' +
+                '   <th>访问量</th>' +
                 '   <th>去重</th>' +
+                '   <th>其它</th>' +
                 '   <th>状态</th>' +
                 '   <th>操作</th>' +
                 '</tr>'
@@ -235,18 +234,35 @@ function getKfList(pageNum) {
                         var kf_pv_today = 0;
                     }
                     
+                    // 仅限后台可见的备注信息
+                    let kf_beizhu_ht;
+                    if(res.kfList[i].kf_beizhu_ht){
+                        
+                        // 有数据
+                        kf_beizhu_ht = res.kfList[i].kf_beizhu_ht;
+                    }else{
+                        
+                        // 无数据
+                        kf_beizhu_ht = '-';
+                    }
+                    
                     // 列表
                     var $tbody_HTML = $(
-                        '<tr>' +
+                        '<tr style="white-space: nowrap;">' +
                         '   <td>'+kf_id+'</td>' +
                         '   <td>'+kf_title+'</td>' +
-                        '   <td>'+kf_online+'</td>' +
-                        '   <td>'+kf_model+'</td>' +
-                        '   <td>'+kf_safety+'</td>' +
+                        '   <td>'+kf_beizhu_ht+'</td>' +
+                        '   <td><span class="light-tag">'+kf_model+'</span></td>' +
                         '   <td>'+kf_creat_time+'</td>' +
-                        '   <td>'+kf_pv+'</td>' +
-                        '   <td>'+kf_pv_today+'</td>' +
+                        '   <td>' +
+                        '       <div>总访问量：'+kf_pv+'</div>' + 
+                        '       <div>今天访问：'+kf_pv_today+'</div>' + 
+                        '   </td>' +
                         '   <td title="开了之后，扫过码的人以后只能看到第一次扫的码。">'+kf_qc+'</td>' +
+                        '   <td>' +
+                        '       <div>在线状态：'+kf_online+'</div>' + 
+                        '       <div>安全提示：'+kf_safety+'</div>' + 
+                        '   </td>' +
                         '   <td>'+kf_status+'</td>' +
                         '   <td class="cz-tags">' +
                         '       <span class="light-tag" data-toggle="modal" data-target="#shareKf" onclick="shareKf('+kf_id+')">分享</span>' +
@@ -454,8 +470,9 @@ function getKfQrcodeList(e) {
         '   <th>访问量</th>' +
         '   <th>更新</th>' +
         '   <th>微信号</th>' +
+        '   <th>备注</th>' +
         '   <th>状态</th>' +
-        '   <th style="text-align: right;">操作</th>' +
+        '   <th>操作</th>' +
         '</tr>'
     );
     $("#kfQrcodeListModal .modal-body .kfQrcodeList thead").html($zm_thead_HTML);
@@ -518,6 +535,18 @@ function getKfQrcodeList(e) {
                         var zm_num = res.kfQrcodeList[i].zm_num;
                     }
                     
+                    // 仅限后台可见的备注信息
+                    let zm_beizhu_ht;
+                    if(res.kfQrcodeList[i].zm_beizhu_ht){
+                        
+                        // 有数据
+                        zm_beizhu_ht = res.kfQrcodeList[i].zm_beizhu_ht;
+                    }else{
+                        
+                        // 无数据
+                        zm_beizhu_ht = '-';
+                    }
+                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
@@ -526,16 +555,12 @@ function getKfQrcodeList(e) {
                         '   <td>'+zm_pv+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+zm_num+'</td>' +
+                        '   <td>'+zm_beizhu_ht+'</td>' +
                         '   <td id="kfQrcodeStatus_'+zm_id+'">'+zm_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#DelKfQrcode" onclick="DelKfQrcodePre(this)" id="'+zm_id+'">删除</span>' +
-                        '               <span class="dropdown-item" title="重置阈值和访问量为0" onclick="resetKfQrcode(this)" id="'+zm_id+'">重置</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
+                        '       <span class="light-tag" title="重置阈值和访问量为0" onclick="resetKfQrcode(this)" id="'+zm_id+'">重置</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#DelKfQrcode" onclick="DelKfQrcodePre(this)" id="'+zm_id+'">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -627,6 +652,18 @@ function refreshKfQrcodeList(kf_id){
                         var zm_num = res.kfQrcodeList[i].zm_num;
                     }
                     
+                    // 仅限后台可见的备注信息
+                    let zm_beizhu_ht;
+                    if(res.kfQrcodeList[i].zm_beizhu_ht){
+                        
+                        // 有数据
+                        zm_beizhu_ht = res.kfQrcodeList[i].zm_beizhu_ht;
+                    }else{
+                        
+                        // 无数据
+                        zm_beizhu_ht = '-';
+                    }
+                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
@@ -635,16 +672,12 @@ function refreshKfQrcodeList(kf_id){
                         '   <td>'+zm_pv+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+zm_num+'</td>' +
+                        '   <td>'+zm_beizhu_ht+'</td>' +
                         '   <td id="kfQrcodeStatus_'+zm_id+'">'+zm_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#DelKfQrcode" onclick="DelKfQrcodePre(this)" id="'+zm_id+'">删除</span>' +
-                        '               <span class="dropdown-item" title="重置阈值和访问量为0" onclick="resetKfQrcode(this)" id="'+zm_id+'">重置</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
+                        '       <span class="light-tag" title="重置阈值和访问量为0" onclick="resetKfQrcode(this)" id="'+zm_id+'">重置</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#DelKfQrcode" onclick="DelKfQrcodePre(this)" id="'+zm_id+'">删除</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -872,24 +905,14 @@ function getKfInfo(e){
                 // （1）标题
                 $('#EditKfModal input[name="kf_title"]').val(res.kfInfo.kf_title);
                 
-                // 备注信息
+                // 活码页面的备注信息
                 $('#EditKfModal textarea[name="kf_beizhu"]').val(res.kfInfo.kf_beizhu);
+                
+                // 仅限后台可见的备注信息
+                $('#EditKfModal input[name="kf_beizhu_ht"]').val(res.kfInfo.kf_beizhu_ht);
                 
                 // 获取域名列表
                 getDomainNameList('edit');
-                
-                // 获取当前设置的域名
-                $('#EditKfModal select[name="kf_rkym"]').append(
-                    '<option value="'+res.kfInfo.kf_rkym+'">'+res.kfInfo.kf_rkym+'</option>'
-                );
-                
-                $('#EditKfModal select[name="kf_ldym"]').append(
-                    '<option value="'+res.kfInfo.kf_ldym+'">'+res.kfInfo.kf_ldym+'</option>'
-                );
-                
-                $('#EditKfModal select[name="kf_dlym"]').append(
-                    '<option value="'+res.kfInfo.kf_dlym+'">'+res.kfInfo.kf_dlym+'</option>'
-                );
                 
                 // 活码状态
                 if(res.kfInfo.kf_status == '1'){
@@ -950,6 +973,11 @@ function getKfInfo(e){
                     );
                 }
                 
+                // 获取当前设置的域名
+                $('#EditKfModal select[name="kf_rkym"]').val(res.kfInfo.kf_rkym);
+                $('#EditKfModal select[name="kf_ldym"]').val(res.kfInfo.kf_ldym);
+                $('#EditKfModal select[name="kf_dlym"]').val(res.kfInfo.kf_dlym);
+                
                 // 在线时间Json配置
                 $('#EditKfModal textarea[name="kf_onlinetimes"]').val(res.kfInfo.kf_onlinetimes);
                 
@@ -1003,6 +1031,9 @@ function getKfQrcodeInfo(e){
                 // 客服微信号
                 $('#zm_num').val(res.kfzmInfo.zm_num);
                 
+                // 后台备注
+                $('#zm_beizhu_ht').val(res.kfzmInfo.zm_beizhu_ht);
+                
                 // 客服二维码使用状态
                 if(res.kfzmInfo.zm_status == '1'){
                     
@@ -1026,8 +1057,8 @@ function getKfQrcodeInfo(e){
                 var $previewQrcode_HTML = $(
                     '<img src="'+res.kfzmInfo.zm_qrcode+'" class="qrcode" />' +
                     '<div>' +
-                    '   <div class="Re-upload reUpload" onclick="newUpload();">重新上传</div>' +
-                    '   <div class="Re-upload selectFromSCK" onclick="getSuCai(\'1\',\'EditKfQrcodeModal\');">从素材库选择</div>' +
+                    '   <div class="Re-upload reUpload" onclick="newUpload();">+ 重新上传</div>' +
+                    '   <div class="Re-upload selectFromSCK" onclick="getSuCai(\'1\',\'EditKfQrcodeModal\');">+ 从素材库选择</div>' +
                     '</div>'
                 );
                 $('#EditKfQrcodeModal .modal-body .qrcode_preview').html($previewQrcode_HTML);

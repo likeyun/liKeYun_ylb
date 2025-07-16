@@ -200,7 +200,7 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                        <div class="faqnav" title="阅读使用指南">
+                        <div class="faqnav" title="阅读使用文档">
                             <span class="faq"><a href="../faq.php?faq=kf" target="_blank">?</a></span>
                         </div>
                         <div class="btnnav">
@@ -230,11 +230,20 @@
                 <!-- 表单 -->
                 <div class="modal-body">
                 <form id="editKf" enctype="multipart/form-data">
-                <span class="text">标题</span>
-                <input type="text" name="kf_title" class="form-control" autocomplete="off" placeholder="标题或客服昵称">
+
+                <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                    <div style="flex:1;margin-right:7px;">
+                        <span class="text">标题</span>
+                        <input type="text" name="kf_title" class="form-control" autocomplete="off" placeholder="标题或客服昵称">
+                    </div>
+                    <div style="flex:1;">
+                        <span class="text">后台备注</span>
+                        <input type="text" name="kf_beizhu_ht" class="form-control" autocomplete="off" placeholder="仅限后台可见的备注">
+                    </div>
+                </div>
                 
-                <span class="text">备注信息</span>
-                <textarea name="kf_beizhu" class="form-control" rows="3" autocomplete="off" placeholder="客服简介、加微信要求等（可空）"></textarea>
+                <span class="text">落地页扫码页面备注</span>
+                <textarea name="kf_beizhu" class="form-control" rows="2" autocomplete="off" placeholder="简介、加微信要求等，支持HTML代码，可留空"></textarea>
                 
                 <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
                     <div style="flex:1;margin-right:7px;">
@@ -270,7 +279,7 @@
                 
                 <!--在线时间Json配置-->
                 <span class="text">在线时间配置</span>
-                <textarea class="form-control" name="kf_onlinetimes" rows="7" title="1-7代表星期一至星期日，morning、afternoon、evening代表上午、下午、晚上的在线时间段！设置00:00-00:00代表全时段不在线！"></textarea>
+                <textarea class="form-control" name="kf_onlinetimes" rows="5" title="1-7代表星期一至星期日，morning、afternoon、evening代表上午、下午、晚上的在线时间段！设置00:00-00:00代表全时段不在线！"></textarea>
                 
                 <!--隐藏域，用于传参-->
                 <input type="hidden" name="kf_id">
@@ -280,11 +289,11 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=kf" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
-                    	    <button type="button" class="default-btn" onclick="editKf();">提交更新</button>
+                    	    <button type="button" class="default-btn" onclick="editKf();">提交保存</button>
                     	</div>
                     </div>
                 </div><!-- modal-footer -->
@@ -324,7 +333,7 @@
     
     <!-- 确定删除客服二维码 -->
     <div class="modal fade" id="DelKfQrcode">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
             <div class="modal-content">
                 
                 <!-- 头部 -->
@@ -350,7 +359,7 @@
   	
   	<!--客服二维码管理-->
     <div class="modal fade" id="kfQrcodeListModal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog" style="max-width:900px;">
             <div class="modal-content">
                 
                 <!-- 模态框头部 -->
@@ -367,14 +376,14 @@
 
                         <div class="upload-Btn-Group">
                             <button type="button" class="default-btn local">
-                                <span>上传二维码</span>
+                                <span>+ 上传二维码</span>
                                 <form id="uploadKfQrcodeForm" enctype="multipart/form-data">
                                     <input type="file" name="file" class="fileSelectBtn" accept="image/*" id="uploadKfQrcode" />
                                     <input text="text" name="kf_id" id="uploadKfQrcode_kf_id" style="display:none;" />
                                 </form>
                             </button>
                             <button type="button" class="default-btn sucaiku" onclick="getSuCai('1','kfQrcodeListModal')">
-                                <span>从素材库选择</span>
+                                <span>+ 从素材库选择</span>
                             </button>
                         </div>
                         
@@ -396,11 +405,11 @@
                 <!-- 模态框底部 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=kf" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
-                    	    <button type="button" class="default-btn" data-dismiss="modal">关闭</button>
+                    	    <button type="button" class="tint-btn" data-dismiss="modal">关闭</button>
                     	</div>
                     </div>
                 </div>
@@ -434,6 +443,9 @@
                     <span class="text">客服微信号</span>
                     <input type="text" name="zm_num" class="form-control" autocomplete="off" id="zm_num" placeholder="客服微信号">
                     
+                    <span class="text">当前二维码的备注</span>
+                    <input type="text" name="zm_beizhu_ht" class="form-control" autocomplete="off" id="zm_beizhu_ht" placeholder="仅限后台可见">
+                    
                     <!--上传控件-->
                     <span class="upload_file">
                     	<div class="upload_qrcode">
@@ -456,11 +468,11 @@
                 <!-- 底部操作 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=kf" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">
-                    	    <button type="button" class="default-btn" onclick="editKfQrcode();">提交更新</button>
+                    	    <button type="button" class="default-btn" onclick="editKfQrcode();">提交保存</button>
                     	</div>
                     </div>
                 </div><!-- modal-footer -->
@@ -517,7 +529,7 @@
                 <div class="modal-body">
                     <div class="sucai-upload">
                         <button type="button" class="default-btn upload_sucai_button">
-                            <span>上传素材</span>
+                            <span>+ 上传素材</span>
                             <form id="uploadSuCaiTosuCaiKuForm" enctype="multipart/form-data">
                                 <input type="file" name="file" class="upload_sucai" accept="image/*" id="uploadSuCaiTosuCaiKu" />
                                 <input text="text" name="kf_id" id="upload_sucai_kfid" style="display:none;" />
@@ -536,7 +548,7 @@
                 <!-- 模态框底部 -->
                 <div class="modal-footer">
                     <div class="footer-btn">
-                    	<div class="faqnav" title="阅读使用指南">
+                    	<div class="faqnav" title="阅读使用文档">
                     	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
                     	</div>
                     	<div class="btnnav">

@@ -28,6 +28,8 @@
     	$kf_safety = trim($_POST['kf_safety']);
     	$kf_id = trim($_POST['kf_id']);
     	
+        $kf_beizhu_ht = trim($_POST['kf_beizhu_ht']);
+    	
         // 过滤参数
         if(empty($kf_title) || !isset($kf_title)){
             
@@ -118,7 +120,8 @@
                     'kf_online' => $kf_online,
                     'kf_onlinetimes' => $kf_onlinetimes,
                     'kf_safety' => $kf_safety,
-                    'kf_beizhu' => $kf_beizhu
+                    'kf_beizhu' => $kf_beizhu,
+                    'kf_beizhu_ht' => $kf_beizhu_ht
                 ];
                 
                 // 更新条件

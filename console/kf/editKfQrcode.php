@@ -24,6 +24,9 @@
     	$kf_model = trim($_POST['kf_model']);
     	$zm_id = trim($_POST['zm_id']);
     	
+        // 后台备注
+    	$zm_beizhu_ht = trim($_POST['zm_beizhu_ht']);
+    	
         // 过滤参数
         if(!isset($zm_yz) || $zm_yz == 0 && $kf_model == 1){
             
@@ -89,6 +92,7 @@
                 zm_yz='$zm_yz',
                 zm_num='$zm_num',
                 zm_qrcode='$zm_qrcode',
+                zm_beizhu_ht='$zm_beizhu_ht',
                 zm_update_time='$zm_update_time' 
                 WHERE zm_id='$zm_id'";
                 

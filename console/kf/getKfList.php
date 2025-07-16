@@ -20,16 +20,34 @@
     	// 实例化类
     	$db = new DB_API($config);
     	
-        // 定制功能，加一个 kf_qc 字段
+        // 	-------------------------------------------------------------------------
+        // 	-------------------------------------------------------------------------
+        // 	-------------------------------------------------------------------------
+        // 加一个 kf_qc 字段
     	$checkExitsSQL = "SHOW COLUMNS FROM huoma_kf LIKE 'kf_qc'";
         $checkExits = $db->set_table('huoma_kf')->findSql($checkExitsSQL);
         if(!$checkExits) {
             
-            // 不存在这个字段
-            // 新增字段
             $Add_kf_qc = "ALTER TABLE huoma_kf ADD kf_qc int(1) DEFAULT '2' COMMENT '去重1开 2关'";
             $db->set_table('huoma_kf')->findSql($Add_kf_qc);
         }
+        
+        // 2025-07-16
+        // 加一个 kf_beizhu_ht 字段
+        // 加一个 zm_beizhu_ht 字段
+    	$checkExitsSQL = "SHOW COLUMNS FROM huoma_kf LIKE 'kf_beizhu_ht'";
+        $checkExits = $db->set_table('huoma_kf')->findSql($checkExitsSQL);
+        if(!$checkExits) {
+
+            $Add_kf_beizhu_ht = "ALTER TABLE huoma_kf ADD kf_beizhu_ht varchar(32) DEFAULT NULL COMMENT '后台备注'";
+            $db->set_table('huoma_kf')->findSql($Add_kf_beizhu_ht);
+            
+            $Add_zm_beizhu_ht = "ALTER TABLE huoma_kf_zima ADD zm_beizhu_ht varchar(32) DEFAULT NULL COMMENT '后台备注'";
+            $db->set_table('huoma_kf_zima')->findSql($Add_zm_beizhu_ht);
+        }
+        // 	-------------------------------------------------------------------------
+        // 	-------------------------------------------------------------------------
+        // 	-------------------------------------------------------------------------
     
     	// 数据库huoma_kf表
     	$huoma_kf = $db->set_table('huoma_kf');
