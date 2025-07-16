@@ -42,6 +42,9 @@
             // 解析所需字段
             $channel_status = getSqlData($getChannelInfoResult,'channel_status');
             $channel_url = getSqlData($getChannelInfoResult,'channel_url');
+            $channel_limit = getSqlData($getChannelInfoResult,'channel_limit');
+            $is_mzfwxz = getSqlData($getChannelInfoResult,'is_mzfwxz');
+            $mzfwxz_url = getSqlData($getChannelInfoResult,'mzfwxz_url');
             
             // 判断该渠道码的状态
             if($channel_status == 1){
@@ -95,7 +98,7 @@
                         // 有一样的来源数据
                         // 更新当前来源数据的访问量
                         $data_id = json_decode(json_encode($checkTheSameDataResult))->data_id;
-                        updateThisChannelDataPv($db,$data_id,$channel_url);
+                        updateThisChannelDataPv($db,$data_id,$channel_url,$channel_limit,$is_mzfwxz,$mzfwxz_url);
                     }else{
                         
                         // 没有一样的来源数据
@@ -111,7 +114,7 @@
                         $saveRefererInfoResult = $db->set_table('huoma_channel_data')->add($saveRefererInfo);
                         
                         // 更新当前来源数据的访问量
-                        updateThisChannelDataPv($db,$data_id,$channel_url);
+                        updateThisChannelDataPv($db,$data_id,$channel_url,$channel_limit,$is_mzfwxz,$mzfwxz_url);
                     }
                 }
                 
@@ -241,7 +244,7 @@
     }
     
     // 更新渠道码单条来源数据的访问量
-    function updateThisChannelDataPv($db,$data_id,$channel_url){
+    function updateThisChannelDataPv($db,$data_id,$channel_url,$channel_limit,$is_mzfwxz,$mzfwxz_url){
 
         // 传入data_id
         $data_creat_time = date('Y-m-d H:i:s');
@@ -250,13 +253,11 @@
         if($updateThisChannelDataPvResult){
             
             // 跳转到目标页
-            header('Location:'.$channel_url);
-            // echo $_SERVER['HTTP_USER_AGENT'];
+            locationUrl($channel_limit,$is_mzfwxz,$mzfwxz_url,$channel_url);
         }else{
             
             // 跳转到目标页
-            header('Location:'.$channel_url);
-            // echo $_SERVER['HTTP_USER_AGENT'];
+            locationUrl($channel_limit,$is_mzfwxz,$mzfwxz_url,$channel_url);
         }
     }
     
@@ -287,6 +288,192 @@
                 'MacOS_Total' => $MacOS_Total
             ]
         );
+    }
+    
+    // 访问限制
+    function locationUrl($channel_limit,$is_mzfwxz,$mzfwxz_url,$channel_url){
+        
+        // 不限制
+        if($channel_limit == 1){
+            
+            // 跳转
+            jumpto($channel_url);
+        }else if($channel_limit == 2){
+            
+            // 仅限微信内访问
+            if(preg_match('/MicroMessenger/i',$_SERVER['HTTP_USER_AGENT'])){
+                
+                // 跳转
+                jumpto($channel_url);
+            }else{
+                
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限微信内访问');
+            }
+        }else if($channel_limit == 3){
+
+            // 仅限QQ内访问
+            if (preg_match('/QQ\/[0-9\.]+/i', $_SERVER['HTTP_USER_AGENT'])) {
+                
+                // 跳转
+                jumpto($channel_url);
+            }else{
+                
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限仅限QQ内访问');
+            }
+        }else if($channel_limit == 4){
+            
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            
+            if (
+                preg_match('/Windows/i', $userAgent) ||
+                preg_match('/Macintosh/i', $userAgent) ||
+                preg_match('/X11/i', $userAgent)
+            ) {
+                
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限手机浏览器访问');
+            } else {
+                
+                // 跳转
+                jumpto($channel_url);
+            }
+        }else if($channel_limit == 5){
+            
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+            // 判断是否是微信内置浏览器
+            $isWeChat = preg_match('/MicroMessenger/i', $userAgent);
+            
+            if($isWeChat) {
+                
+                // 微信内
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限微信之外的手机浏览器访问');
+            }else {
+                
+                // 微信外
+                // 判断是不是手机浏览器
+                if (
+                    preg_match('/Windows/i', $userAgent) ||
+                    preg_match('/Macintosh/i', $userAgent) ||
+                    preg_match('/X11/i', $userAgent)
+                ) {
+                    
+                    // 电脑设备
+                    // 显示文字还是跳转到指定url
+                    showOrjump($is_mzfwxz, $mzfwxz_url, '仅限微信之外的手机浏览器访问');
+                }else {
+                    
+                    // 手机设备
+                    // 跳转
+                    jumpto($channel_url);
+                }
+            }
+        }else if($channel_limit == 6){
+            
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+            // 判断是否是微信内置浏览器
+            $isQQ = preg_match('/QQ\/[0-9\.]+/i', $userAgent);
+            
+            if($isQQ) {
+                
+                // QQ内
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限QQ之外的手机浏览器访问');
+            }else {
+                
+                // QQ外
+                // 判断是不是手机浏览器
+                if (
+                    preg_match('/Windows/i', $userAgent) ||
+                    preg_match('/Macintosh/i', $userAgent) ||
+                    preg_match('/X11/i', $userAgent)
+                ) {
+                    
+                    // 电脑设备
+                    // 显示文字还是跳转到指定url
+                    showOrjump($is_mzfwxz, $mzfwxz_url, '仅限QQ之外的手机浏览器访问');
+                }else {
+                    
+                    // 手机设备
+                    // 跳转
+                    jumpto($channel_url);
+                }
+            }
+        }else if($channel_limit == 7){
+            
+            // 通过获取屏幕分辨率宽度
+            // 判断当前的设备
+            $screenWidth = '<script>document.write(window.screen.width);</script>';
+            
+            // 仅限PC访问
+            if(
+                preg_match('/Windows/i',$_SERVER['HTTP_USER_AGENT']) || 
+                preg_match('/Macintosh/i',$_SERVER['HTTP_USER_AGENT']) || 
+                preg_match('/X11/i',$_SERVER['HTTP_USER_AGENT'])){
+                
+                // 跳转
+                jumpto($channel_url);
+            }else{
+                
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限电脑访问');
+            }
+        }else if($channel_limit == 8){
+            
+            // 仅限Android设备访问
+            if(preg_match('/Android/i',$_SERVER['HTTP_USER_AGENT'])){
+                
+                // 跳转
+                jumpto($channel_url);
+            }else{
+                
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限Android设备访问');
+            }
+        }else if($channel_limit == 9){
+            
+            // 仅限iOS设备访问
+            if(preg_match('/iPhone/i',$_SERVER['HTTP_USER_AGENT'])){
+                
+                // 跳转
+                jumpto($channel_url);
+            }else{
+                
+                // 显示文字还是跳转到指定url
+                showOrjump($is_mzfwxz, $mzfwxz_url, '仅限iOS设备访问');
+            }
+        }else{
+            
+            // 其它未定义的情况
+            echo warnInfo('温馨提示','程序发生错误');
+        }
+    }
+    
+    // 跳转
+    function jumpto($channel_url) {
+        
+        // 跳转
+        header('HTTP/1.1 301 Moved Permanently');
+        header('Location:'.$channel_url . '#' . time());
+    }
+    
+    // 显示文字还是跳转到指定url
+    function showOrjump($is_mzfwxz, $mzfwxz_url, $showtext) {
+        
+        if($is_mzfwxz == 1) {
+            
+            // 显示文字
+            echo warnInfo('温馨提示', $showtext);
+        }else {
+            
+            // 跳转到指定url
+            header('HTTP/1.1 301 Moved Permanently');
+            header('Location:'.$mzfwxz_url);
+        }
     }
     
     // 解析数组
