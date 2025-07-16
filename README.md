@@ -4,10 +4,19 @@
 
 <br>
 
-# 🌐 免备案服务器推荐
+# 🌐 服务器推荐
+
+**免备案（香港、美国）** <br>
 
 👉 https://www.rainyun.com/TANKING_
 <br>
+
+**需备案（中国大陆）** <br>
+
+👉 京东云：https://3.cn/2aTdZ-o4 <br>
+👉 腾讯云：https://curl.qcloud.com/jjU77TKa <br>
+👉 阿里云：https://t.aliyun.com/U/wgSNSS <br>
+
 
 # 🌟 特色功能
 
