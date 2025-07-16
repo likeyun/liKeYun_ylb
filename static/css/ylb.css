@@ -69,6 +69,26 @@ input[type=file]::-webkit-file-upload-button{
     background: rgba(59,94,225,0.1);
     border-radius: 10px;
 }
+.table .light-tag {
+    padding: 5px 10px;
+    font-size: 13px;
+    background: #eee;
+    color: #666;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.table .light-tag:hover {
+    background: #e4e4e4;
+}
+
+/*2025-07-16优化*/
+.modal-content {
+    border-radius: 10px;
+}
+.form-control {
+    border-radius: 8px;
+}
+
 
 /*返回上一页*/
 #app .back-lastpage {
@@ -96,17 +116,17 @@ input[type=file]::-webkit-file-upload-button{
   width: 100%;
   height: 100px;
   overflow: hidden;
-  transition: top 0.5s ease;
+  transition: top 0.4s ease;
   z-index: 3;
 }
 #notification-text {
   background: rgba(59,94,225,0.1);
-  border-radius: 5px;
+  border-radius: 8px;
   color: rgb(59,94,225);
-  padding: 10px;
+  padding: 10px 15px;
   font-size: 15px;
   text-align: center;
-  margin:0 auto;
+  margin: 0 auto;
 }
 #app .form-control-group{
     width: 100%;
@@ -233,6 +253,9 @@ input[type=file]::-webkit-file-upload-button{
     height: 20px;
 }
 #app .modal-footer .footer-btn .default-btn{
+	float: right;
+}
+#app .modal-footer .footer-btn .tint-btn{
 	float: right;
 }
 #app .result{
@@ -1453,29 +1476,29 @@ table tr:hover {
 }
 
 #EditKfQrcodeModal .reUpload{
-    width: 80px;
-    height: 32px;
-    line-height: 32px;
+    width: 100px;
+    height: 33px;
+    line-height: 33px;
     text-align: center;
-    color: #333;
+    color: #666;
     background: #eee;
     cursor: pointer;
     font-size: 14px;
-    border-radius: 8px;
-    margin:15px auto 0;
+    border-radius: 9px;
+    margin: 15px auto 0;
 }
 
 #EditKfQrcodeModal .selectFromSCK{
-    width: 100px;
-    height: 32px;
-    line-height: 32px;
+    width: 120px;
+    height: 33px;
+    line-height: 33px;
     text-align: center;
-    color: #333;
+    color: #666;
     background: #eee;
     cursor: pointer;
     font-size: 14px;
-    border-radius: 8px;
-    margin:10px auto 0;
+    border-radius: 9px;
+    margin: 10px auto 0;
 }
 
 /*shareQunModal*/
@@ -1590,21 +1613,21 @@ table tr:hover {
 /*客服码、客服二维码*/
 #kfQrcodeListModal .modal-body .btn-view{
     width: 100%;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 #kfQrcodeListModal .modal-body .btn-view .upload-Btn-Group{
-    width: 260px;
-    height: 50px;
+    width: 270px;
+    height: 34px;
     display: block;
-    margin: 10px auto 20px;
+    margin: 20px auto 25px;
 }
 #kfQrcodeListModal .modal-body .btn-view .upload-Btn-Group .local{
-    width: 120px;
+    /*width: 120px;*/
     float: left;
 }
 #kfQrcodeListModal .modal-body .btn-view .upload-Btn-Group .sucaiku{
-    width: 120px;
+    /*width: 120px;*/
     float: right;
 }
 #kfQrcodeListModal .modal-body .local{
@@ -1696,9 +1719,9 @@ table tr:hover {
 }
 #kfQrcodeListModal table{
 	text-align: center;
-	margin-top: 50px;
 	font-size: 14px;
 	color: #999;
+	margin-bottom: 0;
 }
 #kfQrcodeListModal table img{
 	width: 60px;
