@@ -367,11 +367,12 @@ function getQunQrcodeList(qun_id) {
         '   <th>序号</th>' +
         '   <th>阈值</th>' +
         '   <th>访问量</th>' +
+        '   <th>长按次数</th>' +
         '   <th>更新</th>' +
         '   <th>到期</th>' +
         '   <th>群主</th>' +
         '   <th>状态</th>' +
-        '   <th style="text-align: right;">操作</th>' +
+        '   <th>操作</th>' +
         '</tr>'
     );
     
@@ -454,19 +455,15 @@ function getQunQrcodeList(qun_id) {
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+res.qunQrcodeList[i].zm_yz+'</td>' +
                         '   <td>'+res.qunQrcodeList[i].zm_pv+'</td>' +
+                        '   <td>'+res.qunQrcodeList[i].longpress_num+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td title="无实际作用，仅用于提醒你更换二维码。">'+daoqiDate+'</td>' +
                         '   <td>'+zm_leader+'</td>' +
                         '   <td id="qunzima_status_'+zm_id+'">'+zm_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editQunQrcodeModal" onclick="getQunzmInfo(this)" id="'+zm_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#delQunQrcodeModal" onclick="askDelQunQrcode(this)" id="'+zm_id+'">删除</span>' +
-                        '               <span class="dropdown-item" title="重置阈值和访问量为0" onclick="resetQunQrcode(this)" id="'+zm_id+'">重置</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '               <span class="light-tag" data-toggle="modal" data-target="#editQunQrcodeModal" onclick="getQunzmInfo(this)" id="'+zm_id+'">编辑</span>' +
+                        '               <span class="light-tag" data-toggle="modal" data-target="#delQunQrcodeModal" onclick="askDelQunQrcode(this)" id="'+zm_id+'">删除</span>' +
+                        '               <span class="light-tag" title="重置阈值和访问量为0" onclick="resetQunQrcode(this)" id="'+zm_id+'">重置</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -577,6 +574,7 @@ function freshenQunQrcodeList(qun_id){
                         '   <td>'+xuhao+'</td>' +
                         '   <td>'+res.qunQrcodeList[i].zm_yz+'</td>' +
                         '   <td>'+res.qunQrcodeList[i].zm_pv+'</td>' +
+                        '   <td>'+res.qunQrcodeList[i].longpress_num+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+daoqiDate+'</td>' +
                         '   <td>'+zm_leader+'</td>' +

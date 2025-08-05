@@ -1,14 +1,5 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
-
 	// 页面编码
 	header("Content-type:application/json");
 	
@@ -28,6 +19,17 @@
     
     	// 实例化类
     	$db = new DB_API($config);
+    	
+        // 2.4.6新增，新增一个长按次数字段
+        $checkExitsSQL = "SHOW COLUMNS FROM huoma_qun_zima LIKE 'longpress_num'";
+        $checkExits = $db->set_table('huoma_qun_zima')->findSql($checkExitsSQL);
+        if(!$checkExits) {
+            
+            // 不存在这个字段
+            // 新增字段
+            $Add_longpress_num = "ALTER TABLE huoma_qun_zima ADD longpress_num int(10) DEFAULT '0' COMMENT '长按次数'";
+            $db->set_table('huoma_qun_zima')->findSql($Add_longpress_num);
+        }
     
     	// 数据库huoma_qun表
     	$huoma_qun = $db->set_table('huoma_qun');
