@@ -457,7 +457,6 @@ function getKfQrcodeList(e) {
         '   <th>长按次数</th>' +
         '   <th>更新</th>' +
         '   <th>微信号</th>' +
-        '   <th>备注</th>' +
         '   <th>状态</th>' +
         '   <th>操作</th>' +
         '</tr>'
@@ -522,17 +521,6 @@ function getKfQrcodeList(e) {
                         var zm_num = res.kfQrcodeList[i].zm_num;
                     }
                     
-                    // 备注
-                    if(!res.kfQrcodeList[i].zm_bz){
-                        
-                        // 未设置
-                        var zm_bz = '<span> - </span>';
-                    }else{
-                        
-                        // 已设置
-                        var zm_bz = res.kfQrcodeList[i].zm_bz;
-                    }
-                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
@@ -542,7 +530,6 @@ function getKfQrcodeList(e) {
                         '   <td>'+res.kfQrcodeList[i].longpress_num+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+zm_num+'</td>' +
-                        '   <td>'+zm_bz+'</td>' +
                         '   <td id="kfQrcodeStatus_'+zm_id+'">'+zm_status+'</td>' +
                         '   <td class="cz-tags">' +
                         '       <span class="light-tag" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
@@ -639,17 +626,6 @@ function refreshKfQrcodeList(kf_id){
                         var zm_num = res.kfQrcodeList[i].zm_num;
                     }
                     
-                    // 备注
-                    if(!res.kfQrcodeList[i].zm_bz){
-                        
-                        // 未设置
-                        var zm_bz = '<span> - </span>';
-                    }else{
-                        
-                        // 已设置
-                        var zm_bz = res.kfQrcodeList[i].zm_bz;
-                    }
-                    
                     // 列表
                     var $zm_tbody_HTML = $(
                         '<tr>' +
@@ -659,17 +635,11 @@ function refreshKfQrcodeList(kf_id){
                         '   <td>'+res.kfQrcodeList[i].longpress_num+'</td>' +
                         '   <td>'+updatePassTime+'</td>' +
                         '   <td>'+zm_num+'</td>' +
-                        '   <td>'+zm_bz+'</td>' +
                         '   <td id="kfQrcodeStatus_'+zm_id+'">'+zm_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#DelKfQrcode" onclick="DelKfQrcodePre(this)" id="'+zm_id+'">删除</span>' +
-                        '               <span class="dropdown-item" title="重置阈值和访问量为0" onclick="resetKfQrcode(this)" id="'+zm_id+'">重置</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#EditKfQrcodeModal" onclick="getKfQrcodeInfo(this)" id="'+zm_id+'">编辑</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#DelKfQrcode" onclick="DelKfQrcodePre(this)" id="'+zm_id+'">删除</span>' +
+                        '       <span class="light-tag" title="重置阈值和访问量为0" onclick="resetKfQrcode(this)" id="'+zm_id+'">重置</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -1027,9 +997,6 @@ function getKfQrcodeInfo(e){
                 
                 // 客服微信号
                 $('#zm_num').val(res.kfzmInfo.zm_num);
-                
-                // 备注信息
-                $('#zm_bz').val(res.kfzmInfo.zm_bz);
                 
                 // 客服二维码使用状态
                 if(res.kfzmInfo.zm_status == '1'){
