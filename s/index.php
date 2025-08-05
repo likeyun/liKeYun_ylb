@@ -189,7 +189,7 @@
         }
         
         // 301跳转
-        header('HTTP/1.1 301 Moved Permanently');
+        // header('HTTP/1.1 301 Moved Permanently');
         
         // 跳转
         header('Location:'.$longUrl);
