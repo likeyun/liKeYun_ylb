@@ -461,9 +461,9 @@ function getQunQrcodeList(qun_id) {
                         '   <td>'+zm_leader+'</td>' +
                         '   <td id="qunzima_status_'+zm_id+'">'+zm_status+'</td>' +
                         '   <td class="cz-tags">' +
-                        '               <span class="light-tag" data-toggle="modal" data-target="#editQunQrcodeModal" onclick="getQunzmInfo(this)" id="'+zm_id+'">编辑</span>' +
-                        '               <span class="light-tag" data-toggle="modal" data-target="#delQunQrcodeModal" onclick="askDelQunQrcode(this)" id="'+zm_id+'">删除</span>' +
-                        '               <span class="light-tag" title="重置阈值和访问量为0" onclick="resetQunQrcode(this)" id="'+zm_id+'">重置</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#editQunQrcodeModal" onclick="getQunzmInfo(this)" id="'+zm_id+'">编辑</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#delQunQrcodeModal" onclick="askDelQunQrcode(this)" id="'+zm_id+'">删除</span>' +
+                        '       <span class="light-tag" title="重置阈值和访问量为0" onclick="resetQunQrcode(this)" id="'+zm_id+'">重置</span>' +
                         '   </td>' +
                         '</tr>'
                     );
@@ -579,15 +579,10 @@ function freshenQunQrcodeList(qun_id){
                         '   <td>'+daoqiDate+'</td>' +
                         '   <td>'+zm_leader+'</td>' +
                         '   <td id="qunzima_status_'+zm_id+'">'+zm_status+'</td>' +
-                        '   <td class="dropdown-td">' +
-                        '       <div class="dropdown">' +
-                        '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                        '           <div class="dropdown-menu">' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#editQunQrcodeModal" onclick="getQunzmInfo(this)" id="'+zm_id+'">编辑</span>' +
-                        '               <span class="dropdown-item" data-toggle="modal" data-target="#delQunQrcodeModal" onclick="askDelQunQrcode(this)" id="'+zm_id+'">删除</span>' +
-                        '               <span class="dropdown-item" title="重置阈值和访问量为0" onclick="resetQunQrcode(this)" id="'+zm_id+'">重置</span>' +
-                        '           </div>' +
-                        '       </div>' +
+                        '   <td class="cz-tags">' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#editQunQrcodeModal" onclick="getQunzmInfo(this)" id="'+zm_id+'">编辑</span>' +
+                        '       <span class="light-tag" data-toggle="modal" data-target="#delQunQrcodeModal" onclick="askDelQunQrcode(this)" id="'+zm_id+'">删除</span>' +
+                        '       <span class="light-tag" title="重置阈值和访问量为0" onclick="resetQunQrcode(this)" id="'+zm_id+'">重置</span>' +
                         '   </td>' +
                         '</tr>'
                     );
