@@ -156,7 +156,7 @@
                             echo '
                             <p id="scanTips">请长按下方二维码进群</p>
                             <div id="zm_qrcode">
-                                <img src="'.$zm_qrcode.'" />
+                                <img src="'.$zm_qrcode.'" data-zmid="'.$zm_id.'" id="qrcode_img" />
                             </div>';
                             
                             // 客服
@@ -167,6 +167,47 @@
                                 echo '<div style="width:100%;height:50px;"></div>';
                             }
                             
+                            // 长按监听
+                            echo '<script>
+                                // 获取图片元素
+                                const qrcode_img = document.getElementById("qrcode_img");
+                            
+                                // 获取图片绑定的id
+                                let zmid = qrcode_img.dataset.zmid;
+                            
+                                // 记录 touch 开始时间
+                                let touchStartTime = 0;
+                                let moved = false;
+                            
+                                // 监听 touchstart
+                                qrcode_img.addEventListener("touchstart", (e) => {
+                                    moved = false;
+                                    touchStartTime = Date.now();
+                                });
+                            
+                                // 监听 touchmove（防止误触）
+                                qrcode_img.addEventListener("touchmove", (e) => {
+                                    moved = true;
+                                });
+                            
+                                // 监听 touchend
+                                qrcode_img.addEventListener("touchend", (e) => {
+                                    let touchDuration = Date.now() - touchStartTime;
+                                    if (!moved && touchDuration > 500) {
+                            
+                                        // 发起 fetch 请求
+                                        fetch("longpress.php?zm_id=" + encodeURIComponent(zmid))
+                                            .then(response => response.text())
+                                            .then(data => {
+                                                console.log("返回结果：", data);
+                                            })
+                                            .catch(error => {
+                                                console.error("请求失败：", error);
+                                            });
+                                    }
+                                });
+                            </script>';
+
                             // 更新当前群二维码的访问量
                             // 注意：仅更新符合当前阈值条件的群二维码访问量
                             updateQunQrcodePv($db,$zm_id,$zm_pv);
