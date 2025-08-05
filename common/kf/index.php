@@ -53,7 +53,9 @@
      * 作者：TANKING
      * 博客：https://segmentfault.com/u/tanking
      */
-     
+    
+    error_reporting(0);
+    
     // 页面编码
     header("Content-type:text/html;charset=utf-8");
     
