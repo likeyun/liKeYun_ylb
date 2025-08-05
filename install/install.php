@@ -1,6 +1,6 @@
 <?php
 
-    // 上次维护：2025-07-07
+    // 上次维护：2025-08-05
 
 	// 页面编码
 	header("Content-type:application/json");
@@ -678,7 +678,7 @@
                         'db_pass' => $db_pass,
                         'db_prefix' => '',
                         'folderNum' => $install_folder,
-                        'version' => '2.4.5'
+                        'version' => '2.4.6'
                     ];
                     
                     // 生成Db.php文件内容
