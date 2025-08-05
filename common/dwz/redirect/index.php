@@ -163,7 +163,7 @@
                 $lunxun_domain = $getLunXunDomains[$randomKey]['domain'];
                 
                 // 用轮询域名跳转到轮询页面
-                header('HTTP/1.1 301 Moved Permanently');
+                // header('HTTP/1.1 301 Moved Permanently');
                 
                 // 拼接跳转链接
                 $jumpUrl = dirname($lunxun_domain . $_SERVER['REQUEST_URI']) . '/lx/?key=' . $key.'&t='.time();
