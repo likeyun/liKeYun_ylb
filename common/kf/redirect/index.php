@@ -127,7 +127,7 @@
             $longUrl = dirname(dirname($kf_ldym.$_SERVER['REQUEST_URI'])).'/?kid='.$kid;
             
             // 301跳转
-            header('HTTP/1.1 301 Moved Permanently');
+            // header('HTTP/1.1 301 Moved Permanently');
             
             // 跳转
             header('Location:'.$longUrl);
