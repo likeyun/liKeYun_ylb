@@ -20,40 +20,34 @@
     	// 实例化类
     	$db = new DB_API($config);
     	
-        // 	-------------------------------------------------------------------------
-        // 	-------------------------------------------------------------------------
-        // 	-------------------------------------------------------------------------
+        // 2.4.5版本新增
+        // 客服码去重
         // 加一个 kf_qc 字段
     	$checkExitsSQL = "SHOW COLUMNS FROM huoma_kf LIKE 'kf_qc'";
         $checkExits = $db->set_table('huoma_kf')->findSql($checkExitsSQL);
         if(!$checkExits) {
             
+            // 不存在这个字段
+            // 新增字段
             $Add_kf_qc = "ALTER TABLE huoma_kf ADD kf_qc int(1) DEFAULT '2' COMMENT '去重1开 2关'";
             $db->set_table('huoma_kf')->findSql($Add_kf_qc);
         }
         
-        // 2025-07-16
-        // 加一个 kf_beizhu_ht 字段
-        // 加一个 zm_beizhu_ht 字段
-    	$checkExitsSQL = "SHOW COLUMNS FROM huoma_kf LIKE 'kf_beizhu_ht'";
-        $checkExits = $db->set_table('huoma_kf')->findSql($checkExitsSQL);
-        if(!$checkExits) {
-
-            $Add_kf_beizhu_ht = "ALTER TABLE huoma_kf ADD kf_beizhu_ht varchar(32) DEFAULT NULL COMMENT '后台备注'";
-            $db->set_table('huoma_kf')->findSql($Add_kf_beizhu_ht);
+        // 2.4.6版本新增
+        // 长按次数记录
+        // 加一个 longpress_num 字段
+    	$checkExitsSQL_longpress_num = "SHOW COLUMNS FROM huoma_kf_zima LIKE 'longpress_num'";
+        $checkExits_longpress_num = $db->set_table('huoma_kf_zima')->findSql($checkExitsSQL_longpress_num);
+        if(!$checkExits_longpress_num) {
             
-            $Add_zm_beizhu_ht = "ALTER TABLE huoma_kf_zima ADD zm_beizhu_ht varchar(32) DEFAULT NULL COMMENT '后台备注'";
-            $db->set_table('huoma_kf_zima')->findSql($Add_zm_beizhu_ht);
+            // 不存在这个字段
+            // 新增字段
+            $Add_longpress_num = "ALTER TABLE huoma_kf_zima ADD longpress_num int(10) DEFAULT '0' COMMENT '长按次数'";
+            $db->set_table('huoma_kf_zima')->findSql($Add_longpress_num);
         }
-        // 	-------------------------------------------------------------------------
-        // 	-------------------------------------------------------------------------
-        // 	-------------------------------------------------------------------------
-    
-    	// 数据库huoma_kf表
-    	$huoma_kf = $db->set_table('huoma_kf');
     
     	// 获取总数
-    	$kfNum = $huoma_kf->getCount(['kf_creat_user'=>$LoginUser]);
+    	$kfNum = $db->set_table('huoma_kf')->getCount(['kf_creat_user'=>$LoginUser]);
     
     	// 每页数量
     	$lenght = 10;
@@ -77,7 +71,7 @@
     	}
     
     	// 获取当前登录用户创建的客服码，每页10个DESC排序
-    	$getkfList = $huoma_kf->findAll(
+    	$getkfList = $db->set_table('huoma_kf')->findAll(
     	    $conditions = ['kf_creat_user' => $LoginUser],
     	    $order = 'ID DESC',
     	    $fields = null,
