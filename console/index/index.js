@@ -457,6 +457,8 @@ function get7DaysIpData() {
             // 200状态码
             if(res.code == 200){
                 
+                $('.uvdata-view').css('display','block');
+                
                 // 表头
                 var $thead_HTML = $(
                     '<tr>' +
@@ -495,6 +497,12 @@ function get7DaysIpData() {
                     
                     // 跳转到登录页面
                     jumpUrl('../login/');
+                }
+                
+                if(res.code == 202) {
+                    
+                    $('.uvdata-view').css('display','block');
+                    $('.uvdata-view').html('<p style="text-align:center;padding:20px 0 15px;">暂无7天UV数据</p>');
                 }
                 
                 // 无法获取到IP数据
