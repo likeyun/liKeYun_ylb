@@ -237,7 +237,7 @@ http://域名/install/
 
 # 💬 交流群
 
-目前有12个交流群，以邀请方式加入<br/>
+目前有15个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
 微信号：sansure2016 <br/><br/>
 <img src="https://img.alicdn.com/imgextra/i3/724156739/O1CN01vCJ0E31zeW7quL3yr_!!724156739-0-chatting.jpg" width="320" /><br/><br/>
