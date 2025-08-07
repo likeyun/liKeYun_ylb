@@ -1,0 +1,568 @@
+#createJwModal .upload-input {
+    display: flex;
+}
+
+#createJwModal input[name="jw_icon"] {
+    flex:1;
+}
+
+#createJwModal .input-group-text {
+    width: 120px;
+    height: 38px;
+    margin-left: 10px;
+    position: relative;
+    border: none;
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+    text-align: center;
+    border-radius: 10px;
+}
+
+#createJwModal .input-group-text span {
+    width: 100%;
+}
+
+#createJwModal .input-group-text input {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    opacity: 0;
+    
+}
+
+#editJwModal .upload-input {
+    display: flex;
+}
+
+#editJwModal input[name="jw_icon"] {
+    flex:1;
+}
+
+#editJwModal .input-group-text {
+    height: 38px;
+    margin-left: 10px;
+    position: relative;
+    border: none;
+    color: rgb(59,94,225);
+    background: rgba(59,94,225,0.1);
+    text-align: center;
+    border-radius: 10px;
+}
+
+#editJwModal .input-group-text span {
+    width: 100%;
+}
+
+#editJwModal .input-group-text input {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    opacity: 0;
+    
+}
+
+.data-list {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+/* 表头样式 */
+th {
+    white-space: nowrap;
+    min-width: 80px;  /* 最小宽度 */
+    max-width: 200px; /* 最大宽度，根据需要调整 */
+    overflow: hidden;
+    text-overflow: ellipsis; /* 超出显示省略号 */
+}
+
+/* 单元格样式 */
+td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    color: #666;
+    white-space: nowrap;
+    min-width: 80px;  /* 最小宽度 */
+    max-width: 200px; /* 最大宽度，根据需要调整 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 针对特定列的调整 */
+td:nth-child(1), th:nth-child(1) { /* jwid */
+    min-width: 100px;
+    max-width: 150px;
+}
+
+td:nth-child(2), th:nth-child(2) { /* 抖音卡片样式 */
+    min-width: 120px;
+    max-width: 250px;
+}
+
+td:nth-child(3), th:nth-child(3) { /* 备注 */
+    min-width: 100px;
+    max-width: 200px;
+}
+
+td:nth-child(4), th:nth-child(4) { /* 投放平台 */
+    min-width: 100px;
+    max-width: 150px;
+}
+
+td:nth-child(5), th:nth-child(5) { /* 目标地址 */
+    min-width: 150px;
+    max-width: 300px;
+}
+
+td:nth-child(6), th:nth-child(6) { /* 访问 */
+    min-width: 80px;
+    max-width: 100px;
+}
+
+td:nth-child(7), th:nth-child(7) { /* 访问量限制 */
+    min-width: 80px;
+    max-width: 100px;
+}
+
+td:nth-child(8), th:nth-child(8) { /* 点击 */
+    min-width: 80px;
+    max-width: 100px;
+}
+
+td:nth-child(9), th:nth-child(9) { /* 时间 */
+    min-width: 180px;
+    max-width: 300px;
+}
+
+td:nth-child(10), th:nth-child(10) { /* 创建用户 */
+    min-width: 100px;
+    max-width: 200px;
+}
+
+td:nth-child(11), th:nth-child(11) { /* 操作 */
+    min-width: 150px;
+    max-width: 200px;
+}
+
+/* 输入框样式 */
+.URLScheme_input {
+    width: 100%;
+    max-width: 100%; /* 跟随单元格最大宽度 */
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+/* 操作标签样式 */
+.cz-tag {
+    margin-right: 3px;
+    cursor: pointer;
+    color: #007bff;
+}
+
+.cz-tag:hover {
+    color: #0056b3;
+}
+
+/* 滚动条样式 */
+.data-list::-webkit-scrollbar {
+    height: 8px;
+}
+
+.data-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.data-list::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.how-to-get {
+    color: #ccc;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.inp-view {
+    width: 100%;
+    display: flex;
+}
+.inp-view .cover-view {
+    width: 90px;
+    height: 90px;
+    text-align: center;
+    line-height: 90px;
+    background: #f3f3f3;
+    color: #999;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.inp-view .cover-view img {
+    width: 90px;
+    height: 90px;
+}
+
+.inp-view .inps {
+    flex: 1;
+    margin-left: 20px;
+}
+.inps .inp-group {
+    display: flex;
+}
+
+.inps .inp-group .inp-name {
+    width: 110px;
+    line-height: 36.5px;
+    font-size: 15px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.border-view {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 0 15px 3px;
+    margin-bottom: 10px;
+}
+.border-view .text {
+    color: #333!important;
+    padding: 0 0 18px!important;
+    display: block!important;
+    font-weight: bold!important;
+}
+
+.jumpPlatform-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.jumpMiniPro {
+    width: 110px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f3f3f3;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 15px;
+    margin: 5px 5px;
+}
+
+.jumpMiniPro img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.jumpMiniPro:hover {
+    background: #eee;
+}
+
+.jumpMiniPro:not(.selected) {
+    opacity: 0.8;
+}
+
+.jumpMiniPro.selected {
+    border: 1px solid rgb(59,94,225);
+    background: rgba(59,94,225,0.05);
+    color: rgb(59,94,225);
+}
+
+.jumpMiniPro span {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.platform-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.toufang_Platform_tag {
+    width: 80px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f3f3f3;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    padding: 13px;
+    margin: 6px 5px;
+    font-size: 15px;
+}
+
+.toufang_Platform_tag img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.toufang_Platform_tag:hover {
+    background: #eee;
+}
+
+.toufang_Platform_tag.not-select {
+    opacity: 0.8;
+}
+
+.toufang_Platform_tag.selected {
+    border: 1px solid rgb(59,94,225);
+    background: rgba(59,94,225,0.05);
+    color: rgb(59,94,225);
+}
+
+.params-tips {
+    font-size: 14px;
+    color: #999;
+    text-align: center;
+    line-height: 20px;
+    display: block;
+}
+
+.URLScheme_input {
+    max-width: 220px;
+    border: none;
+    padding: 5px 10px;
+    outline: none;
+    background: #eee!important;
+    border: 1px solid #ddd;
+    color: #666;
+    font-size: 15px;
+    border-radius: 6px;
+    color: #999;
+}
+
+#chooseIMG {
+    cursor: pointer;
+}
+
+.zmt {
+    float: right;
+    font-size: 14px;
+    color: rgb(59,94,225);
+    cursor: pointer;
+}
+
+.cz-tag {
+    padding: 4px 7px;
+    width: 43px;
+    text-align: center;
+    background: #eee;
+    color: #666;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 3px;
+}
+
+.datetime-td {
+    display: block;
+    color: #999;
+    padding: 2px 0;
+    font-size: 15px;
+}
+.datetime-td-yello-text {
+    display: block;
+    color: #f8be2e;
+    padding: 2px 0;
+    font-size: 15px;
+}
+.datetime-td-red-text {
+    display: block;
+    color: #f00;
+    padding: 2px 0;
+    font-size: 15px;
+}
+
+.card-view {
+    width: 180px;
+    height: 55px;
+    display: flex;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 auto;
+    align-items: center; /* 确保所有内容垂直居中 */
+    cursor: pointer;
+}
+
+.card-view .card-cover {
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0; /* 确保 cover 部分不会被压缩 */
+    overflow: hidden;
+}
+
+.card-view .card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 确保图片完整填充 */
+}
+
+.card-view .card-info {
+    flex: 1;
+    padding: 0 7px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-view .card-info .card-title {
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
+    margin-bottom: 0; /* 消除一个被其他地方样式影响的问题 */
+}
+
+.card-view .card-info .card-desc {
+    width: 100%;
+    height: 15px;
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 防止换行并添加省略号 */
+}
+
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.qrcode-toggle {
+    display: inline-flex;
+    background: #f5f5f5;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+}
+
+.qrcode-toggle button {
+    padding: 5px 20px;
+    margin: 3px 3px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.1s ease;
+}
+
+.qrcode-toggle button:last-child {
+    border-right: none;
+}
+
+.qrcode-toggle button.active {
+    color: #1677ff;
+    background: #fff;
+    font-weight: bold;
+}
+
+.qrcode-toggle button:hover {
+    background-color: #eee;
+}
+
+.landpageURL {
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+    padding: 20px 25px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    background: #f5f5f5;
+    margin: 15px auto;
+    border-radius: 15px;
+}
+
+.message-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 40px;
+    pointer-events: none;
+}
+
+.back-lastpage {
+    height: 34px!important;
+}
+
+.message {
+    min-width: 200px;
+    font-size: 15px;
+    text-align: center;
+    background-color: rgb(62, 201, 146);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: auto;
+}
+
+.message.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.search-span {
+    display:block;
+    float:left;
+    margin-left:15px;
+    height:33px;
+}
+
+.search-inp {
+    height:33px;
+    width: 260px;
+    border-radius:8px;
+}
+
+.search-btn {
+    float:left;
+    margin-left:10px;
+    height:33px;
+}
+
+.jwurl-td {
+    font-size: 15px;
+    text-decoration: none;
+}

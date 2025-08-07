@@ -1,0 +1,13 @@
+{
+    "name": "引流宝插件示例",
+    "desc": "通过这个示例可以直接开发你的插件",
+    "logo": "img/logo.png",
+    "entry": "pluginSDK",
+    "version": "1.0.0",
+    "author": "",
+    "website": "",
+    "install": 1,
+    "install_time": "",
+    "current_status": "未安装",
+    "allow": false
+}
