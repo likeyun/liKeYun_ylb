@@ -1,0 +1,154 @@
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+}
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+    background: #fff;
+}
+.slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+.slide {
+    display: flex;
+    justify-content: center; /* 横向居中 */
+    align-items: center;     /* 纵向居中 */
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    background: #fff;
+    padding: 20px 0;
+}
+.dots {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background: #fff;
+}
+.dot {
+    width: 10px;
+    height: 6px;
+    margin: 0 6px;
+    background: #ddd;
+    border-radius: 100px;
+}
+.dot.active {
+    background: #ff4d4f;
+}
+.copy-button {
+    display: none;
+    margin: 15px auto;
+    padding: 10px 30px;
+    font-size: 16px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.error-message {
+    text-align: center;
+    width: 90%;
+    margin: 50px auto 0;
+    background: #eee;
+    color: #333;
+    font-size: 15px;
+    padding: 20px;
+    border-radius: 20px;
+}
+/* 大屏幕设备（如台式电脑） */
+@media screen and (min-width: 1024px) {
+    .text {
+        width: 30%;
+        margin: 15px auto 0;
+        background: rgba(255, 106, 1, 0.08);
+        border-radius: 12px;
+        padding: 20px;
+        font-size: 15px;
+        text-align: center;
+    }
+    .slide img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: contain;      /* 等比例缩放并完整显示图片 */
+        object-position: center;  /* 图片居中 */
+        user-select: none;
+        pointer-events: none;
+    }
+    /* 整个滚动条 */
+    ::-webkit-scrollbar {
+        width: 2px;  /* 竖向滚动条宽度 */
+        height: 2px; /* 横向滚动条高度 */
+    }
+    
+    /* 滚动条轨道 */
+    ::-webkit-scrollbar-track {
+        background: #eee; /* 轨道背景色 */
+        border-radius: 10px;
+    }
+    
+    /* 滚动条滑块 */
+    ::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+    }
+    
+    /* 滚动条滑块在悬停状态 */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ccc;
+    }
+}
+/* 平板设备 */
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+    .text {
+        width: 50%;
+        margin: 15px auto 0;
+        background: rgba(255, 106, 1, 0.08);
+        border-radius: 12px;
+        padding: 20px;
+        font-size: 15px;
+        text-align: center;
+    }
+    .slide img {
+        width: 100%;
+        max-height: 400px;
+        object-fit: contain;      /* 等比例缩放并完整显示图片 */
+        object-position: center;  /* 图片居中 */
+        user-select: none;
+        pointer-events: none;
+    }
+}
+
+/* 手机设备 */
+@media screen and (max-width: 767px) {
+    .text {
+        width: 90%;
+        margin: 15px auto 0;
+        background: rgba(255, 106, 1, 0.06);
+        border-radius: 12px;
+        border: 1px dashed rgb(255, 106, 1);
+        padding: 20px;
+        font-size: 15px;
+        text-align: center;
+    }
+    .slide img {
+        width: 100%;
+        max-height: 350px;
+        object-fit: contain;      /* 等比例缩放并完整显示图片 */
+        object-position: center;  /* 图片居中 */
+        user-select: none;
+        pointer-events: none;
+    }
+}
