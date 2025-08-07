@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>私域引流宝 - 快速安装</title>
+  <link rel="shortcut icon" href="../static/img/favicon.png" />
+  <script src="../static/js/tailwindcss.js"></script>
+  
+  <!-- 配置Tailwind自定义颜色和字体 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#385fe2',
+            secondary: '#60a5fa',
+            success: '#10b981',
+            danger: '#ef4444',
+            neutral: '#f3f4f6',
+            dark: '#1f2937'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .form-focus {
+        @apply focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none;
+      }
+      .transition-all-300 {
+        @apply transition-all duration-300 ease-in-out;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans text-dark">
+  <div id="app" class="hidden min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div class="w-full max-w-4xl">
+      <!-- 品牌头部 -->
+      <div class="text-center mb-8">
+        <h1 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-dark">私域引流宝快速安装</h1>
+      </div>
+      
+      <!-- 主内容卡片 -->
+      <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:shadow-2xl transition-all-300">
+        <!-- 进度指示器 -->
+        <div class="bg-primary/10 px-6 py-4 border-b border-gray-50">
+            <img src="../static/img/index_logo.png" style="width:200px;display:block;margin: 0 auto;" />
+        </div>
+        
+        <!-- 表单内容 -->
+        <div class="p-6 sm:p-8">
+          <form id="installForm" class="space-y-6">
+            <!-- 数据库设置区域 -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4 flex items-center">数据库设置</h2>
+              <div class="space-y-4">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="db_host" class="block text-sm font-medium text-gray-700 mb-1">数据库服务器</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="text" id="db_host" name="db_host" placeholder="数据库服务器" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" list="dbhost_list" />
+                             <datalist id="dbhost_list">
+                                 <option value="localhost">
+                             </datalist>
+                    </div>
+                  </div>
+                  <div>
+                    <label for="db_name" class="block text-sm font-medium text-gray-700 mb-1">数据库名</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="text" id="db_name" name="db_name" placeholder="数据库名" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="db_user" class="block text-sm font-medium text-gray-700 mb-1">数据库账号</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="text" id="db_user" name="db_user" placeholder="数据库账号" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" />
+                    </div>
+                  </div>
+                  <div>
+                    <label for="db_pass" class="block text-sm font-medium text-gray-700 mb-1">数据库密码</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="text" id="db_pass" name="db_pass" placeholder="数据库密码" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 管理员设置区域 -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4 flex items-center">管理员设置</h2>
+              <div class="space-y-4">
+                <!-- 管理员信息一排显示，在小屏幕自动堆叠 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label for="user_email" class="block text-sm font-medium text-gray-700 mb-1">管理员邮箱</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="email" id="user_email" name="user_email" placeholder="管理员邮箱" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label for="user_name" class="block text-sm font-medium text-gray-700 mb-1">管理员账号</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="text" id="user_name" name="user_name" placeholder="设置管理员账号" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label for="user_pass" class="block text-sm font-medium text-gray-700 mb-1">管理员密码</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      </div>
+                      <input type="text" id="user_pass" name="user_pass" placeholder="设置管理员密码" 
+                             class="w-full pl-4 pr-3 py-2 border border-gray-300 rounded-lg form-focus transition-all-300" autocomplete="off" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 安装目录设置 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-3">代码已上传到服务器的</label>
+              <div class="flex flex-wrap gap-3" id="install-folder-tags">
+                <button type="button" data-value="1" 
+                        class="px-4 py-2 border border-gray-300 text-sm font-medium transition-all-300" style="border-radius:12px;">
+                  根目录
+                </button>
+                <button type="button" data-value="2" 
+                        class="px-4 py-2 border border-gray-300 text-sm font-medium transition-all-300" style="border-radius:12px;">
+                  二级目录
+                </button>
+                <button type="button" data-value="3" 
+                        class="px-4 py-2 border border-gray-300 text-sm font-medium transition-all-300" style="border-radius:12px;">
+                  三级目录
+                </button>
+              </div>
+              <input type="hidden" name="install_folder" id="install_folder_hidden" />
+            </div>
+          </form>
+          
+          <!-- 操作区域 -->
+          <div class="mt-8 space-y-4">
+            <div id="progress-bar" class="w-full py-3 px-4 bg-primary text-white rounded-lg font-medium text-center cursor-pointer hover:bg-primary/90 transition-all-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5" style="width:260px;margin:0 auto;border-radius:15px;">
+              开始安装
+            </div>
+            
+            <p class="text-danger text-sm text-center" id="install-text"></p>
+            
+            <div class="text-center">
+              <a href="https://docs.qq.com/doc/DREdWVGJxeFFOSFhI" target="_blank" 
+                 class="inline-flex items-center text-primary hover:text-primary/80 text-sm transition-all-300">查看安装文档
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 页脚 -->
+      <div class="text-center text-gray-500 text-sm mt-6">
+        &copy; 2019 - 2025 私域引流宝 - 高效引流解决方案 - 里客云科技 - 免费开源
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 显示页面
+    fetch('installCheck.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.code === 200 && data.php_version >= '7.0' && data.php_version <= '7.5' && data.upload_result === '获得上传权限') {
+          // 显示页面并添加淡入动画
+          const app = document.getElementById('app');
+          app.classList.remove('hidden');
+          app.classList.add('animate-fadeIn');
+        } else {
+          alert('未符合安装要求');
+        }
+      })
+      .catch(() => {
+        alert('环境检测失败');
+      });
+
+    // 安装目录按钮切换
+    const folderButtons = document.querySelectorAll('#install-folder-tags button');
+    const folderInput = document.getElementById('install_folder_hidden');
+    
+    // 默认选中第一个按钮
+    if (folderButtons.length > 0) {
+      folderButtons[0].classList.add('bg-primary', 'text-white', 'border-primary');
+      folderInput.value = folderButtons[0].dataset.value;
+    }
+    
+    folderButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        folderButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-white', 'border-primary');
+          b.classList.add('border-gray-300');
+        });
+        btn.classList.remove('border-gray-300');
+        btn.classList.add('bg-primary', 'text-white', 'border-primary');
+        folderInput.value = btn.dataset.value;
+      });
+    });
+
+    // 禁用表单自动填充
+    document.querySelectorAll('input').forEach(input => {
+      input.setAttribute('autocomplete', 'off');
+    });
+
+    // 安装逻辑
+    document.getElementById('progress-bar').addEventListener('click', function () {
+        
+      // 简单表单验证
+      const requiredFields = ['db_host', 'db_user', 'db_name', 'db_pass', 'user_email', 'user_name', 'user_pass'];
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        const input = document.querySelector(`[name="${field}"]`);
+        if (!input.value.trim()) {
+          isValid = false;
+          input.classList.add('border-danger');
+          
+          // 添加抖动动画
+          input.classList.add('animate-shake');
+          setTimeout(() => input.classList.remove('animate-shake'), 500);
+          
+          // 3秒后移除错误状态
+          setTimeout(() => {
+            if (!input.value.trim()) input.classList.remove('border-danger');
+          }, 3000);
+        }
+      });
+      
+      if (!isValid) {
+        document.getElementById('install-text').textContent = '请填写所有必填项';
+        return;
+      }
+      
+      const form = document.getElementById('installForm');
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value);
+      }
+
+      const progressBar = this;
+      const installText = document.getElementById('install-text');
+      let progress = 0;
+      
+      // 重置状态
+      installText.textContent = '';
+      progressBar.textContent = '正在安装 0%';
+      progressBar.style.pointerEvents = 'none';
+      progressBar.classList.add('bg-gray-500');
+      progressBar.classList.remove('bg-primary', 'hover:bg-primary/90', 'hover:-translate-y-0.5');
+
+      fetch('install.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code === 200) {
+            // 模拟进度条动画
+            const interval = setInterval(() => {
+              progress += 10;
+              progressBar.textContent = `正在安装 ${progress}%`;
+              
+              // 进度条颜色变化
+              if (progress >= 30) progressBar.classList.add('bg-secondary');
+              if (progress >= 70) progressBar.classList.add('bg-success');
+              
+              if (progress >= 100) {
+                clearInterval(interval);
+                progressBar.textContent = '安装完成';
+                
+                // 记录安装信息
+                ylb_install_record(data.current_time, data.client_ip, data.server_ip, data.user_email);
+                
+                // 延迟跳转，让用户看到完成状态
+                setTimeout(() => {
+                  location.href = 'success.html';
+                }, 800);
+              }
+            }, 200);
+          } else {
+              
+            // 安装失败处理
+            installText.textContent = data.msg || '安装失败';
+            progressBar.textContent = '安装失败，请点击重试！';
+            progressBar.style.pointerEvents = 'auto';
+            progressBar.classList.remove('bg-gray-500', 'bg-secondary', 'bg-success');
+            progressBar.classList.add('bg-danger', 'hover:bg-danger/90');
+          }
+        })
+        .catch(() => {
+          installText.textContent = '服务器错误，请检查 install.php';
+          progressBar.textContent = '安装失败，请点击重试！';
+          progressBar.style.pointerEvents = 'auto';
+          progressBar.classList.remove('bg-gray-500', 'bg-secondary', 'bg-success');
+          progressBar.classList.add('bg-danger', 'hover:bg-danger/90');
+        });
+    });
+
+    // 安装量统计（可删）
+    function ylb_install_record(current_time, client_ip, server_ip, user_email) {
+      fetch(`https://page.likeyunba.com/ylb_install_record/?time=${current_time}&type=安装&client_ip=${client_ip}&server_ip=${server_ip}&user_email=${user_email}`)
+        .then(res => res.text())
+        .then(console.log)
+        .catch(() => {});
+    }
+    
+    // 添加简单的动画样式
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      .animate-shake {
+        animation: shake 0.5s ease-in-out;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
