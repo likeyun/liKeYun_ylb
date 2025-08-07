@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../static/js/getNavList.js"></script>
+	<script type="text/javascript" src="../../static/js/notification.js"></script>
+	<script type="text/javascript">
+        var timestamp = new Date().getTime();
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = './shareCard.js?v=' + timestamp;
+        document.head.appendChild(script);
+    </script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul id="navList"></ul>
+
+			<!-- 账号 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>分享卡片</h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    
+			    <!--flex布局按钮容器-->
+    			<div class="flex-button-view">
+    			    
+    			    <!--导航-->
+    			    <div class="button-daohang">
+    			        <button class="default-btn">分享卡片</button>
+    			        <span class="gzhConfig">
+        				    <button class="tint-btn" 
+        				    style="margin-left:5px;" 
+        				    data-toggle="modal" 
+        				    data-target="#configshareCardModal" 
+        				    onclick="getshareCardConfig();">公众号配置</button>
+        				</span>
+    			    </div>
+    			    
+    			    <!--功能-->
+    			    <div class="button-gongneng">
+    			        <button class="tint-btn" 
+        				data-toggle="modal" 
+        				data-target="#createShareCardModal" 
+        				onclick="getDomainNameList('create');" style="margin-left:5px;">创建卡片</button>
+    			    </div>
+    			</div>
+    			
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div><!-- data-list -->
+			
+			<p class="loading" style="display: none;"></p>
+			
+			<!-- 分页 -->
+			<div class="fenye"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+	
+	<!-- 创建卡片 -->
+    <div class="modal fade" id="createShareCardModal">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:650px;">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">创建卡片</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="createShareCard" enctype="multipart/form-data">
+
+                    <span class="text">分享标题</span>
+                    <input type="text" name="shareCard_title" class="form-control" placeholder="分享卡片的标题">
+                    
+                    <span class="text">分享摘要</span>
+                    <input type="text" name="shareCard_desc" class="form-control" placeholder="分享卡片的摘要">
+                    
+                    <span class="text">分享缩略图</span>
+                    <div class="upload-shareCard-img">
+                        <div class="input-view">
+                            <input type="text" name="shareCard_img" class="form-control" placeholder="分享卡片显示的图片Url">
+                        </div>
+                        <div class="button-view">
+                            <span class="select_file button_local">
+                                <span class="button_text">上传图片</span>
+                                <input type="file" name="file" />
+                            </span>
+                            <span class="select_file button_sucaiku" onclick="getSuCai('1','createShareCardModal')">从素材库选择</span>
+                        </div>
+                    </div>
+                    
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;">
+                            <span class="text">模式</span>
+                            <select name="shareCard_model" class="form-control">
+                                <option value="1" title="无需认证的公众号">测试号</option>
+                                <option value="2" title="需认证的公众号">认证号</option>
+                                <option value="3" title="无需公众号">Safari分享</option>
+                            </select>
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">落地域名</span>
+                            <select name="shareCard_ldym" class="form-control" title="选择已添加到JS安全域名的域名"></select>
+                        </div>
+                    </div>
+                    
+                    <span class="text">目标链接</span>
+                    <input type="text" name="shareCard_url" class="form-control" placeholder="点击分享卡片后跳转的链接">
+                    
+                    </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    <div class="faqnav" title="阅读使用指南">
+                        <span class="faq"><a href="../faq.php?faq=shareCard" target="_blank">?</a></span>
+                    </div>
+                    <div class="btnnav">
+                        <button type="button" class="default-btn" onclick="createShareCard();">立即创建</button>
+                    </div>
+                </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- createShareCardModal -->
+  	
+  	<!-- 编辑卡片 -->
+    <div class="modal fade" id="editShareCardModal">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:650px;">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑卡片</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="editShareCard" enctype="multipart/form-data">
+                        
+                    <span class="text">分享标题</span>
+                    <input type="text" name="shareCard_title" class="form-control" placeholder="分享卡片的标题">
+                    
+                    <span class="text">分享摘要</span>
+                    <input type="text" name="shareCard_desc" class="form-control" placeholder="分享卡片的摘要">
+                    
+                    <span class="text">分享缩略图</span>
+                    <div class="upload-shareCard-img">
+                        <div class="input-view">
+                            <input type="text" name="shareCard_img" class="form-control" placeholder="分享卡片显示的图片Url">
+                        </div>
+                        <div class="button-view">
+                            <span class="select_file button_local">
+                                <span class="button_text">上传图片</span>
+                                <input type="file" name="file" />
+                            </span>
+                            <span class="select_file button_sucaiku" onclick="getSuCai('1','editShareCardModal')">从素材库选择</span>
+                        </div>
+                    </div>
+                    
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;">
+                            <span class="text">模式</span>
+                            <select name="shareCard_model" class="form-control"></select>
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">落地域名</span>
+                            <select name="shareCard_ldym" class="form-control" title="选择已添加到JS安全域名的域名"></select>
+                        </div>
+                    </div>
+                
+                    <span class="text">目标链接</span>
+                    <input type="text" name="shareCard_url" class="form-control" placeholder="点击分享卡片后跳转的链接">
+                    
+                    <!--隐藏域，用于传参-->
+                    <input type="hidden" name="shareCard_id" />
+                    </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    <div class="faqnav" title="阅读使用指南">
+                        <span class="faq"><a href="../faq.php?faq=shareCard" target="_blank">?</a></span>
+                    </div>
+                    
+                    <div class="btnnav">
+                        <button type="button" class="default-btn" onclick="editShareCard();">提交更新</button>
+                    </div>
+                </div>
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- editShareCardModal -->
+  	
+  	<!-- 确定删除 -->
+    <div class="modal fade" id="DelshareCardModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除分享卡片</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该分享卡片！删除后无法恢复。
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- DelshareCardModal -->
+    
+    <!-- 分享卡片 -->
+    <div class="modal fade" id="ShareCardModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">分享卡片</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="longUrl"><span class="text">链接：</span><span id="longUrl"></span></div>
+                        <div class="Qrcode" id="shareQrcode"></div>
+                        <div class="scanTips" id="scanTips">scanTips</div>
+                    </div>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!--  -->
+    
+    <!-- 公众号配置 -->
+    <div class="modal fade" id="configshareCardModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">公众号配置</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div><!-- modal-header -->
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <form id="configshareCard">
+                        <span class="text">appid</span>
+                        <input type="text" name="appid" class="form-control" id="appid" autocomplete="off" placeholder="公众号appid">
+                        
+                        <span class="text">appsecret</span>
+                        <input type="text" name="appsecret" class="form-control" id="appsecret" autocomplete="off" placeholder="公众号appsecret">
+                        </form>
+                        
+                        <!--提醒文字-->
+                        <p style="color:#999;font-size:14px;margin:15px 0;">使用测试号还需前往 <a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login" target="_blank">微信公众平台测试号</a> 配置JS接口安全域名并且仅限已关注测试号的微信调用JS-SDK权限。</p>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                        <div class="faqnav" title="阅读使用指南">
+                            <span class="faq"><a href="../faq.php?faq=shareCard" target="_blank">?</a></span>
+                        </div>
+                        <div class="btnnav">
+                            <button type="button" class="default-btn" onclick="configshareCard();">提交配置</button>
+                        </div>
+                    </div>
+                    
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- configshareCardModal -->
+    
+    <!--素材库-->
+    <div class="modal fade" id="suCaiKu">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header" title="点击右上角&times;可返回上一步">
+                    <h4 class="modal-title">素材库</h4>
+                    <span class="hideSuCaiPannel_closeIcon"></span>
+                </div>
+                
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <div class="sucai-upload">
+                        <button type="button" class="default-btn upload_sucai_button">
+                            <span>上传素材</span>
+                            <form id="uploadSuCaiTosuCaiKuForm" enctype="multipart/form-data">
+                                <input type="file" name="file" class="upload_sucai" accept="image/*" id="uploadSuCaiTosuCaiKu" />
+                                <input text="text" name="uploadSuCai_fromPannel" style="display:none;" />
+                            </form>
+                        </button>
+                    </div>
+                    
+                    <!--素材容器-->
+                    <div class="sucai-view"></div>
+                    
+                    <!--分页-->
+                    <div class="fenye"></div>
+                </div>
+                
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <div class="footer-btn">
+                    	<div class="faqnav" title="阅读使用指南">
+                    	    <span class="faq"><a href="../faq.php?faq=qun" target="_blank">?</a></span>
+                    	</div>
+                    	<div class="btnnav">
+                    	    <button type="button" class="default-btn" data-dismiss="modal" onclick="hideSuCaiPannel()">取消</button>
+                    	</div>
+                    </div>
+                </div>
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div>
+        </div>
+    </div><!-- suCaiKu -->
+
+</div><!-- app -->
+
+<script>
+    
+    // 上传分享缩略图（创建）
+    $("#selectshareCardImg").change(function(e){
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            
+            // file表单数据
+            var imageData = new FormData(document.getElementById("createShareCard"));
+            
+            // 异步上传
+            $.ajax({
+                url:"../upload.php",
+                type:"POST",
+                data:imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 上传成功
+                        $('#shareCard_img').val(res.url);
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectshareCardImg").val('');
+                        $("#createShareCardModal .select_text").text('重新上传');
+                        
+                    }else{
+                        
+                        // 上传失败
+                        showErrorResult(res.msg)
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectshareCardImg").val('');
+                    }
+                    
+                    $('#app .result').html('<div class="success">'+res.msg+'</div>');
+                    $('#app .result .success').css('display','block');
+                    setTimeout('hideResult()', 1300); // 1.3秒后自动关闭
+                    
+                },
+                error: function() {
+                    
+                    // 上传失败
+                    showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                    
+                    // 清空file选择的文件以重试
+                    $("#selectshareCardImg").val('');
+                },
+                beforeSend: function(res){
+                
+                    // 上传中
+                    $('#app .result').html('<div class="success">上传中...</div>');
+                    $('#app .result .success').css('display','block');
+                }
+            })
+        }
+    })
+    
+    // 上传分享缩略图（编辑）
+    $("#selectshareCardImg_edit").change(function(e){
+        
+        // 获取选择的文件
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            
+            // file表单数据
+            var imageData = new FormData(document.getElementById("editShareCard"));
+            
+            // 异步上传
+            $.ajax({
+                url:"../upload.php",
+                type:"POST",
+                data:imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 上传成功
+                        $('#shareCard_img_edit').val(res.url);
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectshareCardImg_edit").val('');
+                        $("#editShareCardModal .select_text").text('重新上传');
+                        
+                    }else{
+                        
+                        // 上传失败
+                        showErrorResult(res.msg)
+                        
+                        // 清空file选择的文件以重试
+                        $("#selectshareCardImg_edit").val('');
+                    }
+                    
+                    $('#app .result').html('<div class="success">'+res.msg+'</div>');
+                    $('#app .result .success').css('display','block');
+                    setTimeout('hideResult()', 1300); // 1.3秒后自动关闭
+                    
+                },
+                error: function() {
+                    
+                    // 上传失败
+                    showErrorResult('服务器发生错误！可按F12打开开发者工具点击Network或网络查看返回信息进行排查！')
+                    
+                    // 清空file选择的文件以重试
+                    $("#selectshareCardImg_edit").val('');
+                },
+                beforeSend: function(res){
+                
+                    // 上传中
+                    $('#app .result').html('<div class="success">上传中...</div>');
+                    $('#app .result .success').css('display','block');
+                }
+            })
+        }
+    })
+
+</script>
+</body>
+</html>
