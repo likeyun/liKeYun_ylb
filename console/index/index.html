@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>私域引流宝</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/chart.js"></script>
+	<script type="text/javascript" src="../../static/js/getNavList.js"></script>
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/favicon.png">
+	<script type="text/javascript" src="./index.js"></script>
+	<link rel="stylesheet" href="../../static/css/index.css">
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧布局 -->
+	<div class="left">
+        
+        <!--左侧容器-->
+		<div class="dhview">
+		    
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul id="navList"></ul>
+
+			<!-- 账号及版本信息 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧布局 -->
+	<div id="right">
+	    
+	    <h3>数据</h3>
+		<div class="data-card" style="background:none;padding:0;">
+		    
+		    <!--数据卡片-->
+		    <div class="data-card-1"></div>
+		    
+		    <!--图表-->
+	        <div class="data-card-2">
+	            <div class="chart-view-container">
+	                <div class="chart-view">
+                        <canvas id="eachHourPvChart" style="width:100%;"></canvas>
+                    </div>
+                    
+                    <view class="openResourceInfo"></view>
+	            </div>
+	        </div>
+	        
+	        <div class="data-card-3">
+                <div class="container-view">
+                    <div class="uvdata-view" style="display:none;">
+                        <p class="table-title">近7天UV数据</p>
+                        <table class="table" style="text-align: center;font-size:15px;">
+        				    <thead></thead>
+        				    <tbody></tbody>
+        				</table>
+                    </div>
+                </div>
+            </div>
+	        
+		</div><!-- data-card -->
+	</div><!-- right -->
+</div><!-- app -->
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../static/img/logo.png">
+	<script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../static/js/clipboard.min.js"></script>
+	<script type="text/javascript" src="../../static/js/getNavList.js"></script>
+	<script type="text/javascript" src="../../static/js/notification.js"></script>
+	<script type="text/javascript" src="./kami.js"></script>
+</head>
+<body>
+
+<div id="app">
+	
+	<!-- 左侧 -->
+	<div class="left">
+		<div class="dhview">
+
+			<!-- LOGO -->
+			<a href="../index/" class="index">
+			    <div class="logo"></div>
+			</a>
+
+			<!-- 导航 -->
+			<ul id="navList"></ul>
+
+			<!-- 账号 -->
+			<div class="account">加载中...</div>
+		    
+		</div>
+	</div>
+
+	<!-- 右侧 -->
+	<div id="right">
+	    
+		<h3>卡密分发 ➜ <span class="mbx">卡密项目</span></h3>
+		<div class="data-card">
+		    
+			<!-- 按钮区域 -->
+			<div class="button-view" id="button-view" style="display:none;">
+			    
+			    <!--flex布局按钮容器-->
+    			<div class="flex-button-view">
+    			    
+    			    <!--导航-->
+    			    <div class="button-daohang">
+    			        <button class="default-btn">卡密项目</button>
+    			        <a href="extractRecords.html"><button class="tint-btn" style="margin-left:5px;">提取记录</button></a>
+    			        <a href="banOpenid.html"><button class="tint-btn" style="margin-left:5px;">封禁名单</button></a>
+    			    </div>
+    			    
+    			    <!--功能-->
+    			    <div class="button-gongneng">
+    			        <button class="tint-btn" 
+        				data-toggle="modal" 
+        				data-target="#createKamiProjectModal" style="margin-left:5px;">创建项目</button>
+        				
+        				<button class="tint-btn" style="margin-left:5px;" 
+        				data-toggle="modal" 
+        				data-target="#xcxConfigModal" 
+        				onclick="getXcxConfig();">小程序配置</button>
+    			    </div>
+    			</div>
+			</div>
+
+			<!-- 列表区域 -->
+			<div class="data-list">
+				<table class="table">
+				    <thead></thead>
+				    <tbody></tbody>
+				</table>
+			</div>
+			
+			<p class="loading" style="display: none;"></p>
+			
+			<!-- 分页 -->
+			<div class="fenye"></div>
+			
+		</div><!-- data-card -->
+	</div><!-- right -->
+
+	<!-- 创建项目 -->
+    <div class="modal fade" id="createKamiProjectModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">创建项目</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="createKamiProject">
+                    <span class="text">项目标题</span>
+                    <input type="text" name="kami_title" class="form-control" autocomplete="off" placeholder="项目标题">
+                    
+                    <span class="text">是否要看广告</span>
+                    <select name="kami_adStatus" class="form-control">
+                        <option value="1">需要看广告才可提取</option>
+                        <option value="2">无需看广告直接提取</option>
+                    </select>
+                    
+                    <span class="text">项目类型</span>
+                    <select name="kami_type" class="form-control">
+                        <option value="卡密">卡密</option>
+                        <option value="激活码">激活码</option>
+                        <option value="授权码">授权码</option>
+                        <option value="密钥">密钥</option>
+                        <option value="提取码">提取码</option>
+                        <option value="兑换码">兑换码</option>
+                        <option value="会员卡">会员卡</option>
+                        <option value="券号">券号</option>
+                        <option value="序列号">序列号</option>
+                        <option value="链接">链接</option>
+                        <option value="网址">网址</option>
+                        <option value="取件码">取件码</option>
+                        <option value="二维码">二维码</option>
+                        <option value="订单号">订单号</option>
+                        <option value="工单号">工单号</option>
+                        <option value="编码">编码</option>
+                        <option value="网盘">网盘</option>
+                        <option value="验证码">验证码</option>
+                        <option value="账号">账号</option>
+                    </select>
+                    </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-click">
+                        <div class="click-left">
+                            <span class="faq"><a href="../faq.php?faq=kami" target="_blank">?</a></span>
+                        </div>
+                        <div class="click-right">
+                            <button type="button" class="default-btn" onclick="createKamiProject();">立即创建</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+   
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+            
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- createKamiProjectModal -->
+    
+    <!-- 编辑项目 -->
+    <div class="modal fade" id="editKamiProjectModal">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:650px;">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">编辑项目</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="editKamiProject">
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;">
+                            <span class="text">项目标题</span>
+                            <input type="text" name="kami_title" class="form-control" autocomplete="off" placeholder="项目标题">
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">是否要看广告</span>
+                            <select name="kami_adStatus" class="form-control"></select>
+                        </div>
+                    </div>
+                    
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;">
+                            <span class="text">项目类型</span>
+                            <select name="kami_type" class="form-control"></select>
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">项目状态</span>
+                            <select name="kami_status" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div style="width:100%;height:70px;margin:-5px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;">
+                            <span class="text">重复提取</span>
+                            <select name="kami_repeat_tiqu" class="form-control" title="是否允许同一用户重复提取"></select>
+                        </div>
+                        <div style="flex:1;">
+                            <span class="text">时间间隔（单位：秒）</span>
+                            <input type="text" name="kami_repeat_tiqu_interval" class="form-control" autocomplete="off" placeholder="重复提取间隔的时间">
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" name="kami_id">
+                    </form>
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-click">
+                        <div class="click-left">
+                            <span class="faq"><a href="../faq.php?faq=kami" target="_blank">?</a></span>
+                        </div>
+                        <div class="click-right">
+                            <button type="button" class="default-btn" onclick="editKamiProject();">保存</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+   
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- editKamiProjectModal -->
+  	
+  	<!-- 确定删除项目 -->
+    <div class="modal fade" id="delKamiProjectModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">删除项目</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- 内容 -->
+                <div class="modal-body">
+                    将会删除该项目及项目内所有数据！删除后无法恢复。
+                </div>
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer"></div>
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- delKamiProjectModal -->
+    
+    <!-- 小程序配置 -->
+    <div class="modal fade" id="xcxConfigModal">
+        
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 650px;">
+                
+                <!-- 头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">小程序配置</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div><!-- modal-header -->
+                
+                <!-- 表单 -->
+                <div class="modal-body">
+                    <form id="xcxConfig" enctype="multipart/form-data">
+                    
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                        <div style="width:48%;height:70px;float:left;">
+                            <span class="text">服务状态</span>
+                            <select name="kmConf_status" class="form-control"></select>
+                        </div>
+                        <div style="width:48%;height:70px;float:right;">
+                            <span class="text">提取页标题</span>
+                            <input type="text" name="kmConf_xcx_title" class="form-control" autocomplete="off" placeholder="提取页顶部标题">
+                        </div>
+                    </div>
+                            
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                        <div style="width:48%;height:70px;float:left;">
+                            <span class="text">提取页广告开关</span>
+                            <select name="kmConf_adShow" class="form-control"></select>
+                        </div>
+                        <div style="width:48%;height:70px;float:right;">
+                            <span class="text">提取页广告类型</span>
+                            <select name="kmConf_adType" class="form-control"></select>
+                        </div>
+                    </div>
+                    
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                        <div style="width:48%;height:70px;float:left;">
+                            <span class="text">激励视频广告开关</span>
+                            <select name="kmConf_jiliStatus" class="form-control"></select>
+                        </div>
+                        <div style="width:48%;height:70px;float:right;">
+                            <span class="text">提取按钮文字</span>
+                            <input type="text" name="kmConf_btntext" class="form-control" autocomplete="off" placeholder="需看广告时的按钮文字">
+                        </div>
+                    </div>
+                    
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:block;">
+                        <div style="width:48%;height:70px;float:left;">
+                            <span class="text">小程序AppId</span>
+                            <input type="text" name="kmConf_appid" class="form-control" autocomplete="off" placeholder="小程序AppId">
+                        </div>
+                        <div style="width:48%;height:70px;float:right;">
+                            <span class="text">小程序AppSecret</span>
+                            <input type="text" name="kmConf_appsecret" class="form-control" autocomplete="off" placeholder="小程序AppSecret">
+                        </div>
+                    </div>
+                   
+                    <span class="text">客服二维码</span>
+                    <div style="display:flex;">
+                        <div style="flex:1;">
+                            <input type="text" name="kmConf_kfQrcode" class="form-control" autocomplete="off" placeholder="上传二维码或粘贴图片链接">
+                        </div>
+                        <div style="width:110px;margin-left:10px;">
+                            <span class="kami_kfQrcodeUpload">
+                                <input type="file" name="file" accept="image/*" class="fileSelect" id="selectKfQrcode" />
+                                <span class="uploadText">上传二维码</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <span class="text">公告内容</span>
+                    <textarea rows="2" class="form-control" name="kmConf_notification_text" autocomplete="off" placeholder="公告内容，输入内容就会显示，不输入就不显示。"></textarea>
+                    
+                    </form>
+                
+                </div><!-- modal-body -->
+                
+                <!-- 底部操作 -->
+                <div class="modal-footer">
+                    <div class="footer-click">
+                        <div class="click-left">
+                            <span class="faq"><a href="../faq.php?faq=kami" target="_blank">?</a></span>
+                        </div>
+                        <div class="click-right">
+                            <button type="button" class="default-btn" onclick="xcxConfig();">保存配置</button>
+                        </div>
+                    </div>
+                </div><!-- modal-footer -->
+                
+                <!-- 操作反馈 -->
+                <div class="result"></div>
+                
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div><!-- xcxConfigModal -->
+
+</div><!-- app -->
+
+<script>
+    
+    // 上传客服二维码
+    $("#selectKfQrcode").change(function(e){
+        
+        var fileSelect = e.target.files;
+        if(fileSelect.length>0){
+            var imageData = new FormData(document.getElementById("xcxConfig"));
+            $.ajax({
+                url:"../upload.php",
+                type: "POST",
+                data: imageData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    
+                    if(res.code == 200){
+                        
+                        // 将图片地址填写到表单
+                        $('#xcxConfigModal input[name="kmConf_kfQrcode"]').val(res.url);
+                        $('#xcxConfigModal .uploadText').text(res.msg);
+                    }else{
+                        
+                        // 上传失败
+                        $('#xcxConfigModal .uploadText').text(res.msg);
+                    }
+                },
+                error: function() {
+                    alert('服务器发生错误！');
+                },
+                beforeSend: function(){
+                    $('#xcxConfigModal .uploadText').text('上传中...');
+                }
+            })
+        }
+    })
+
+</script>
+</body>
+</html>
