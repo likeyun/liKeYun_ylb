@@ -121,7 +121,8 @@ http://域名/install/
 3. 备份 `console/upload/` 目录；
 4. 下载新版本代码；
 5. 替换 `console/Db.php` 和 `console/upload/` 目录；
-6. 访问 `install` 目录，选择升级版本选项。
+6. 访问 `install` 目录，选择升级版本选项；
+7. 如果你有插件请不要覆盖插件的目录，即 `plugin/app/` 内的所有文件夹都不要覆盖，要自己备份或者避开。
 
 <br>
 
