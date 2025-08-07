@@ -1,0 +1,114 @@
+<?php
+
+	// 页面编码
+	header("Content-type:application/json");
+	
+	// 判断登录状态
+    session_start();
+    if(isset($_SESSION["yinliubao"])){
+        
+        // 已登录
+    	@$page = $_GET['p']?$_GET['p']:1;
+    	
+        // 当前登录的用户
+        $LoginUser = $_SESSION["yinliubao"];
+        
+        // 数据库配置
+    	include '../Db.php';
+    
+    	// 实例化类
+    	$db = new DB_API($config);
+    	
+        // 2025-04-08加入的自动更新
+        // 该操作是为了新增字段
+        // 新增：domain_beizhu
+        $checkExitsSQL = "SHOW COLUMNS FROM huoma_domain LIKE 'domain_beizhu'";
+        $checkExits = $db->set_table('huoma_domain')->findSql($checkExitsSQL);
+        if(!$checkExits) {
+            
+            // 不存在这个字段
+            // 新增字段
+            $Add_domain_beizhu = "ALTER TABLE huoma_domain ADD domain_beizhu VARCHAR(32) DEFAULT NULL COMMENT '域名备注'";
+            $db->set_table('huoma_domain')->findSql($Add_domain_beizhu);
+        }
+    	
+    	// 获取总数
+    	$domainNum = count($db->set_table('huoma_domain')->findAll());
+    
+    	// 每页数量
+    	$lenght = 12;
+    
+    	// 每页第一行
+    	$offset = ($page-1)*$lenght;
+    
+    	// 总页码
+    	$allpage = ceil($domainNum/$lenght);
+    
+    	// 上一页     
+    	$prepage = $page-1;
+    	if($page == 1){
+    		$prepage=1;
+    	}
+    
+    	// 下一页
+    	$nextpage = $page+1;
+    	if($page == $allpage){
+    		$nextpage=$allpage;
+    	}
+
+    	// 获取当前登录账号的管理员权限
+    	$user_admin = $db->set_table('huoma_user')->getField(['user_name'=>$LoginUser],'user_admin');
+    	if($user_admin == 1){
+    	    
+            // 获得管理权限
+            // 获取域名列表，每页10个DESC排序
+            $getDomainList = $db->set_table('huoma_domain')->findAll(
+                $conditions = null,
+                $order = 'ID DESC',
+                $fields = null,
+                $limit = ''.$offset.','.$lenght.''
+            );
+            
+            if($getDomainList && $getDomainList > 0){
+                
+                // 获取成功
+                $result = array(
+                    'domainList' => $getDomainList,
+                    'domainNum' => $domainNum,
+                    'prepage' => $prepage,
+                    'nextpage' => $nextpage,
+                    'allpage' => $allpage,
+                    'page' => $page,
+                    'code' => 200,
+                    'msg' => '获取成功'
+                );
+            }else{
+                
+                // 暂无域名
+                $result = array(
+                    'code' => 204,
+                    'msg' => '暂无域名'
+                );
+            }
+            
+    	}else{
+    	    
+    	   // 没有管理权限
+    	   $result = array(
+                'code' => 205,
+                'msg' => '没有管理权限'
+            );
+    	}
+    }else{
+        
+        // 未登录
+        $result = array(
+			'code' => 201,
+            'msg' => '未登录'
+		);
+    }
+
+	// 输出JSON
+	echo json_encode($result,JSON_UNESCAPED_UNICODE);
+	
+?>
