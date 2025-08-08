@@ -1,86 +1,92 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
-
-	// 页面编码
-	header("Content-type:application/json");
-	
-	// 判断登录状态
+    // 页面编码
+    header("Content-type: application/json");
+    
+    // 启动 session
     session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
-    	$qun_id = trim($_GET['qun_id']);
-    	
-        // 过滤参数
-        if(empty($qun_id) || !isset($qun_id)){
-            
-            $result = array(
-			    'code' => 203,
-                'msg' => '非法请求'
-		    );
-        }else{
-            
-            // 当前登录的用户
-            $LoginUser = $_SESSION["yinliubao"];
-            
-            // 数据库配置
-        	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-        	
-            // 验证用户
-            $checkUser = $db->set_table('huoma_qun')->find(['qun_id' => $qun_id]);
-            $qun_creat_user = json_decode(json_encode($checkUser))->qun_creat_user;
-            
-            if($qun_creat_user == $LoginUser){
-                
-                // 提交更新
-                $resetQunPv = $db->set_table('huoma_qun')->update(['qun_id' => $qun_id,'qun_creat_user' => $LoginUser],['qun_pv' => 0,'qun_today_pv' => '{"pv":"0","date":"'.date('Y-m-d').'"}']);
-                
-                if($resetQunPv) {
-                    
-                    // 已重置
-                    $result = array(
-			            'code' => 201,
-                        'msg' => '已重置'
-		            );
-                }else {
-                    
-                    // 重置失败
-                    $result = array(
-			            'code' => 201,
-                        'msg' => '重置失败'
-		            );
-                }
-            }else{
-                
-                // 不允许操作
-                $result = array(
-		            'code' => 201,
-                    'msg' => '不允许操作'
-	            );
-            }
-        }
-    	
-    }else{
-        
-        // 未登录
-        $result = array(
-			'code' => 201,
-            'msg' => '未登录'
-		);
+    
+    // 判断是否登录
+    if (!isset($_SESSION["yinliubao"])) {
+        echo json_encode([
+            'code' => 201,
+            'msg'  => '未登录'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
     }
-
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
-?>
+    
+    // 获取参数
+    $qun_id = isset($_GET['qun_id']) ? trim($_GET['qun_id']) : '';
+    
+    if (empty($qun_id)) {
+        echo json_encode([
+            'code' => 203,
+            'msg'  => '非法请求'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    
+    // 当前用户
+    $LoginUser = $_SESSION["yinliubao"];
+    
+    // 引入数据库配置
+    include '../Db.php';
+    
+    try {
+        // 实例化 PDO
+        $pdo = new PDO("mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8mb4", $config['db_user'], $config['db_pass']);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        // 查询群信息，校验用户权限
+        $stmt = $pdo->prepare("SELECT qun_creat_user FROM huoma_qun WHERE qun_id = :qun_id");
+        $stmt->execute([':qun_id' => $qun_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$row) {
+            echo json_encode([
+                'code' => 201,
+                'msg'  => '群不存在'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    
+        if ($row['qun_creat_user'] !== $LoginUser) {
+            echo json_encode([
+                'code' => 201,
+                'msg'  => '不允许操作'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    
+        // 构建更新
+        $today = date('Y-m-d');
+        $qun_today_pv = json_encode([
+            'pv'   => "0",
+            'date' => $today
+        ], JSON_UNESCAPED_UNICODE);
+    
+        $update = $pdo->prepare("UPDATE huoma_qun SET qun_pv = 0, qun_today_pv = :qun_today_pv WHERE qun_id = :qun_id AND qun_creat_user = :qun_creat_user");
+        $updated = $update->execute([
+            ':qun_today_pv'    => $qun_today_pv,
+            ':qun_id'          => $qun_id,
+            ':qun_creat_user'  => $LoginUser
+        ]);
+    
+        if ($updated) {
+            echo json_encode([
+                'code' => 201,
+                'msg'  => '已重置'
+            ], JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([
+                'code' => 201,
+                'msg'  => '重置失败'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+    
+    } catch (PDOException $e) {
+        echo json_encode([
+            'code' => 500,
+            'msg'  => '数据库错误：' . $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+    }

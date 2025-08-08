@@ -1,129 +1,106 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
-
-	// 页面编码
-	header("Content-type:application/json");
-	
-	// 判断登录状态
+    // 页面编码
+    header("Content-type: application/json");
+    
+    // 启动 session
     session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
-        // 接收参数
-    	$zm_id = trim($_GET['zm_id']);
-    	
-        // 过滤参数
-        if(empty($zm_id) || $zm_id == '' || $zm_id == null || !isset($zm_id)){
-            
-            $result = array(
-			    'code' => 203,
-                'msg' => '非法请求'
-		    );
-        }else{
-            
-            // 当前登录的用户
-            $LoginUser = $_SESSION["yinliubao"];
-            
-            // 数据库配置
-        	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-        	
-            // 可能是封装的PDOClass有缺陷，所以这里使用mysqli原生对象去获取qun_creat_user
-        	$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
-        	
-        	// 数据库huoma_qun_zima表
-        	$huoma_qun_zima = $db->set_table('huoma_qun_zima');
-        	
-            // 验证当前要重置的zm_id的发布者是否为当前登录的用户
-            // 1 先获取到当前zm_id的qun_id
-            $where_zminfo = ['zm_id'=>$zm_id];
-            $find_zminfo = $huoma_qun_zima->find($where_zminfo);
-            
-            // qun_id
-            $qun_id = json_decode(json_encode($find_zminfo))->qun_id;
-            
-            // 2 根据qun_id获取到用户（可能是封装的PDOClass有缺陷，所以这里使用mysqli原生对象去获取qun_creat_user）
-            $find_qun_creat_user = "SELECT * FROM huoma_qun WHERE qun_id='$qun_id'";
-            
-            // qun_creat_user
-            $qun_creat_user = json_decode(json_encode($conn->query($find_qun_creat_user)->fetch_assoc()))->qun_creat_user;
-            
-            // 判断操作权限
-            if($qun_creat_user == $LoginUser){
-                
-                // 获取zm_pv
-                $zm_pv = json_decode(json_encode($db->set_table('huoma_qun_zima')->find(['zm_id'=>$zm_id])))->zm_pv;
-                if($zm_pv == 0){
-                    
-                    // 阈值为0无需重置
-                    $result = array(
-                        'code' => 202,
-                        'msg' => '访问量为0无需重置'
-                    );
-                    
-                }else{
-                    
-                    // 执行重置
-                    // 用户一致：允许操作
-                    $resetQunzm = $db->set_table('huoma_qun_zima')->update(
-                        ['zm_id'=>$zm_id],
-                        ['zm_yz'=>'200','zm_pv'=>0,'zm_update_time'=>date('Y-m-d H:i:s')]
-                    );
-                    if($resetQunzm && $resetQunzm == 1){
-                        
-                        // 重置成功
-                        $result = array(
-                            'code' => 200,
-                            'msg' => '重置成功',
-                            'qun_id' => $qun_id // 返回qun_id用于刷新二维码列表
-                        );
-                    }else{
-                        
-                        // 解析报错信息
-                        $errorInfo = json_decode(json_encode($resetQunzm,true))[2];
-                        if(!$errorInfo){
-                            
-                            // 如果没有报错信息
-                            $errorInfo = '未知';
-                        }
-                        // 删除失败
-                        $result = array(
-                            'code' => 202,
-                            'msg' => '重置失败，原因：'.$errorInfo
-                        );
-                    }
-                }
-                
-            }else{
-                
-                // 用户不一致：禁止操作
-                $result = array(
-        			'code' => 202,
-                    'msg' => '重置失败：无法获取到数据，原因：数据已被删除、数据不存在、获取数据失败等...'
-        		);
-            }
-        }
-    	
-    }else{
-        
-        // 未登录
-        $result = array(
-			'code' => 201,
-            'msg' => '未登录'
-		);
+    
+    // 判断是否登录
+    if (!isset($_SESSION["yinliubao"])) {
+        echo json_encode([
+            'code' => 201,
+            'msg'  => '未登录'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
     }
-
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
-?>
+    
+    // 接收参数
+    $zm_id = isset($_GET['zm_id']) ? trim($_GET['zm_id']) : '';
+    if (empty($zm_id)) {
+        echo json_encode([
+            'code' => 203,
+            'msg'  => '非法请求'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    
+    // 当前登录用户
+    $LoginUser = $_SESSION["yinliubao"];
+    
+    // 引入数据库配置
+    include '../Db.php';
+    
+    try {
+        // 建立 PDO 连接
+        $pdo = new PDO("mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8mb4", $config['db_user'], $config['db_pass']);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        // 获取 zm_id 对应的 qun_id
+        $stmtZima = $pdo->prepare("SELECT zm_pv, qun_id FROM huoma_qun_zima WHERE zm_id = :zm_id");
+        $stmtZima->execute([':zm_id' => $zm_id]);
+        $zimaData = $stmtZima->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$zimaData) {
+            echo json_encode([
+                'code' => 202,
+                'msg'  => '重置失败：无法获取到数据，原因：数据已被删除、数据不存在、获取数据失败等...'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    
+        $qun_id = $zimaData['qun_id'];
+        $zm_pv = (int)$zimaData['zm_pv'];
+    
+        // 获取 qun 创建者
+        $stmtQun = $pdo->prepare("SELECT qun_creat_user FROM huoma_qun WHERE qun_id = :qun_id");
+        $stmtQun->execute([':qun_id' => $qun_id]);
+        $qunData = $stmtQun->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$qunData || $qunData['qun_creat_user'] !== $LoginUser) {
+            echo json_encode([
+                'code' => 202,
+                'msg'  => '重置失败：无法获取到数据，原因：数据已被删除、数据不存在、获取数据失败等...'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    
+        // 判断是否需要重置
+        if ($zm_pv === 0) {
+            echo json_encode([
+                'code' => 202,
+                'msg'  => '访问量为0无需重置'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    
+        // 执行重置
+        $update = $pdo->prepare("
+            UPDATE huoma_qun_zima 
+            SET zm_yz = '200', zm_pv = 0, zm_update_time = :update_time 
+            WHERE zm_id = :zm_id
+        ");
+        $reset = $update->execute([
+            ':update_time' => date('Y-m-d H:i:s'),
+            ':zm_id'       => $zm_id
+        ]);
+    
+        if ($reset) {
+            echo json_encode([
+                'code'    => 200,
+                'msg'     => '重置成功',
+                'qun_id'  => $qun_id
+            ], JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([
+                'code' => 202,
+                'msg'  => '重置失败，原因：更新操作失败'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+    
+    } catch (PDOException $e) {
+        echo json_encode([
+            'code' => 500,
+            'msg'  => '数据库错误：' . $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+    }

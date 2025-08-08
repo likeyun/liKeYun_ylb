@@ -1,92 +1,72 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
-
-	// 页面编码
-	header("Content-type:application/json");
-	
-	// 判断登录状态
+    header("Content-type:application/json");
+    
     session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
-        $qun_id = trim($_GET['qun_id']);
-        
-        // 过滤参数
-        if(empty($qun_id) || !isset($qun_id)){
-            
-            // 非法请求
-            $result = array(
-			    'code' => 203,
-                'msg' => '非法请求'
-		    );
-        }else{
-            
-            // 数据库配置
-        	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-        
-        	// 查询当前qun_id的详情
-            $getQunInfo = $db->set_table('huoma_qun')->find(['qun_id'=>$qun_id]);
-            
-            // 返回数据
-            if($getQunInfo){
-                
-                // 入口域名
-                $qun_rkym = json_decode(json_encode($getQunInfo))->qun_rkym;
-               
-                // 短链域名
-                $qun_dlym = json_decode(json_encode($getQunInfo))->qun_dlym;
-               
-                // 短链Key
-                $qun_key = json_decode(json_encode($getQunInfo))->qun_key;
-                
-                // 生成longUrl
-                $longUrl = dirname(dirname(dirname($qun_rkym.$_SERVER["REQUEST_URI"]))).'/common/qun/redirect/?qid=' . $qun_id . '#' . base64_encode($qun_key);
-                
-                // 生成shortUrl
-                $shortUrl = $qun_dlym.'/s/'.$qun_key;
-                
-                // 生成qrcodeUrl
-                $qrcodeUrl = dirname(dirname(dirname($qun_rkym.$_SERVER["REQUEST_URI"]))).'/common/qun/redirect/?qid='.$qun_id.'#'.base64_encode(time());
-                
-                // 有结果
-                $result = array(
-        		    'code' => 200,
-        		    'msg' => '获取成功',
-        		    'longUrl' => $longUrl,
-        		    'shortUrl' => $shortUrl,
-        		    'qrcodeUrl' => $qrcodeUrl
-    		    );
-            }else{
-                
-                // 无结果
-                $result = array(
-        		    'code' => 204,
-        		    'msg' => '获取失败'
-    		    );
-            }
-        }
-    	
-    }else{
-        
-        // 未登录
-        $result = array(
-			'code' => 201,
+    if (!isset($_SESSION["yinliubao"])) {
+        echo json_encode([
+            'code' => 201,
             'msg' => '未登录'
-		);
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
     }
-
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
-?>
+    
+    $qun_id = isset($_GET['qun_id']) ? trim($_GET['qun_id']) : '';
+    
+    if (empty($qun_id)) {
+        echo json_encode([
+            'code' => 203,
+            'msg' => '非法请求'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    
+    include '../Db.php';
+    
+    try {
+        $pdo = new PDO(
+            "mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8mb4",
+            $config['db_user'],
+            $config['db_pass']
+        );
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        // 查询 huoma_qun 表中 qun_id 对应数据
+        $stmt = $pdo->prepare("SELECT qun_rkym, qun_dlym, qun_key FROM huoma_qun WHERE qun_id = :qun_id LIMIT 1");
+        $stmt->execute([':qun_id' => $qun_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($row) {
+            $qun_rkym = $row['qun_rkym'];
+            $qun_dlym = $row['qun_dlym'];
+            $qun_key = $row['qun_key'];
+    
+            // 生成 longUrl
+            $baseDir = dirname(dirname(dirname($qun_rkym . $_SERVER["REQUEST_URI"])));
+            $longUrl = $baseDir . '/common/qun/redirect/?qid=' . $qun_id . '#' . base64_encode($qun_key);
+    
+            // 生成 shortUrl
+            $shortUrl = rtrim($qun_dlym, '/') . '/s/' . $qun_key;
+    
+            // 生成 qrcodeUrl
+            $qrcodeUrl = $baseDir . '/common/qun/redirect/?qid=' . $qun_id . '#' . base64_encode(time());
+    
+            echo json_encode([
+                'code' => 200,
+                'msg' => '获取成功',
+                'longUrl' => $longUrl,
+                'shortUrl' => $shortUrl,
+                'qrcodeUrl' => $qrcodeUrl
+            ], JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode([
+                'code' => 204,
+                'msg' => '获取失败'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+    } catch (PDOException $e) {
+        echo json_encode([
+            'code' => 500,
+            'msg' => '数据库异常：' . $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+    }
