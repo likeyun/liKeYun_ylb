@@ -1,125 +1,71 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
-
-	// 页面编码
-	header("Content-type:application/json");
-	
-	// 判断登录状态
+    header("Content-type:application/json");
+    
+    // 启动 session
     session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
+    
+    if (isset($_SESSION["yinliubao"])) {
+    
         // 接收参数
-    	$qun_id = trim($_GET['qun_id']);
-    	
-        // 过滤参数
-        if(empty($qun_id) || !isset($qun_id)){
-            
-            $result = array(
-			    'code' => 203,
-                'msg' => '非法请求'
-		    );
-        }else{
-            
+        $qun_id = trim($_GET['qun_id']);
+    
+        if (empty($qun_id)) {
+            $result = ['code' => 203, 'msg' => '非法请求'];
+        } else {
+    
             // 当前登录的用户
             $LoginUser = $_SESSION["yinliubao"];
-            
+    
             // 数据库配置
         	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-        
-        	// 数据库huoma_qun表
-        	$huoma_qun = $db->set_table('huoma_qun');
         	
-            // 验证发布者是否为当前登录的用户
-            $find_quninfo = $huoma_qun->find(['qun_id' => $qun_id]);
-            $qun_creat_user = json_decode(json_encode($find_quninfo))->qun_creat_user;
-            if($qun_creat_user == $LoginUser){
-                
-                // 用户一致：允许操作
-                $where_delqun = ['qun_id'=>$qun_id];
-                $delqun = $huoma_qun->delete($where_delqun);
-                
-                // 判断操作结果
-                if($delqun){
-                    
-                    // 将当前qun_id的子码也要全部删除
-                    // 数据库huoma_qun_zima表
-                    $huoma_qun_zima = $db->set_table('huoma_qun_zima');
-                    $where_del_qun_id_zima = ['qun_id'=>$qun_id];
-                    $delzima = $huoma_qun_zima->delete($where_del_qun_id_zima);
-                    
-                    // 判断操作结果
-                    if($delzima){
-                        
-                        // 删除成功
-                        $result = array(
-        			        'code' => 200,
-                            'msg' => '删除成功'
-        		        );
-                    }else{
-                        
-                        // 解析报错信息
-                        $errorInfo = json_decode(json_encode($delzima,true))[2];
-                        if(!$errorInfo){
-                            
-                            // 如果没有报错信息
-                            $errorInfo = '未知';
-                        }
-                        
-                        // 删除失败
-                        $result = array(
-        			        'code' => 202,
-                            'msg' => '删除失败，原因：'.$errorInfo
-        		        );
-                    }
-                    
-                }else{
-                    
-                    // 解析报错信息
-                    $errorInfo = json_decode(json_encode($delqun,true))[2];
-                    if(!$errorInfo){
-                        
-                        // 如果没有报错信息
-                        $errorInfo = '未知';
-                    }
-                    // 删除失败
-                    $result = array(
-        			    'code' => 202,
-                        'msg' => '删除失败，原因：'.$errorInfo
-        		    );
+            $dsn = "mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8mb4";
+    
+            try {
+                $pdo = new PDO($dsn, $config['db_user'], $config['db_pass'], [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                ]);
+    
+                // 验证用户
+                $stmt = $pdo->prepare("SELECT qun_creat_user FROM huoma_qun WHERE qun_id = :qun_id");
+                $stmt->execute(['qun_id' => $qun_id]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+                if ($row && $row['qun_creat_user'] === $LoginUser) {
+    
+                    // 开启事务
+                    $pdo->beginTransaction();
+    
+                    // 删除主表记录
+                    $deleteQun = $pdo->prepare("DELETE FROM huoma_qun WHERE qun_id = :qun_id");
+                    $deleteQun->execute(['qun_id' => $qun_id]);
+    
+                    // 删除子码记录
+                    $deleteZima = $pdo->prepare("DELETE FROM huoma_qun_zima WHERE qun_id = :qun_id");
+                    $deleteZima->execute(['qun_id' => $qun_id]);
+    
+                    // 提交事务
+                    $pdo->commit();
+    
+                    $result = ['code' => 200, 'msg' => '删除成功'];
+    
+                } else {
+                    $result = ['code' => 202, 'msg' => '删除失败：数据不存在或无权限'];
                 }
-                
-            }else{
-                
-                // 用户不一致：禁止操作
-                $result = array(
-        			'code' => 202,
-                    'msg' => '删除失败：无法获取到数据，原因：数据已被删除、数据不存在、获取数据失败等...'
-        		);
+    
+            } catch (PDOException $e) {
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+                $result = ['code' => 500, 'msg' => '数据库操作失败：' . $e->getMessage()];
             }
         }
-    	
-    }else{
-        
-        // 未登录
-        $result = array(
-			'code' => 201,
-            'msg' => '未登录'
-		);
+    
+    } else {
+        $result = ['code' => 201, 'msg' => '未登录'];
     }
-
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
+    
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    
 ?>
