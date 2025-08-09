@@ -104,7 +104,7 @@ https://afdian.com/item/270573e4f97d11eea18d5254001e7c00
 
 # ⚙️ 全新安装
 
-访问 `install` 目录即可进入安装流程。
+访问 `install` 目录即可进入安装流程。（建议Linux服务器，Windows服务器可能存在不兼容或者不稳定）
 
 示例：
 ```
