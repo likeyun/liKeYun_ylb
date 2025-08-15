@@ -16,9 +16,22 @@ $(document).ready(function () {
         currentPath = pathAliasMap[currentPath];
     }
     
+    // 如果路径中包含 plugin/app，请求地址需要加深
+    let reqURL;
+    if (currentPath.indexOf('plugin/app') !== -1) {
+        
+        // 包含
+        reqURL = "../../../public/getNavList.php?subPath="+currentPath;
+    }else {
+        
+        // 未包含
+        reqURL = "../public/getNavList.php?subPath="+currentPath;
+    }
+    
+    // 请求
     $.ajax({
         type: "POST",
-        url: "../public/getNavList.php?subPath="+currentPath,
+        url: reqURL,
         success: function (res) {
 
             if (res.code == 200) {
@@ -30,7 +43,15 @@ $(document).ready(function () {
                 $navigation.empty(); // 清空原有导航项
 
                 res.navList.forEach(function (item) {
-                    var $a = $('<a></a>').attr('href', item.href);
+                    
+                    // 如果当前页面路径包含 plugin/app/，给 item.href 前加 ../../
+                    var itemHref = item.href;
+                    if (currentPath.indexOf('plugin/app/') !== -1) {
+                        itemHref = '../../../' + item.href.replace(/^(\.\/|\.\.\/)*/, ''); 
+                        // 上面这行会先去掉原本开头的 ./ 或 ../ 再加 ../../，防止路径重复
+                    }
+                    
+                    var $a = $('<a></a>').attr('href', itemHref);
                     var $li = $('<li></li>').addClass('nav-li');
 
                     // 判断是否选中：先处理 item.href
