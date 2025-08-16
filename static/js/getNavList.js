@@ -47,8 +47,9 @@ $(document).ready(function () {
                     // 如果当前页面路径包含 plugin/app/，给 item.href 前加 ../../
                     var itemHref = item.href;
                     if (currentPath.indexOf('plugin/app/') !== -1) {
+                        
+                        // 先去掉原本开头的 ./ 或 ../ 再加 ../../，防止路径重复
                         itemHref = '../../../' + item.href.replace(/^(\.\/|\.\.\/)*/, ''); 
-                        // 上面这行会先去掉原本开头的 ./ 或 ../ 再加 ../../，防止路径重复
                     }
                     
                     var $a = $('<a></a>').attr('href', itemHref);
@@ -78,7 +79,16 @@ $(document).ready(function () {
                 if (res.code == 201) {
                     
                     // 未登录
-                    location.href = "../login/";
+                    // 根据所在页面深度不同，有不同的跳转路径
+                    if (currentPath.indexOf('plugin/app/') !== -1) {
+                        
+                        // 登录页面路径加深
+                        location.href = '../../../login/?f=getNavList';
+                    }else {
+                        
+                        // 默认
+                        location.href = '../login/?f=getNavList';
+                    }
                 } else {
                     
                     // 无权限
