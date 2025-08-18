@@ -79,7 +79,12 @@
     
     // 返回结果
     if (!$authorized) {
-        echo json_encode(['code' => 404, 'msg' => '你所在的用户组无访问该页面的权限'], JSON_UNESCAPED_UNICODE);
+        echo json_encode(
+            [
+                'code' => 404, 
+                'msg' => '你所在的用户组无访问该页面的权限',
+                'navList' => $menuItems
+            ], JSON_UNESCAPED_UNICODE);
         exit;
     }
     
