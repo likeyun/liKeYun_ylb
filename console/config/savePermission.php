@@ -43,6 +43,7 @@
     
             // 获取当前登录用户的管理权限
             $user_admin = json_decode(json_encode($db->set_table('huoma_user')->find(['user_name' => $LoginUser])))->user_admin;
+            
             if($user_admin == 2){
     
                 // 没有管理权限
@@ -52,6 +53,21 @@
                 );
                 echo json_encode($result,JSON_UNESCAPED_UNICODE);
                 exit;
+            }
+            
+            // 如果是超管
+            if($user_admin == 1 && $usergroup == '超管'){
+    
+                if(strpos($SelectedNavList,'配置中心') == FALSE){ 
+                    
+                    // 不存在
+                    $result = array(
+                        'code' => 202,
+                        'msg' => '超管用户组无法取消配置中心的入口，否则你将失去配置中心的控制。'
+                    );
+                    echo json_encode($result,JSON_UNESCAPED_UNICODE);
+                    exit;
+                }
             }
     
             // 提交更新
