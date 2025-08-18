@@ -103,7 +103,7 @@
                     'domain_beizhu'=>$domain_beizhu,
                     'domain_type'=>$domain_type,
                     'domain_id'=>$domain_id,
-                    'domain_usergroup'=>'["默认"]',
+                    'domain_usergroup'=>'["默认","超管"]',
                 ];
                 
                 // 验证是否已经添加过
