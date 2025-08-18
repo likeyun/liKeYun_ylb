@@ -92,7 +92,24 @@ $(document).ready(function () {
                 } else {
                     
                     // 无权限
-                    $("body").html("<h1 style='text-align:center;margin-top:100px;'>"+res.msg+"</h1>");
+                    // 获取有权限的列表
+                    const navList = res.navList;
+                    
+                    // 判断数组是否有值 且第一项是对象 且包含 href
+                    let firstHref = null;
+                    if (Array.isArray(navList) && navList.length > 0 && navList[0] && typeof navList[0] === 'object' && 'href' in navList[0]) {
+                        firstHref = navList[0].href;
+                    }
+                    
+                    if(firstHref) {
+                        
+                        // 跳转被授权的页面
+                        location.href = firstHref;
+                    }else {
+                        
+                        // 未被授权
+                        $("body").html("<h1 style='text-align:center;margin-top:100px;'>"+res.msg+"</h1>");
+                    }
                 }
             }
         },
