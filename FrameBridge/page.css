@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.error-icon {
+    display: block;
+    margin: 100px auto 0;
+    width: 80px;
+    height: 80px;
+}
+.error-text {
+    text-align: center;
+    margin-top: 20px;
+}
