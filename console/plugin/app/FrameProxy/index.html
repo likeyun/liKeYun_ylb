@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../../../static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../../../static/css/ylb.css">
+	<link rel="shortcut icon" href="../../../../static/img/logo.png">
+	<link rel="stylesheet" href="app.css">
+	<script type="text/javascript" src="../../../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/popper.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/qrcode.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/clipboard.min.js"></script>
+	<script type="text/javascript" src="../../../../static/js/getNavList.js"></script>
+	<script type="text/javascript" src="../../../../static/js/notification.js"></script>
+	<script type="text/javascript" src="./app.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+    	
+    	<!-- 左侧 -->
+    	<div class="left">
+    		<div class="dhview">
+    
+    			<!-- LOGO -->
+    			<a href="../../../index/" class="index">
+    			    <div class="logo"></div>
+    			</a>
+    
+    			<!-- 导航 -->
+			    <ul id="navList"></ul>
+    
+            	<!-- 账号 -->
+    		    <div class="account">加载中...</div>
+    		</div>
+    	</div>
+    
+    	<!-- 右侧 -->
+    	<div id="right">
+    	    
+    	    <!--面板标题-->
+    		<h3>
+    		    <a href="./" class="mianbaoxie_a">插件中心</a> ➜ <span class="mbx">微信QQ防封防红</span> 
+		    </h3>
+		    
+		    <!--数据区域-->
+    		<div class="data-card">
+    		    
+    			<!-- 按钮区域 -->
+    			<div class="button-view" id="button-view" style="display:none;">
+    			    
+    				<!--flex布局按钮容器-->
+    			    <div class="flex-button-view">
+    			        
+    			        
+        			    <!--导航-->
+        			    <div class="button-daohang">
+        			        <!--返回按钮-->
+            			    <a href="../../">
+            			        <div class="back-lastpage"></div>
+            			    </a>
+        			        <button class="default-btn">链接列表</button>
+        			    </div>
+        			    
+        			    <!--功能-->
+        			    <div class="button-gongneng">
+        			        
+        			        <button class="tint-btn" 
+            				data-toggle="modal" 
+            				data-target="#createDataModal" 
+            				onclick="getDomainNameList('create')" style="margin-left:5px;">创建链接</button>
+        			    </div>
+    			    </div><!-- flex-button-view -->
+    			</div>
+    
+    			<!-- 列表区域 -->
+    			<div class="data-list">
+    			    
+    				<table class="table">
+    				    <thead></thead>
+    				    <tbody></tbody>
+    				</table>
+    			</div><!-- data-list -->
+    			
+    			<p class="loading" style="display: none;"></p>
+    			
+    			<!-- 分页 -->
+    			<div class="fenye"></div>
+    			
+    		</div><!-- data-card -->
+    	</div><!-- right -->
+    
+    	<!-- 创建链接 -->
+        <div class="modal fade" id="createDataModal">
+            
+            <div class="modal-dialog" style="max-width:600px;">
+                <div class="modal-content">
+                    
+                        <!-- 头部 -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">创建链接</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- 表单 -->
+                        <div class="modal-body">
+                            <form id="createData" enctype="multipart/form-data">
+                            
+                                <span class="text">标题</span>
+                                <input type="text" name="data_title" class="form-control" autocomplete="off" placeholder="标题">
+                                
+                                <span class="text">模式</span>
+                                <select class="form-control" name="data_mode">
+                                    <option value="1">iframe模式</option>
+                                    <option value="2">引导模式</option>
+                                </select>
+    
+                                <span class="text">对象存储域名</span>
+                                <select class="form-control" name="data_dxccym" title="这个域名必须是在微信是没被封禁的"></select>
+    
+                                <span class="text">加载链接</span>
+                                <textarea class="form-control" name="data_jumplink" rows="3" placeholder="粘贴 http:// 或 https:// 链接" style="resize:none;"></textarea>
+                            </form>
+                        </div><!-- modal-body -->
+                        
+                        <!-- 底部操作 -->
+                        <div class="modal-footer">
+                            <div class="footer-btn">
+                            <div class="faqnav" title="阅读使用文档">
+                                <span class="faq">
+                                    <a href="https://viusosibp88.feishu.cn/docx/IRisddjXMogIfxx6mZsci4eZnMb" target="_blank">?</a>
+                                </span>
+                            </div>
+                            <div class="btnnav">
+                                <button type="button" class="default-btn" onclick="createData();">立即创建</button>
+                            </div>
+                        </div>
+                        
+                    </div><!-- modal-footer -->
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- createDataModal -->
+      	
+      	<!-- 编辑链接 -->
+        <div class="modal fade" id="editDataModal">
+            
+            <div class="modal-dialog" style="max-width:600px;">
+                <div class="modal-content">
+                    
+                        <!-- 头部 -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">编辑链接</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- 表单 -->
+                        <div class="modal-body">
+                            <form id="editData" enctype="multipart/form-data">
+                            
+                            <span class="text">标题</span>
+                                <input type="text" name="data_title" class="form-control" autocomplete="off" placeholder="标题">
+                                
+                                <span class="text">模式</span>
+                                <select class="form-control" name="data_mode">
+                                    <option value="1">iframe模式</option>
+                                    <option value="2">引导模式</option>
+                                </select>
+    
+                                <span class="text">对象存储域名</span>
+                                <select class="form-control" name="data_dxccym" title="这个域名必须是在微信是没被封禁的"></select>
+    
+                                <span class="text">加载链接</span>
+                                <textarea class="form-control" name="data_jumplink" rows="3" placeholder="粘贴 http:// 或 https:// 链接" style="resize:none;"></textarea>
+                            
+                                <input type="hidden" name="data_id" />
+                            
+                            </form>
+                        </div><!-- modal-body -->
+                        
+                        <!-- 底部操作 -->
+                        <div class="modal-footer">
+                            <div class="footer-btn">
+                            <div class="faqnav" title="阅读使用文档">
+                                <span class="faq">
+                                    <a href="https://viusosibp88.feishu.cn/docx/IRisddjXMogIfxx6mZsci4eZnMb" target="_blank">?</a>
+                                </span>
+                            </div>
+                            <div class="btnnav">
+                                <button type="button" class="default-btn" onclick="editData();">立即保存</button>
+                            </div>
+                        </div>
+                        
+                    </div><!-- modal-footer -->
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- editDataModal -->
+      	
+      	<!-- 删除确认 -->
+        <div class="modal fade" id="delDataModal">
+            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">删除链接</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- 内容 -->
+                    <div class="modal-body">
+                        将会删除该链接！删除后无法恢复。
+                    </div>
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer"></div>
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- delDataModal -->
+        
+        <!-- 分享链接 -->
+        <div class="modal fade" id="shareDataModal">
+            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                    <!-- 头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">分享链接</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- 表单 -->
+                    <div class="modal-body">
+                        <div class="box">
+                            <div class="shortUrl">
+                                <span class="text">链接：</span><span id="shareUrl"></span>
+                            </div>
+                            <br>
+                            <div class="Qrcode" id="shareQrcode"></div>
+                            <p style="text-align:center;font-size:15px;color:#999;">
+                                请使用微信、QQ扫码查看
+                            </p>
+                        </div>
+                    </div><!-- modal-body -->
+                    
+                    <!-- 底部操作 -->
+                    <div class="modal-footer"></div>
+                    
+                    <!-- 操作反馈 -->
+                    <div class="result"></div>
+                    
+                </div><!-- modal-content -->
+            </div><!-- modal-dialog -->
+        </div><!-- shareDataModal -->
+    
+    </div><!-- app -->
+</body>
+</html>

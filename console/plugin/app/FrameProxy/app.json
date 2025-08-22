@@ -1,0 +1,13 @@
+{
+    "name": "微信QQ防封防红",
+    "desc": "强开已封的域名或保护未封的域名",
+    "logo": "img/logo.png",
+    "entry": "FrameProxy",
+    "version": "2.0.0",
+    "author": "likeyun",
+    "website": "",
+    "install": 1,
+    "install_time": "",
+    "current_status": "未安装",
+    "allow": false
+}
