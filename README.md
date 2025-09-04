@@ -70,6 +70,13 @@ https://afdian.com/item/2776b48c307211f0b63f52540025c377
 - QQ直跳链接（即未被封禁），点击不会跳转到 **[已停止访问该网页]**；
 - 抖音直跳链接（即未被封禁），点击不会跳转到 **[继续访问]** 的中转页；
 
+# 抖音圆码制作
+
+如需生成或者开通账号，可联系微信：sansure2016
+
+![image](https://p2.ssl.qhimg.com/t11b673bcd68d2dac9c190c19c2.png)
+
+
 # 🛠️ 技术栈
 
 <img src="https://p0.meituan.net/dpmerchantpic/7c65fbbb4614748eedb6243b2649fde191004.jpg" width="400" style="display:block;margin:10px auto;" />
