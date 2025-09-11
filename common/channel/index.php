@@ -1,3 +1,10 @@
+<?php
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    $static_time = time();
+?>
 <html>
     <head>
         <meta name="wechat-enable-text-zoom-em" content="true">
@@ -8,9 +15,11 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="format-detection" content="telephone=no">
-        <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
-        <link rel="stylesheet" href="../../static/css/common.css">
-        <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../static/css/common.css?v=<?php echo $static_time; ?>">
+        <link rel="stylesheet" href="../../static/css/bootstrap.min.css?v=<?php echo $static_time; ?>">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
     </head>
 <body>
     
@@ -456,9 +465,8 @@
     // 跳转
     function jumpto($channel_url) {
         
-        // 跳转
-        header('HTTP/1.1 301 Moved Permanently');
-        header('Location:'.$channel_url . '#' . time());
+        // JS跳转
+        echo '<script>location.href="'.$channel_url.'#'.time().'";</script>';
     }
     
     // 显示文字还是跳转到指定url
@@ -470,9 +478,8 @@
             echo warnInfo('温馨提示', $showtext);
         }else {
             
-            // 跳转到指定url
-            header('HTTP/1.1 301 Moved Permanently');
-            header('Location:'.$mzfwxz_url);
+            // JS跳转
+        echo '<script>location.href="'.$mzfwxz_url.'#'.time().'";</script>';
         }
     }
     
