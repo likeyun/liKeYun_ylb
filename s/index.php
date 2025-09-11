@@ -1,242 +1,178 @@
+<?php
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    $static_time = time();
+?>
 <html>
     <head>
-        <meta name="wechat-enable-text-zoom-em" content="true">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="color-scheme" content="light dark">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="format-detection" content="telephone=no">
-        <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
-        <link rel="stylesheet" href="../../static/css/common.css">
-        <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
-        <script type="text/javascript" src="../../static/js/qrcode.min.js"></script>
+        <link rel="stylesheet" href="../../static/css/common.css?v=<?php echo $static_time; ?>">
+        <link rel="stylesheet" href="../../static/css/bootstrap.min.css?v=<?php echo $static_time; ?>">
+        <script type="text/javascript" src="../../static/js/qrcode.min.js?v=<?php echo $static_time; ?>"></script>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
     </head>
+    <script>
+        (function() {
+            const paramName = "t";
+            const paramValue = Date.now();
+            const url = new URL(window.location.href);
+            if (!url.searchParams.has(paramName)) {
+                url.searchParams.set(paramName, paramValue);
+                window.location.replace(url.toString());
+            }
+        })();
+    </script>
     <body>
         
     <?php
     
-    // 页面编码
-    header("Content-type:text/html;charset=utf-8");
-    
-    // 获取参数
-    $key = trim($_GET['key']);
-    
-    // 防止SQL注入
-    if(preg_match('/[_\-\/\[\].,:;\'"=+*`~!@#$%^&()]/',$key)){
-       
-        echo warnInfo('温馨提示','该链接不安全，请重新生成！');
-        exit;
-    }
-    
-    if(preg_match('/(select|update|drop|DROP|insert|create|delete|where|join|script)/i',$key)){
-       
-        echo warnInfo('温馨提示','该链接不安全，请重新生成！');
-        exit;
-    }
-    
-    // 过滤参数
-    if($key){
+        // 页面编码
+        header("Content-type:text/html;charset=utf-8");
         
-        // 数据库配置
-        include '../console/Db.php';
+        // 获取参数
+        $key = trim($_GET['key'] ?? '');
         
-        // 实例化类
-        $db = new DB_API($config);
+        // 过滤参数
+        if($key){
+            
+            // 数据库配置
+            include '../console/Db.php';
+            
+            $db_host = $config['db_host'];
+            $db_name = $config['db_name'];
+            $db_user = $config['db_user'];
+            $db_pass = $config['db_pass'];
+            $folder = $config['folderNum'];
         
-        // 目录级别
-        $folderNum = $config['folderNum'];
-    
-        // 根据key获取群活码信息
-        $getQunInfo = $db->set_table('huoma_qun')->find(['qun_key'=>$key]);
-        if($getQunInfo){
-            
-            echo '<title>加载中...</title>';
-            
-            // 获取成功
-            $qun_rkym = json_decode(json_encode($getQunInfo))->qun_rkym; // 入口域名
-            $qun_id = json_decode(json_encode($getQunInfo))->qun_id;
-            
-            // 用入口域名跳转
-            jumpTo($folderNum,$qun_rkym,'qun','qid',$qun_id);
-            
-        }else{
-            
-            // 根据key获取客服码信息
-            $getKefuInfo = $db->set_table('huoma_kf')->find(['kf_key'=>$key]);
-            if($getKefuInfo){
-                
+            try {
+                // 创建 PDO 实例
+                $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("数据库连接失败: " . $e->getMessage());
+            }
+        
+            // 封装查询函数（取单条记录）
+            function pdo_find($pdo, $table, $where) {
+                $field = key($where);
+                $value = $where[$field];
+                $sql = "SELECT * FROM `$table` WHERE `$field` = :value LIMIT 1";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':value' => $value]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+        
+            // 封装更新函数
+            function pdo_update($pdo, $table, $where, $data) {
+                $set = [];
+                foreach($data as $k => $v) {
+                    $set[] = "`$k`=:$k";
+                }
+                $setStr = implode(",", $set);
+        
+                $field = key($where);
+                $whereVal = $where[$field];
+        
+                $sql = "UPDATE `$table` SET $setStr WHERE `$field`=:whereVal";
+                $stmt = $pdo->prepare($sql);
+                $data['whereVal'] = $whereVal;
+                return $stmt->execute($data);
+            }
+        
+            // 1. 群活码
+            if($getQunInfo = pdo_find($pdo, 'huoma_qun', ['qun_key'=>$key])){
                 echo '<title>加载中...</title>';
-                
-                // 获取成功
-                $kf_rkym = json_decode(json_encode($getKefuInfo))->kf_rkym; // 入口域名
-                $kf_id = json_decode(json_encode($getKefuInfo))->kf_id;
-              
-                // 用入口域名跳转
-                jumpTo($folderNum,$kf_rkym,'kf','kid',$kf_id);
-            
-            }else{
-                
-                // 根据key获取渠道码信息
-                $getChannelInfo = $db->set_table('huoma_channel')->find(['channel_key'=>$key]);
-                if($getChannelInfo){
-                    
-                    echo '<title>加载中...</title>';
-                    
-                    // 获取成功
-                    $channel_rkym = json_decode(json_encode($getChannelInfo))->channel_rkym; // 入口域名
-                    $channel_id = json_decode(json_encode($getChannelInfo))->channel_id;
-                    
-                    // 用入口域名跳转
-                    jumpTo($folderNum,$channel_rkym,'channel','cid',$channel_id);
-                    
-                }else{
-                    
-                    // 根据key获取中间页信息
-                    $getZjyInfo = $db->set_table('huoma_tbk')->find(['zjy_key'=>$key]);
-                    if($getZjyInfo){
-                        
-                        echo '<title>加载中...</title>';
-                        
-                        // 获取成功
-                        $zjy_rkym = json_decode(json_encode($getZjyInfo))->zjy_rkym; // 入口域名
-                        $zjy_id = json_decode(json_encode($getZjyInfo))->zjy_id;
-                        
-                        // 用入口域名跳转
-                        jumpTo($folderNum,$zjy_rkym,'zjy','zid',$zjy_id);
-                        
-                    }else{
-                        
-                        // 根据key获取多项单页信息
-                        $getMultiSPAInfo = $db->set_table('huoma_tbk_mutiSPA')->find(['multiSPA_key'=>$key]);
-                        if($getMultiSPAInfo){
-                            
-                            echo '<title>加载中...</title>';
-                            
-                            // 获取成功
-                            $multiSPA_rkym = json_decode(json_encode($getMultiSPAInfo))->multiSPA_rkym; // 入口域名
-                            $multiSPA_id = json_decode(json_encode($getMultiSPAInfo))->multiSPA_id;
-                            
-                            // 用入口域名跳转
-                            jumpTo($folderNum,$multiSPA_rkym,'multiSPA','mid',$multiSPA_id);
-                            
-                        }else{
-                            
-                            // 获取失败
-                            // 这里要判断这个Key是否进行了并流
-                            // 1. 根据这个Key去查询并流表
-                            $getbingliuForKey = $db->set_table('ylb_qun_bingliu')->find(['before_qun_key' => $key]);
-                            if($getbingliuForKey) {
-                                
-                                // 确定加入了并流
-                                // 获取并流的开启状态
-                                $bingliu_status = $getbingliuForKey['bingliu_status'];
-                                // 获取并入的活码id
-                                $later_qun_id = $getbingliuForKey['later_qun_id'];
-                                // 获取并流次数
-                                $bingliu_num = $getbingliuForKey['bingliu_num'];
-                                
-                                // 获取并入的活码的入口域名
-                                $getrkymForLaterQunId = $db->set_table('huoma_qun')->find(['qun_id' => $later_qun_id]);
-                                $laterQun_rkym = $getrkymForLaterQunId['qun_rkym'];
-                                
-                                if($bingliu_status == 1) {
-                                    
-                                    // 如果这个并流开启了
-                                    // 更新并流次数
-                                    $newNum = $bingliu_num + 1;
-                                    $db->set_table('ylb_qun_bingliu')->update(
-                                        ['before_qun_key' => $key],
-                                        ['bingliu_num' => $newNum]
-                                    );
-                                    
-                                    // 然后jumpTo
-                                    jumpTo($folderNum,$laterQun_rkym,'qun','qid',$later_qun_id);
-                                }else {
-                                    
-                                    // 不开启
-                                    echo warnInfo('温馨提示','链接不存在或已被管理员删除');
-                                }
-                            }else {
-                                
-                                // 不在
-                                echo warnInfo('温馨提示','链接不存在或已被管理员删除');
-                            }
-                        }
-                    }
+                jumpTo($folder,$getQunInfo['qun_rkym'],'qun','qid',$getQunInfo['qun_id']);
+            }
+            // 2. 客服码
+            else if($getKefuInfo = pdo_find($pdo, 'huoma_kf', ['kf_key'=>$key])){
+                echo '<title>加载中...</title>';
+                jumpTo($folder,$getKefuInfo['kf_rkym'],'kf','kid',$getKefuInfo['kf_id']);
+            }
+            // 3. 渠道码
+            else if($getChannelInfo = pdo_find($pdo, 'huoma_channel', ['channel_key'=>$key])){
+                echo '<title>加载中...</title>';
+                jumpTo($folder,$getChannelInfo['channel_rkym'],'channel','cid',$getChannelInfo['channel_id']);
+            }
+            // 4. 中间页
+            else if($getZjyInfo = pdo_find($pdo, 'huoma_tbk', ['zjy_key'=>$key])){
+                echo '<title>加载中...</title>';
+                jumpTo($folder,$getZjyInfo['zjy_rkym'],'zjy','zid',$getZjyInfo['zjy_id']);
+            }
+            // 5. 多项单页
+            else if($getMultiSPAInfo = pdo_find($pdo, 'huoma_tbk_mutiSPA', ['multiSPA_key'=>$key])){
+                echo '<title>加载中...</title>';
+                jumpTo($folder,$getMultiSPAInfo['multiSPA_rkym'],'multiSPA','mid',$getMultiSPAInfo['multiSPA_id']);
+            }
+            // 6. 并流
+            else if($getbingliuForKey = pdo_find($pdo, 'ylb_qun_bingliu', ['before_qun_key'=>$key])){
+                $bingliu_status = $getbingliuForKey['bingliu_status'];
+                $later_qun_id = $getbingliuForKey['later_qun_id'];
+                $bingliu_num = $getbingliuForKey['bingliu_num'];
+        
+                $getrkymForLaterQunId = pdo_find($pdo, 'huoma_qun', ['qun_id' => $later_qun_id]);
+                $laterQun_rkym = $getrkymForLaterQunId['qun_rkym'];
+        
+                if($bingliu_status == 1) {
+                    $newNum = $bingliu_num + 1;
+                    pdo_update($pdo, 'ylb_qun_bingliu', ['before_qun_key' => $key], ['bingliu_num' => $newNum]);
+                    jumpTo($folder,$laterQun_rkym,'qun','qid',$later_qun_id);
+                } else {
+                    echo warnInfo('温馨提示','链接不存在或已被管理员删除');
                 }
             }
-            
-        }
-    }else{
+            else{
+                echo warnInfo('温馨提示','链接不存在或已被管理员删除');
+            }
         
-        // 参数为空
-        echo warnInfo('温馨提示','请求参数为空');
-    }
-    
-    // 跳转到落地页
-    function jumpTo($folderNum,$rkym,$hmType,$hmidName,$hmid){
-        
-        if($folderNum == 1){
-                
-            // 根目录
-            $longUrl = $rkym.'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid.'&t='.time();
         }else{
-            
-            // 其他目录
-            $longUrl = $rkym.'/'.redirectURL($folderNum).'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid.'&t='.time();
+            // 参数为空
+            echo warnInfo('温馨提示','请求参数为空');
         }
         
-        // 301跳转
-        // header('HTTP/1.1 301 Moved Permanently');
         
-        // 跳转
-        header('Location:'.$longUrl);
-    }
-    
-    // 目录级别
-    function redirectURL($folderNum){
-        
-        if($folderNum == 2){
+        // 跳转到落地页
+        function jumpTo($folder,$rkym,$hmType,$hmidName,$hmid){
+            if($folder == 1){
+                $longUrl = $rkym.'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid.'&t='.time();
+            }else{
+                $longUrl = $rkym.'/'.redirectURL($folder).'/common/'.$hmType.'/redirect/?'.$hmidName.'='.$hmid.'&t='.time();
+            }
             
-            // 二级目录（跟目录下的一个目录）
-            // 假设根目录为wwwroot/
-            // 活码系统代码放在wwwroot/huoma/
-            // 那么/huoma/这个就是二级目录
-            return basename(dirname(dirname(__FILE__)));
-        }else if($folderNum == 3){
-            
-            // 三级目录（跟目录下的一个目录里面的一个目录）
-            // 假设根目录名wwwroot/
-            // 活码系统代码放在wwwroot/tool/huoma/
-            // 那么tool/这个就是二级目录，huoma/就是三级目录
-            return basename(dirname(dirname(dirname(__FILE__)))).'/'.basename(dirname(dirname(__FILE__)));
-        }else if($folderNum == 4){
-            
-            // 四级目录（跟目录/二级目录/三级目录/四级目录）
-            // 假设根目录名wwwroot/
-            // 活码系统代码放在wwwroot/wx/tool/huoma/
-            // 那么wx/是二级目录，tool/是三级目录，huoma/是四级目录
-            $oneFolder = basename(dirname(dirname(dirname(dirname(__FILE__))))).'/';
-            $twoFolder = basename(dirname(dirname(dirname(__FILE__)))).'/';
-            $threeFolder = basename(dirname(dirname(__FILE__)));
-            return $oneFolder.$twoFolder.$threeFolder;
+            // JS跳转
+            echo '<script>location.href="'.$longUrl.'";</script>';
         }
-    }
-    
-    // 提醒文字
-    function warnInfo($title,$warnText){
         
-        return '
-        <title>'.$title.'</title>
-        <div id="warnning">
-            <img src="../../../static/img/warn.png" />
-        </div>
-        <p id="warnText">'.$warnText.'</p>';
-    }
-    
-    ?>
+        // 目录级别
+        function redirectURL($folder){
+            if($folder == 2){
+                return basename(dirname(dirname(__FILE__)));
+            }else if($folder == 3){
+                return basename(dirname(dirname(dirname(__FILE__)))).'/'.basename(dirname(dirname(__FILE__)));
+            }else if($folder == 4){
+                $oneFolder = basename(dirname(dirname(dirname(dirname(__FILE__))))).'/';
+                $twoFolder = basename(dirname(dirname(dirname(__FILE__)))).'/';
+                $threeFolder = basename(dirname(dirname(__FILE__)));
+                return $oneFolder.$twoFolder.$threeFolder;
+            }
+        }
+        
+        // 提醒文字
+        function warnInfo($title,$warnText){
+            return '
+            <title>'.$title.'</title>
+            <div id="warnning">
+                <img src="../../../static/img/warn.png" />
+            </div>
+            <p id="warnText">'.$warnText.'</p>';
+        }
+        ?>
     
     </body>
 </html>
