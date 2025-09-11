@@ -1,3 +1,10 @@
+<?php
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    $static_time = time();
+?>
 <html>
     <head>
         <meta name="wechat-enable-text-zoom-em" content="true">
@@ -8,7 +15,9 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="format-detection" content="telephone=no">
-        <link rel="shortcut icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
         <style>
             #warnning{
                 width: 80px;
@@ -28,128 +37,62 @@
         </style>
     </head>
     <body>
-        
     <?php
     
-        // 获取参数
-        $cid = trim(intval($_GET['cid']));
-        
-        // 过滤参数
+        // 参数
+        $cid = intval($_GET['cid'] ?? 0);
+    
         if($cid){
-            
             // 数据库配置
             include '../../../console/Db.php';
-            
-            // 实例化类
-            $db = new DB_API($config);
-            
+            $db_host = $config['db_host'];
+            $db_name = $config['db_name'];
+            $db_user = $config['db_user'];
+            $db_pass = $config['db_pass'];
+    
+            try {
+                $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("数据库连接失败: " . $e->getMessage());
+            }
+    
+            // 查询函数
+            function pdo_find($pdo, $table, $where){
+                $field = key($where);
+                $value = $where[$field];
+                $sql = "SELECT * FROM `$table` WHERE `$field` = :value LIMIT 1";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':value'=>$value]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+    
             // 根据cid获取落地域名
-            $getChannelInfo = $db->set_table('huoma_channel')->find(['channel_id'=>$cid]);
+            $getChannelInfo = pdo_find($pdo,'huoma_channel',['channel_id'=>$cid]);
             if($getChannelInfo){
+                $channel_ldym = $getChannelInfo['channel_ldym'];
                 
-                // 获取成功
-                $channel_ldym = json_decode(json_encode($getChannelInfo))->channel_ldym;
-                
-                // 获取域名检测配置
-                $getDomainNameCheckConfig = $db->set_table('huoma_domainCheck')->find(['id'=>1]);
-                if($getDomainNameCheckConfig){
-                    
-                    // 状态
-                    $domainCheck_status = json_decode(json_encode($getDomainNameCheckConfig))->domainCheck_status;
-                    
-                    // 通知渠道
-                    $domainCheck_channel = json_decode(json_encode($getDomainNameCheckConfig))->domainCheck_channel;
-                    
-                    // 备用域名
-                    $domainCheck_byym = json_decode(json_encode($getDomainNameCheckConfig))->domainCheck_byym;
-                    
-                    if($domainCheck_status == 1){
-                        
-                        // 开启
-                        // 检测域名是否正常
-                        // 获取HTTP协议
-                        $httpOrhttps = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                        
-                        // 检测接口
-                        $getThisPagePath = dirname(dirname(dirname(dirname($_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]))));
-                        $checkDomainURL = $httpOrhttps.'://'.$getThisPagePath.'/console/public/domainNameCheck.php?domain='.$channel_ldym;
-                        
-                        // 执行检测
-                        $checkResult = file_get_contents($checkDomainURL);
-                        
-                        // 返回码
-                        $checkCode = json_decode($checkResult,true)['code'];
-                        
-                        // 判断检测结果
-                        if($checkCode == 200){
-                            
-                            // 正常
-                            jump($channel_ldym,$cid);
-                        }else{
-                            
-                            // 不正常
-                            // 发送通知
-                            sendNotification($domainCheck_channel,'渠道码'.$channel_ldym.'域名被封了！尽快处理！',$db);
-                            
-                            // 是否有备用域名
-                            if($domainCheck_byym){
-                                
-                                // 使用备用域名跳转
-                                jump($domainCheck_byym,$cid);
-                            }else{
-                                
-                                // 没有
-                                // 获取失败
-                                echo warnInfo('温馨提示','无法正常跳转或展示');
-                            }
-                        }
-                    }else{
-                        
-                        // 关闭
-                        jump($channel_ldym,$cid);
-                    }
-                }
+                // 跳转
+                jump($channel_ldym,$cid);
             }else{
-                
-                // 获取失败
                 echo warnInfo('温馨提示','页面不存在或已被管理员删除');
             }
         }else{
-            
-            // 参数为空
             echo warnInfo('温馨提示','请求参数为空');
         }
-        
+    
         // 跳转
         function jump($channel_ldym,$cid){
             
-            // 拼接落地页链接
+            // 获取落地页的URL
             $longUrl = dirname(dirname($channel_ldym.$_SERVER['REQUEST_URI'])).'/?cid='.$cid;
             
-            // 301跳转
-            // header('HTTP/1.1 301 Moved Permanently');
-            
-            // 跳转
-            header('Location:'.$longUrl);
+            // JS跳转
+            echo '<script>location.href="'.$longUrl.'";</script>';
         }
-        
-        // 发送通知
-        function sendNotification($noti_type,$noti_text,$db){
-            
-            // 根据noti_type选择发送的渠道
-            include_once '../../../console/public/sendNotification.php';
-        }
-        
-        // 解析数组
-        function getSqlData($result,$field){
-            
-            // 传入数组和需要解析的字段
-            return json_decode(json_encode($result))->$field;
-        }
-        
-        // 提醒文字
+    
+        // 提示信息
         function warnInfo($title,$warnText){
-            
             return '
             <title>'.$title.'</title>
             <div id="warnning">
@@ -157,8 +100,6 @@
             </div>
             <p id="warnText">'.$warnText.'</p>';
         }
-    
     ?>
     </body>
-    
 </html>
