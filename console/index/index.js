@@ -378,12 +378,12 @@ function projectInfo(){
     
     // HTML模板
     $openResourceInfo_HTML = `
-    <a href="../../static/img/zansangma.jpg" class="openResourceCard-a" target="_blank">
+    <a href="https://afdian.com/item/07d77764950e11f0aecc52540025c377" class="openResourceCard-a" target="_blank">
     <div class="openResourceCard">
         <div class="icon"><img src="../../static/img/zanshang-icon.png" /></div>
         <div class="info">
-            <span class="title">赞赏打赏开发作者</span>
-            <span class="desc">如果你觉得好用，可适度打赏支持作者</span>
+            <span class="title">私域引流宝会员版</span>
+            <span class="desc">更适合运营的版本，精细化运营！</span>
         </div>
         <div class="go"></div>
     </div>
