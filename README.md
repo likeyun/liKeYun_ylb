@@ -6,7 +6,7 @@
 
 # 私域引流宝会员版（更适合运营的版本）
 
-<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/91be548b87c82e417ef92b5e45dc76a5_w2560_h3443_s2041.jpeg?imageView2/2/w/1280" width="400" />
+<img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/91be548b87c82e417ef92b5e45dc76a5_w2560_h3443_s2041.jpeg?imageView2/2/w/1280" width="600" />
 <img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/b23311fed13bc64376c5a21edd77e727_w1297_h1102_s276.jpeg?imageView2/2/w/1280" width="400" />
 
 👉点击了解：[https://afdian.com/item/07d77764950e11f0aecc52540025c377](https://afdian.com/item/07d77764950e11f0aecc52540025c377)
