@@ -76,7 +76,7 @@ https://afdian.com/item/2776b48c307211f0b63f52540025c377
 
 # 抖音圆码制作
 
-如需生成或者开通账号，可联系微信：sansure2016
+如需生成或者开通账号，可联系微信：likeyun_tk
 
 ![image](https://p2.ssl.qhimg.com/t11b673bcd68d2dac9c190c19c2.png)
 
