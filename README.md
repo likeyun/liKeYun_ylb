@@ -11,7 +11,7 @@
 
 👉点击了解：[https://viusosibp88.feishu.cn/docx/LdVddso2xo5CIRxPEnscHmmunNc](https://viusosibp88.feishu.cn/docx/LdVddso2xo5CIRxPEnscHmmunNc)
 <br>
-👉下单地址：[https://afdian.com/item/07d77764950e11f0aecc52540025c377](https://afdian.com/item/07d77764950e11f0aecc52540025c377)
+👉下单地址：[https://ifdian.net/item/07d77764950e11f0aecc52540025c377](https://ifdian.net/item/07d77764950e11f0aecc52540025c377)
 
 # 🌐 服务器推荐
 
@@ -47,25 +47,25 @@
 # 💰 付费插件&功能&服务
 
 - 💰liKeYun微信赞赏码支付系统：
-https://afdian.com/item/df9b9590a8ab11ef952152540025c377
+https://ifdian.net/item/df9b9590a8ab11ef952152540025c377
 
 - 💰liKeYun付费进群插件：
-https://afdian.com/item/ae376a2a44ff11ef9b1f52540025c377
+https://ifdian.net/item/ae376a2a44ff11ef9b1f52540025c377
 
 - 💰微信外链（抖音卡片）插件：
-https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
+https://ifdian.net/item/feeeef643d2b11ef9bf35254001e7c00
 
 - 💰域名检测任务插件：
-https://afdian.com/item/6e6c8d08cb3211efb12052540025c377
+https://ifdian.net/item/6e6c8d08cb3211efb12052540025c377
 
 - 💰私域引流宝账号有效期及用户注册兑换码功能：
 https://ifdian.net/item/38402d64c20b11efb0515254001e7c00
 
 - 💰对话式落地页插件：
-https://afdian.com/item/4ad1f5cc7a5511f09a0d52540025c377
+https://ifdian.net/item/4ad1f5cc7a5511f09a0d52540025c377
 
 - 💰投诉举报单页插件：
-https://afdian.com/item/2776b48c307211f0b63f52540025c377
+https://ifdian.net/item/2776b48c307211f0b63f52540025c377
 
 - **付费定制服务：**
   - 付费定制插件；
@@ -197,7 +197,7 @@ http://域名/install/
 
 <img src="https://g.fp.ps.netease.com/cg-image/file/67b439f35aa4a4f342213c63qJ7aKLeD06" width="500" />
 
-此为收费插件，可以进入这个页面购买（点击->登录->再次点击这个链接->购买）：https://afdian.com/item/feeeef643d2b11ef9bf35254001e7c00
+此为收费插件，可以进入这个页面购买（点击->登录->再次点击这个链接->购买）：https://ifdian.net/item/feeeef643d2b11ef9bf35254001e7c00
 
 <img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/c2592f9f6a42135c219fe2151d192021_w1626_h792_s457.jpeg?imageView2/2/w/2000" width="800" />
 <img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/a26bfd9124ffca58fbc0f9edafa3e7dd_w1085_h954_s356.jpeg?imageView2/2/w/2000" width="800" />
