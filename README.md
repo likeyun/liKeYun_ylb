@@ -6,7 +6,7 @@
 
 # 加入交流群
 群主微信号：sansure2016（请备注：github）我会知道你在哪加我的。<br>
-<img src="" width="300" />
+<img src="https://docimg8.docs.qq.com/image/AgAABXQMMaM8dnCURxZEGJKMtptR1jmM.jpeg?w=1104&h=1552" width="300" />
 
 # 私域引流宝会员版（更适合运营的版本）
 
