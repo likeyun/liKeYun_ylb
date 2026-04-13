@@ -1,86 +1,61 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
+header("Content-type:application/json;charset=utf-8");
 
-	// 页面编码
-	header("Content-type:application/json");
-	
-	// 判断登录状态
-    session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
-    	$dwz_id = trim($_GET['dwz_id']);
-    	
-        // 过滤参数
-        if(empty($dwz_id) || !isset($dwz_id)){
-            
-            $result = array(
-			    'code' => 203,
-                'msg' => '非法请求'
-		    );
-        }else{
-            
-            // 当前登录的用户
-            $LoginUser = $_SESSION["yinliubao"];
-            
-            // 数据库配置
-        	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-        	
-            // 验证用户
-            $checkUser = $db->set_table('huoma_dwz')->find(['dwz_id' => $dwz_id]);
-            $dwz_creat_user = json_decode(json_encode($checkUser))->dwz_creat_user;
-            
-            if($dwz_creat_user == $LoginUser){
-                
-                // 提交更新
-                $resetDwzPv = $db->set_table('huoma_dwz')->update(['dwz_id' => $dwz_id,'dwz_creat_user' => $LoginUser],['dwz_pv' => 0,'dwz_today_pv' => '{"pv":"0","date":"'.date('Y-m-d').'"}']);
-                
-                if($resetDwzPv) {
-                    
-                    // 已重置
-                    $result = array(
-			            'code' => 201,
-                        'msg' => '已重置'
-		            );
-                }else {
-                    
-                    // 重置失败
-                    $result = array(
-			            'code' => 201,
-                        'msg' => '重置失败'
-		            );
-                }
-            }else{
-                
-                // 不允许操作
-                $result = array(
-		            'code' => 201,
-                    'msg' => '不允许操作'
-	            );
-            }
-        }
-    	
+session_start();
+if(isset($_SESSION["yinliubao"])){
+
+    $dwz_id = trim($_GET['dwz_id'] ?? '');
+
+    if(!$dwz_id){
+        $result = ['code'=>203,'msg'=>'非法请求'];
     }else{
-        
-        // 未登录
-        $result = array(
-			'code' => 201,
-            'msg' => '未登录'
-		);
+
+        $LoginUser = $_SESSION["yinliubao"];
+        include '../Db.php';
+
+        try{
+            $dsn = "mysql:host={$config['db_host']};port={$config['db_port']};dbname={$config['db_name']};charset=utf8mb4";
+            $pdo = new PDO($dsn,$config['db_user'],$config['db_pass'],[
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
+
+            // 今日PV结构
+            $todayPv = json_encode([
+                'pv' => 0,
+                'date' => date('Y-m-d')
+            ], JSON_UNESCAPED_UNICODE);
+
+            // ✅ 原子更新（直接带用户条件）
+            $stmt = $pdo->prepare("
+                UPDATE huoma_dwz 
+                SET dwz_pv = 0,
+                    dwz_today_pv = :today_pv
+                WHERE dwz_id = :id AND dwz_creat_user = :user
+            ");
+
+            $stmt->execute([
+                ':today_pv' => $todayPv,
+                ':id' => $dwz_id,
+                ':user' => $LoginUser
+            ]);
+
+            if($stmt->rowCount() > 0){
+                $result = ['code'=>200,'msg'=>'已重置'];
+            }else{
+                // 无权限 或 不存在
+                $result = ['code'=>202,'msg'=>'重置失败或无权限'];
+            }
+
+        }catch(PDOException $e){
+            $result = ['code'=>500,'msg'=>'数据库错误'];
+        }
     }
 
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
+}else{
+    $result = ['code'=>201,'msg'=>'未登录'];
+}
+
+echo json_encode($result,JSON_UNESCAPED_UNICODE);
 ?>

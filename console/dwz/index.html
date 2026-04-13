@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="../../static/js/clipboard.min.js"></script>
 	<script type="text/javascript" src="../../static/js/getNavList.js"></script>
 	<script type="text/javascript" src="../../static/js/notification.js"></script>
+	<link rel="shortcut icon" href="../../static/img/favicon.png">
 	<script type="text/javascript">
         var timestamp = new Date().getTime();
         var script = document.createElement('script');
@@ -68,15 +69,15 @@
     			        <button class="tint-btn" 
         				data-toggle="modal" 
         				data-target="#createDwzModal" 
-        				onclick="getDomainNameList('creat')" style="margin-left:5px;">创建短网址</button>
+        				onclick="getDomainNameList('creat')" style="margin-left:5px;">+ 创建短网址</button>
         				
         				<button class="tint-btn" style="margin-left:5px;"
         				data-toggle="modal" 
         				data-target="#createBatchDwzModal" 
-        				onclick="getDomainNameList('batchcreat')">批量创建</button>
+        				onclick="getDomainNameList('batchcreat')">+ 批量创建</button>
         				
         				<div class="searchDwzForm">
-        				    <input type="search" name="dwz_keyword" class="form-control" placeholder="短网址标题关键词或Key" />
+        				    <input type="search" name="dwz_keyword" class="form-control" placeholder="标题关键词、Key" />
         				    <button class="tint-btn checkDwz" onclick="checkDwz()">查询</button>
         				</div>
     			    </div>
@@ -162,8 +163,9 @@
                     </div>
 
                     <span class="text">目标链接</span>
-                    <input type="text" name="dwz_url" class="form-control" autocomplete="off" placeholder="点击短网址后最终跳转到的链接">
-                    <p style="color:#999;font-size:0.2rem;">需配置伪静态规则才可正常使用，否则404报错，具体阅读使用说明。</p>
+                    <textarea name="dwz_url" rows="3" class="form-control" autocomplete="off" placeholder="点击短网址后最终跳转到的链接"></textarea>
+                    
+                    <p style="color:#999;font-size:0.3rem;margin-top:5px;">需配置伪静态规则才可正常使用，否则404报错，具体阅读使用说明。</p>
                     </form>
 
                 </div><!-- modal-body -->
@@ -321,9 +323,20 @@
                             <select name="dwz_lxymStatus" class="form-control"></select>
                         </div>
                     </div>
+                    
+                    <div style="width:100%;height:70px;margin:-10px auto 20px;display:flex;">
+                        <div style="flex:1;margin-right:7px;" title="如果不需要过期时间，请清除后保存。">
+                            <span class="text">链接到期时间</span>
+                            <input type="datetime-local" name="dwz_expire_time" class="form-control" autocomplete="off">
+                        </div>
+                        <div style="flex:2;" title="如果不需要过期时间，请清除后保存。">
+                            <span class="text" style="display:block;">到期后跳转的目标链接</span>
+                            <input type="url" name="dwz_expire_jump" class="form-control" placeholder="链接（不填则显示文字提示）" />
+                        </div>
+                    </div>
 
                     <span class="text">目标链接</span>
-                    <input type="text" name="dwz_url" class="form-control" autocomplete="off" placeholder="点击短网址后最终跳转到的链接">
+                    <textarea name="dwz_url" rows="3" class="form-control" autocomplete="off" placeholder="点击短网址后最终跳转到的链接"></textarea>
                     
                     <!--隐藏域用于传参-->
                     <input type="hidden" name="dwz_id">

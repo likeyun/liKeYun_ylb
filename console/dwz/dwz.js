@@ -157,15 +157,15 @@ function getDwzList(pageNum) {
             // 表头
             var $thead_HTML = $(
                 '<tr>' +
-                '   <th style="text-align:left;">ID</th>' +
+                '   <th>ID</th>' +
                 '   <th>标题</th>' +
                 '   <th>短网址</th>' +
                 '   <th>访问限制</th>' +
                 '   <th>创建时间</th>' +
-                '   <th>总访问量</th>' +
-                '   <th>今天访问量</th>' +
+                '   <th>到期时间</th>' +
+                '   <th>访问量</th>' +
                 '   <th>状态</th>' +
-                '   <th style="text-align: right;">操作</th>' +
+                '   <th>操作</th>' +
                 '</tr>'
             );
             $("#right .data-list thead").html($thead_HTML);
@@ -174,6 +174,8 @@ function getDwzList(pageNum) {
             if(res.code == 200){
 
                 // 遍历数据
+                let dwz_expire_time;
+                
                 for (var i=0; i<res.dwzList.length; i++) {
                     
                     // 数据判断并处理
@@ -258,23 +260,33 @@ function getDwzList(pageNum) {
                         var dwz_pv_today = 0;
                     }
                     
+                    // 到期时间
+                    if(res.dwzList[i].dwz_expire_time) {
+                        dwz_expire_time = res.dwzList[i].dwz_expire_time;
+                    }else {
+                        dwz_expire_time = ' - ';
+                    }
+                    
                     // 列表
                     var $tbody_HTML = $(
                         '<tr>' +
-                        '   <td style="text-align:left;">'+dwz_id+'</td>' +
+                        '   <td>'+dwz_id+'</td>' +
                         '   <td>'+dwz_title+'</td>' +
                         '   <td>' +
-                        '       <span id="dwz_'+dwz_id+'">'+dwz_dlym+'/'+dwz_key+'</span>' +
+                        '       <span id="dwz_'+dwz_id+'" style="font-size:14px;color:#666;">'+dwz_dlym+'/'+dwz_key+'</span>' +
                         '       <span class="copyLink" data-clipboard-action="copy" data-clipboard-target="#dwz_'+dwz_id+'">' +
                         '           <img src="../../static/img/copyLink.png" title="复制链接" />' +
                         '       </span>' +
                         '   </td>' +
                         '   <td>'+dwz_type+'</td>' +
                         '   <td>'+dwz_creat_time+'</td>' +
-                        '   <td>'+dwz_pv+'</td>' +
-                        '   <td>'+dwz_pv_today+'</td>' +
+                        '   <td>'+dwz_expire_time+'</td>' +
+                        '   <td>'+
+                        '       <div style="color:#666;font-size:14px;">总访问：'+dwz_pv+'</div>'+
+                        '       <div style="color:#666;font-size:14px;">今日访问：'+dwz_pv_today+'</div>'+
+                        '   </td>' +
                         '   <td>'+dwz_status+'</td>' +
-                        '   <td style="text-align:right;">' + 
+                        '   <td>' + 
                         '       <span class="cz-click" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</span>' +
                         '   <span class="cz-click" onclick="resetDwzPv('+dwz_id+')" title="重置访问量">重置</span>' +
                         '       <span class="cz-click" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz('+dwz_id+')">删除</span>' +
@@ -351,7 +363,7 @@ function getDwzListFenyeComponent(thisPage,nextPage,prePage,allPage){
         '</ul>'
         );
         $("#right .data-card .fenye").css("display","block");
-        
+        $("#right .data-card .fenye").css("width","80px");
     }else if(thisPage == allPage){
         
         // 当前页码=总页码
@@ -369,6 +381,7 @@ function getDwzListFenyeComponent(thisPage,nextPage,prePage,allPage){
         '</ul>'
         );
         $("#right .data-card .fenye").css("display","block");
+        $("#right .data-card .fenye").css("width","80px");
     }else{
         
         // 显示所有组件
@@ -397,6 +410,7 @@ function getDwzListFenyeComponent(thisPage,nextPage,prePage,allPage){
         '</ul>'
         );
         $("#right .data-card .fenye").css("display","block");
+        $("#right .data-card .fenye").css("width","150px");
     }
     
     // 渲染分页组件
@@ -653,7 +667,7 @@ function getDwzInfo(e){
                 }
                 
                 // （4）目标链接
-                $("#EditDwzModal input[name='dwz_url']").val(res.dwzInfo.dwz_url);
+                $("#EditDwzModal textarea[name='dwz_url']").val(res.dwzInfo.dwz_url);
                 
                 // （5）短网址Key
                 $("#EditDwzModal input[name='dwz_key']").val(res.dwzInfo.dwz_key);
@@ -712,6 +726,9 @@ function getDwzInfo(e){
                 
                 // dwz_id
                 $("#EditDwzModal input[name='dwz_id']").val(dwz_id);
+                
+                $("#EditDwzModal input[name='dwz_expire_time']").val(res.dwzInfo.dwz_expire_time);
+                $("#EditDwzModal input[name='dwz_expire_jump']").val(res.dwzInfo.dwz_expire_jump);
                             
             }else{
                 
@@ -736,7 +753,7 @@ function checkDwz() {
     if(!keyword){
         
         // 空值
-        showNotification('请输入短网址标题关键词或Key');
+        showNotification('请输入短网址标题的关键词，或者输入短链接的Key');
         
         // 设置表单边框为红色
         $('input[name="dwz_keyword"]').css('border-color','#f00');
@@ -751,14 +768,15 @@ function checkDwz() {
                 // 表头
                 var $thead_HTML = $(
                     '<tr>' +
-                    '   <th>序号</th>' +
+                    '   <th>ID</th>' +
                     '   <th>标题</th>' +
                     '   <th>短网址</th>' +
-                    '   <th>状态</th>' +
                     '   <th>访问限制</th>' +
                     '   <th>创建时间</th>' +
+                    '   <th>到期时间</th>' +
                     '   <th>访问量</th>' +
-                    '   <th style="text-align: right;">操作</th>' +
+                    '   <th>状态</th>' +
+                    '   <th>操作</th>' +
                     '</tr>'
                 );
                 $("#right .data-list thead").html($thead_HTML);
@@ -772,23 +790,30 @@ function checkDwz() {
                     // 隐藏分页
                     $('#right .fenye').css('display','none');
                     
+                    let dwz_expire_time;
+                    
                     for (var i=0; i<res.dwzList.length; i++) {
-                        
-                        // （1）序号
-                        var xuhao = i+1;
                         
                         // （2）标题
                         var dwz_title = res.dwzList[i].dwz_title;
+                        
+                        var dwz_id = res.dwzList[i].dwz_id;
                         
                         // （3）状态
                         if(res.dwzList[i].dwz_status == '1'){
                             
                             // 正常
-                            var dwz_status = '<span>正常</span>';
+                            var dwz_status = 
+                            '<span class="switch-on" onclick="changeDwzStatus('+dwz_id+');">'+
+                            '<span class="press"></span>'+
+                            '</span>';
                         }else{
                             
                             // 关闭
-                            var dwz_status = '<span class="status_close">停用</span>';
+                            var dwz_status = 
+                            '<span class="switch-off" onclick="changeDwzStatus('+dwz_id+');">'+
+                            '<span class="press"></span>'+
+                            '</span>';
                         }
                         
                         // （4）创建时间
@@ -796,9 +821,6 @@ function checkDwz() {
                         
                         // （5）访问量
                         var dwz_pv = res.dwzList[i].dwz_pv;
-                        
-                        // （6）ID
-                        var dwz_id = res.dwzList[i].dwz_id;
                         
                         // （7）短链域名
                         var dwz_dlym = res.dwzList[i].dwz_dlym;
@@ -811,42 +833,77 @@ function checkDwz() {
                         
                         if(dwz_type == 1){
                             
-                            var dwz_type = '不限制';
+                            var dwz_type = '<span class="span-tag-1">不限制</span>';
                         }else if(dwz_type == 2){
                             
-                            var dwz_type = '仅限微信内访问';
+                            var dwz_type = '<span class="span-tag-2">仅限微信内访问</span>';
                         }else if(dwz_type == 3){
                             
-                            var dwz_type = '仅限iOS设备访问';
+                            var dwz_type = '<span class="span-tag-2">仅限iOS设备访问</span>';
                         }else if(dwz_type == 4){
                             
-                            var dwz_type = '仅限Android设备访问';
+                            var dwz_type = '<span class="span-tag-2">仅限Android设备访问</span>';
                         }else if(dwz_type == 5){
                             
-                            var dwz_type = '仅限手机浏览器访问';
+                            var dwz_type = '<span class="span-tag-2">仅限手机浏览器访问</span>';
                         }else if(dwz_type == 6){
                             
-                            var dwz_type = '仅限PC浏览器访问';
+                            var dwz_type = '<span class="span-tag-2">仅限PC浏览器访问</span>';
                         }
                         
+                        // 今天访问量
+                        var dwz_today_pv = JSON.parse(res.dwzList[i].dwz_today_pv.toString()).pv;
+                        var dwz_today_date = JSON.parse(res.dwzList[i].dwz_today_pv.toString()).date;
+                        
+                        // 获取日期
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = String(today.getMonth() + 1).padStart(2, '0');
+                        const day = String(today.getDate()).padStart(2, '0');
+                        const todayDate = `${year}-${month}-${day}`;
+                        
+                        if(dwz_today_date == todayDate){
+                            
+                            // 日期一致
+                            // 显示今天的访问量
+                            var dwz_pv_today = dwz_today_pv;
+                        }else{
+                            
+                            // 日期不一致
+                            // 显示0
+                            var dwz_pv_today = 0;
+                        }
+                        
+                        // 到期时间
+                        if(res.dwzList[i].dwz_expire_time) {
+                            dwz_expire_time = res.dwzList[i].dwz_expire_time;
+                        }else {
+                            dwz_expire_time = ' - ';
+                        }
+                    
                         // 列表
                         var $tbody_HTML = $(
                             '<tr>' +
-                            '   <td>'+xuhao+'</td>' +
+                            '   <td>'+dwz_id+'</td>' +
                             '   <td>'+dwz_title+'</td>' +
-                            '   <td>'+dwz_dlym+'/'+dwz_key+'</td>' +
-                            '   <td>'+dwz_status+'</td>' +
+                            '   <td>' +
+                            '       <span id="dwz_'+dwz_id+'" style="font-size:14px;color:#666;">'+dwz_dlym+'/'+dwz_key+'</span>' +
+                            '       <span class="copyLink" data-clipboard-action="copy" data-clipboard-target="#dwz_'+dwz_id+'">' +
+                            '           <img src="../../static/img/copyLink.png" title="复制链接" />' +
+                            '       </span>' +
+                            '   </td>' +
                             '   <td>'+dwz_type+'</td>' +
                             '   <td>'+dwz_creat_time+'</td>' +
-                            '   <td>'+dwz_pv+'</td>' +
-                            '   <td class="dropdown-td">' +
-                            '       <div class="dropdown">' +
-                            '    	    <button type="button" class="dropdown-btn" data-toggle="dropdown">•••</button>' +
-                            '           <div class="dropdown-menu">' +
-                            '               <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</a>' +
-                            '               <a class="dropdown-item" href="javascript:;" id="'+dwz_id+'" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz(this)">删除</a>' +
-                            '           </div>' +
-                            '       </div>' +
+                            '   <td>'+dwz_expire_time+'</td>' +
+                            '   <td>'+
+                            '       <div style="color:#666;font-size:14px;">总访问：'+dwz_pv+'</div>'+
+                            '       <div style="color:#666;font-size:14px;">今日访问：'+dwz_pv_today+'</div>'+
+                            '   </td>' +
+                            '   <td>'+dwz_status+'</td>' +
+                            '   <td>' + 
+                            '       <span class="cz-click" data-toggle="modal" data-target="#EditDwzModal" onclick="getDwzInfo(this)" id="'+dwz_id+'">编辑</span>' +
+                            '   <span class="cz-click" onclick="resetDwzPv('+dwz_id+')" title="重置访问量">重置</span>' +
+                            '       <span class="cz-click" data-toggle="modal" data-target="#DelDwzModal" onclick="askDelDwz('+dwz_id+')">删除</span>' +
                             '   </td>' +
                             '</tr>'
                         );
@@ -937,7 +994,12 @@ function getDomainNameList(module){
 
 // 重置短网址总PV
 function resetDwzPv(dwz_id){
-    
+
+    // 询问确认
+    if(!confirm('确定要重置该短网址的访问量(PV)吗？此操作不可恢复！')){
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: "resetDwzPv.php?dwz_id=" + dwz_id,
@@ -945,7 +1007,9 @@ function resetDwzPv(dwz_id){
             
             // 重置完成
             showNotification(res.msg);
-            setTimeout('getDwzList()',500);
+            setTimeout(function(){
+                getDwzList();
+            }, 500);
         },
         error: function() {
             
@@ -1060,7 +1124,7 @@ function initialize_getDomainNameList(module){
     
     // 默认值
     $("#createDwzModal input[name='dwz_title']").val('');
-    $("#createDwzModal input[name='dwz_url']").val('');
+    $("#createDwzModal textarea[name='dwz_url']").val('');
     $("select[name='dwz_rkym']").empty();
     $("select[name='dwz_zzym']").empty();
     $("select[name='dwz_dlym']").empty();

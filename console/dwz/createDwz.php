@@ -1,203 +1,126 @@
 <?php
-    
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     */
+header("Content-type:application/json;charset=utf-8");
 
-	// 编码
-	header("Content-type:application/json");
-	
-	// 登录状态
-    session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
-        // 接收参数
-        $dwz_title = trim($_POST['dwz_title']);
-        $dwz_rkym = trim($_POST['dwz_rkym']);
-        $dwz_zzym = trim($_POST['dwz_zzym']);
-        $dwz_dlym = trim($_POST['dwz_dlym']);
-        $dwz_lxym = trim($_POST['dwz_lxym']);
-        $dwz_dlws = trim($_POST['dwz_dlws']);
-        $dwz_type = trim($_POST['dwz_type']);
-        $dwz_url = trim($_POST['dwz_url']);
-        $dwz_lxymStatus = trim($_POST['dwz_lxymStatus']);
-        $dwz_creat_user = trim($_SESSION["yinliubao"]);
-        
-        // 验证URL合法性
-        function is_url($url){
-            $r = "/http[s]?:\/\/[\w.]+[\w\/]*[\w.]*\??[\w=&\+\%]*/is";
-            if(preg_match($r,$url)){
-                
-                return TRUE;
-            }else{
-                
-                return FALSE;
-            }
-        }
-        
-        // 过滤参数
-        if(empty($dwz_title) || !isset($dwz_title)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '标题未设置'
-            );
-        }else if(empty($dwz_rkym) || !isset($dwz_rkym)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '入口域名未选择'
-            );
-        }else if(empty($dwz_zzym) || !isset($dwz_zzym)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '中转域名未选择'
-            );
-        }else if(empty($dwz_dlym) || !isset($dwz_dlym)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '短链域名未选择'
-            );
-        }else if(empty($dwz_dlws) || !isset($dwz_dlws)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '短链位数未选择'
-            );
-        }else if(empty($dwz_type) || !isset($dwz_type)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '访问限制未选择'
-            );
-        }else if(empty($dwz_url) || !isset($dwz_url)){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '目标链接未填写'
-            );
-        }else if(is_url($dwz_url) === FALSE){
-            
-            $result = array(
-                'code' => 203,
-                'msg' => '目标链接不是正确的URL格式'
-            );
-        }else{
-            
-            // 数据库配置
-        	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-            
-            // 验证是否有轮询域名
-            if($dwz_lxymStatus == 1) {
-                
-                $checkLunXunDomain = $db->set_table('huoma_domain')->find(['domain_type' => 6]);
-                if(!$checkLunXunDomain){
-                    
-                    // 域名库里面没有轮询域名
-                    $result = array(
-                        'code' => 202,
-                        'msg' => '域名库里面没有轮询域名，请前往配置中心添加。'
-                    );
-                    echo json_encode($result,JSON_UNESCAPED_UNICODE);
+session_start();
+if(isset($_SESSION["yinliubao"])){
+
+    // 参数
+    $dwz_title = trim($_POST['dwz_title'] ?? '');
+    $dwz_rkym = trim($_POST['dwz_rkym'] ?? '');
+    $dwz_zzym = trim($_POST['dwz_zzym'] ?? '');
+    $dwz_dlym = trim($_POST['dwz_dlym'] ?? '');
+    $dwz_lxym = trim($_POST['dwz_lxym'] ?? '');
+    $dwz_dlws = intval($_POST['dwz_dlws'] ?? 0);
+    $dwz_type = trim($_POST['dwz_type'] ?? '');
+    $dwz_url = trim($_POST['dwz_url'] ?? '');
+    $dwz_lxymStatus = intval($_POST['dwz_lxymStatus'] ?? 0);
+    $dwz_creat_user = $_SESSION["yinliubao"];
+
+    // URL校验（更严谨）
+    function is_url($url){
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
+    }
+
+    // 参数校验
+    if(!$dwz_title){
+        $result = ['code'=>203,'msg'=>'标题未设置'];
+    }elseif(!$dwz_rkym){
+        $result = ['code'=>203,'msg'=>'入口域名未选择'];
+    }elseif(!$dwz_zzym){
+        $result = ['code'=>203,'msg'=>'中转域名未选择'];
+    }elseif(!$dwz_dlym){
+        $result = ['code'=>203,'msg'=>'短链域名未选择'];
+    }elseif(!$dwz_dlws){
+        $result = ['code'=>203,'msg'=>'短链位数未选择'];
+    }elseif(!$dwz_type){
+        $result = ['code'=>203,'msg'=>'访问限制未选择'];
+    }elseif(!$dwz_url){
+        $result = ['code'=>203,'msg'=>'目标链接未填写'];
+    }elseif(!is_url($dwz_url)){
+        $result = ['code'=>203,'msg'=>'目标链接格式错误'];
+    }else{
+
+        include '../Db.php';
+
+        try{
+            // PDO
+            $dsn = "mysql:host={$config['db_host']};port={$config['db_port']};dbname={$config['db_name']};charset=utf8mb4";
+            $pdo = new PDO($dsn,$config['db_user'],$config['db_pass'],[
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
+
+            // 检查轮询域名
+            if($dwz_lxymStatus == 1){
+                $stmt = $pdo->prepare("SELECT 1 FROM huoma_domain WHERE domain_type=6 LIMIT 1");
+                $stmt->execute();
+                if(!$stmt->fetch()){
+                    echo json_encode(['code'=>202,'msg'=>'域名库没有轮询域名'],JSON_UNESCAPED_UNICODE);
                     exit;
                 }
             }
-            
-            // ID生成
-            $dwz_id = rand(100000,999999);
 
-            // 随机生成dwz_key（算法1）
+            // 生成ID
+            $dwz_id = '10'.mt_rand(100000,999999);
+
+            // key生成
             function creatKey($length){
-                $keyMember = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz1234567890';
-                $keyStr = str_shuffle($keyMember);
-                $keys = substr($keyStr,0,$length);
-                return $keys;
+                $str = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz1234567890';
+                return substr(str_shuffle($str),0,$length);
             }
-            
-            // 随机生成dwz_key（算法2）
-            function creatKeyTwo($length){
-                $str = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
-                'i', 'j', 'k', 'l','m', 'n', 'o', 'p', 'q', 'r', 's', 
-                't', 'u', 'v', 'w', 'x', 'y','z', 'A', 'B', 'C', 'D', 
-                'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L','M', 'N', 'O', 
-                'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z', 
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-                $keys = array_rand($str, $length); 
-                $keyString = '';
-                for($i = 0; $i < $length; $i++){
-                    $keyString .= $str[$keys[$i]];
+
+            // 生成唯一key（最多尝试5次）
+            $dwzKey = '';
+            for($i=0;$i<5;$i++){
+                $tmpKey = creatKey($dwz_dlws);
+                $stmt = $pdo->prepare("SELECT 1 FROM huoma_dwz WHERE dwz_key=? LIMIT 1");
+                $stmt->execute([$tmpKey]);
+                if(!$stmt->fetch()){
+                    $dwzKey = $tmpKey;
+                    break;
                 }
-                return $keyString;
             }
-            
-            // 生成dwz_key
-            $dwzKey = creatKey($dwz_dlws);
-            
-            // 验证dwz_key是否重复
-            $checkDwzKey = $db->set_table('huoma_dwz')->find(['dwz_key' => $dwzKey]);
-            if($checkDwzKey){
-                
-                // 存在相同的dwz_key
-                // 使用算法2重新生成
-                $dwzKey = creatKeyTwo($dwz_dlws);
+
+            if(!$dwzKey){
+                echo json_encode(['code'=>500,'msg'=>'生成短链失败'],JSON_UNESCAPED_UNICODE);
+                exit;
             }
-            
-        	// 创建参数
-            $createDwzParams = [
-                'dwz_title'=>$dwz_title,
-                'dwz_today_pv'=>'{"pv":0,"date":"'.date("Y-m-d").'"}',
-                'dwz_rkym'=>$dwz_rkym,
-                'dwz_zzym'=>$dwz_zzym,
-                'dwz_dlym'=>$dwz_dlym,
-                'dwz_type'=>$dwz_type,
-                'dwz_url'=>$dwz_url,
-                'dwz_lxymStatus' => $dwz_lxymStatus,
-                'dwz_creat_user'=>$dwz_creat_user,
-                'dwz_key' => $dwzKey,
-                'dwz_id'=>$dwz_id
-            ];
-            
-            // 执行创建
-            $createDwz = $db->set_table('huoma_dwz')->add($createDwzParams);
-            
-            // 执行结果
-            if($createDwz){
-                
-                // 成功
-                $result = array(
-                    'code' => 200,
-                    'msg' => '创建成功'
-                );
+
+            // 插入
+            $sql = "INSERT INTO huoma_dwz 
+            (dwz_title,dwz_today_pv,dwz_rkym,dwz_zzym,dwz_dlym,dwz_type,dwz_url,dwz_lxymStatus,dwz_creat_user,dwz_key,dwz_id)
+            VALUES
+            (:title,:pv,:rkym,:zzym,:dlym,:type,:url,:lxymStatus,:user,:key,:id)";
+
+            $stmt = $pdo->prepare($sql);
+            $res = $stmt->execute([
+                ':title'=>$dwz_title,
+                ':pv'=>json_encode(['pv'=>0,'date'=>date('Y-m-d')],JSON_UNESCAPED_UNICODE),
+                ':rkym'=>$dwz_rkym,
+                ':zzym'=>$dwz_zzym,
+                ':dlym'=>$dwz_dlym,
+                ':type'=>$dwz_type,
+                ':url'=>$dwz_url,
+                ':lxymStatus'=>$dwz_lxymStatus,
+                ':user'=>$dwz_creat_user,
+                ':key'=>$dwzKey,
+                ':id'=>$dwz_id
+            ]);
+
+            if($res){
+                $result = ['code'=>200,'msg'=>'创建成功','key'=>$dwzKey];
             }else{
-                
-                // 失败
-                $result = array(
-                    'code' => 202,
-                    'msg' => '创建失败'
-                );
+                $result = ['code'=>202,'msg'=>'创建失败'];
             }
+
+        }catch(PDOException $e){
+            $result = ['code'=>500,'msg'=>'数据库错误'];
         }
-        
-    }else{
-        
-        // 未登录
-        $result = array(
-            'code' => 201,
-            'msg' => '未登录'
-        );
     }
 
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
+}else{
+    $result = ['code'=>201,'msg'=>'未登录'];
+}
+
+echo json_encode($result,JSON_UNESCAPED_UNICODE);
 ?>

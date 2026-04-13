@@ -1,116 +1,65 @@
 <?php
 
-    /**
-     * 状态码说明
-     * 200 成功
-     * 201 未登录
-     * 202 失败
-     * 203 空值
-     * 204 无结果
-     */
+header("Content-type:application/json;charset=utf-8");
 
-	// 页面编码
-	header("Content-type:application/json");
-	
-	// 判断登录状态
-    session_start();
-    if(isset($_SESSION["yinliubao"])){
-        
-        // 已登录
-        // 接收参数
-    	$dwz_id = trim($_GET['dwz_id']);
-    	
-        // 过滤参数
-        if(empty($dwz_id) || !isset($dwz_id)){
-            
-            $result = array(
-			    'code' => 203,
-                'msg' => '非法请求'
-		    );
-        }{
-            
-            // 当前登录的用户
-            $LoginUser = $_SESSION["yinliubao"];
-            
-            // 数据库配置
-        	include '../Db.php';
-        
-        	// 实例化类
-        	$db = new DB_API($config);
-        	
-            // 验证当前要编辑的dwz_id的发布者是否为当前登录的用户
-            $getdwzCreateUser = $db->set_table('huoma_dwz')->find(['dwz_id'=>$dwz_id]);
-            $dwz_creat_user = json_decode(json_encode($getdwzCreateUser))->dwz_creat_user;
-            if($dwz_creat_user == $LoginUser){
-                
-                // 用户一致：允许操作
-                // 获取当前状态
-                $dwz_status = json_decode(json_encode($getdwzCreateUser))->dwz_status;
-                
-                if($dwz_status == 1){
-                    
-                    // 更新的数据
-                    $updatedwzData = [
-                        'dwz_status' => 2
-                    ];
-                    
-                    $statusText = '已停用';
-                }else{
-                    
-                    // 更新的数据
-                    $updatedwzData = [
-                        'dwz_status' => 1
-                    ];
-                    
-                    $statusText = '已启用';
-                }
-                
-                // 更新的条件
-                $updatedwzCondition = [
-                    'dwz_id' => $dwz_id,
-                    'dwz_creat_user' => $LoginUser
-                ];
-                
-                // 提交更新
-                $updatedwz = $db->set_table('huoma_dwz')->update($updatedwzCondition,$updatedwzData);
-                
-                // 验证更新结果
-                if($updatedwz){
-                    
-                    // 更新成功
-                    $result = array(
-			            'code' => 200,
-                        'msg' => $statusText
-		            );
-                }else{
-                    
-                    // 更新失败
-                    $result = array(
-			            'code' => 202,
-                        'msg' => '更新失败'
-		            );
-                }
-                
-            }else{
-                
-                // 用户不一致：禁止操作
-                $result = array(
-        			'code' => 202,
-                    'msg' => '非法请求'
-        		);
-            }
-        }
-    	
+session_start();
+if(isset($_SESSION["yinliubao"])){
+
+    $dwz_id = trim($_GET['dwz_id'] ?? '');
+
+    if(!$dwz_id){
+        $result = ['code'=>203,'msg'=>'非法请求'];
     }else{
-        
-        // 未登录
-        $result = array(
-			'code' => 201,
-            'msg' => '未登录或登录过期'
-		);
+
+        $LoginUser = $_SESSION["yinliubao"];
+        include '../Db.php';
+
+        try{
+            $dsn = "mysql:host={$config['db_host']};port={$config['db_port']};dbname={$config['db_name']};charset=utf8mb4";
+            $pdo = new PDO($dsn,$config['db_user'],$config['db_pass'],[
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
+
+            // ✅ 原子切换（1 ↔ 2）
+            $stmt = $pdo->prepare("
+                UPDATE huoma_dwz
+                SET dwz_status = IF(dwz_status = 1, 2, 1)
+                WHERE dwz_id = :id AND dwz_creat_user = :user
+            ");
+
+            $stmt->execute([
+                ':id' => $dwz_id,
+                ':user' => $LoginUser
+            ]);
+
+            if($stmt->rowCount() > 0){
+
+                // 再查当前状态（用于返回文案）
+                $stmt2 = $pdo->prepare("SELECT dwz_status FROM huoma_dwz WHERE dwz_id = :id LIMIT 1");
+                $stmt2->execute([':id'=>$dwz_id]);
+                $row = $stmt2->fetch();
+
+                $statusText = ($row && $row['dwz_status'] == 1) ? '已启用' : '已停用';
+
+                $result = [
+                    'code'=>200,
+                    'msg'=>$statusText,
+                    'status'=>$row['dwz_status'] ?? null
+                ];
+
+            }else{
+                $result = ['code'=>202,'msg'=>'更新失败或无权限'];
+            }
+
+        }catch(PDOException $e){
+            $result = ['code'=>500,'msg'=>'数据库错误'];
+        }
     }
 
-	// 输出JSON
-	echo json_encode($result,JSON_UNESCAPED_UNICODE);
-	
+}else{
+    $result = ['code'=>201,'msg'=>'未登录'];
+}
+
+echo json_encode($result,JSON_UNESCAPED_UNICODE);
 ?>
