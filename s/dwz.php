@@ -45,9 +45,30 @@
         $getDwzInfo = $db->set_table('huoma_dwz')->find(['dwz_key'=>$key]);
         if($getDwzInfo){
             
-            echo '<title>加载中...</title>';
+            // 到期判断
+            $dwz_expire_time = $getDwzInfo['dwz_expire_time'];
+            $dwz_expire_jump = $getDwzInfo['dwz_expire_jump'];
             
-            // 获取成功
+            if (!empty($dwz_expire_time)) {
+                $expire_timestamp = strtotime($dwz_expire_time);
+                $now_timestamp = time();
+            
+                // 已过期
+                if ($expire_timestamp !== false && $now_timestamp >= $expire_timestamp) {
+                    
+                    // 跳转
+                    if($dwz_expire_jump && $dwz_expire_jump !== '') {
+                        header("Location: " . $dwz_expire_jump);
+                        exit;
+                    }else {
+                        echo warnInfo('温馨提示','链接已过期');
+                        exit;
+                    }
+                }
+            }
+            
+            // 未到期
+            echo '<title>加载中...</title>';
             $dwz_rkym = json_decode(json_encode($getDwzInfo))->dwz_rkym;
             
             // 跳转到中转页
