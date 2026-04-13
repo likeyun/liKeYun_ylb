@@ -6,12 +6,11 @@
 
 # 加入交流群
 群主微信号：sansure2016（请备注：github）我会知道你在哪加我的。<br>
-<img src="https://docimg8.docs.qq.com/image/AgAABXQMMaM8dnCURxZEGJKMtptR1jmM.jpeg?w=1104&h=1552" width="300" />
+<img src="https://p0.ssl.qhimg.com/t11b673bcd640109b9433ace2c2.jpg" width="300" />
 
 # 私域引流宝会员版（更适合运营的版本）
 
 <img src="https://pic1.afdiancdn.com/user/3411d956e91111edb35552540025c377/common/91be548b87c82e417ef92b5e45dc76a5_w2560_h3443_s2041.jpeg?imageView2/2/w/1280" width="700" />
-<img src="https://p3.ssl.qhimg.com/t11b673bcd69e0e45f7262a35f3.jpg" width="400" />
 
 👉点击了解：[https://viusosibp88.feishu.cn/docx/LdVddso2xo5CIRxPEnscHmmunNc](https://viusosibp88.feishu.cn/docx/LdVddso2xo5CIRxPEnscHmmunNc)
 <br>
@@ -29,7 +28,6 @@
 👉 京东云：https://3.cn/2aTdZ-o4 <br>
 👉 腾讯云：https://curl.qcloud.com/jjU77TKa <br>
 👉 阿里云：https://t.aliyun.com/U/wgSNSS <br>
-
 
 # 🌟 特色功能
 
