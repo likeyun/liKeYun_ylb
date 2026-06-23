@@ -64,7 +64,7 @@ class DB_API
         if(is_array($conditions)){
             $join = array();
             foreach( $conditions as $key => $value ){
-                $value =  '\''.$value.'\'';
+                $value = $this->pdo->quote($value);
                 $join[] = "{$key} = {$value}";
             }
             $where = "WHERE ".join(" AND ",$join);
@@ -91,7 +91,7 @@ class DB_API
         if(is_array($conditions)){
             $join = array();
             foreach( $conditions as $key => $value ){
-                $value = '\''.$value.'\'';
+                $value = $this->pdo->quote($value);
                 $join[] = "{$key} = {$value}";
             }
             $where = "WHERE ".join(" AND ",$join);
@@ -121,7 +121,7 @@ class DB_API
         if(is_array($conditions)){
             $join = array();
             foreach( $conditions as $key => $condition ){
-                $condition = '\''.$condition.'\'';
+                $condition = $this->pdo->quote($condition);
                 $join[] = "{$key} = {$condition}";
             }
             $where = "WHERE ".join(" AND ",$join);
@@ -131,7 +131,7 @@ class DB_API
             }
         }
         foreach($row as $key => $value){
-            $value = '\''.$value.'\'';
+            $value = $this->pdo->quote($value);
             $vals[] = "{$key} = {$value}";
         }
         $values = join(", ",$vals);
@@ -153,7 +153,7 @@ class DB_API
         if(is_array($conditions)){
             $join = array();
             foreach( $conditions as $key => $value ){
-                $value =  '\''.$value.'\'';
+                $value = $this->pdo->quote($value);
                 $join[] = "{$key} = {$value}";
             }
             $where = "WHERE ".join(" AND ",$join);
@@ -211,7 +211,7 @@ class DB_API
         if(is_array($conditions)){
             $join = array();
             foreach( $conditions as $key => $condition ){
-                $condition = '\''.$condition.'\'';
+                $condition = $this->pdo->quote($condition);
                 $join[] = "{$key} = {$condition}";
             }
             $where = "WHERE ( ".join(" AND ",$join). ")";
@@ -239,7 +239,7 @@ class DB_API
         }
         foreach($row as $key => $value){
             $cols[] = $key;
-            $vals[] = '\''.$value.'\'';
+            $vals[] = $this->pdo->quote($value);
         }
         $col = join(',', $cols);
         $val = join(',', $vals);
