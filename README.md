@@ -5,7 +5,7 @@
 <br>
 
 # 加入交流群
-群主微信号：sansure2016（请备注：github）我会知道你在哪加我的。<br>
+群主微信号：cbzqx22（请备注：github）我会知道你在哪加我的。<br>
 
 # 私域引流宝会员版（更适合运营的版本）
 
@@ -75,7 +75,7 @@ https://ifdian.net/item/2776b48c307211f0b63f52540025c377
   - 小红书私信跳转微信卡片；
   - 抖音圆形二维码制作；
   - 抖音短网址制作；
-  - 请联系作者微信：sansure2016（备注：定制）
+  - 请联系作者微信：cbzqx22（备注：定制）
 
 # 抖音圆码制作
 
@@ -254,7 +254,7 @@ http://域名/install/
 
 目前有15个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
-微信号：sansure2016 <br/><br/>
+微信号：cbzqx22 <br/><br/>
 <img src="https://img.alicdn.com/imgextra/i3/724156739/O1CN01vCJ0E31zeW7quL3yr_!!724156739-0-chatting.jpg" width="320" /><br/><br/>
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
@@ -263,7 +263,7 @@ http://域名/install/
 # 👨‍💻 作者
 
 Name：TANKING<br/>
-WeChat：sansure2016<br/>
+WeChat：cbzqx22<br/>
 Blog：https://segmentfault.com/u/tanking<br/>
 From：Guangdong Canton<br/><br/>
 <img src="https://avatars.githubusercontent.com/u/24785420?v=4" style="border-radius:100px;width:150px;" />
