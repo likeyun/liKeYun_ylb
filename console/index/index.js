@@ -383,7 +383,7 @@ function projectInfo(){
         <div class="icon"><img src="../../static/img/zanshang-icon.png" /></div>
         <div class="info">
             <span class="title">私域引流宝会员版</span>
-            <span class="desc">更适合运营的版本，精细化运营！</span>
+            <span class="desc">更适合运营的高级版本，精细化运营！</span>
         </div>
         <div class="go"></div>
     </div>
