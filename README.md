@@ -140,7 +140,7 @@ http://域名/install/
 
 # ⭐️ Star History
 
-[![Star History](https://api.star-history.com/svg?repos=likeyun/liKeYun_ylb&type=Date)](https://star-history.com/#likeyun/liKeYun_ylb&Date)
+[![Star History](https://star-history.dera.page/svg?repos=likeyun/liKeYun_ylb&type=Date)](https://star-history.dera.page/#likeyun/liKeYun_ylb&Date)
 
 <br>
 
