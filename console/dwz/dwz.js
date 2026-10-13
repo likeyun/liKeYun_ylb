@@ -238,8 +238,9 @@ function getDwzList(pageNum) {
                     }
                     
                     // 今天访问量
-                    var dwz_today_pv = JSON.parse(res.dwzList[i].dwz_today_pv.toString()).pv;
-                    var dwz_today_date = JSON.parse(res.dwzList[i].dwz_today_pv.toString()).date;
+                    var dwz_today_data = res.dwzList[i].dwz_today_pv ? JSON.parse(res.dwzList[i].dwz_today_pv.toString()) : {pv: 0, date: 0};
+                    var dwz_today_pv = dwz_today_data.pv;
+                    var dwz_today_date = dwz_today_data.date;
                     
                     // 获取日期
                     const today = new Date();
@@ -852,8 +853,9 @@ function checkDwz() {
                         }
                         
                         // 今天访问量
-                        var dwz_today_pv = JSON.parse(res.dwzList[i].dwz_today_pv.toString()).pv;
-                        var dwz_today_date = JSON.parse(res.dwzList[i].dwz_today_pv.toString()).date;
+                        var dwz_today_data = res.dwzList[i].dwz_today_pv ? JSON.parse(res.dwzList[i].dwz_today_pv.toString()) : {pv: 0, date: 0};
+                        var dwz_today_pv = dwz_today_data.pv;
+                        var dwz_today_date = dwz_today_data.date;
                         
                         // 获取日期
                         const today = new Date();
