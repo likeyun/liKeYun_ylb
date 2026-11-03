@@ -7,7 +7,7 @@
 
 # 加入交流群
 群主微信号：**sansure2016**<br>
-备用号：**cbzqx22**
+上面的号如异常，就加备用号：**cbzqx22**
 （请备注：github）我会知道你在哪加我的。<br>
 
 # 私域引流宝会员版（更适合运营的版本）
@@ -257,7 +257,7 @@ http://域名/install/
 
 目前有15个交流群，以邀请方式加入<br/>
 如需进群请添加群主微信号<br/>
-微信号：cbzqx22 <br/><br/>
+备用微信号：cbzqx22 <br/><br/>
 <img src="https://img.alicdn.com/imgextra/i3/724156739/O1CN01vCJ0E31zeW7quL3yr_!!724156739-0-chatting.jpg" width="320" /><br/><br/>
 微信群日常活跃，高质量，没有广告，欢迎各位网友加入。<br/>
 
